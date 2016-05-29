@@ -1,15 +1,61 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>OmJan page</title>
-	</head>
-	<body>
-		<div class="container">
-  		<a href="http://stackoverflow.com/users/4638004/janom?theme=clean">
+  <head>
+    <title>OmJan page</title>
+  </head>
+  <body>
+    <div class="container">
+      <a href="http://stackoverflow.com/users/4638004/janom?theme=clean">
         <img src="http://stackoverflow.com/users/flair/4638004.png" width="208" height="58" alt="profile for Janom at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Janom at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
       </a>
-		</div>
-		<footer>
-		</footer>
-	</body>
+    </div>
+    <div class="multik" style="width: 300px; height: 400px; background: #ccc;">
+      <svg xmlns="http://www.w3.org/2000/svg" id="solly" viewBox="0 0 300 400">
+        <g id="Sun2">
+          <circle id="black" class="st0" cx="200" cy="50.8" r="5"/>
+          <path id="curve1"  d="M0,400 C100,200 200,200 300,400" />
+          <!--y = x*x/100 -3*x + 400 -->
+          <!--y' = x'/100 -3-->
+        </g>
+      </svg>
+    </div>
+    <footer>
+    </footer>
+    <script type="text/javascript">
+      var ball = function () {
+        var self = this;
+        this.id = 'black';
+        this.speed = 0;
+        this.direction = undefined;
+        this.yAcceleration = 0.001;
+        this.xAcceleration = 0;
+        this.delta = 1000/60.0;
+        this.x = 500;
+        this.y = 50.8;
+        this.setNewSpeed = function setNewSpeed() {
+          self.speed = self.speed + self.yAcceleration * self.delta;
+        };
+        this.getNewPosition = function getNewPosition() {
+          var e, cxNew, cyNew;
+          e = document.getElementById ( self.id );
+          var cxPrev = e.getAttribute( 'cx' );
+          var cyPrev = e.getAttribute( 'cy' );
+          cyNew = parseFloat(cyPrev) + self.speed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
+          e.setAttribute ( "cx", cxPrev );
+          e.setAttribute ( "cy", cyNew );
+          self.setNewSpeed();
+        };
+      };
+
+      var gameBall = new ball();
+      function animate() {
+        gameBall.getNewPosition();
+      }
+
+      var play = function () {
+        var animateInterval = setInterval(animate, 1000 / 60);
+      };
+      play();
+    </script>
+  </body>
 </html>
