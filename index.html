@@ -3,40 +3,68 @@
   <head>
     <title>OmJan page</title>
     <style type="text/css">
+      html{ height: 100%; }
+      body{ display: flex; flex-direction: column; height: 100%;}
+      header{ flex: 0 0 auto; }
+      .wrap-content{ flex: 1 0 auto; }
+      .main-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .main-content section { width: 350px; }
+      footer{ flex: 0 0 auto; }
       .st0{fill:black;}
       .st1{fill:green;}
       .st2{fill:red;}
     </style>
   </head>
   <body>
-    <div class="container">
-      <a href="http://stackoverflow.com/users/4638004/janom?theme=clean">
-        <img src="http://stackoverflow.com/users/flair/4638004.png" width="208" height="58" alt="profile for Janom at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Janom at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
-      </a>
-    </div>
-    <div class="multik" style="width: 300px; height: 400px; background: #ccc;">
-      <svg xmlns="http://www.w3.org/2000/svg" id="solly" viewBox="0 0 300 400">
-        <g id="Sun2">
-          <circle id="black" class="st2" cx="90" cy="50.8" r="5"/>
-          <path id="curve1" class="st1" d="M0,400 C100,200 200,200 300,400" />
-          <!--y = x*x/100 -3*x + 400 -->
-          <!--y' = f(x') + (2*x'/100 - 3)(x-x')-->
-        </g>
-      </svg>
-    </div>
-    <button id="stop">Stop</button>
+    <header></header>
+    <section class="wrap-content">
+      <div class="main-content">
+        <section>
+          <div class="container">
+            <a href="http://stackoverflow.com/users/4638004/janom?theme=clean">
+              <img src="http://stackoverflow.com/users/flair/4638004.png" width="208" height="58" alt="profile for Janom at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Janom at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+            </a>
+          </div>
+        </section>
+        <section>
+          <button id="stop">Pause</button><button id="start">Start</button><button id="reset">Reset</button>
+          <div class="multik" style="width: 300px; height: 400px; background: #aaa;">
+            <svg xmlns="http://www.w3.org/2000/svg" id="solly" viewBox="0 0 300 400">
+              <g id="Sun2">
+                <circle id="gameBall" class="st2" cx="90" cy="50.8" r="5"/>
+                <path id="curve1" class="st1" d="M0,400 C100,200 200,200 300,400" />
+                <!--y = x*x/100 -3*x + 400 -->
+                <!--y' = f(x') + (2*x'/100 - 3)(x-x')-->
+              </g>
+            </svg>
+          </div>
+        </section>
+        <section>
+        </section>
+      </div>
+    </section>
     <footer>
+      <nav>
+        <ul>
+          <li><a href="https://github.com/OmJan">Github</a></li>
+        </ul>
+      </nav>
     </footer>
     <script type="text/javascript">
       var ball = function () {
         var self = this;
-        this.id = 'black';
+        this.id = 'gameBall';
         this.xSpeed = 50/1000.0;
         this.ySpeed = 0;
         this.yAcceleration = 0.0001;
         this.xAcceleration = 0;
         this.delta = 1000/60.0;
-        this.x = 10;
+        this.x = 90;
         this.y = 50.8;
         this.bang = false;
         this.setNewSpeed = function setNewSpeed() {
@@ -59,16 +87,9 @@
             var absV = Math.sqrt((self.xSpeed*self.xSpeed + self.ySpeed*self.ySpeed));
             self.xSpeed =  absV * Math.cos(aTan);
             self.ySpeed =  absV * Math.sin(aTan);
-            console.log(self.xSpeed, self.ySpeed, 'after');
           } else {
             self.setNewSpeed();
           }
-
-          // if (self.checkBreakPoint(cxNew, cyNew)) {
-          //   self.bang = true;
-          // } else {
-          //   self.bang = false;
-          // }
         };
         this.checkBreakPoint = function checkBreakPoint(x, y) {
           function hasPoint(x, y) {
@@ -82,27 +103,42 @@
           return hasPoint(x, y);
         };
       };
-      var gameBall = new ball();
-      function animate() {
-        gameBall.getNewPosition();
-      }
       var game = function () {
         var self = this;
+        this.animate = function animate() {
+          self.gameBall.getNewPosition();
+        };
         this.play = function play() {
-          self.animateInterval = setInterval(animate, 1000 / 60.0);
+          var gameBall = new ball();
+          self.gameBall = gameBall;
+          self.animateInterval = setInterval(self.animate, 1000 / 60.0);
         };
         this.stop = function stop() {
           clearInterval(self.animateInterval);
         };
+        this.start = function start() {
+          self.animateInterval = setInterval(self.animate, 1000 / 60.0);
+        };
         this.reset = function reset() {
           clearInterval(self.animateInterval);
+          delete self.gameBall;
+          var gameBall = new ball();
+          e = document.getElementById ( 'gameBall' );
+          e.setAttribute ( "cx", gameBall.x );
+          e.setAttribute ( "cy", gameBall.y );
+          self.gameBall = gameBall;
+          self.animateInterval = setInterval(self.animate, 1000 / 60.0);
         };
       };
       var Game = new game();
       Game.play();
 
       var stop = document.getElementById('stop');
+      var start = document.getElementById('start');
+      var reset = document.getElementById('reset');
       stop.onclick = Game.stop;
+      start.onclick = Game.start;
+      reset.onclick = Game.reset;
     </script>
   </body>
 </html>
