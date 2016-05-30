@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>OmJan page</title>
+    <style type="text/css">
+      .st0{fill:black;}
+      .st1{fill:green;}
+      .st2{fill:red;}
+    </style>
   </head>
   <body>
     <div class="container">
@@ -12,50 +17,92 @@
     <div class="multik" style="width: 300px; height: 400px; background: #ccc;">
       <svg xmlns="http://www.w3.org/2000/svg" id="solly" viewBox="0 0 300 400">
         <g id="Sun2">
-          <circle id="black" class="st0" cx="200" cy="50.8" r="5"/>
-          <path id="curve1"  d="M0,400 C100,200 200,200 300,400" />
+          <circle id="black" class="st2" cx="90" cy="50.8" r="5"/>
+          <path id="curve1" class="st1" d="M0,400 C100,200 200,200 300,400" />
           <!--y = x*x/100 -3*x + 400 -->
-          <!--y' = x'/100 -3-->
+          <!--y' = f(x') + (2*x'/100 - 3)(x-x')-->
         </g>
       </svg>
     </div>
+    <button id="stop">Stop</button>
     <footer>
     </footer>
     <script type="text/javascript">
       var ball = function () {
         var self = this;
         this.id = 'black';
-        this.speed = 0;
-        this.direction = undefined;
-        this.yAcceleration = 0.001;
+        this.xSpeed = 50/1000.0;
+        this.ySpeed = 0;
+        this.yAcceleration = 0.0001;
         this.xAcceleration = 0;
         this.delta = 1000/60.0;
-        this.x = 500;
+        this.x = 10;
         this.y = 50.8;
+        this.bang = false;
         this.setNewSpeed = function setNewSpeed() {
-          self.speed = self.speed + self.yAcceleration * self.delta;
+          self.xSpeed = self.xSpeed + self.xAcceleration * self.delta;
+          self.ySpeed = self.ySpeed + self.yAcceleration * self.delta;
         };
         this.getNewPosition = function getNewPosition() {
           var e, cxNew, cyNew;
           e = document.getElementById ( self.id );
           var cxPrev = e.getAttribute( 'cx' );
           var cyPrev = e.getAttribute( 'cy' );
-          cyNew = parseFloat(cyPrev) + self.speed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
-          e.setAttribute ( "cx", cxPrev );
+          cyNew = parseFloat(cyPrev) + self.ySpeed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
+          cxNew = parseFloat(cxPrev) + self.xSpeed * self.delta + self.xAcceleration * self.delta * self.delta / 2;
+          e.setAttribute ( "cx", cxNew );
           e.setAttribute ( "cy", cyNew );
-          self.setNewSpeed();
+
+          if (self.checkBreakPoint(cxNew, cyNew)) {
+            var Tan = this.xSpeed / this.ySpeed;
+            var aTan = Math.atan(Tan);
+            var absV = Math.sqrt((self.xSpeed*self.xSpeed + self.ySpeed*self.ySpeed));
+            self.xSpeed =  absV * Math.cos(aTan);
+            self.ySpeed =  absV * Math.sin(aTan);
+            console.log(self.xSpeed, self.ySpeed, 'after');
+          } else {
+            self.setNewSpeed();
+          }
+
+          // if (self.checkBreakPoint(cxNew, cyNew)) {
+          //   self.bang = true;
+          // } else {
+          //   self.bang = false;
+          // }
+        };
+        this.checkBreakPoint = function checkBreakPoint(x, y) {
+          function hasPoint(x, y) {
+            var yCalc = x*x/100 -3*x + 460;
+            if (((Math.floor(y) - 2) <  Number((yCalc).toFixed(1))) && (Number((yCalc).toFixed(1)) < (Math.ceil(y) + 2))) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+          return hasPoint(x, y);
         };
       };
-
       var gameBall = new ball();
       function animate() {
         gameBall.getNewPosition();
       }
-
-      var play = function () {
-        var animateInterval = setInterval(animate, 1000 / 60);
+      var game = function () {
+        var self = this;
+        this.play = function play() {
+          self.animateInterval = setInterval(animate, 1000 / 60.0);
+        };
+        this.stop = function stop() {
+          clearInterval(self.animateInterval);
+        };
+        this.reset = function reset() {
+          clearInterval(self.animateInterval);
+        };
       };
-      play();
+      var Game = new game();
+      Game.play();
+
+      var stop = document.getElementById('stop');
+      stop.onclick = Game.stop;
     </script>
   </body>
 </html>
