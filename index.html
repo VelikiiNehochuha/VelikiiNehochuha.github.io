@@ -58,7 +58,6 @@
     <script type="text/javascript">
       var ball = function () {
         var self = this;
-        this.id = 'gameBall';
         this.xSpeed = 50/1000.0;
         this.ySpeed = 0;
         this.yAcceleration = 0.0001;
@@ -73,7 +72,7 @@
         };
         this.getNewPosition = function getNewPosition() {
           var e, cxNew, cyNew;
-          e = document.getElementById ( self.id );
+          e = document.getElementById ( 'gameBall' );
           var cxPrev = e.getAttribute( 'cx' );
           var cyPrev = e.getAttribute( 'cy' );
           cyNew = parseFloat(cyPrev) + self.ySpeed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
