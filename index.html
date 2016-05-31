@@ -98,12 +98,12 @@
           e.setAttribute ( "cy", cyNew );
 
           if (self.checkBreakPoint(cxNew, cyNew)) {
-            var aTan = Math.atan(2*cxNew/100 -3);
-            var bTan = Math.atan(self.xSpeed / self.ySpeed);
-            var jTan = aTan + bTan - PI / 2;
+            var aAngle = Math.atan(2*cxNew/100 -3);
+            var bAngle = Math.atan(self.xSpeed / self.ySpeed);
+            var jAngle = aAngle + bAngle - PI / 2;
             var absV = Math.sqrt((self.xSpeed*self.xSpeed + self.ySpeed*self.ySpeed));
-            self.xSpeed =  absV * Math.cos(jTan);
-            self.ySpeed = absV * Math.sin(jTan);
+            self.xSpeed =  absV * Math.cos(jAngle);
+            self.ySpeed = absV * Math.sin(jAngle);
             // f(x') + (2*x'/100 - 3)(x-x')
             // self.stopBall();
           } else {
