@@ -167,15 +167,6 @@
           var resAngle = normAngle*2;
           var xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
           var ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-          if (Math.floor(resAngle*180/PI) ==  68) {
-            // resA = 68
-            // xSpeed = -0.016
-            // ySpeed = 0.15
-            resAngle = - normAngle*2;
-            xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-            ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-            return [-xSpeedAfter*0.9, -ySpeedAfter*0.9];
-          }
           return [-xSpeedAfter*0.9, -ySpeedAfter*0.9];
         }
       );
@@ -196,16 +187,6 @@
           var resAngle = - normAngle*2;
           var xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
           var ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-          if (Math.floor(Math.abs(resAngle*180/PI)) ==  57) {
-            console.log(resAngle*180/PI);
-            // resA = 68
-            // xSpeed = -0.016
-            // ySpeed = 0.15
-            resAngle = - normAngle*2;
-            xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-            ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-            return [-xSpeedAfter*0.9, -ySpeedAfter*0.9];
-          }
           return [xSpeedAfter*0.9, ySpeedAfter*0.9];
         }
       );
