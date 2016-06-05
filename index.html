@@ -75,14 +75,16 @@
       </nav>
     </footer>
     <script type="text/javascript">
-      var OUT = 99999999999;
+      const OUT = 99999999999;
       const DELTA = 10;
       const PI = 3.14;
       function getRandomArbitary(min, max) {
         return Math.random() * (max - min) + min;
       }
-      var Spring = function () {
-        var self = this;
+
+
+      const Spring = function () {
+        const self = this;
         this.count = 0;
         this.animateSpring = function animateSpring() {
           self.count = self.count + 1;
@@ -97,8 +99,10 @@
           clearInterval(self.springInterval);
         };
       };
-      var Barrier = function () {
-        var self = this;
+
+
+      const Barrier = function () {
+        const self = this;
         this.init = function init(xDiapason, yDiapason, func, getSpeedAfterBreak) {
           self.xDiapason = xDiapason;
           self.yDiapason = yDiapason;
@@ -106,9 +110,9 @@
           self.getSpeedAfterBreak = getSpeedAfterBreak; // function, args: x, y, ySpeedBefore, xSeedBefore
         };
         this.checkBreak = function checkBreak(x, y) {
-          var isBreak = false;
+          let isBreak = false;
           if (y < self.yDiapason[1] && y > self.yDiapason[0]) {
-            var yCalc = self.func(x, y);
+            const yCalc = self.func(x, y);
             if (((Math.floor(y) - 1) <  Number((yCalc).toFixed(1))) && (Number((yCalc).toFixed(1)) < (Math.ceil(y) + 1))) {
               isBreak = true;
             } else {
@@ -119,7 +123,9 @@
           return isBreak;
         };
       };
-      var rPipeLine = new Barrier();
+
+
+      const rPipeLine = new Barrier();
       rPipeLine.init(
         [315, 315],
         [134, 395],
@@ -134,7 +140,7 @@
           return [-xSpeedBefore, ySpeedBefore];
         }
       );
-      var leftPipeLine = new Barrier();
+      const leftPipeLine = new Barrier();
       leftPipeLine.init(
         [296, 296],
         [150, 395],
@@ -149,56 +155,58 @@
           return [-xSpeedBefore, ySpeedBefore];
         }
       );
-      // c = (170 -(25000 - (x-160)**2)**(0.5) )  ) for x in xrange(0, 340) if ((25000 - (x-160)**2) >  0) and (x <= 315) and (x >= 5)]
-      // c = [(x,  (170 -(25000 - (x-160)**2)**(0.5) )  ) for x in xrange(0, 340) if ((25000 - (x-160)**2) >  0) and (x <= 315) and (x >= 5)]
-      var upPipeArc = new Barrier();
+      const upPipeArc = new Barrier();
       upPipeArc.init(
         [5, 315],
         [10, 150],
         function (x, y) {
+          // c = [(x,  (170 -(25000 - (x-160)**2)**(0.5) )  ) for x in xrange(0, 340) if ((25000 - (x-160)**2) >  0) and (x <= 315) and (x >= 5)]
           return (170 - Math.sqrt(25000 - Math.pow(x - 160, 2)) );
         },
         function (x, y, xSpeedBefore, ySpeedBefore) {
-          var derivative = - (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
-          var tAngle = Math.atan(derivative);
-          var vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-          var diffAngle = Math.abs(Math.abs(tAngle < 0 ? (PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (PI + vAngle) : vAngle));
-          var normAngle = (diffAngle > PI/2) ? (PI - diffAngle) : diffAngle;
-          var resAngle = normAngle*2;
-          var xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-          var ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
+          const derivative = - (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+          const tAngle = Math.atan(derivative);
+          const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
+          const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (PI + vAngle) : vAngle));
+          const normAngle = (diffAngle > PI/2) ? (PI - diffAngle) : diffAngle;
+          const resAngle = normAngle*2;
+          const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
+          const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
           return [-xSpeedAfter*0.9, -ySpeedAfter*0.9];
         }
       );
-      // c = [(x,  (170 -(18400 - (x-161)**2)**(0.5) )  ) for x in xrange(0, 340) if (18400 - (x-161)**2) >  0]
-      var bottomPipeArc = new Barrier();
+      const bottomPipeArc = new Barrier();
       bottomPipeArc.init(
         [5, 315],
         [5, 150],
         function (x, y) {
+          // c = [(x,  (170 -(18400 - (x-161)**2)**(0.5) )  ) for x in xrange(0, 340) if (18400 - (x-161)**2) >  0]
           return (170 -Math.sqrt(18400 - Math.pow(x - 161, 2)) );
         },
         function (x, y, xSpeedBefore, ySpeedBefore) {
-          var derivative = - (x - 161) / Math.sqrt(18400 - Math.pow(x - 161, 2));
-          var tAngle = Math.atan(derivative);
-          var vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-          var diffAngle = Math.abs(Math.abs(tAngle < 0 ? (PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (PI + vAngle) : vAngle));
-          var normAngle = (diffAngle > PI/2) ? (PI - diffAngle) : diffAngle;
-          var resAngle = - normAngle*2;
-          var xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-          var ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
+          const derivative = - (x - 161) / Math.sqrt(18400 - Math.pow(x - 161, 2));
+          const tAngle = Math.atan(derivative);
+          const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
+          const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (PI + vAngle) : vAngle));
+          const normAngle = (diffAngle > PI/2) ? (PI - diffAngle) : diffAngle;
+          const resAngle = - normAngle*2;
+          const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
+          const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
           return [xSpeedAfter*0.9, ySpeedAfter*0.9];
         }
       );
-      var barriers = [
+
+      const barriers = [
         rPipeLine,
         leftPipeLine,
         upPipeArc,
         bottomPipeArc
       ];
-      var Ball = function () {
-        var self = this;
-        var e = document.getElementById ( 'gameBall' );
+
+
+      const Ball = function () {
+        const self = this;
+        const e = document.getElementById ( 'gameBall' );
         this.xSpeed = -0.02; // +0.02;
         this.ySpeed = -0.35;
         this.yAcceleration = 0.0001;
@@ -232,10 +240,10 @@
           self.ySpeed = self.ySpeed + self.yAcceleration * self.delta;
         };
         this.getNewPosition = function getNewPosition() {
-          var e, cxNew, cyNew;
-          e = document.getElementById ( 'gameBall' );
-          var cxPrev = e.getAttribute( 'cx' );
-          var cyPrev = e.getAttribute( 'cy' );
+          let cxNew, cyNew;
+          const e = document.getElementById ( 'gameBall' );
+          const cxPrev = e.getAttribute( 'cx' );
+          const cyPrev = e.getAttribute( 'cy' );
           cyNew = parseFloat(cyPrev) + self.ySpeed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
           cxNew = parseFloat(cxPrev) + self.xSpeed * self.delta + self.xAcceleration * self.delta * self.delta / 2;
           e.setAttribute ( "cx", cxNew );
@@ -244,8 +252,8 @@
           // self.stopBall();
         };
         this.checkBreakPoint = function checkBreakPoint(x, y, xSpeedBefore, ySpeedBefore, breakSpeedFunc, simpleSpeedFunc) {
-          var isBreak = false;
-          for (var i in barriers) {
+          let isBreak = false;
+          for (let i in barriers) {
             if (barriers[i].checkBreak(x, y)) {
               isBreak = true;
               if (breakSpeedFunc) {
@@ -262,13 +270,15 @@
           return isBreak;
         };
       };
-      var Game = function () {
-        var self = this;
+
+
+      const Game = function () {
+        const self = this;
         this.animate = function animate() {
           self.gameBall.getNewPosition();
         };
         this.play = function play() {
-          var gameBall = new Ball();
+          const gameBall = new Ball();
           gameBall.init(self.stop);
           self.gameBall = gameBall;
           self.animateInterval = setInterval(self.animate, DELTA);
@@ -282,24 +292,21 @@
         this.reset = function reset() {
           clearInterval(self.animateInterval);
           delete self.gameBall;
-          var gameBall = new Ball();
-          // e = document.getElementById ( 'gameBall' );
-          // e.setAttribute ( "cx", gameBall.x );
-          // e.setAttribute ( "cy", gameBall.y );
+          const gameBall = new Ball();
           self.gameBall = gameBall;
           self.animateInterval = setInterval(self.animate, DELTA);
         };
       };
-      var game = new Game();
+      const game = new Game();
       game.play();
-      var stop = document.getElementById('stop');
-      var start = document.getElementById('start');
-      var reset = document.getElementById('reset');
+      const stop = document.getElementById('stop');
+      const start = document.getElementById('start');
+      const reset = document.getElementById('reset');
       stop.onclick = game.stop;
       start.onclick = game.start;
       reset.onclick = game.reset;
-      var gameSpring = new Spring();
-      var spring = document.getElementById('spring');
+      const gameSpring = new Spring();
+      const spring = document.getElementById('spring');
       spring.onmousedown = gameSpring.startSpringTime;
       spring.onmouseup = gameSpring.stopSprintTime;
     </script>
