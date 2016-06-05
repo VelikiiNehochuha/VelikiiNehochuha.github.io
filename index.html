@@ -63,8 +63,8 @@
               </g>
 
 
-              <rect id="left-bat" width="90" height="12" ry="5" style="fill:white;" x="60" y="400" transform="rotate(0 60 400)"/>
-              <rect id="right-bat" width="90" height="12" ry="5" style="fill:white;" x="160" y="400" transform="rotate(0 260 400)"/>
+              <rect id="left-bat" width="90" height="10" ry="5" style="fill:white;" x="60" y="400" transform="rotate(-35 65 400)"/>
+              <rect id="right-bat" width="90" height="10" ry="5" style="fill:white;" x="160" y="400" transform="rotate(-35 265 400)"/>
             </svg>
           </div>
         </section>
@@ -82,7 +82,6 @@
     <script type="text/javascript">
       const OUT = 99999999999;
       const DELTA = 10;
-      const PI = 3.14;
       function getRandomArbitary(min, max) {
         return Math.random() * (max - min) + min;
       }
@@ -106,14 +105,36 @@
       };
 
 
-      const Barrier = function () {
+      const Bat = function () {
         const self = this;
-        this.init = function init(xDiapason, yDiapason, func, getSpeedAfterBreak) {
-          self.xDiapason = xDiapason;
-          self.yDiapason = yDiapason;
-          self.func = func; // must be function y(x) and get args x, y
-          self.getSpeedAfterBreak = getSpeedAfterBreak; // function, args: x, y, ySpeedBefore, xSeedBefore
+        this.speed = 0;
+        this.angleDiapason = [-45, 45];
+        this.power = false; // if power off, animate bottom splice
+        this.setUpSpeed = function setUpSpeed() {
+          console.log('setUpSpeed');
         };
+
+        this.animate = function animateSpring() {
+          self.speed = self.speed + 1;
+          console.log(self.speed);
+        };
+        this.startAnimateTime = function startSpringTime() {
+          self.speed = 0;
+          self.timer = setInterval(self.animate, 100);
+        };
+        this.stopSprintTime = function stopSpringTime(e) {
+          console.log(self.speed);
+          clearInterval(self.timer);
+        };
+      };
+
+
+      const Barrier = function (xDiapason, yDiapason, func, getSpeedAfterBreak) {
+        const self = this;
+        this.xDiapason = xDiapason;
+        this.yDiapason = yDiapason;
+        this.func = func; // must be function y(x) and get args x, y
+        this.getSpeedAfterBreak = getSpeedAfterBreak; // function, args: x, y, ySpeedBefore, xSeedBefore
         this.checkBreak = function checkBreak(x, y) {
           let isBreak = false;
           if (y < self.yDiapason[1] && y > self.yDiapason[0]) {
@@ -130,8 +151,7 @@
       };
 
 
-      const rPipeLine = new Barrier();
-      rPipeLine.init(
+      const rPipeLine = new Barrier(
         [315, 315],
         [134, 395],
         function (x, y) {
@@ -145,8 +165,7 @@
           return [-xSpeedBefore, ySpeedBefore];
         }
       );
-      const leftPipeLine = new Barrier();
-      leftPipeLine.init(
+      const leftPipeLine = new Barrier(
         [296, 296],
         [150, 395],
         function (x, y) {
@@ -160,8 +179,7 @@
           return [-xSpeedBefore, ySpeedBefore];
         }
       );
-      const upPipeArc = new Barrier();
-      upPipeArc.init(
+      const upPipeArc = new Barrier(
         [5, 315],
         [10, 150],
         function (x, y) {
@@ -172,16 +190,15 @@
           const derivative = - (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
           const tAngle = Math.atan(derivative);
           const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-          const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (PI + vAngle) : vAngle));
-          const normAngle = (diffAngle > PI/2) ? (PI - diffAngle) : diffAngle;
+          const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
+          const normAngle = (diffAngle > Math.PI/2) ? (Math.PI - diffAngle) : diffAngle;
           const resAngle = normAngle*2;
           const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
           const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
           return [-xSpeedAfter*0.9, -ySpeedAfter*0.9];
         }
       );
-      const bottomPipeArc = new Barrier();
-      bottomPipeArc.init(
+      const bottomPipeArc = new Barrier(
         [5, 315],
         [5, 150],
         function (x, y) {
@@ -192,8 +209,8 @@
           const derivative = - (x - 161) / Math.sqrt(18400 - Math.pow(x - 161, 2));
           const tAngle = Math.atan(derivative);
           const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-          const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (PI + vAngle) : vAngle));
-          const normAngle = (diffAngle > PI/2) ? (PI - diffAngle) : diffAngle;
+          const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
+          const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
           const resAngle = - normAngle*2;
           const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
           const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
@@ -211,7 +228,7 @@
 
       const Ball = function () {
         const self = this;
-        const e = document.getElementById ( 'gameBall' );
+        this.element = document.getElementById ( 'gameBall' );
         this.xSpeed = -0.02; // +0.02;
         this.ySpeed = -0.35;
         this.yAcceleration = 0.0001;
@@ -222,9 +239,9 @@
         this.currentSurface = undefined;
         // this.x = getRandomArbitary(0, 250);
         this.x = 305;
-        e.setAttribute ( "cx", 305);
+        this.element.setAttribute ( "cx", 305);
         this.y = 395;
-        e.setAttribute ( "cy", 395);
+        this.element.setAttribute ( "cy", 395);
         this.bang = false;
         this.init = function init(stopFunc) {
           this.stopCallBack = stopFunc;
@@ -247,12 +264,12 @@
         this.getNewPosition = function getNewPosition() {
           let cxNew, cyNew;
           const e = document.getElementById ( 'gameBall' );
-          const cxPrev = e.getAttribute( 'cx' );
-          const cyPrev = e.getAttribute( 'cy' );
+          const cxPrev = self.element.getAttribute( 'cx' );
+          const cyPrev = self.element.getAttribute( 'cy' );
           cyNew = parseFloat(cyPrev) + self.ySpeed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
           cxNew = parseFloat(cxPrev) + self.xSpeed * self.delta + self.xAcceleration * self.delta * self.delta / 2;
-          e.setAttribute ( "cx", cxNew );
-          e.setAttribute ( "cy", cyNew );
+          self.element.setAttribute ( "cx", cxNew );
+          self.element.setAttribute ( "cy", cyNew );
           self.checkBreakPoint(cxNew, cyNew, self.xSpeed, self.ySpeed, self.setNewSpeed, self.getNewSpeed);
           // self.stopBall();
         };
@@ -302,18 +319,30 @@
           self.animateInterval = setInterval(self.animate, DELTA);
         };
       };
+
+
       const game = new Game();
       game.play();
+
       const stop = document.getElementById('stop');
       const start = document.getElementById('start');
       const reset = document.getElementById('reset');
       stop.onclick = game.stop;
       start.onclick = game.start;
       reset.onclick = game.reset;
+
       const gameSpring = new Spring();
       const spring = document.getElementById('spring');
       spring.onmousedown = gameSpring.startSpringTime;
       spring.onmouseup = gameSpring.stopSprintTime;
+
+      // handle press left, right arrows to control bats
+      // document.onkeydown
+      // left = 37
+      // up = 38
+      // right = 39
+      // down = 40
+
     </script>
   </body>
 </html>
