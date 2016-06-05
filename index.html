@@ -104,31 +104,6 @@
         };
       };
 
-
-      const Bat = function () {
-        const self = this;
-        this.speed = 0;
-        this.angleDiapason = [-45, 45];
-        this.power = false; // if power off, animate bottom splice
-        this.setUpSpeed = function setUpSpeed() {
-          console.log('setUpSpeed');
-        };
-
-        this.animate = function animateSpring() {
-          self.speed = self.speed + 1;
-          console.log(self.speed);
-        };
-        this.startAnimateTime = function startSpringTime() {
-          self.speed = 0;
-          self.timer = setInterval(self.animate, 100);
-        };
-        this.stopSprintTime = function stopSpringTime(e) {
-          console.log(self.speed);
-          clearInterval(self.timer);
-        };
-      };
-
-
       const Barrier = function (xDiapason, yDiapason, func, getSpeedAfterBreak) {
         const self = this;
         this.xDiapason = xDiapason;
@@ -337,11 +312,63 @@
       spring.onmouseup = gameSpring.stopSprintTime;
 
       // handle press left, right arrows to control bats
-      // document.onkeydown
+      // document.onkeydown if (e.keyCode == '38') {
       // left = 37
       // up = 38
       // right = 39
       // down = 40
+
+      const Bat = function (element) {
+        // <rect id="left-bat" width="90" height="10" ry="5" style="fill:white;" x="60" y="400" transform="rotate(-35 65 400)"/>
+        const self = this;
+        this.element = element;
+        this.speed = 5;
+        this.angleDiapason = [-45, 45];
+        this.power = false; // if power off, animate bottom splice
+        this.init = function init() {
+          const transform = self.element.getAttribute('transform');
+          const args = transform.split("(")[1].split(')')[0].split(" ").map(parseFloat);
+          self.angle = args[0];
+          self.xRotate = args[1];
+          self.yRotate = args[2];
+        };
+
+        this.setUpSpeed = function setUpSpeed() {
+          console.log('setUpSpeed');
+        };
+
+        this.animate = function animate() {
+          self.speed = self.speed + 1;
+          console.log(self.speed);
+        };
+        this.getNewPosition = function getNewPosition() {
+          if (!self.power) {
+            // calc position
+            if (self.angle > self.angleDiapason[0] && self.angle < self.angleDiapason[1]) {
+              console.log();
+              self.angle = self.angle + 5;
+              self.element.setAttribute('transform', 'rotate(' + self.angle + ' ' + self.xRotate + ' ' + self.yRotate + ')');
+            }
+          } else {
+            console.log('pressed button');
+          }
+        };
+        this.play = function play() {
+          self.timer = setInterval(self.getNewPosition, DELTA);
+        };
+        this.stop = function stop(e) {
+          clearInterval(self.timer);
+        };
+      };
+
+      const leftBatElement = document.getElementById('left-bat');
+      console.log(leftBatElement);
+      const leftBat = new Bat(leftBatElement);
+      leftBat.init();
+      leftBat.play();
+      console.log(leftBat);
+
+      // <rect id="left-bat" width="90" height="10" ry="5" style="fill:white;" x="60" y="400" transform="rotate(-35 65 400)"/>
 
     </script>
   </body>
