@@ -243,47 +243,6 @@ const Ball = function () {
 };
 
 
-const Game = function () {
-  const self = this;
-  this.animate = function animate() {
-    self.gameBall.getNewPosition();
-  };
-  this.play = function play() {
-    const gameBall = new Ball();
-    gameBall.init(self.stop);
-    self.gameBall = gameBall;
-    self.animateInterval = setInterval(self.animate, DELTA);
-  };
-  this.stop = function stop() {
-    clearInterval(self.animateInterval);
-  };
-  this.start = function start() {
-    self.animateInterval = setInterval(self.animate, DELTA);
-  };
-  this.reset = function reset() {
-    clearInterval(self.animateInterval);
-    delete self.gameBall;
-    const gameBall = new Ball();
-    self.gameBall = gameBall;
-    self.animateInterval = setInterval(self.animate, DELTA);
-  };
-};
-
-
-const game = new Game();
-game.play();
-
-const stop = document.getElementById('stop');
-const start = document.getElementById('start');
-const reset = document.getElementById('reset');
-stop.onclick = game.stop;
-start.onclick = game.start;
-reset.onclick = game.reset;
-
-const gameSpring = new Spring();
-const spring = document.getElementById('spring');
-spring.onmousedown = gameSpring.startSpringTime;
-spring.onmouseup = gameSpring.stopSprintTime;
 
 
 const Bat = function (element, clockwise=true) {
@@ -361,18 +320,14 @@ const Bat = function (element, clockwise=true) {
       self.element.setAttribute('transform', 'rotate(' + self.angle + ' ' + self.xRotate + ' ' + self.yRotate + ')');
     }
   };
-  this.play = function play() {
-    self.timer = setInterval(self.getNewPosition, DELTA);
-  };
-  this.stop = function stop(e) {
-    clearInterval(self.timer);
-  };
 };
 
 const leftBatElement = document.getElementById('left-bat');
 const rightBatElement = document.getElementById('right-bat');
 const leftBat = new Bat(leftBatElement, true);
 const rightBat = new Bat(rightBatElement, false);
+leftBat.init();
+rightBat.init();
 document.onkeydown = function (e) {
   if (e.keyCode === 65) {
     leftBat.setPower();
@@ -387,7 +342,48 @@ document.onkeyup = function (e) {
     rightBat.zeroPower();
   }
 };
-leftBat.init();
-rightBat.init();
-leftBat.play();
-rightBat.play();
+
+
+const Game = function () {
+  const self = this;
+  this.animate = function animate() {
+    leftBat.getNewPosition();
+    rightBat.getNewPosition();
+    self.gameBall.getNewPosition();
+  };
+  this.play = function play() {
+    const gameBall = new Ball();
+    gameBall.init(self.stop);
+    self.gameBall = gameBall;
+    self.animateInterval = setInterval(self.animate, DELTA);
+  };
+  this.stop = function stop() {
+    clearInterval(self.animateInterval);
+  };
+  this.start = function start() {
+    self.animateInterval = setInterval(self.animate, DELTA);
+  };
+  this.reset = function reset() {
+    clearInterval(self.animateInterval);
+    delete self.gameBall;
+    const gameBall = new Ball();
+    self.gameBall = gameBall;
+    self.animateInterval = setInterval(self.animate, DELTA);
+  };
+};
+
+
+const game = new Game();
+game.play();
+
+const stop = document.getElementById('stop');
+const start = document.getElementById('start');
+const reset = document.getElementById('reset');
+stop.onclick = game.stop;
+start.onclick = game.start;
+reset.onclick = game.reset;
+
+const gameSpring = new Spring();
+const spring = document.getElementById('spring');
+spring.onmousedown = gameSpring.startSpringTime;
+spring.onmouseup = gameSpring.stopSprintTime;
