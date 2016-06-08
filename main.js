@@ -131,12 +131,35 @@ const bottomParabola = new Barrier(
   }
 );
 
+// fix
+const topParabola = new Barrier(
+  [22, 65],
+  [160, 230],
+  function (x, y) {
+    // c = [(x, (5*(x-26)**0.5 + 156)  ) for x in xrange(0, 340) if (x <= 60) and (x >= 26)]
+    return (156 + 5 * Math.sqrt(x - 26) );
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    const derivative = 5 / (2 * Math.sqrt(x - 26));
+    const tAngle = Math.atan(derivative);
+    const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
+    const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
+    const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
+    const resAngle = normAngle*2;
+    const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
+    const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
+    return [-xSpeedAfter*0.7, ySpeedAfter*0.7];
+  }
+);
+
+
 const barriers = [
   rPipeLine,
   leftPipeLine,
   upPipeArc,
   bottomPipeArc,
   bottomParabola
+  // topParabola
 ];
 
 
