@@ -131,24 +131,34 @@ const bottomParabola = new Barrier(
   }
 );
 
+
+let COUNT = 0;
 // fix
 const topParabola = new Barrier(
-  [22, 65],
-  [160, 230],
+  [26, 65],
+  [160, 170],
   function (x, y) {
     // c = [(x, (5*(x-26)**0.5 + 156)  ) for x in xrange(0, 340) if (x <= 60) and (x >= 26)]
-    return (156 + 5 * Math.sqrt(x - 26) );
+    return (156 + 2 * Math.sqrt(x - 26) );
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    const derivative = 5 / (2 * Math.sqrt(x - 26));
-    const tAngle = Math.atan(derivative);
-    const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-    const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
-    const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
-    const resAngle = normAngle*2;
-    const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-    const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-    return [-xSpeedAfter*0.7, ySpeedAfter*0.7];
+    if (COUNT === 0) {
+      const derivative = 1 / (Math.sqrt(x - 26));
+      const tAngle = Math.atan(derivative);
+      const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
+      const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
+      const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
+      const resAngle = - normAngle*2;
+
+      const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
+      const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
+      console.log(resAngle * 180 / Math.PI, xSpeedBefore, ySpeedBefore, xSpeedAfter, ySpeedAfter);
+      COUNT = COUNT + 1;
+      return [-xSpeedAfter*0.5, ySpeedAfter*0.7];
+    } else {
+      COUNT = COUNT + 1;
+      return [xSpeedBefore, ySpeedBefore];
+    }
   }
 );
 
@@ -158,8 +168,8 @@ const barriers = [
   leftPipeLine,
   upPipeArc,
   bottomPipeArc,
-  bottomParabola
-  // topParabola
+  bottomParabola,
+  topParabola
 ];
 
 
