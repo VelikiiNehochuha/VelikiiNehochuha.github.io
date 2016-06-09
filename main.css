@@ -18,3 +18,16 @@ footer{ flex: 0 0 auto; }
   width: 320px;
   height: 500px;
 }
+
+.buttons-group {
+  margin-bottom: 5px;
+}
+
+.buttons-group button {
+  margin-right: 43px;
+  padding: 6px 20px;
+}
+
+.buttons-group :last-child {
+  margin-right: 0px;
+}
