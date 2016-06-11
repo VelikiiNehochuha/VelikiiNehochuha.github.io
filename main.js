@@ -22,29 +22,35 @@ const Spring = function () {
   };
 };
 
-const Barrier = function (xDiapason, yDiapason, func, getSpeedAfterBreak, limit=1) {
+const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBreak, getCaptureSurfaceSpeed, limit=1) {
   const self = this;
   this.xDiapason = xDiapason;
   this.yDiapason = yDiapason;
-  this.func = func; // must be function y(x) and get args x, y
+  this.getBarrier = getBarrier; // must be function y(x) and get args x, y
+  this.capture = false;
   this.getSpeedAfterBreak = getSpeedAfterBreak; // function, args: x, y, ySpeedBefore, xSeedBefore
+  this.getCaptureSurfaceSpeed = getCaptureSurfaceSpeed; // function, args: x, y, ySpeedBefore, xSeedBefore
   this.checkBreak = function checkBreak(x, y) {
     let isBreak = false;
     if (y < self.yDiapason[1] && y > self.yDiapason[0]) {
-      const yCalc = self.func(x, y);
+      const yCalc = self.getBarrier(x, y);
       if (((Math.floor(y) - limit) <  Number((yCalc).toFixed(1))) && (Number((yCalc).toFixed(1)) < (Math.ceil(y) + limit))) {
         isBreak = true;
       } else {
         isBreak = false;
       }
-      return isBreak;
     }
     return isBreak;
+  };
+  this.handleCapture = function handleCapture() {
+    // if moment after moment ball on surface
+    // than handle capture and power insted rebound
   };
 };
 
 
 const rPipeLine = new Barrier(
+  'rPipeLine',
   [315, 315],
   [134, 395],
   function (x, y) {
@@ -56,9 +62,13 @@ const rPipeLine = new Barrier(
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     return [-xSpeedBefore, ySpeedBefore];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
   }
 );
 const leftPipeLine = new Barrier(
+  'leftPipeLine',
   [296, 296],
   [150, 395],
   function (x, y) {
@@ -70,9 +80,13 @@ const leftPipeLine = new Barrier(
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     return [-xSpeedBefore, ySpeedBefore];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
   }
 );
 const upPipeArc = new Barrier(
+  'upPipeArc',
   [5, 315],
   [10, 150],
   function (x, y) {
@@ -89,9 +103,13 @@ const upPipeArc = new Barrier(
     const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
     const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
     return [-xSpeedAfter*0.9, -ySpeedAfter*0.9];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
   }
 );
 const bottomPipeArc = new Barrier(
+  'bottomPipeArc',
   [5, 315],
   [5, 150],
   function (x, y) {
@@ -108,10 +126,14 @@ const bottomPipeArc = new Barrier(
     const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
     const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
     return [xSpeedAfter*0.9, ySpeedAfter*0.9];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
   }
 );
 
 const bottomParabola = new Barrier(
+  'bottomParabola',
   [2, 65],
   [160, 250],
   function (x, y) {
@@ -128,13 +150,15 @@ const bottomParabola = new Barrier(
     const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
     const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
     return [xSpeedAfter*0.7, ySpeedAfter*0.7];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
   }
 );
 
 
-let COUNT = 0;
-// fix
 const topParabola = new Barrier(
+  'topParabola',
   [26, 65],
   [160, 170],
   function (x, y) {
@@ -142,23 +166,21 @@ const topParabola = new Barrier(
     return (156 + 2 * Math.sqrt(x - 26) );
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    if (COUNT === 0) {
-      const derivative = 1 / (Math.sqrt(x - 26));
-      const tAngle = Math.atan(derivative);
-      const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-      const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
-      const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
-      const resAngle = - normAngle*2;
+    const derivative = 1 / (Math.sqrt(x - 26));
+    const tAngle = Math.atan(derivative);
+    const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
+    const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
+    const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
+    const resAngle = - normAngle*2;
 
-      const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-      const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-      console.log(resAngle * 180 / Math.PI, xSpeedBefore, ySpeedBefore, xSpeedAfter, ySpeedAfter);
-      COUNT = COUNT + 1;
-      return [-xSpeedAfter*0.5, ySpeedAfter*0.7];
-    } else {
-      COUNT = COUNT + 1;
-      return [xSpeedBefore, ySpeedBefore];
-    }
+    const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
+    const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
+    console.log(resAngle * 180 / Math.PI, xSpeedBefore, ySpeedBefore, xSpeedAfter, ySpeedAfter);
+    COUNT = COUNT + 1;
+    return [-xSpeedAfter*0.5, ySpeedAfter*0.7];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
   }
 );
 
@@ -227,7 +249,7 @@ const Ball = function () {
         isBreak = true;
         if (breakSpeedFunc) {
           breakSpeedFunc.apply(self, barriers[i].getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
-          self.prevSurface = i;
+          self.surface = i.id;
         }
         // self.stopBall();
         break;
@@ -239,20 +261,21 @@ const Ball = function () {
       const leftBatBarrier = leftBat.getCurrentBarrier();
       if (rightBatBarrier.checkBreak(x, y)) {
         isBreak = true;
+        self.surface = rightBatBarrier.id;
         breakSpeedFunc.apply(self, rightBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
       } else if (leftBatBarrier.checkBreak(x, y)) {
         isBreak = true;
+        self.surface = leftBatBarrier.id;
         breakSpeedFunc.apply(self, leftBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
       }
     }
     if (isBreak == false) {
+      self.surface = undefined;
       simpleSpeedFunc();
     }
     return isBreak;
   };
 };
-
-
 
 
 const Bat = function (element, clockwise=true) {
@@ -280,7 +303,17 @@ const Bat = function (element, clockwise=true) {
     const y2 = Math.sin(angle) * 90;
     const x2 = Math.cos(angle) * 90;
     const b = self.yRotate - tan * self.xRotate;
+
+    let id;
+    if (self.clockwise) {
+      id = 'leftBat';
+    } else {
+      id = 'rightBat';
+    }
+
+
     const batPosition = new Barrier(
+      id,
       [Math.min(self.xRotate, x2), Math.max(self.xRotate, x2)],
       [Math.min(self.yRotate, y2), Math.max(self.yRotate, y2)],
       function (x, y) {
@@ -296,6 +329,9 @@ const Bat = function (element, clockwise=true) {
         const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
         const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
         return [xSpeedAfter, ySpeedAfter];
+      },
+      function (x, y, xSpeedBefore, ySpeedBefore) {
+        // return [-xSpeedBefore, ySpeedBefore];
       },
       3
     );
