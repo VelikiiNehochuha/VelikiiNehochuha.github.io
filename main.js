@@ -24,10 +24,10 @@ const Spring = function () {
 
 const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBreak, getCaptureSurfaceSpeed, limit=1) {
   const self = this;
+  this.id = id;
   this.xDiapason = xDiapason;
   this.yDiapason = yDiapason;
   this.getBarrier = getBarrier; // must be function y(x) and get args x, y
-  this.capture = false;
   this.getSpeedAfterBreak = getSpeedAfterBreak; // function, args: x, y, ySpeedBefore, xSeedBefore
   this.getCaptureSurfaceSpeed = getCaptureSurfaceSpeed; // function, args: x, y, ySpeedBefore, xSeedBefore
   this.checkBreak = function checkBreak(x, y) {
@@ -41,10 +41,6 @@ const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBre
       }
     }
     return isBreak;
-  };
-  this.handleCapture = function handleCapture() {
-    // if moment after moment ball on surface
-    // than handle capture and power insted rebound
   };
 };
 
@@ -203,10 +199,8 @@ const Ball = function () {
   this.yAcceleration = 0.0001;
   this.xAcceleration = 0;
   this.delta = DELTA;
-  // work with surfaces and power
-  this.prevSurface = undefined;
-  this.currentSurface = undefined;
-  // this.x = getRandomArbitary(0, 250);
+  // work with surfaces and self force
+  this.surface = {};
   this.x = 305;
   this.element.setAttribute ( "cx", 305);
   this.y = 395;
@@ -248,8 +242,13 @@ const Ball = function () {
       if (barriers[i].checkBreak(x, y)) {
         isBreak = true;
         if (breakSpeedFunc) {
-          breakSpeedFunc.apply(self, barriers[i].getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
-          self.surface = i.id;
+          // check if prev surface equel current then get speed with self force
+          if (self.surface && self.surface.id === barriers[i]) {
+            console.log('self force calc');
+          } else {
+            breakSpeedFunc.apply(self, barriers[i].getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+          }
+          self.surface = barriers[i];
         }
         // self.stopBall();
         break;
@@ -261,16 +260,24 @@ const Ball = function () {
       const leftBatBarrier = leftBat.getCurrentBarrier();
       if (rightBatBarrier.checkBreak(x, y)) {
         isBreak = true;
-        self.surface = rightBatBarrier.id;
-        breakSpeedFunc.apply(self, rightBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        if (self.surface && self.surface.id === rightBatBarrier.id) {
+          console.log('self force calc');
+        } else {
+          breakSpeedFunc.apply(self, rightBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        }
+        self.surface = rightBatBarrier;
       } else if (leftBatBarrier.checkBreak(x, y)) {
         isBreak = true;
-        self.surface = leftBatBarrier.id;
-        breakSpeedFunc.apply(self, leftBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        if (self.surface && self.surface.id === rightBatBarrier.id) {
+          console.log('self force calc');
+        } else {
+          breakSpeedFunc.apply(self, leftBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        }
+        self.surface = leftBatBarrier;
       }
     }
     if (isBreak == false) {
-      self.surface = undefined;
+      self.surface = {};
       simpleSpeedFunc();
     }
     return isBreak;
@@ -310,7 +317,6 @@ const Bat = function (element, clockwise=true) {
     } else {
       id = 'rightBat';
     }
-
 
     const batPosition = new Barrier(
       id,
