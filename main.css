@@ -31,3 +31,12 @@ footer{ flex: 0 0 auto; }
 .buttons-group :last-child {
   margin-right: 0px;
 }
+
+.spring {
+  opacity: 0.0;
+}
+
+
+#spring0 {
+  opacity: 1.0;
+}

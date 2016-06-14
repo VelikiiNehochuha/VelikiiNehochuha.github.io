@@ -5,19 +5,23 @@ function getRandomArbitary(min, max) {
 }
 
 
-const Spring = function () {
+const Spring = function (elements) {
   const self = this;
   this.count = 0;
   this.animateSpring = function animateSpring() {
-    self.count = self.count + 1;
+    if (self.count < 5) {
+      self.count = self.count + 1;
+    }
     console.log(self.count);
   };
   this.startSpringTime = function startSpringTime() {
+    console.log('start');
     self.count = 0;
     self.springInterval = setInterval(self.animateSpring, 100);
   };
   this.stopSprintTime = function stopSpringTime(e) {
-    console.log(self.count);
+    console.log('stop');
+    self.count = 0;
     clearInterval(self.springInterval);
   };
 };
@@ -425,6 +429,13 @@ const Game = function () {
 };
 
 
+const springElement = document.getElementById('spring0');
+const springAnimatedElements = document.getElementsByClassName("spring");
+const gameSpring = new Spring();
+springElement.onmousedown = gameSpring.startSpringTime;
+springElement.onmouseup = gameSpring.stopSprintTime;
+
+
 const game = new Game();
 game.play();
 
@@ -435,7 +446,5 @@ stop.onclick = game.stop;
 start.onclick = game.start;
 reset.onclick = game.reset;
 
-const gameSpring = new Spring();
-const spring = document.getElementById('spring');
-spring.onmousedown = gameSpring.startSpringTime;
-spring.onmouseup = gameSpring.stopSprintTime;
+
+
