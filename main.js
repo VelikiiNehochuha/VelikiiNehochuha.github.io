@@ -10,8 +10,8 @@ const Spring = function (elements) {
   this.elements = elements;
   this.count = 0;
   this.animateSpring = function animateSpring() {
-    if (self.count < 5) {
-      self.count = 5; // self.count + 1;
+    if (self.count < 6) {
+      self.count = self.count + 1; // self.count + 1;
     }
     for(let i=0; i<self.elements.length; i++) {
       self.elements[i].style.opacity = '0.0';
@@ -21,7 +21,6 @@ const Spring = function (elements) {
     console.log(self.count);
   };
   this.startSpringTime = function startSpringTime(e) {
-    console.log(e);
     if (e) {
       e.preventDefault();
     }
