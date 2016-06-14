@@ -36,6 +36,9 @@ footer{ flex: 0 0 auto; }
   opacity: 0.0;
 }
 
+#spring {
+  pointer-events: bounding-box; /* clickable full box*/
+}
 
 #spring0 {
   opacity: 1.0;

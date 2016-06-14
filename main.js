@@ -7,19 +7,32 @@ function getRandomArbitary(min, max) {
 
 const Spring = function (elements) {
   const self = this;
+  this.elements = elements;
   this.count = 0;
   this.animateSpring = function animateSpring() {
     if (self.count < 5) {
-      self.count = self.count + 1;
+      self.count = 5; // self.count + 1;
     }
+    for(let i=0; i<self.elements.length; i++) {
+      self.elements[i].style.opacity = '0.0';
+    }
+    const currentSpring = document.getElementById('spring' + self.count);
+    currentSpring.style.opacity = '1.0';
     console.log(self.count);
   };
-  this.startSpringTime = function startSpringTime() {
+  this.startSpringTime = function startSpringTime(e) {
+    console.log(e);
+    if (e) {
+      e.preventDefault();
+    }
     console.log('start');
-    self.count = 0;
+    // self.count = 0;
     self.springInterval = setInterval(self.animateSpring, 100);
   };
   this.stopSprintTime = function stopSpringTime(e) {
+    if (e) {
+      e.preventDefault();
+    }
     console.log('stop');
     self.count = 0;
     clearInterval(self.springInterval);
@@ -429,11 +442,11 @@ const Game = function () {
 };
 
 
-const springElement = document.getElementById('spring0');
+const springElement = document.getElementById('spring');
 const springAnimatedElements = document.getElementsByClassName("spring");
-const gameSpring = new Spring();
-springElement.onmousedown = gameSpring.startSpringTime;
-springElement.onmouseup = gameSpring.stopSprintTime;
+const gameSpring = new Spring(springAnimatedElements);
+springElement.onmousedown = gameSpring.startSpringTime.bind(null);
+springElement.onmouseup = gameSpring.stopSprintTime.bind(null);
 
 
 const game = new Game();
