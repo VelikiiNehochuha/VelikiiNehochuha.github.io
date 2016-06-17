@@ -10,14 +10,17 @@ const Spring = function (elements) {
   this.elements = elements;
   this.count = 0;
   this.animateSpring = function animateSpring() {
-    if (self.count < 6) {
+    if (self.count < 5) {
       self.count = self.count + 1; // self.count + 1;
+      for(let i=0; i<self.elements.length; i++) {
+        self.elements[i].style.opacity = '0.0';
+      }
+      const currentSpring = document.getElementById('spring' + self.count);
+      currentSpring.style.opacity = '1.0';
+
+      const currentSpringSurface = document.getElementById('springSurface' + self.count);
+      currentSpringSurface.style.opacity = '1.0';
     }
-    for(let i=0; i<self.elements.length; i++) {
-      self.elements[i].style.opacity = '0.0';
-    }
-    const currentSpring = document.getElementById('spring' + self.count);
-    currentSpring.style.opacity = '1.0';
   };
 
   this.animateSpringDecompression = function animateSpringDecompression() {
@@ -28,6 +31,9 @@ const Spring = function (elements) {
       }
       const currentSpring = document.getElementById('spring' + self.count);
       currentSpring.style.opacity = '1.0';
+
+      const currentSpringSurface = document.getElementById('springSurface' + self.count);
+      currentSpringSurface.style.opacity = '1.0';
     } else {
       clearInterval(self.springIntervalDecompression);
     }
