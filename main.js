@@ -18,23 +18,32 @@ const Spring = function (elements) {
     }
     const currentSpring = document.getElementById('spring' + self.count);
     currentSpring.style.opacity = '1.0';
-    console.log(self.count);
+  };
+
+  this.animateSpringDecompression = function animateSpringDecompression() {
+    if (self.count > 0) {
+      self.count = self.count - 1;
+      for(let i=0; i<self.elements.length; i++) {
+        self.elements[i].style.opacity = '0.0';
+      }
+      const currentSpring = document.getElementById('spring' + self.count);
+      currentSpring.style.opacity = '1.0';
+    } else {
+      clearInterval(self.springIntervalDecompression);
+    }
   };
   this.startSpringTime = function startSpringTime(e) {
     if (e) {
       e.preventDefault();
     }
-    console.log('start');
-    // self.count = 0;
-    self.springInterval = setInterval(self.animateSpring, 100);
+    self.springIntervalCompression = setInterval(self.animateSpring, 100);
   };
-  this.stopSprintTime = function stopSpringTime(e) {
+  this.stopSpringTime = function stopSpringTime(e) {
     if (e) {
       e.preventDefault();
     }
-    console.log('stop');
-    self.count = 0;
-    clearInterval(self.springInterval);
+    self.springIntervalDecompression = setInterval(self.animateSpringDecompression, 20);
+    clearInterval(self.springIntervalCompression);
   };
 };
 
@@ -64,7 +73,7 @@ const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBre
 const rPipeLine = new Barrier(
   'rPipeLine',
   [315, 315],
-  [134, 395],
+  [134, 500],
   function (x, y) {
     if (Math.floor(x) === 315 || Math.ceil(x) === 315) {
       return y;
@@ -82,7 +91,7 @@ const rPipeLine = new Barrier(
 const leftPipeLine = new Barrier(
   'leftPipeLine',
   [296, 296],
-  [150, 395],
+  [150, 500],
   function (x, y) {
     if (Math.floor(x) === 296 || Math.ceil(x) === 296) {
       return y;
@@ -445,7 +454,9 @@ const springElement = document.getElementById('spring');
 const springAnimatedElements = document.getElementsByClassName("spring");
 const gameSpring = new Spring(springAnimatedElements);
 springElement.onmousedown = gameSpring.startSpringTime.bind(null);
-springElement.onmouseup = gameSpring.stopSprintTime.bind(null);
+springElement.onmouseup = gameSpring.stopSpringTime.bind(null);
+springElement.touchstart = gameSpring.startSpringTime.bind(null); // touch actions
+springElement.touchend = gameSpring.stopSpringTime.bind(null); // touch actions
 
 
 const game = new Game();
