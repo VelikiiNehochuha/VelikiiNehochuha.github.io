@@ -4,6 +4,34 @@ function getRandomArbitary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBreak, getCaptureSurfaceSpeed, limit=1) {
+  const self = this;
+  this.id = id;
+  this.xDiapason = xDiapason;
+  this.yDiapason = yDiapason;
+  this.getBarrier = getBarrier; // must be function y(x) and get args x, y
+  this.getSpeedAfterBreak = getSpeedAfterBreak; // function, args: x, y, ySpeedBefore, xSeedBefore
+  this.getCaptureSurfaceSpeed = getCaptureSurfaceSpeed; // function, args: x, y, ySpeedBefore, xSeedBefore
+  this.checkBreak = function checkBreak(x, y) {
+    let isBreak = false;
+    if (y < self.yDiapason[1] && y > self.yDiapason[0]) {
+      const yCalc = self.getBarrier(x, y);
+      if (((Math.floor(y) - limit) <  Number((yCalc).toFixed(1))) && (Number((yCalc).toFixed(1)) < (Math.ceil(y) + limit))) {
+        isBreak = true;
+      } else {
+        isBreak = false;
+      }
+    } else if (self.yDiapason[1] === self.yDiapason[0] && x < self.xDiapason[1] && x > self.xDiapason[0]) {
+      const yCalc = self.yDiapason[1];
+      if (((Math.floor(y) - limit) <  Number((yCalc).toFixed(1))) && (Number((yCalc).toFixed(1)) < (Math.ceil(y) + limit))) {
+        isBreak = true;
+      } else {
+        isBreak = false;
+      }
+    }
+    return isBreak;
+  };
+};
 
 const Spring = function (elements) {
   const self = this;
@@ -51,27 +79,43 @@ const Spring = function (elements) {
     self.springIntervalDecompression = setInterval(self.animateSpringDecompression, 20);
     clearInterval(self.springIntervalCompression);
   };
-};
 
-const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBreak, getCaptureSurfaceSpeed, limit=1) {
-  const self = this;
-  this.id = id;
-  this.xDiapason = xDiapason;
-  this.yDiapason = yDiapason;
-  this.getBarrier = getBarrier; // must be function y(x) and get args x, y
-  this.getSpeedAfterBreak = getSpeedAfterBreak; // function, args: x, y, ySpeedBefore, xSeedBefore
-  this.getCaptureSurfaceSpeed = getCaptureSurfaceSpeed; // function, args: x, y, ySpeedBefore, xSeedBefore
-  this.checkBreak = function checkBreak(x, y) {
-    let isBreak = false;
-    if (y < self.yDiapason[1] && y > self.yDiapason[0]) {
-      const yCalc = self.getBarrier(x, y);
-      if (((Math.floor(y) - limit) <  Number((yCalc).toFixed(1))) && (Number((yCalc).toFixed(1)) < (Math.ceil(y) + limit))) {
-        isBreak = true;
-      } else {
-        isBreak = false;
-      }
+  this.getCurrentBarrier = function getCurrentBarrier() {
+    let yDiapason;
+    if (self.count === 0) {
+      yDiapason = [396, 396];
+    } else if (self.count === 1) {
+      yDiapason = [405, 405];
+    } else if (self.count === 2) {
+      yDiapason = [415, 415];
+    } else if (self.count === 3) {
+      yDiapason = [425, 425];
+    } else if (self.count === 4) {
+      yDiapason = [435, 435];
+    } else if (self.count === 5) {
+      yDiapason = [445, 445];
     }
-    return isBreak;
+
+    const springPosition = new Barrier(
+      'spring',
+      [296, 315],
+      yDiapason,
+      function (x, y) {
+        if (Math.floor(y) === yDiapason[0] || Math.ceil(y) === yDiapason[0]) {
+          return y;
+        } else {
+          return OUT;
+        }
+      },
+      function (x, y, xSpeedBefore, ySpeedBefore) {
+        return [xSpeedBefore, -ySpeedBefore];
+      },
+      function (x, y, xSpeedBefore, ySpeedBefore) {
+        // return [-xSpeedBefore, ySpeedBefore];
+      },
+      5
+    );
+    return springPosition;
   };
 };
 
@@ -158,7 +202,6 @@ const bottomPipeArc = new Barrier(
     // return [-xSpeedBefore, ySpeedBefore];
   }
 );
-
 const bottomParabola = new Barrier(
   'bottomParabola',
   [2, 65],
@@ -182,8 +225,6 @@ const bottomParabola = new Barrier(
     // return [-xSpeedBefore, ySpeedBefore];
   }
 );
-
-
 const topParabola = new Barrier(
   'topParabola',
   [26, 65],
@@ -226,16 +267,16 @@ const Ball = function () {
   const self = this;
   this.element = document.getElementById ( 'gameBall' );
   this.xSpeed = -0.02; // +0.02;
-  this.ySpeed = -0.35;
+  this.ySpeed = 0; // -0.35
   this.yAcceleration = 0.0001;
   this.xAcceleration = 0;
   this.delta = DELTA;
   // work with surfaces and self force
   this.surface = {};
   this.x = 305;
-  this.element.setAttribute ( "cx", 305);
-  this.y = 395;
-  this.element.setAttribute ( "cy", 395);
+  this.element.setAttribute ( "cx", this.x);
+  this.y = 255; // 395
+  this.element.setAttribute ( "cy", this.y);
   this.bang = false;
   this.init = function init(stopFunc) {
     this.stopCallBack = stopFunc;
@@ -305,6 +346,21 @@ const Ball = function () {
           breakSpeedFunc.apply(self, leftBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
         }
         self.surface = leftBatBarrier;
+      }
+    }
+
+    // check if in spring zone
+    if (x <= 320 && x >= 290 && y <=450 && y>= 380) {
+      console.log('herhehr');
+      const springtBarrier = gameSpring.getCurrentBarrier();
+      if (springtBarrier.checkBreak(x, y)) {
+        console.log('1111');
+        isBreak = true;
+        if (self.surface && self.surface.id === springtBarrier.id) {
+        } else {
+          breakSpeedFunc.apply(self, springtBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        }
+        self.surface = springtBarrier;
       }
     }
     if (isBreak == false) {
