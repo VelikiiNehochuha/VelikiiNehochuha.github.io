@@ -20,12 +20,15 @@ footer{ flex: 0 0 auto; }
 }
 
 .buttons-group {
-  margin-bottom: 5px;
+  width: 100%;
+  margin-top: 0px;
 }
 
 .buttons-group button {
   margin-right: 43px;
   padding: 6px 20px;
+  border: 0px;
+  background-color: gray;
 }
 
 .buttons-group :last-child {
