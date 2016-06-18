@@ -1,0 +1,53 @@
+html{ height: 100%; }
+body{ display: flex; flex-direction: column; height: 100%;}
+header{ flex: 0 0 auto; }
+.wrap-content{ flex: 1 0 auto; }
+.main-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.main-content section { width: 320px; }
+footer{ flex: 0 0 auto; }
+.st0{fill:black;}
+.st1{fill:green;}
+.st2{fill:white;}
+.multik {
+  background-color: green;
+  width: 320px;
+  height: 500px;
+}
+
+.buttons-group {
+  width: 100%;
+  margin-top: 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons-group button {
+  margin-right: 43px;
+  padding: 10px;
+  border: 0px;
+  background-color: gray;
+}
+
+.buttons-group :last-child {
+  margin-right: 0px;
+}
+
+.spring {
+  opacity: 0.0;
+}
+
+#spring {
+  pointer-events: bounding-box; /* clickable full box*/
+}
+
+#spring0 {
+  opacity: 1.0;
+}
+#springSurface0 {
+  opacity: 1.0;
+}

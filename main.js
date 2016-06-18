@@ -4,6 +4,18 @@ function getRandomArbitary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+function changeAngle(xSpeedBefore, ySpeedBefore, der) {
+  let derivative = der;
+  const tAngle = Math.atan(derivative);
+  const vAngle = Math.atan(ySpeedBefore / xSpeedBefore);
+  const diffAngle = tAngle - vAngle;
+  const resAngle = diffAngle*2;
+  const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
+  const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
+  return [xSpeedAfter, ySpeedAfter];
+}
+
+
 const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBreak, getCaptureSurfaceSpeed, limit=1) {
   const self = this;
   this.id = id;
@@ -108,10 +120,11 @@ const Spring = function (elements) {
         }
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
-        return [xSpeedBefore, -ySpeedBefore];
+        return [xSpeedBefore*0.5, -ySpeedBefore*0.5];
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
         // return [-xSpeedBefore, ySpeedBefore];
+        return [0, 0];
       },
       5
     );
@@ -165,15 +178,8 @@ const upPipeArc = new Barrier(
     return (170 - Math.sqrt(25000 - Math.pow(x - 160, 2)) );
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    const derivative = - (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
-    const tAngle = Math.atan(derivative);
-    const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-    const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
-    const normAngle = (diffAngle > Math.PI/2) ? (Math.PI - diffAngle) : diffAngle;
-    const resAngle = normAngle*2;
-    const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-    const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-    return [-xSpeedAfter*0.9, -ySpeedAfter*0.9];
+    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     // return [-xSpeedBefore, ySpeedBefore];
@@ -188,15 +194,8 @@ const bottomPipeArc = new Barrier(
     return (170 -Math.sqrt(18400 - Math.pow(x - 161, 2)) );
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    const derivative = - (x - 161) / Math.sqrt(18400 - Math.pow(x - 161, 2));
-    const tAngle = Math.atan(derivative);
-    const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-    const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
-    const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
-    const resAngle = - normAngle*2;
-    const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-    const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-    return [xSpeedAfter*0.9, ySpeedAfter*0.9];
+    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     // return [-xSpeedBefore, ySpeedBefore];
@@ -212,14 +211,7 @@ const bottomParabola = new Barrier(
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     const derivative = 5 / Math.sqrt(x - 2);
-    const tAngle = Math.atan(derivative);
-    const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-    const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
-    const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
-    const resAngle = - normAngle*2;
-    const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-    const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-    return [xSpeedAfter*0.7, ySpeedAfter*0.7];
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     // return [-xSpeedBefore, ySpeedBefore];
@@ -235,17 +227,7 @@ const topParabola = new Barrier(
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     const derivative = 1 / (Math.sqrt(x - 26));
-    const tAngle = Math.atan(derivative);
-    const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-    const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
-    const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
-    const resAngle = - normAngle*2;
-
-    const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-    const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-    console.log(resAngle * 180 / Math.PI, xSpeedBefore, ySpeedBefore, xSpeedAfter, ySpeedAfter);
-    COUNT = COUNT + 1;
-    return [-xSpeedAfter*0.5, ySpeedAfter*0.7];
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     // return [-xSpeedBefore, ySpeedBefore];
@@ -267,8 +249,8 @@ const Ball = function () {
   const self = this;
   this.element = document.getElementById ( 'gameBall' );
   this.xSpeed = -0.02; // +0.02;
-  this.ySpeed = 0; // -0.35
-  this.yAcceleration = 0.0001;
+  this.ySpeed = -0.28;
+  this.yAcceleration = 0.00005;
   this.xAcceleration = 0;
   this.delta = DELTA;
   // work with surfaces and self force
@@ -298,7 +280,6 @@ const Ball = function () {
   };
   this.getNewPosition = function getNewPosition() {
     let cxNew, cyNew;
-    const e = document.getElementById ( 'gameBall' );
     const cxPrev = self.element.getAttribute( 'cx' );
     const cyPrev = self.element.getAttribute( 'cy' );
     cyNew = parseFloat(cyPrev) + self.ySpeed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
@@ -351,12 +332,11 @@ const Ball = function () {
 
     // check if in spring zone
     if (x <= 320 && x >= 290 && y <=450 && y>= 380) {
-      console.log('herhehr');
       const springtBarrier = gameSpring.getCurrentBarrier();
       if (springtBarrier.checkBreak(x, y)) {
-        console.log('1111');
         isBreak = true;
         if (self.surface && self.surface.id === springtBarrier.id) {
+          breakSpeedFunc.apply(self, springtBarrier.getCaptureSurfaceSpeed(x, y, xSpeedBefore, ySpeedBefore));
         } else {
           breakSpeedFunc.apply(self, springtBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
         }
@@ -367,6 +347,7 @@ const Ball = function () {
       self.surface = {};
       simpleSpeedFunc();
     }
+
     return isBreak;
   };
 };
