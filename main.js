@@ -8,8 +8,8 @@ function getRandomArbitary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function changeAngle(xSpeedBefore, ySpeedBefore, der) {
-  let derivative = der;
+function changeAngle(xSpeedBefore, ySpeedBefore, tan) {
+  let derivative = tan;
   const tAngle = Math.atan(derivative);
   const vAngle = Math.atan(ySpeedBefore / xSpeedBefore);
   const diffAngle = tAngle - vAngle;
@@ -27,6 +27,14 @@ function reboundSpeed(xSpeedBefore, ySpeedBefore, angle) {
   const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
   const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
   return [xSpeedAfter, ySpeedAfter];
+}
+
+function getAccelerationSurfaceMovement(derivative) {
+  const angle = Math.atan(derivative);
+  const Acceleration = DEFAULT_Y_ACCELERATION * Math.sin(angle);
+  const newYAcceleration = Acceleration * Math.sin(angle);
+  const newXAcceleration = Acceleration * Math.cos(angle);
+  return [newXAcceleration, newYAcceleration];
 }
 
 
@@ -64,47 +72,50 @@ const Spring = function (elements) {
   const self = this;
   this.elements = elements;
   this.count = 0;
-  this.animateSpring = function animateSpring() {
-    if (self.count < 5) {
-      self.count = self.count + 1; // self.count + 1;
-      for(let i=0; i<self.elements.length; i++) {
-        self.elements[i].style.opacity = '0.0';
+  self.speed = 0;
+  self.compressions = null;
+  self.noBarrier = false;
+
+  this.getNewPosition = function getNewPosition() {
+    if (self.compressions === null) {
+      // static
+      self.speed = 0;
+    } else if (self.compressions === false) {
+      if (self.count < 5) {
+        self.count = self.count + 1; // self.count + 1;
+        for(let i=0; i<self.elements.length; i++) {
+          self.elements[i].style.opacity = '0.0';
+        }
+        const currentSpring = document.getElementById('spring' + self.count);
+        currentSpring.style.opacity = '1.0';
+        const currentSpringSurface = document.getElementById('springSurface' + self.count);
+        currentSpringSurface.style.opacity = '1.0';
       }
-      const currentSpring = document.getElementById('spring' + self.count);
-      currentSpring.style.opacity = '1.0';
+    } else if (self.compressions === true) {
+      if (self.count > 0) {
+        self.count = self.count - 1;
+        self.speed = -0.3; // spped
+        for(let i=0; i<self.elements.length; i++) {
+          self.elements[i].style.opacity = '0.0';
+        }
+        const currentSpring = document.getElementById('spring' + self.count);
+        currentSpring.style.opacity = '1.0';
 
-      const currentSpringSurface = document.getElementById('springSurface' + self.count);
-      currentSpringSurface.style.opacity = '1.0';
-    }
-  };
-
-  this.animateSpringDecompression = function animateSpringDecompression() {
-    if (self.count > 0) {
-      self.count = self.count - 1;
-      for(let i=0; i<self.elements.length; i++) {
-        self.elements[i].style.opacity = '0.0';
+        const currentSpringSurface = document.getElementById('springSurface' + self.count);
+        currentSpringSurface.style.opacity = '1.0';
+      } else {
+        self.speed = 0;
+        self.compressions = null;
       }
-      const currentSpring = document.getElementById('spring' + self.count);
-      currentSpring.style.opacity = '1.0';
+    }
+  };
 
-      const currentSpringSurface = document.getElementById('springSurface' + self.count);
-      currentSpringSurface.style.opacity = '1.0';
-    } else {
-      clearInterval(self.springIntervalDecompression);
+  this.setCompression = function setCompression(compressions) {
+    if (compressions === true) {
+      self.compressions = true;
+    } else if (compressions === false) {
+      self.compressions = false;
     }
-  };
-  this.startSpringTime = function startSpringTime(e) {
-    if (e) {
-      e.preventDefault();
-    }
-    self.springIntervalCompression = setInterval(self.animateSpring, 100);
-  };
-  this.stopSpringTime = function stopSpringTime(e) {
-    if (e) {
-      e.preventDefault();
-    }
-    self.springIntervalDecompression = setInterval(self.animateSpringDecompression, 20);
-    clearInterval(self.springIntervalCompression);
   };
 
   this.getCurrentBarrier = function getCurrentBarrier() {
@@ -125,7 +136,7 @@ const Spring = function (elements) {
 
     const springPosition = new Barrier(
       'spring',
-      [296, 315],
+      [294, 315],
       yDiapason,
       function (x, y) {
         if (Math.floor(y) === yDiapason[0] || Math.ceil(y) === yDiapason[0]) {
@@ -135,128 +146,31 @@ const Spring = function (elements) {
         }
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
-        return [xSpeedBefore*0.5, -ySpeedBefore*0.5];
+        if (self.noBarrier === true) {
+          return [xSpeedBefore, -Math.abs(ySpeedBefore)];
+        } else {
+          return [xSpeedBefore*0.5, -ySpeedBefore*0.5];
+        }
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
         // return [-xSpeedBefore, ySpeedBefore];
-        return [0, 0];
+        const derivative = 0;
+        const newSpeed = changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+        let newRealSpeed;
+        if (self.compressions === true) {
+          newRealSpeed = -0.3;// + newSpeed[1];
+          self.noBarrier = true;
+          newSpeed[1] = newRealSpeed;
+          console.log('sum spped');
+        }
+        return [].concat(
+          newSpeed,
+          getAccelerationSurfaceMovement(derivative)
+        );
       },
-      5
+      3
     );
     return springPosition;
-  };
-};
-
-
-
-
-
-const Ball = function () {
-  const self = this;
-  this.element = document.getElementById ( 'gameBall' );
-  this.xSpeed = -0.02; // +0.02;
-  this.ySpeed = 0;
-  this.yAcceleration = DEFAULT_Y_ACCELERATION;
-  this.xAcceleration = DEFAULT_X_ACCELERATION;
-  this.delta = DELTA;
-  // work with surfaces and self force
-  this.surface = {};
-  this.x = 130;
-  this.element.setAttribute ( "cx", this.x);
-  this.y = 340; // 395
-  this.element.setAttribute ( "cy", this.y);
-  this.bang = false;
-  this.init = function init(stopFunc) {
-    this.stopCallBack = stopFunc;
-  };
-  this.stopBall = function stopBall() {
-    self.xSpeed = 0;
-    self.ySpeed = 0;
-    self.yAcceleration = 0;
-    self.xAcceleration = 0;
-    self.stopCallBack();
-  };
-  this.setBreakDinamics = function setDinamics(xSpeed, ySpeed, xAcceleration=DEFAULT_X_ACCELERATION, yAcceleration=DEFAULT_Y_ACCELERATION) {
-    self.xSpeed = xSpeed;
-    self.ySpeed = ySpeed;
-    self.xAcceleration = xAcceleration;
-    self.yAcceleration = yAcceleration;
-  };
-  this.defaultDinamics = function defaultDinamics() {
-    self.xAcceleration = DEFAULT_X_ACCELERATION;
-    self.yAcceleration = DEFAULT_Y_ACCELERATION;
-    self.xSpeed = self.xSpeed + self.xAcceleration * self.delta;
-    self.ySpeed = self.ySpeed + self.yAcceleration * self.delta;
-  };
-  this.getNewPosition = function getNewPosition() {
-    let cxNew, cyNew;
-    const cxPrev = self.element.getAttribute( 'cx' );
-    const cyPrev = self.element.getAttribute( 'cy' );
-    cyNew = parseFloat(cyPrev) + self.ySpeed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
-    cxNew = parseFloat(cxPrev) + self.xSpeed * self.delta + self.xAcceleration * self.delta * self.delta / 2;
-    self.element.setAttribute ( "cx", cxNew );
-    self.element.setAttribute ( "cy", cyNew );
-    self.checkBreakPoint(cxNew, cyNew, self.xSpeed, self.ySpeed, self.setBreakDinamics, self.defaultDinamics);
-    // self.stopBall();
-  };
-  this.checkBreakPoint = function checkBreakPoint(x, y, xSpeedBefore, ySpeedBefore, breakSpeedFunc, simpleSpeedFunc) {
-    let isBreak = false;
-    for (let i in barriers) {
-      if (barriers[i].checkBreak(x, y)) {
-        isBreak = true;
-        if (breakSpeedFunc) {
-          // check if prev surface equel current then get speed with self force
-          if (self.surface && self.surface.id === barriers[i]) {
-            console.log('self force calc');
-          } else {
-            breakSpeedFunc.apply(self, barriers[i].getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
-          }
-          self.surface = barriers[i];
-        }
-        // self.stopBall();
-        break;
-      }
-    }
-    // check if in bat zone
-    if (x <= 245 && x >= 60 && y <=470 && y>= 330) {
-      const rightBatBarrier = rightBat.getCurrentBarrier();
-      const leftBatBarrier = leftBat.getCurrentBarrier();
-      if (rightBatBarrier.checkBreak(x, y)) {
-        isBreak = true;
-        if (self.surface && self.surface.id === rightBatBarrier.id) {
-          console.log('self force calc');
-        } else {
-          breakSpeedFunc.apply(self, rightBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
-        }
-        self.surface = rightBatBarrier;
-      } else if (leftBatBarrier.checkBreak(x, y)) {
-        isBreak = true;
-        if (self.surface && self.surface.id === rightBatBarrier.id) {
-          console.log('self force calc');
-        } else {
-          breakSpeedFunc.apply(self, leftBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
-        }
-        self.surface = leftBatBarrier;
-      }
-    }
-    // check if in spring zone
-    if (x <= 320 && x >= 290 && y <=450 && y>= 380) {
-      const springtBarrier = gameSpring.getCurrentBarrier();
-      if (springtBarrier.checkBreak(x, y)) {
-        isBreak = true;
-        if (self.surface && self.surface.id === springtBarrier.id) {
-          breakSpeedFunc.apply(self, springtBarrier.getCaptureSurfaceSpeed(x, y, xSpeedBefore, ySpeedBefore));
-        } else {
-          breakSpeedFunc.apply(self, springtBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
-        }
-        self.surface = springtBarrier;
-      }
-    }
-    if (isBreak == false) {
-      self.surface = {};
-      simpleSpeedFunc();
-    }
-    return isBreak;
   };
 };
 
@@ -315,7 +229,11 @@ const Bat = function (element, clockwise=true) {
         return reboundSpeed(xSpeedBefore, ySpeedBefore, angle);
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
-        // return [-xSpeedBefore, ySpeedBefore];
+        const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+        return [].concat(
+          reboundSpeed(xSpeedBefore, ySpeedBefore, angle),
+          getAccelerationSurfaceMovement(Math.tan(angle))
+        );
       },
       3
     );
@@ -353,15 +271,127 @@ const Bat = function (element, clockwise=true) {
 };
 
 
-const Game = function (leftBat, rightBat) {
+const Ball = function () {
+  const self = this;
+  this.element = document.getElementById ( 'gameBall' );
+  this.xSpeed = 0; // +0.02;
+  this.ySpeed = 0;
+  this.yAcceleration = DEFAULT_Y_ACCELERATION;
+  this.xAcceleration = DEFAULT_X_ACCELERATION;
+  this.delta = DELTA;
+  // work with surfaces and self force
+  this.surface = {};
+  this.x = 300;
+  this.element.setAttribute ( "cx", this.x);
+  this.y = 340; // 395
+  this.element.setAttribute ( "cy", this.y);
+  this.bang = false;
+  this.init = function init(stopFunc) {
+    this.stopCallBack = stopFunc;
+  };
+  this.stopBall = function stopBall() {
+    self.xSpeed = 0;
+    self.ySpeed = 0;
+    self.yAcceleration = 0;
+    self.xAcceleration = 0;
+    self.stopCallBack();
+  };
+  this.setBreakDinamics = function setDinamics(xSpeed, ySpeed, xAcceleration=DEFAULT_X_ACCELERATION, yAcceleration=DEFAULT_Y_ACCELERATION) {
+    self.xSpeed = xSpeed;
+    self.ySpeed = ySpeed;
+    self.xAcceleration = xAcceleration;
+    self.yAcceleration = yAcceleration;
+  };
+  this.defaultDinamics = function defaultDinamics() {
+    self.xAcceleration = DEFAULT_X_ACCELERATION;
+    self.yAcceleration = DEFAULT_Y_ACCELERATION;
+    self.xSpeed = self.xSpeed + self.xAcceleration * self.delta;
+    self.ySpeed = self.ySpeed + self.yAcceleration * self.delta;
+  };
+  this.getNewPosition = function getNewPosition() {
+    let cxNew, cyNew;
+    const cxPrev = self.element.getAttribute( 'cx' );
+    const cyPrev = self.element.getAttribute( 'cy' );
+    cyNew = parseFloat(cyPrev) + self.ySpeed * self.delta + self.yAcceleration * self.delta * self.delta / 2;
+    cxNew = parseFloat(cxPrev) + self.xSpeed * self.delta + self.xAcceleration * self.delta * self.delta / 2;
+    self.element.setAttribute ( "cx", cxNew );
+    self.element.setAttribute ( "cy", cyNew );
+    self.checkBreakPoint(cxNew, cyNew, self.xSpeed, self.ySpeed, self.setBreakDinamics, self.defaultDinamics);
+    // self.stopBall();
+  };
+  this.checkBreakPoint = function checkBreakPoint(x, y, xSpeedBefore, ySpeedBefore, breakSpeedFunc, simpleSpeedFunc) {
+    let isBreak = false;
+    for (let i in barriers) {
+      if (barriers[i].checkBreak(x, y)) {
+        isBreak = true;
+        if (breakSpeedFunc) {
+          // check if prev surface equel current then get speed with self force
+          if (self.surface && self.surface.id === barriers[i].id) {
+            breakSpeedFunc.apply(self, barriers[i].getCaptureSurfaceSpeed(x, y, xSpeedBefore, ySpeedBefore));
+          } else {
+            breakSpeedFunc.apply(self, barriers[i].getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+          }
+          self.surface = barriers[i];
+        }
+        // self.stopBall();
+        break;
+      }
+    }
+    // check if in bat zone
+    if (x <= 245 && x >= 60 && y <=470 && y>= 330) {
+      const rightBatBarrier = rightBat.getCurrentBarrier();
+      const leftBatBarrier = leftBat.getCurrentBarrier();
+      if (rightBatBarrier.checkBreak(x, y)) {
+        isBreak = true;
+        if (self.surface && self.surface.id === rightBatBarrier.id) {
+          breakSpeedFunc.apply(self, rightBatBarrier.getCaptureSurfaceSpeed(x, y, xSpeedBefore, ySpeedBefore));
+        } else {
+          breakSpeedFunc.apply(self, rightBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        }
+        self.surface = rightBatBarrier;
+      } else if (leftBatBarrier.checkBreak(x, y)) {
+        isBreak = true;
+        if (self.surface && self.surface.id === rightBatBarrier.id) {
+          breakSpeedFunc.apply(self, leftBatBarrier.getCaptureSurfaceSpeed(x, y, xSpeedBefore, ySpeedBefore));
+        } else {
+          breakSpeedFunc.apply(self, leftBatBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        }
+        self.surface = leftBatBarrier;
+      }
+    }
+    // check if in spring zone
+    if (x <= 320 && x >= 290 && y <=450 && y>= 380) {
+      const springtBarrier = gameSpring.getCurrentBarrier();
+      if (springtBarrier.checkBreak(x, y)) {
+        isBreak = true;
+        if (self.surface && self.surface.id === springtBarrier.id) {
+          breakSpeedFunc.apply(self, springtBarrier.getCaptureSurfaceSpeed(x, y, xSpeedBefore, ySpeedBefore));
+        } else {
+          breakSpeedFunc.apply(self, springtBarrier.getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
+        }
+        self.surface = springtBarrier;
+      }
+    }
+    if (isBreak == false) {
+      self.surface = {};
+      simpleSpeedFunc();
+    }
+    return isBreak;
+  };
+};
+
+
+const Game = function (leftBat, rightBat, spring) {
   const self = this;
   this.leftBat = leftBat;
   this.rightBat = rightBat;
+  this.spring = spring;
 
   this.animate = function animate() {
+    self.gameBall.getNewPosition();
     self.leftBat.getNewPosition();
     self.rightBat.getNewPosition();
-    self.gameBall.getNewPosition();
+    self.spring.getNewPosition();
   };
   this.play = function play() {
     const gameBall = new Ball();
@@ -400,8 +430,9 @@ const rPipeLine = new Barrier(
     return [-xSpeedBefore, ySpeedBefore];
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
+    return [-xSpeedBefore, ySpeedBefore];
+  },
+  3
 );
 const leftPipeLine = new Barrier(
   'leftPipeLine',
@@ -418,8 +449,9 @@ const leftPipeLine = new Barrier(
     return [-xSpeedBefore, ySpeedBefore];
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
+    return [-xSpeedBefore, ySpeedBefore];
+  },
+  3
 );
 const upPipeArc = new Barrier(
   'upPipeArc',
@@ -434,8 +466,10 @@ const upPipeArc = new Barrier(
     return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
+    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+  },
+  3
 );
 const bottomPipeArc = new Barrier(
   'bottomPipeArc',
@@ -443,15 +477,20 @@ const bottomPipeArc = new Barrier(
   [5, 150],
   function (x, y) {
     // c = [(x,  (170 -(18400 - (x-161)**2)**(0.5) )  ) for x in xrange(0, 340) if (18400 - (x-161)**2) >  0]
-    return (170 -Math.sqrt(18400 - Math.pow(x - 161, 2)) );
+    return (170 - Math.sqrt(18400 - Math.pow(x - 161, 2)) );
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
     return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
+    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+    return [].concat(
+      [xSpeedBefore, ySpeedBefore],
+      getAccelerationSurfaceMovement(derivative)
+    );
+  },
+  3
 );
 const bottomParabola = new Barrier(
   'bottomParabola',
@@ -463,11 +502,17 @@ const bottomParabola = new Barrier(
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     const derivative = 5 / Math.sqrt(x - 2);
-    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+    const newSpeed = changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+    return [newSpeed[0]*0.7, newSpeed[1]*0.7];
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
+    const derivative = 5 / Math.sqrt(x - 2);
+    return [].concat(
+      changeAngle(xSpeedBefore, ySpeedBefore, derivative),
+      getAccelerationSurfaceMovement(derivative)
+    );
+  },
+  3
 );
 const topParabola = new Barrier(
   'topParabola',
@@ -482,8 +527,10 @@ const topParabola = new Barrier(
     return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
+    const derivative = 1 / (Math.sqrt(x - 26));
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+  },
+  3
 );
 
 const barriers = [
@@ -521,14 +568,15 @@ document.onkeyup = function (e) {
 const springElement = document.getElementById('spring');
 const springAnimatedElements = document.getElementsByClassName("spring");
 const gameSpring = new Spring(springAnimatedElements);
-springElement.onmousedown = gameSpring.startSpringTime.bind(null);
-springElement.onmouseup = gameSpring.stopSpringTime.bind(null);
-springElement.touchstart = gameSpring.startSpringTime.bind(null); // touch actions
-springElement.touchend = gameSpring.stopSpringTime.bind(null); // touch actions
+
+// springElement.touchstart = gameSpring.startSpringTime.bind(null); // touch actions
+// springElement.touchend = gameSpring.stopSpringTime.bind(null); // touch actions
 
 
-const game = new Game(leftBat, rightBat);
+const game = new Game(leftBat, rightBat, gameSpring);
 game.play();
+springElement.onmousedown = game.spring.setCompression.bind(null, false);
+springElement.onmouseup = game.spring.setCompression.bind(null, true);
 
 const stop = document.getElementById('stop');
 const start = document.getElementById('start');

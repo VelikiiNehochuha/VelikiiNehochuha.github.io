@@ -46,6 +46,14 @@ const lineBarier = new Barrier(
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     // return [-xSpeedBefore, ySpeedBefore];
+    const derivative = -0.5;
+    const angle = Math.atan(derivative);
+    const Acceleration = DEFAULT_Y_ACCELERATION * Math.sin(angle);
+    const newYAcceleration = Acceleration * Math.sin(angle);
+    const newXAcceleration = Acceleration * Math.cos(angle);
+    const newSpeed =  changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+    return [newSpeed[0], newSpeed[1], newXAcceleration, newYAcceleration];
+
   },
   1
 );
@@ -68,7 +76,7 @@ const barriers = [
 const Ball = function () {
   const self = this;
   this.element = document.getElementById ( 'gameBall' );
-  this.xSpeed = -0.02; // +0.02;
+  this.xSpeed = 0; // +0.02;
   this.ySpeed = 0;
   this.yAcceleration = DEFAULT_Y_ACCELERATION;
   this.xAcceleration = DEFAULT_X_ACCELERATION;
@@ -77,7 +85,7 @@ const Ball = function () {
   this.surface = {};
   this.x = 130;
   this.element.setAttribute ( "cx", this.x);
-  this.y = 340; // 395
+  this.y = 127; // 395
   this.element.setAttribute ( "cy", this.y);
   this.bang = false;
   this.init = function init(stopFunc) {
@@ -122,6 +130,7 @@ const Ball = function () {
           // check if prev surface equel current then get speed with self force
           if (self.surface && self.surface.id === barriers[i]) {
             console.log('self force calc');
+            breakSpeedFunc.apply(self, barriers[i].getCaptureSurfaceSpeed(x, y, xSpeedBefore, ySpeedBefore));
           } else {
             breakSpeedFunc.apply(self, barriers[i].getSpeedAfterBreak(x, y, xSpeedBefore, ySpeedBefore));
           }
