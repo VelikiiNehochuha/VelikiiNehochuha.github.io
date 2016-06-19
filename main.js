@@ -16,6 +16,17 @@ function changeAngle(xSpeedBefore, ySpeedBefore, der) {
 }
 
 
+function reboundSpeed(xSpeedBefore, ySpeedBefore, angle) {
+  const tAngle = angle;
+  const vAngle = Math.atan(ySpeedBefore / xSpeedBefore);
+  const diffAngle = tAngle - vAngle;
+  const resAngle = diffAngle*2;
+  const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
+  const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
+  return [xSpeedAfter, ySpeedAfter];
+}
+
+
 const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBreak, getCaptureSurfaceSpeed, limit=1) {
   const self = this;
   this.id = id;
@@ -249,15 +260,15 @@ const Ball = function () {
   const self = this;
   this.element = document.getElementById ( 'gameBall' );
   this.xSpeed = -0.02; // +0.02;
-  this.ySpeed = -0.28;
-  this.yAcceleration = 0.00005;
+  this.ySpeed = 0;
+  this.yAcceleration = 0.0001;
   this.xAcceleration = 0;
   this.delta = DELTA;
   // work with surfaces and self force
   this.surface = {};
-  this.x = 305;
+  this.x = 130;
   this.element.setAttribute ( "cx", this.x);
-  this.y = 255; // 395
+  this.y = 340; // 395
   this.element.setAttribute ( "cy", this.y);
   this.bang = false;
   this.init = function init(stopFunc) {
@@ -386,23 +397,25 @@ const Bat = function (element, clockwise=true) {
       id = 'rightBat';
     }
 
+    let xDiapason;
+    if (self.clockwise) {
+      xDiapason = [60, 60 + x2];
+      yDiapason = [Math.min(self.yRotate, self.yRotate + y2), Math.max(self.yRotate, self.yRotate + y2)];
+    } else {
+      xDiapason = [160 - x2, 160];
+      yDiapason = [Math.min(self.yRotate, self.yRotate - y2), Math.max(self.yRotate, self.yRotate - y2)];
+    }
+
     const batPosition = new Barrier(
       id,
-      [Math.min(self.xRotate, x2), Math.max(self.xRotate, x2)],
-      [Math.min(self.yRotate, y2), Math.max(self.yRotate, y2)],
+      xDiapason,
+      yDiapason,
       function (x, y) {
         const y1 = tan * x + b;
         return y1;
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
-        const tAngle = angle;
-        const vAngle = Math.atan(xSpeedBefore / ySpeedBefore);
-        const diffAngle = Math.abs(Math.abs(tAngle < 0 ? (Math.PI + tAngle) : tAngle) - Math.abs(vAngle < 0 ? (Math.PI + vAngle) : vAngle));
-        const normAngle = (diffAngle > Math.PI / 2) ? (Math.PI - diffAngle) : diffAngle;
-        const resAngle = normAngle*2;
-        const xSpeedAfter = xSpeedBefore * Math.cos(resAngle) - ySpeedBefore * Math.sin(resAngle);
-        const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
-        return [xSpeedAfter, ySpeedAfter];
+        return reboundSpeed(xSpeedBefore, ySpeedBefore, angle);
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
         // return [-xSpeedBefore, ySpeedBefore];

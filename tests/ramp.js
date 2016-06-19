@@ -30,14 +30,13 @@ const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBre
   };
 };
 
-
 const lineBarier = new Barrier(
   'topParabola',
-  [0, 320],
-  [0, 500],
+  [50, 200],
+  [100, 175],
   function (x, y) {
     // c = [(x, (5*(x-26)**0.5 + 156)  ) for x in xrange(0, 340) if (x <= 60) and (x >= 26)]
-    return (50 -0.5*(x));
+    return (200 -0.5*(x));
   },
   function (x, y, xSpeedBefore, ySpeedBefore) {
     const derivative = -0.5;
@@ -46,9 +45,8 @@ const lineBarier = new Barrier(
   function (x, y, xSpeedBefore, ySpeedBefore) {
     // return [-xSpeedBefore, ySpeedBefore];
   },
-  10
+  1
 );
-
 
 function changeAngle(xSpeedBefore, ySpeedBefore, der) {
   let derivative = der;
@@ -61,89 +59,24 @@ function changeAngle(xSpeedBefore, ySpeedBefore, der) {
   return [xSpeedAfter, ySpeedAfter];
 }
 
-
-function test() {
-  let res = changeAngle(0.29999999999999993, 0.05000000000000009, 1);
-  if (res[0] === 0.05000000000000009 && res[1] === 0.29999999999999993) {
-    console.log('ok');
-  } else {
-    throw Error('0.29999999999999993, 0.05000000000000009, 1');
-  }
-
-  res = changeAngle(-0.002, 0.2, 1);
-  if (res[0] === 0.2 && res[1] === -0.0019999999999999723) {
-    console.log('ok');
-  } else {
-    throw Error('-0.002, 0.2, 1');
-  }
-
-  res = changeAngle(-0.02, -0.01, 50);
-  if (res[0] === 0.019584166333466612 && res[1] === -0.010791683326669334) {
-    console.log('ok');
-  } else {
-    throw Error('-0.02, -0.01, 50');
-  }
-
-  res = changeAngle(-0.02, 0.2, 50);
-  if (res[0] === 0.027980807676929207 && res[1] === 0.19904038384646142) {
-    console.log('ok');
-  } else {
-    throw Error('-0.02, -0.01, 50');
-  }
-
-  res = changeAngle(0.02, -0.02, 50);
-  if (res[0] === -0.020783686525389845 && res[1] === -0.0191843262694922) {
-    console.log('ok');
-  } else {
-    throw Error('0.02 -0.02, 50');
-  }
-
-  res = changeAngle(0.02, -0.04, -1);
-  if (res[0] === 0.039999999999999994 && res[1] === -0.020000000000000004) {
-    console.log('ok');
-  } else {
-    throw Error('0.02, -0.04, -1');
-  }
-
-  res = changeAngle(0.02, 0.04, -1);
-  if (res[0] === -0.039999999999999994 && res[1] === -0.02000000000000001) {
-    console.log('ok');
-  } else {
-    throw Error('0.02, 0.04, -1');
-  }
-
-  res = changeAngle(0.02, -0.04, -0.5);
-  if (res[0] === 0.044000000000000004 && res[1] === 0.007999999999999988) {
-    console.log('ok');
-  } else {
-    throw Error('0.02, -0.04, -0.5');
-  }
-
-}
-
-test();
-
-
 const barriers = [
-  lineBarier
+  // lineBarier
 ];
-
 
 const Ball = function () {
   const self = this;
   this.element = document.getElementById ( 'gameBall' );
-  this.xSpeed = 0.02;
-  this.ySpeed = -0.04;
+  this.xSpeed = -0.01;
+  this.ySpeed = 0.1;
 
-
-  this.yAcceleration = 0;
+  this.yAcceleration = 0.0001;
   this.xAcceleration = 0;
   this.delta = DELTA;
   // work with surfaces and self force
   this.surface = {};
-  this.x = 10;
+  this.x = 300;
   this.element.setAttribute ( "cx", this.x);
-  this.y = 70; // 395
+  this.y = 10; // 395
   this.element.setAttribute ( "cy", this.y);
   this.bang = false;
   this.init = function init(stopFunc) {
@@ -194,11 +127,14 @@ const Ball = function () {
       }
     }
 
+    if (isBreak == false) {
+      self.surface = {};
+      simpleSpeedFunc();
+    }
+
     return isBreak;
   };
 };
-
-
 
 
 const Game = function () {
@@ -230,6 +166,3 @@ const Game = function () {
 
 const game = new Game();
 game.play();
-
-
-
