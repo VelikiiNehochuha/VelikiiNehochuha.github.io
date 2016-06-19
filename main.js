@@ -56,6 +56,7 @@ const Barrier = function (id, xDiapason, yDiapason, getBarrier, getSpeedAfterBre
   };
 };
 
+
 const Spring = function (elements) {
   const self = this;
   this.elements = elements;
@@ -245,7 +246,6 @@ const topParabola = new Barrier(
   }
 );
 
-
 const barriers = [
   rPipeLine,
   leftPipeLine,
@@ -340,7 +340,6 @@ const Ball = function () {
         self.surface = leftBatBarrier;
       }
     }
-
     // check if in spring zone
     if (x <= 320 && x >= 290 && y <=450 && y>= 380) {
       const springtBarrier = gameSpring.getCurrentBarrier();
@@ -358,7 +357,6 @@ const Ball = function () {
       self.surface = {};
       simpleSpeedFunc();
     }
-
     return isBreak;
   };
 };
