@@ -68,17 +68,16 @@ const barriers = [
 const Ball = function () {
   const self = this;
   this.element = document.getElementById ( 'gameBall' );
-  this.xSpeed = -0.01;
-  this.ySpeed = 0.1;
-
+  this.xSpeed = -0.02; // +0.02;
+  this.ySpeed = 0;
   this.yAcceleration = DEFAULT_Y_ACCELERATION;
   this.xAcceleration = DEFAULT_X_ACCELERATION;
   this.delta = DELTA;
   // work with surfaces and self force
   this.surface = {};
-  this.x = 300;
+  this.x = 130;
   this.element.setAttribute ( "cx", this.x);
-  this.y = 10; // 395
+  this.y = 340; // 395
   this.element.setAttribute ( "cy", this.y);
   this.bang = false;
   this.init = function init(stopFunc) {
@@ -91,7 +90,7 @@ const Ball = function () {
     self.xAcceleration = 0;
     self.stopCallBack();
   };
-  this.setDinamics = function setDinamics(xSpeed, ySpeed, xAcceleration=DEFAULT_X_ACCELERATION, yAcceleration=DEFAULT_Y_ACCELERATION) {
+  this.setBreakDinamics = function setDinamics(xSpeed, ySpeed, xAcceleration=DEFAULT_X_ACCELERATION, yAcceleration=DEFAULT_Y_ACCELERATION) {
     self.xSpeed = xSpeed;
     self.ySpeed = ySpeed;
     self.xAcceleration = xAcceleration;
@@ -100,6 +99,8 @@ const Ball = function () {
   this.defaultDinamics = function defaultDinamics() {
     self.xAcceleration = DEFAULT_X_ACCELERATION;
     self.yAcceleration = DEFAULT_Y_ACCELERATION;
+    self.xSpeed = self.xSpeed + self.xAcceleration * self.delta;
+    self.ySpeed = self.ySpeed + self.yAcceleration * self.delta;
   };
   this.getNewPosition = function getNewPosition() {
     let cxNew, cyNew;
@@ -109,7 +110,7 @@ const Ball = function () {
     cxNew = parseFloat(cxPrev) + self.xSpeed * self.delta + self.xAcceleration * self.delta * self.delta / 2;
     self.element.setAttribute ( "cx", cxNew );
     self.element.setAttribute ( "cy", cyNew );
-    self.checkBreakPoint(cxNew, cyNew, self.xSpeed, self.ySpeed, self.setDinamics, self.defaultDinamics);
+    self.checkBreakPoint(cxNew, cyNew, self.xSpeed, self.ySpeed, self.setBreakDinamics, self.defaultDinamics);
     // self.stopBall();
   };
   this.checkBreakPoint = function checkBreakPoint(x, y, xSpeedBefore, ySpeedBefore, breakSpeedFunc, simpleSpeedFunc) {
@@ -135,7 +136,6 @@ const Ball = function () {
       self.surface = {};
       simpleSpeedFunc();
     }
-
     return isBreak;
   };
 };

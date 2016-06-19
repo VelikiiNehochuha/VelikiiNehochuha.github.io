@@ -1,5 +1,9 @@
 const OUT = 99999999999;
 const DELTA = 10;
+const DEFAULT_Y_ACCELERATION = 0.0001;
+const DEFAULT_X_ACCELERATION = 0.0;
+
+
 function getRandomArbitary(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -14,7 +18,6 @@ function changeAngle(xSpeedBefore, ySpeedBefore, der) {
   const ySpeedAfter = xSpeedBefore * Math.sin(resAngle) + ySpeedBefore * Math.cos(resAngle);
   return [xSpeedAfter, ySpeedAfter];
 }
-
 
 function reboundSpeed(xSpeedBefore, ySpeedBefore, angle) {
   const tAngle = angle;
@@ -145,115 +148,7 @@ const Spring = function (elements) {
 };
 
 
-const rPipeLine = new Barrier(
-  'rPipeLine',
-  [315, 315],
-  [134, 500],
-  function (x, y) {
-    if (Math.floor(x) === 315 || Math.ceil(x) === 315) {
-      return y;
-    } else {
-      return OUT;
-    }
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    return [-xSpeedBefore, ySpeedBefore];
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
-);
-const leftPipeLine = new Barrier(
-  'leftPipeLine',
-  [296, 296],
-  [150, 500],
-  function (x, y) {
-    if (Math.floor(x) === 296 || Math.ceil(x) === 296) {
-      return y;
-    } else {
-      return OUT;
-    }
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    return [-xSpeedBefore, ySpeedBefore];
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
-);
-const upPipeArc = new Barrier(
-  'upPipeArc',
-  [5, 315],
-  [10, 150],
-  function (x, y) {
-    // c = [(x,  (170 -(25000 - (x-160)**2)**(0.5) )  ) for x in xrange(0, 340) if ((25000 - (x-160)**2) >  0) and (x <= 315) and (x >= 5)]
-    return (170 - Math.sqrt(25000 - Math.pow(x - 160, 2)) );
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
-    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
-);
-const bottomPipeArc = new Barrier(
-  'bottomPipeArc',
-  [5, 315],
-  [5, 150],
-  function (x, y) {
-    // c = [(x,  (170 -(18400 - (x-161)**2)**(0.5) )  ) for x in xrange(0, 340) if (18400 - (x-161)**2) >  0]
-    return (170 -Math.sqrt(18400 - Math.pow(x - 161, 2)) );
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
-    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
-);
-const bottomParabola = new Barrier(
-  'bottomParabola',
-  [2, 65],
-  [160, 250],
-  function (x, y) {
-    // c = [(x, (10*(x-2)**0.5 + 164)  ) for x in xrange(0, 340) if (x <= 60) and (x >= 2)]
-    return (164 + 10 * Math.sqrt(x - 2) );
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    const derivative = 5 / Math.sqrt(x - 2);
-    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
-);
-const topParabola = new Barrier(
-  'topParabola',
-  [26, 65],
-  [160, 170],
-  function (x, y) {
-    // c = [(x, (5*(x-26)**0.5 + 156)  ) for x in xrange(0, 340) if (x <= 60) and (x >= 26)]
-    return (156 + 2 * Math.sqrt(x - 26) );
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    const derivative = 1 / (Math.sqrt(x - 26));
-    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
-  },
-  function (x, y, xSpeedBefore, ySpeedBefore) {
-    // return [-xSpeedBefore, ySpeedBefore];
-  }
-);
 
-const barriers = [
-  rPipeLine,
-  leftPipeLine,
-  upPipeArc,
-  bottomPipeArc,
-  bottomParabola,
-  topParabola
-];
 
 
 const Ball = function () {
@@ -261,8 +156,8 @@ const Ball = function () {
   this.element = document.getElementById ( 'gameBall' );
   this.xSpeed = -0.02; // +0.02;
   this.ySpeed = 0;
-  this.yAcceleration = 0.0001;
-  this.xAcceleration = 0;
+  this.yAcceleration = DEFAULT_Y_ACCELERATION;
+  this.xAcceleration = DEFAULT_X_ACCELERATION;
   this.delta = DELTA;
   // work with surfaces and self force
   this.surface = {};
@@ -281,11 +176,15 @@ const Ball = function () {
     self.xAcceleration = 0;
     self.stopCallBack();
   };
-  this.setNewSpeed = function setNewSpeed(xSpeed, ySpeed) {
+  this.setBreakDinamics = function setDinamics(xSpeed, ySpeed, xAcceleration=DEFAULT_X_ACCELERATION, yAcceleration=DEFAULT_Y_ACCELERATION) {
     self.xSpeed = xSpeed;
     self.ySpeed = ySpeed;
+    self.xAcceleration = xAcceleration;
+    self.yAcceleration = yAcceleration;
   };
-  this.getNewSpeed = function getNewSpeed() {
+  this.defaultDinamics = function defaultDinamics() {
+    self.xAcceleration = DEFAULT_X_ACCELERATION;
+    self.yAcceleration = DEFAULT_Y_ACCELERATION;
     self.xSpeed = self.xSpeed + self.xAcceleration * self.delta;
     self.ySpeed = self.ySpeed + self.yAcceleration * self.delta;
   };
@@ -297,7 +196,7 @@ const Ball = function () {
     cxNew = parseFloat(cxPrev) + self.xSpeed * self.delta + self.xAcceleration * self.delta * self.delta / 2;
     self.element.setAttribute ( "cx", cxNew );
     self.element.setAttribute ( "cy", cyNew );
-    self.checkBreakPoint(cxNew, cyNew, self.xSpeed, self.ySpeed, self.setNewSpeed, self.getNewSpeed);
+    self.checkBreakPoint(cxNew, cyNew, self.xSpeed, self.ySpeed, self.setBreakDinamics, self.defaultDinamics);
     // self.stopBall();
   };
   this.checkBreakPoint = function checkBreakPoint(x, y, xSpeedBefore, ySpeedBefore, breakSpeedFunc, simpleSpeedFunc) {
@@ -453,33 +352,15 @@ const Bat = function (element, clockwise=true) {
   };
 };
 
-const leftBatElement = document.getElementById('left-bat');
-const rightBatElement = document.getElementById('right-bat');
-const leftBat = new Bat(leftBatElement, true);
-const rightBat = new Bat(rightBatElement, false);
-leftBat.init();
-rightBat.init();
-document.onkeydown = function (e) {
-  if (e.keyCode === 65) {
-    leftBat.setPower();
-  } else if (e.keyCode === 68) {
-    rightBat.setPower();
-  }
-};
-document.onkeyup = function (e) {
-  if (e.keyCode === 65) {
-    leftBat.zeroPower();
-  } else if (e.keyCode === 68) {
-    rightBat.zeroPower();
-  }
-};
 
-
-const Game = function () {
+const Game = function (leftBat, rightBat) {
   const self = this;
+  this.leftBat = leftBat;
+  this.rightBat = rightBat;
+
   this.animate = function animate() {
-    leftBat.getNewPosition();
-    rightBat.getNewPosition();
+    self.leftBat.getNewPosition();
+    self.rightBat.getNewPosition();
     self.gameBall.getNewPosition();
   };
   this.play = function play() {
@@ -503,6 +384,139 @@ const Game = function () {
   };
 };
 
+/* ------------------------------------Barriers----------------------------- */
+const rPipeLine = new Barrier(
+  'rPipeLine',
+  [315, 315],
+  [134, 500],
+  function (x, y) {
+    if (Math.floor(x) === 315 || Math.ceil(x) === 315) {
+      return y;
+    } else {
+      return OUT;
+    }
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    return [-xSpeedBefore, ySpeedBefore];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
+  }
+);
+const leftPipeLine = new Barrier(
+  'leftPipeLine',
+  [296, 296],
+  [150, 500],
+  function (x, y) {
+    if (Math.floor(x) === 296 || Math.ceil(x) === 296) {
+      return y;
+    } else {
+      return OUT;
+    }
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    return [-xSpeedBefore, ySpeedBefore];
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
+  }
+);
+const upPipeArc = new Barrier(
+  'upPipeArc',
+  [5, 315],
+  [10, 150],
+  function (x, y) {
+    // c = [(x,  (170 -(25000 - (x-160)**2)**(0.5) )  ) for x in xrange(0, 340) if ((25000 - (x-160)**2) >  0) and (x <= 315) and (x >= 5)]
+    return (170 - Math.sqrt(25000 - Math.pow(x - 160, 2)) );
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
+  }
+);
+const bottomPipeArc = new Barrier(
+  'bottomPipeArc',
+  [5, 315],
+  [5, 150],
+  function (x, y) {
+    // c = [(x,  (170 -(18400 - (x-161)**2)**(0.5) )  ) for x in xrange(0, 340) if (18400 - (x-161)**2) >  0]
+    return (170 -Math.sqrt(18400 - Math.pow(x - 161, 2)) );
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
+  }
+);
+const bottomParabola = new Barrier(
+  'bottomParabola',
+  [2, 65],
+  [160, 250],
+  function (x, y) {
+    // c = [(x, (10*(x-2)**0.5 + 164)  ) for x in xrange(0, 340) if (x <= 60) and (x >= 2)]
+    return (164 + 10 * Math.sqrt(x - 2) );
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    const derivative = 5 / Math.sqrt(x - 2);
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
+  }
+);
+const topParabola = new Barrier(
+  'topParabola',
+  [26, 65],
+  [160, 170],
+  function (x, y) {
+    // c = [(x, (5*(x-26)**0.5 + 156)  ) for x in xrange(0, 340) if (x <= 60) and (x >= 26)]
+    return (156 + 2 * Math.sqrt(x - 26) );
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    const derivative = 1 / (Math.sqrt(x - 26));
+    return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
+  },
+  function (x, y, xSpeedBefore, ySpeedBefore) {
+    // return [-xSpeedBefore, ySpeedBefore];
+  }
+);
+
+const barriers = [
+  rPipeLine,
+  leftPipeLine,
+  upPipeArc,
+  bottomPipeArc,
+  bottomParabola,
+  topParabola
+];
+
+const leftBatElement = document.getElementById('left-bat');
+const rightBatElement = document.getElementById('right-bat');
+const leftBat = new Bat(leftBatElement, true);
+const rightBat = new Bat(rightBatElement, false);
+leftBat.init();
+rightBat.init();
+
+document.onkeydown = function (e) {
+  if (e.keyCode === 65) {
+    leftBat.setPower();
+  } else if (e.keyCode === 68) {
+    rightBat.setPower();
+  }
+};
+document.onkeyup = function (e) {
+  if (e.keyCode === 65) {
+    leftBat.zeroPower();
+  } else if (e.keyCode === 68) {
+    rightBat.zeroPower();
+  }
+};
+
 
 const springElement = document.getElementById('spring');
 const springAnimatedElements = document.getElementsByClassName("spring");
@@ -513,7 +527,7 @@ springElement.touchstart = gameSpring.startSpringTime.bind(null); // touch actio
 springElement.touchend = gameSpring.stopSpringTime.bind(null); // touch actions
 
 
-const game = new Game();
+const game = new Game(leftBat, rightBat);
 game.play();
 
 const stop = document.getElementById('stop');
