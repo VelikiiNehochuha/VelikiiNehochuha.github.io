@@ -1,6 +1,6 @@
 const OUT = 99999999999;
 const DELTA = 10;
-const DEFAULT_Y_ACCELERATION = 0.0001;
+const DEFAULT_Y_ACCELERATION = 0.00005;
 const DEFAULT_X_ACCELERATION = 0.0;
 
 
@@ -100,7 +100,6 @@ const Spring = function (elements) {
         }
         const currentSpring = document.getElementById('spring' + self.count);
         currentSpring.style.opacity = '1.0';
-
         const currentSpringSurface = document.getElementById('springSurface' + self.count);
         currentSpringSurface.style.opacity = '1.0';
       } else {
@@ -146,11 +145,7 @@ const Spring = function (elements) {
         }
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
-        if (self.noBarrier === true) {
-          return [xSpeedBefore, -Math.abs(ySpeedBefore)];
-        } else {
-          return [xSpeedBefore*0.5, -ySpeedBefore*0.5];
-        }
+        return [xSpeedBefore*0.5, -ySpeedBefore*0.5];
       },
       function (x, y, xSpeedBefore, ySpeedBefore) {
         // return [-xSpeedBefore, ySpeedBefore];
@@ -158,10 +153,8 @@ const Spring = function (elements) {
         const newSpeed = changeAngle(xSpeedBefore, ySpeedBefore, derivative);
         let newRealSpeed;
         if (self.compressions === true) {
-          newRealSpeed = -0.3;// + newSpeed[1];
-          self.noBarrier = true;
+          newRealSpeed = -0.27;// + newSpeed[1];
           newSpeed[1] = newRealSpeed;
-          console.log('sum spped');
         }
         return [].concat(
           newSpeed,
@@ -386,12 +379,18 @@ const Game = function (leftBat, rightBat, spring) {
   this.leftBat = leftBat;
   this.rightBat = rightBat;
   this.spring = spring;
+  this.count = 0;
 
   this.animate = function animate() {
     self.gameBall.getNewPosition();
     self.leftBat.getNewPosition();
     self.rightBat.getNewPosition();
-    self.spring.getNewPosition();
+
+    const period = self.count % 5;
+    if (period == 0) {
+      self.spring.getNewPosition();
+    }
+    self.count = self.count + 1;
   };
   this.play = function play() {
     const gameBall = new Ball();
@@ -432,7 +431,7 @@ const rPipeLine = new Barrier(
   function (x, y, xSpeedBefore, ySpeedBefore) {
     return [-xSpeedBefore, ySpeedBefore];
   },
-  3
+  5
 );
 const leftPipeLine = new Barrier(
   'leftPipeLine',
@@ -451,7 +450,7 @@ const leftPipeLine = new Barrier(
   function (x, y, xSpeedBefore, ySpeedBefore) {
     return [-xSpeedBefore, ySpeedBefore];
   },
-  3
+  5
 );
 const upPipeArc = new Barrier(
   'upPipeArc',
@@ -469,7 +468,7 @@ const upPipeArc = new Barrier(
     const derivative = (x - 160) / Math.sqrt(25000 - Math.pow(x - 160, 2));
     return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
-  3
+  5
 );
 const bottomPipeArc = new Barrier(
   'bottomPipeArc',
@@ -490,7 +489,7 @@ const bottomPipeArc = new Barrier(
       getAccelerationSurfaceMovement(derivative)
     );
   },
-  3
+  5
 );
 const bottomParabola = new Barrier(
   'bottomParabola',
@@ -512,7 +511,7 @@ const bottomParabola = new Barrier(
       getAccelerationSurfaceMovement(derivative)
     );
   },
-  3
+  5
 );
 const topParabola = new Barrier(
   'topParabola',
@@ -530,7 +529,7 @@ const topParabola = new Barrier(
     const derivative = 1 / (Math.sqrt(x - 26));
     return changeAngle(xSpeedBefore, ySpeedBefore, derivative);
   },
-  3
+  5
 );
 
 const barriers = [
