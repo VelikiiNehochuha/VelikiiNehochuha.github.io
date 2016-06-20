@@ -21,16 +21,18 @@ footer{ flex: 0 0 auto; }
 
 .buttons-group {
   width: 100%;
+  max-width: 320px;
   margin-top: 0px;
   display: flex;
   justify-content: space-between;
 }
 
 .buttons-group button {
-  margin-right: 43px;
   padding: 10px;
   border: 0px;
   background-color: gray;
+  text-transform: uppercase;
+  color: white;
 }
 
 .buttons-group :last-child {

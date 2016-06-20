@@ -379,6 +379,8 @@ const Game = function (leftBat, rightBat, spring) {
   this.spring = spring;
   this.count = 0;
 
+  this.pause = false;
+
   this.animate = function animate() {
     self.gameBall.getNewPosition();
     self.leftBat.getNewPosition();
@@ -390,6 +392,17 @@ const Game = function (leftBat, rightBat, spring) {
     }
     self.count = self.count + 1;
   };
+
+  this.controlPause = function controlPause() {
+    if (self.pause) {
+      self.pause = false;
+      self.start();
+    } else {
+      self.pause = true;
+      self.stop();
+    }
+  };
+
   this.play = function play() {
     const gameBall = new Ball();
     gameBall.init(self.stop);
@@ -546,6 +559,37 @@ const rightBat = new Bat(rightBatElement, false);
 leftBat.init();
 rightBat.init();
 
+/*  ----------------------------control game-process-------------------------*/
+const springElement = document.getElementById('spring');
+const springAnimatedElements = document.getElementsByClassName("spring");
+
+const gameSpring = new Spring(springAnimatedElements);
+// springElement.touchstart = gameSpring.startSpringTime.bind(null); // touch actions
+// springElement.touchend = gameSpring.stopSpringTime.bind(null); // touch actions
+
+
+const game = new Game(leftBat, rightBat, gameSpring);
+game.play();
+
+springElement.onmousedown = game.spring.setCompression.bind(null, false);
+springElement.onmouseup = game.spring.setCompression.bind(null, true);
+
+const springControllButton = document.getElementById('springControllButton');
+springControllButton.onmousedown = game.spring.setCompression.bind(null, false);
+springControllButton.onmouseup = game.spring.setCompression.bind(null, true);
+
+const stop = document.getElementById('stop');
+const reset = document.getElementById('reset');
+stop.onclick = game.controlPause;
+reset.onclick = game.reset;
+
+const left = document.getElementById('left');
+left.onmousedown = function (e) { leftBat.setPower(); };
+left.onmouseup = function (e) { leftBat.zeroPower(); };
+const right = document.getElementById('right');
+right.onmousedown = function (e) { rightBat.setPower(); };
+right.onmouseup = function (e) { rightBat.zeroPower(); };
+
 document.onkeydown = function (e) {
   if (e.keyCode === 65) {
     leftBat.setPower();
@@ -560,27 +604,6 @@ document.onkeyup = function (e) {
     rightBat.zeroPower();
   }
 };
-
-
-const springElement = document.getElementById('spring');
-const springAnimatedElements = document.getElementsByClassName("spring");
-const gameSpring = new Spring(springAnimatedElements);
-
-// springElement.touchstart = gameSpring.startSpringTime.bind(null); // touch actions
-// springElement.touchend = gameSpring.stopSpringTime.bind(null); // touch actions
-
-
-const game = new Game(leftBat, rightBat, gameSpring);
-game.play();
-springElement.onmousedown = game.spring.setCompression.bind(null, false);
-springElement.onmouseup = game.spring.setCompression.bind(null, true);
-
-const stop = document.getElementById('stop');
-const start = document.getElementById('start');
-const reset = document.getElementById('reset');
-stop.onclick = game.stop;
-start.onclick = game.start;
-reset.onclick = game.reset;
 
 
 
