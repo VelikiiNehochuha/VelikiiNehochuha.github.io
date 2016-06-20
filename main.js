@@ -153,7 +153,7 @@ const Spring = function (elements) {
         const newSpeed = changeAngle(xSpeedBefore, ySpeedBefore, derivative);
         let newRealSpeed;
         if (self.compressions === true) {
-          newRealSpeed = -0.27;// + newSpeed[1];
+          newRealSpeed = -getRandomArbitary(26, 28)/100.0;
           newSpeed[1] = newRealSpeed;
         }
         return [].concat(
@@ -166,7 +166,6 @@ const Spring = function (elements) {
     return springPosition;
   };
 };
-
 
 const Bat = function (element, clockwise=true) {
   // <rect id="left-bat" width="90" height="10" ry="5" style="fill:white;" x="60" y="400" transform="rotate(-35 65 400)"/>
@@ -263,7 +262,6 @@ const Bat = function (element, clockwise=true) {
   };
 };
 
-
 const Ball = function () {
   const self = this;
   this.element = document.getElementById ( 'gameBall' );
@@ -274,7 +272,7 @@ const Ball = function () {
   this.delta = DELTA;
   // work with surfaces and self force
   this.surface = {};
-  this.x = 300;
+  this.x = getRandomArbitary(300, 310);
   this.element.setAttribute ( "cx", this.x);
   this.y = 340; // 395
   this.element.setAttribute ( "cy", this.y);
