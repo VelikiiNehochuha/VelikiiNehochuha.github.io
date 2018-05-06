@@ -1,5 +1,5 @@
 const OUT = 99999999999;
-const DELTA = 10;
+const DELTA = 15;
 const DEFAULT_Y_ACCELERATION = 0.00005;
 const DEFAULT_X_ACCELERATION = 0.0;
 
@@ -156,12 +156,17 @@ const Spring = function (elements) {
           newRealSpeed = -getRandomArbitary(26, 28)/100.0;
           newSpeed[1] = newRealSpeed;
         }
+
+        if (self.speed < 0 && newSpeed[1] > self.speed) {
+          newSpeed[1] = self.speed;
+        }
+
         return [].concat(
           newSpeed,
           getAccelerationSurfaceMovement(derivative)
         );
       },
-      3
+      5
     );
     return springPosition;
   };
