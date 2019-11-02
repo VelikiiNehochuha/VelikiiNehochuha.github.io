@@ -34,4 +34,16 @@ node_modules
 
 # Idea configs
 .idea
+
 .tern-port
+
+
+# python
+
+*.py[cod]
+__pycache__
+cache
+output
+.doit.db
+_env/
+>>>>>>> Stashed changes
