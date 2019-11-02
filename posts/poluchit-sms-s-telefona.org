@@ -1,0 +1,24 @@
+#+BEGIN_COMMENT
+.. title: Получить смс с android телефона
+.. slug: poluchit-sms-s-telefona
+.. date: 2019-11-02 23:40:11 UTC+03:00
+.. tags: android sqlite
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+adb connect host:5555 # adb over wi-fi
+adb root # restart adb with root
+# next android shell
+# find / -name "*mmssms*" # to find database with sms in my case it is /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
+sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
+# next sql shell
+select * from sms limit 3;
+
+# so one line for protable wifi hotsport
+ip -4 route list 0/0 | awk '{print $3}' | (read _default_route; adb connect $_default_route:5555) && adb root && adb shell 'sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db -batch "select * from sms limit 2";'
+Создайте Вашу запись здесь.
