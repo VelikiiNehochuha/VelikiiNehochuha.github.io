@@ -10,7 +10,9 @@
 
 #+END_COMMENT
 
+Получить смс с android телефона по wi-fi
 
+#+BEGIN_SRC bash
 adb connect host:5555 # adb over wi-fi
 adb root # restart adb with root
 # next android shell
@@ -21,4 +23,4 @@ select * from sms limit 3;
 
 # so one line for protable wifi hotsport
 ip -4 route list 0/0 | awk '{print $3}' | (read _default_route; adb connect $_default_route:5555) && adb root && adb shell 'sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db -batch "select * from sms limit 2";'
-Создайте Вашу запись здесь.
+#+END_SRC
