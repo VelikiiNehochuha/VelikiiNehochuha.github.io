@@ -2,7 +2,7 @@
 .. title: Получить смс с android телефона
 .. slug: poluchit-sms-s-telefona
 .. date: 2019-11-02 23:40:11 UTC+03:00
-.. tags: android sqlite
+.. tags: android
 .. category: 
 .. link: 
 .. description: 
@@ -10,17 +10,29 @@
 
 #+END_COMMENT
 
-Получить смс с android телефона по wi-fi
+
+* Если есть root доступ по adb
+Подключаемся по adb и запускаем запускаем отладочный сервер
 
 #+BEGIN_SRC bash
+adb root
+adb start-server
+adb tcpip 5555
 adb connect host:5555 # adb over wi-fi
-adb root # restart adb with root
-# next android shell
-# find / -name "*mmssms*" # to find database with sms in my case it is /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
-sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
-# next sql shell
-select * from sms limit 3;
+#+END_SRC
 
-# so one line for protable wifi hotsport
+Все SMS хранятся в базе данных mmssms.db, ищем её на устройстве
+#+BEGIN_SRC bash
+find / -name "*mmssms*" # in my case it is /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
+#+END_SRC
+
+Считываем из базы данных
+#+BEGIN_SRC bash
+sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
+select * from sms limit 3;
+#+END_SRC
+
+Я часто раздаю интеренет черех hotsport с телефона, поэтому однострочником будет
+#+BEGIN_SRC bash
 ip -4 route list 0/0 | awk '{print $3}' | (read _default_route; adb connect $_default_route:5555) && adb root && adb shell 'sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db -batch "select * from sms limit 2";'
 #+END_SRC
