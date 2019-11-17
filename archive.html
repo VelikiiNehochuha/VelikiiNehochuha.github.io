@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="description" content="IT blog">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VelikiiNehochuha Blog</title>
+<title>Архив | VelikiiNehochuha Blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://velikiinehochuha.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/poluchit-sms-s-telefona/" type="text/html">
+<link rel="canonical" href="http://velikiinehochuha.github.io/archive.html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
@@ -39,8 +39,8 @@
     </div>
 </header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
             <ul class="navbar-nav nav-fill d-flex w-100">
-<li class="nav-item">
-<a href="archive.html" class="nav-link">Архив</a>
+<li class="nav-item active">
+<a href="#" class="nav-link">Архив <span class="sr-only">(активная)</span></a>
                 </li>
 <li class="nav-item">
 <a href="categories/" class="nav-link">Тэги</a>
@@ -62,69 +62,11 @@
         
         
         
-    
-        
-
-    
-        
-    <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/poluchit-sms-s-telefona/" class="u-url">Получить смс с android телефона</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        Velikii Nehochuha
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/poluchit-sms-s-telefona/" rel="bookmark">
-            <time class="published dt-published" datetime="2019-11-02T23:40:11+03:00" itemprop="datePublished" title="2019-11-02 23:40">2019-11-02 23:40</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-orgb95e0b6" class="outline-2">
-<h2 id="orgb95e0b6">Если есть root доступ по adb</h2>
-<div class="outline-text-2" id="text-orgb95e0b6">
-<p>
-Подключаемся по adb и запускаем запускаем отладочный сервер
-</p>
-
-<div class="highlight"><pre><span></span>adb root
-adb start-server
-adb tcpip 5555
-adb connect host:5555 # adb over wi-fi
-</pre></div>
-
-<p>
-Все SMS хранятся в базе данных mmssms.db, ищем её на устройстве
-</p>
-<div class="highlight"><pre><span></span>find / -name "*mmssms*" # in my case it is /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
-</pre></div>
-
-<p>
-Считываем из базы данных
-</p>
-<div class="highlight"><pre><span></span>sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
-select * from sms limit 3;
-</pre></div>
-
-<p>
-Я часто раздаю интеренет черех hotsport с телефона, поэтому однострочником будет
-</p>
-<div class="highlight"><pre><span></span>ip -4 route list 0/0 | awk '{print $3}' | (read _default_route; adb connect $_default_route:5555) &amp;&amp; adb root &amp;&amp; adb shell 'sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db -batch "select * from sms limit 2";'
-</pre></div>
-</div>
-</div>
-                </div>
-            </article>
-</div>
-    
-
-    
-
-    
-
-
-        <!--End of body content-->
-
-        <footer id="footer">
+<article class="listpage"><header><h1>Архив</h1>
+    </header><ul class="postlist"><li>
+<a href="2019/">2019</a>
+            (1)
+    </li></ul></article><!--End of body content--><footer id="footer">
             Contents © 2019         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             

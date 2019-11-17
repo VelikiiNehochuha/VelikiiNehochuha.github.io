@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+ <url>
+  <loc>http://velikiinehochuha.github.io/</loc>
+  <lastmod>2019-11-02T21:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/2019/</loc>
+  <lastmod>2019-11-02T21:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/archive.html</loc>
+  <lastmod>2019-11-02T20:46:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/</loc>
+  <lastmod>2019-11-17T14:34:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/android-sqlite/</loc>
+  <lastmod>2019-11-02T21:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/android/</loc>
+  <lastmod>2019-11-17T14:34:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/galleries/</loc>
+  <lastmod>2019-11-02T20:35:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/listings/</loc>
+  <lastmod>2019-11-02T20:35:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</loc>
+  <lastmod>2019-11-02T21:06:00Z</lastmod>
+ </url>
+</urlset>

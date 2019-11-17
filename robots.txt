@@ -1,0 +1,4 @@
+Sitemap: http://velikiinehochuha.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: velikiinehochuha.github.io
