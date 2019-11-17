@@ -1,0 +1,42 @@
+#+BEGIN_COMMENT
+.. title: Бинарный поиск (реализация на python)
+.. slug: binarnyi-poisk-realizatsiia-na-python
+.. date: 2019-11-17 20:14:29 UTC+03:00
+.. tags: algorithms
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+Представьте англо-русский словарь и вам нужно найти какое-то слово на букву "o".
+Для этого мы откроем словарь посередине и в зависимости на какую букву будет начинаться
+слово примем решение левая или правая половина страниц нам нужна. Повторим это пока не найдем страницу с буквой "o".
+
+#+BEGIN_SRC python
+def binary_search(iterable, item):
+    minimum = 0
+    maximum = len(iterable)
+    print(minimum, maximum)
+    while minimum < maximum:
+        midle = int((maximum + minimum) / 2)
+        print('midle', midle)
+        current = iterable[midle]
+        print('current', current)
+        print('item', item)
+        if current == item:
+            return midle
+        elif item > current:
+            print('ehrhe')
+            minimum = midle
+        elif item < current:
+            maximum = midle
+        else:
+            return None
+
+a = [i for i range(10)]
+res = binary_search(a, 7)
+assert res = 7
+#+END_SRC
+
