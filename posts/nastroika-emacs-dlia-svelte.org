@@ -1,0 +1,102 @@
+#+BEGIN_COMMENT
+.. title: Настройка emacs для svelte
+.. slug: nastroika-emacs-dlia-svelte
+.. date: 2019-11-26 22:58:31 UTC+03:00
+.. tags: svelte, eslint, emacs 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* Установить необходимые пакеты в emacs
+
+Я добавил поддержку svelte шаблонов сравнительно недавно, поэтому web-mode
+c поддержкой svelte доступен пока только в unstable melpa
+
+#+BEGIN_SRC lisp
+package-install web-mode
+package-install add-node-modules-path
+package-install flycheck
+#+END_SRC
+
+* Настроим web-mode
+
+#+BEGIN_SRC lisp
+(load "~/.emacs.d/web-mode.el")
+(add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+
+(setq web-mode-engines-alist
+    '(("django"    . "\\.html\\'"))
+)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-indent-style 2)
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2) ;; 4
+  (setq web-mode-style-padding 2)
+  (setq web-mode-script-padding 2)
+  (setq web-mode-block-padding 2)
+  (setq web-mode-part-padding 2)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+#+END_SRC
+
+
+
+
+
+
+
+* Настройка eslint
+#+BEGIN_SRC lisp
+  (when (maybe-require-package 'add-node-modules-path)
+    (after-load 'web-mode
+      (add-hook 'web-mode-hook 'add-node-modules-path)))
+  (setenv "PATH" (concat (getenv "PATH") ":/home/anton/.nvm/versions/node/v10.15.3/bin/"))
+  (setq exec-path (append exec-path '("/home/anton/.nvm/versions/node/v10.15.3/bin")))
+  (setq flycheck-javascript-eslint-executable "eslint_d")
+  (with-eval-after-load 'flycheck
+    (flycheck-add-mode 'javascript-eslint 'web-mode))
+  #+END_SRC
+
+** установить глобально eslint_d
+#+BEGIN_SRC bash
+npm install -g eslint eslint_d
+#+END_SRC
+** установить в директорию с проектом
+#+BEGIN_SRC bash
+npm install eslint-plugin-svelte3 babel-eslint --save-dev
+#+END_SRC
+
+** в директорию с проектом поместить .eslintrc
+#+BEGIN_SRC json
+{
+  "parserOptions": { "ecmaVersion": 2019, "sourceType": "module" },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "svelte3"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
+  "rules": {
+    //"no-undefined": 2,
+    "no-unused-vars": 2,
+    "no-use-before-define": 2
+  }
+}
+#+END_SRC
