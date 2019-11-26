@@ -7,11 +7,23 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/algorithms.xml</loc>
-  <lastmod>2019-11-17T17:22:00Z</lastmod>
+  <lastmod>2019-11-17T17:23:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/android.xml</loc>
   <lastmod>2019-11-17T14:36:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/emacs.xml</loc>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/eslint.xml</loc>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/galleries/rss.xml</loc>
@@ -19,10 +31,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2019-11-17T17:22:00Z</lastmod>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2019-11-17T17:22:00Z</lastmod>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
  </sitemap>
 </sitemapindex>

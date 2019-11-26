@@ -15,11 +15,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2019-11-17T17:22:00Z</lastmod>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2019-11-17T17:22:00Z</lastmod>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/algorithms/</loc>
@@ -28,6 +28,18 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/android/</loc>
   <lastmod>2019-11-17T14:34:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/emacs/</loc>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/eslint/</loc>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/svelte/</loc>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/galleries/</loc>
@@ -40,6 +52,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/binarnyi-poisk-realizatsiia-na-python/</loc>
   <lastmod>2019-11-17T17:22:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/</loc>
+  <lastmod>2019-11-26T19:59:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</loc>
