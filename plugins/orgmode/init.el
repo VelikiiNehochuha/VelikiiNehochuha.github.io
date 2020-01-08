@@ -2,8 +2,7 @@
 
 ;; Load org-mode
 ;; Requires org-mode v8.x
-
-(add-to-list 'load-path "~/.emacs.d/elpa-26.2/htmlize-20180923.1829/")
+(add-to-list 'load-path "~/.config/emacs/elpa-27.0/htmlize-20191111.2130/ ")
 (require 'package)
 (setq package-load-list '((htmlize t)))
 (package-initialize)
