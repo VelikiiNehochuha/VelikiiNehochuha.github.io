@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2019 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Tue, 26 Nov 2019 20:48:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Настройка emacs для svelte</title><link>http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org1e5dc1e" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Wed, 08 Jan 2020 13:43:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Задачи по курсу SICP. Введение.</title><link>http://velikiinehochuha.github.io/posts/zadachi-po-kursu-sicp/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;p&gt;
+Есть такой замечательный курс &lt;a href="https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-4.html#%_toc_start"&gt;SICP&lt;/a&gt;. Я его когда-то начинал читать, но до конца не прошел, думаю на этот раз получится. Буду делать упражнения из него и выкладывать сюда свои решения.
+Первым делом надо настроить emacs что бы удобно было тестировать программы. &lt;code&gt;[4/4]&lt;/code&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Установить mit scheme по &lt;a href="https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-user/Unix-Installation.html"&gt;Инструкции.&lt;/a&gt;&lt;/li&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Создать файл в 1-ой вкладке emacs c разрешением .scm файл откроется в scheme-mode&lt;/li&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Запустить в другой окне (C-x 3 - создать окно) M-x run-scheme RET&lt;/li&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Любое выражение из первой вкладки можно выполнить по C-x C-e.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Получится что-то вроде:
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/Screenshot_2020-01-08_08-08-55.thumbnail.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Пишем что-то в правой вкладке, жмем C-x C-e, видим результат в левой.
+&lt;/p&gt;</description><category>lisp</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/zadachi-po-kursu-sicp/</guid><pubDate>Wed, 08 Jan 2020 12:07:03 GMT</pubDate></item><item><title>Настройка emacs для svelte</title><link>http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org1e5dc1e" class="outline-2"&gt;
 &lt;h2 id="org1e5dc1e"&gt;Установить необходимые пакеты в emacs&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org1e5dc1e"&gt;
 &lt;p&gt;
@@ -134,9 +155,9 @@ c поддержкой svelte доступен пока только в unstable
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
 &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;binary_search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</description><category>algorithms</category><guid>http://velikiinehochuha.github.io/posts/binarnyi-poisk-realizatsiia-na-python/</guid><pubDate>Sun, 17 Nov 2019 17:14:29 GMT</pubDate></item><item><title>Получить смс с android телефона</title><link>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgb95e0b6" class="outline-2"&gt;
-&lt;h2 id="orgb95e0b6"&gt;Если есть root доступ по adb&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb95e0b6"&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><category>algorithms</category><guid>http://velikiinehochuha.github.io/posts/binarnyi-poisk-realizatsiia-na-python/</guid><pubDate>Sun, 17 Nov 2019 17:14:29 GMT</pubDate></item><item><title>Получить смс с android телефона</title><link>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org38b0488" class="outline-2"&gt;
+&lt;h2 id="org38b0488"&gt;Если есть root доступ по adb&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org38b0488"&gt;
 &lt;p&gt;
 Подключаемся по adb и запускаем запускаем отладочный сервер
 &lt;/p&gt;
@@ -161,7 +182,7 @@ select * from sms limit 3;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-Я часто раздаю интеренет черех hotsport с телефона, поэтому однострочником будет
+Я часто раздаю интернет через hotsport с телефона, поэтому однострочником будет
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ip -4 route list 0/0 | awk '{print $3}' | (read _default_route; adb connect $_default_route:5555) &amp;amp;&amp;amp; adb root &amp;amp;&amp;amp; adb shell 'sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db -batch "select * from sms limit 2";'
 &lt;/pre&gt;&lt;/div&gt;

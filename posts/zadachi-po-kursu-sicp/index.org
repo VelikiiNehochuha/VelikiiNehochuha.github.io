@@ -1,0 +1,24 @@
+#+BEGIN_COMMENT
+.. title: Задачи по курсу SICP. Введение.
+.. slug: zadachi-po-kursu-sicp
+.. date: 2020-01-08 15:07:03 UTC+03:00
+.. tags: sicp, scheme, lisp
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+Есть такой замечательный курс [[https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-4.html#%_toc_start][SICP]]. Я его когда-то начинал читать, но до конца не прошел, думаю на этот раз получится. Буду делать упражнения из него и выкладывать сюда свои решения.
+Первым делом надо настроить emacs что бы удобно было тестировать программы. [4/4]
+- [X] Установить mit scheme по [[https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-user/Unix-Installation.html][Инструкции.]]
+- [X] Создать файл в 1-ой вкладке emacs c разрешением .scm файл откроется в scheme-mode
+- [X] Запустить в другой окне (C-x 3 - создать окно) M-x run-scheme RET
+- [X] Любое выражение из первой вкладки можно выполнить по C-x C-e.
+
+Получится что-то вроде:
+
+[[img-url:/images/Screenshot_2020-01-08_08-08-55.thumbnail.png]]
+
+Пишем что-то в правой вкладке, жмем C-x C-e, видим результат в левой.

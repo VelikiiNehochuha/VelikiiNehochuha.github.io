@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о scheme)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/scheme.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Wed, 08 Jan 2020 13:43:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Задачи по курсу SICP. Введение.</title><link>http://velikiinehochuha.github.io/posts/zadachi-po-kursu-sicp/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;p&gt;
+Есть такой замечательный курс &lt;a href="https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-4.html#%_toc_start"&gt;SICP&lt;/a&gt;. Я его когда-то начинал читать, но до конца не прошел, думаю на этот раз получится. Буду делать упражнения из него и выкладывать сюда свои решения.
+Первым делом надо настроить emacs что бы удобно было тестировать программы. &lt;code&gt;[4/4]&lt;/code&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Установить mit scheme по &lt;a href="https://www.gnu.org/software/mit-scheme/documentation/mit-scheme-user/Unix-Installation.html"&gt;Инструкции.&lt;/a&gt;&lt;/li&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Создать файл в 1-ой вкладке emacs c разрешением .scm файл откроется в scheme-mode&lt;/li&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Запустить в другой окне (C-x 3 - создать окно) M-x run-scheme RET&lt;/li&gt;
+&lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; Любое выражение из первой вкладки можно выполнить по C-x C-e.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Получится что-то вроде:
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/Screenshot_2020-01-08_08-08-55.thumbnail.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Пишем что-то в правой вкладке, жмем C-x C-e, видим результат в левой.
+&lt;/p&gt;</description><category>lisp</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/zadachi-po-kursu-sicp/</guid><pubDate>Wed, 08 Jan 2020 12:07:03 GMT</pubDate></item></channel></rss>

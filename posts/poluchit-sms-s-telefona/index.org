@@ -32,7 +32,7 @@ sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db
 select * from sms limit 3;
 #+END_SRC
 
-Я часто раздаю интеренет черех hotsport с телефона, поэтому однострочником будет
+Я часто раздаю интернет через hotsport с телефона, поэтому однострочником будет
 #+BEGIN_SRC bash
 ip -4 route list 0/0 | awk '{print $3}' | (read _default_route; adb connect $_default_route:5555) && adb root && adb shell 'sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db -batch "select * from sms limit 2";'
 #+END_SRC

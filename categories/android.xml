@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о android)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/android.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2019 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Sun, 17 Nov 2019 14:36:43 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Получить смс с android телефона</title><link>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgb95e0b6" class="outline-2"&gt;
-&lt;h2 id="orgb95e0b6"&gt;Если есть root доступ по adb&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb95e0b6"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о android)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/android.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Wed, 08 Jan 2020 13:41:32 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Получить смс с android телефона</title><link>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org38b0488" class="outline-2"&gt;
+&lt;h2 id="org38b0488"&gt;Если есть root доступ по adb&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org38b0488"&gt;
 &lt;p&gt;
 Подключаемся по adb и запускаем запускаем отладочный сервер
 &lt;/p&gt;
@@ -26,7 +26,7 @@ select * from sms limit 3;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-Я часто раздаю интеренет черех hotsport с телефона, поэтому однострочником будет
+Я часто раздаю интернет через hotsport с телефона, поэтому однострочником будет
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ip -4 route list 0/0 | awk '{print $3}' | (read _default_route; adb connect $_default_route:5555) &amp;amp;&amp;amp; adb root &amp;amp;&amp;amp; adb shell 'sqlite3 /data/user_de/0/com.android.providers.telephony/databases/mmssms.db -batch "select * from sms limit 2";'
 &lt;/pre&gt;&lt;/div&gt;
