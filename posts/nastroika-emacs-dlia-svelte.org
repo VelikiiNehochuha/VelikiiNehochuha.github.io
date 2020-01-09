@@ -49,11 +49,6 @@ package-install flycheck
 #+END_SRC
 
 
-
-
-
-
-
 * Настройка eslint
 #+BEGIN_SRC lisp
   (when (maybe-require-package 'add-node-modules-path)
