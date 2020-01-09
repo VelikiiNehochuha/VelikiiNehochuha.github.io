@@ -12,7 +12,7 @@
 <link rel="canonical" href="http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
 <link rel="prev" href="../binarnyi-poisk-realizatsiia-na-python/" title="Бинарный поиск (реализация на python)" type="text/html">
-<link rel="next" href="../zadachi-po-kursu-sicp/" title="Задачи по курсу SICP" type="text/html">
+<link rel="next" href="../zadachi-po-kursu-sicp/" title="Задачи по курсу SICP. Введение." type="text/html">
 <meta property="og:site_name" content="VelikiiNehochuha Blog">
 <meta property="og:title" content="Настройка emacs для svelte">
 <meta property="og:url" content="http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/">
@@ -104,9 +104,9 @@ package-install web-mode
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org1e5dc1e" class="outline-2">
-<h2 id="org1e5dc1e">Установить необходимые пакеты в emacs</h2>
-<div class="outline-text-2" id="text-org1e5dc1e">
+    <div id="outline-container-orgf99b1d5" class="outline-2">
+<h2 id="orgf99b1d5">Установить необходимые пакеты в emacs</h2>
+<div class="outline-text-2" id="text-orgf99b1d5">
 <p>
 Я добавил поддержку svelte шаблонов сравнительно недавно, поэтому web-mode
 c поддержкой svelte доступен пока только в unstable melpa
@@ -119,9 +119,9 @@ c поддержкой svelte доступен пока только в unstable
 </div>
 </div>
 
-<div id="outline-container-org3a6c984" class="outline-2">
-<h2 id="org3a6c984">Настроим web-mode</h2>
-<div class="outline-text-2" id="text-org3a6c984">
+<div id="outline-container-org53994fa" class="outline-2">
+<h2 id="org53994fa">Настроим web-mode</h2>
+<div class="outline-text-2" id="text-org53994fa">
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/web-mode.el"</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.svelte\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
 <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.html\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
@@ -148,14 +148,9 @@ c поддержкой svelte доступен пока только в unstable
 </div>
 
 
-
-
-
-
-
-<div id="outline-container-org3f8e04a" class="outline-2">
-<h2 id="org3f8e04a">Настройка eslint</h2>
-<div class="outline-text-2" id="text-org3f8e04a">
+<div id="outline-container-org8aa27a8" class="outline-2">
+<h2 id="org8aa27a8">Настройка eslint</h2>
+<div class="outline-text-2" id="text-org8aa27a8">
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nv">maybe-require-package</span> <span class="ss">'add-node-modules-path</span><span class="p">)</span>
   <span class="p">(</span><span class="nv">after-load</span> <span class="ss">'web-mode</span>
     <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'web-mode-hook</span> <span class="ss">'add-node-modules-path</span><span class="p">)))</span>
@@ -167,25 +162,25 @@ c поддержкой svelte доступен пока только в unstable
 </pre></div>
 </div>
 
-<div id="outline-container-org9702303" class="outline-3">
-<h3 id="org9702303">установить глобально eslint<sub>d</sub>
+<div id="outline-container-org5604b4a" class="outline-3">
+<h3 id="org5604b4a">установить глобально eslint<sub>d</sub>
 </h3>
-<div class="outline-text-3" id="text-org9702303">
+<div class="outline-text-3" id="text-org5604b4a">
 <div class="highlight"><pre><span></span>npm install -g eslint eslint_d
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgc1df6e3" class="outline-3">
-<h3 id="orgc1df6e3">установить в директорию с проектом</h3>
-<div class="outline-text-3" id="text-orgc1df6e3">
+<div id="outline-container-orgf8cce70" class="outline-3">
+<h3 id="orgf8cce70">установить в директорию с проектом</h3>
+<div class="outline-text-3" id="text-orgf8cce70">
 <div class="highlight"><pre><span></span>npm install eslint-plugin-svelte3 babel-eslint --save-dev
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgd453ac6" class="outline-3">
-<h3 id="orgd453ac6">в директорию с проектом поместить .eslintrc</h3>
-<div class="outline-text-3" id="text-orgd453ac6">
+<div id="outline-container-org632c4ab" class="outline-3">
+<h3 id="org632c4ab">в директорию с проектом поместить .eslintrc</h3>
+<div class="outline-text-3" id="text-org632c4ab">
 <div class="highlight"><pre><span></span>{
   "parserOptions": { "ecmaVersion": 2019, "sourceType": "module" },
   "env": {
@@ -223,7 +218,7 @@ c поддержкой svelte доступен пока только в unstable
                 <a href="../binarnyi-poisk-realizatsiia-na-python/" rel="prev" title="Бинарный поиск (реализация на python)">Предыдущая запись</a>
             </li>
             <li class="next">
-                <a href="../zadachi-po-kursu-sicp/" rel="next" title="Задачи по курсу SICP">Следующая запись</a>
+                <a href="../zadachi-po-kursu-sicp/" rel="next" title="Задачи по курсу SICP. Введение.">Следующая запись</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
             Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о svelte)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/svelte.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2019 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Tue, 26 Nov 2019 20:48:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Настройка emacs для svelte</title><link>http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org1e5dc1e" class="outline-2"&gt;
-&lt;h2 id="org1e5dc1e"&gt;Установить необходимые пакеты в emacs&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1e5dc1e"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о svelte)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/svelte.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Thu, 09 Jan 2020 20:28:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Настройка emacs для svelte</title><link>http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgf99b1d5" class="outline-2"&gt;
+&lt;h2 id="orgf99b1d5"&gt;Установить необходимые пакеты в emacs&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf99b1d5"&gt;
 &lt;p&gt;
 Я добавил поддержку svelte шаблонов сравнительно недавно, поэтому web-mode
 c поддержкой svelte доступен пока только в unstable melpa
@@ -14,9 +14,9 @@ c поддержкой svelte доступен пока только в unstable
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3a6c984" class="outline-2"&gt;
-&lt;h2 id="org3a6c984"&gt;Настроим web-mode&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3a6c984"&gt;
+&lt;div id="outline-container-org53994fa" class="outline-2"&gt;
+&lt;h2 id="org53994fa"&gt;Настроим web-mode&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org53994fa"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;load&lt;/span&gt; &lt;span class="s"&gt;"~/.emacs.d/web-mode.el"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;add-to-list&lt;/span&gt; &lt;span class="ss"&gt;'auto-mode-alist&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"\\.svelte\\'"&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;web-mode&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;add-to-list&lt;/span&gt; &lt;span class="ss"&gt;'auto-mode-alist&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"\\.html\\'"&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;web-mode&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -43,14 +43,9 @@ c поддержкой svelte доступен пока только в unstable
 &lt;/div&gt;
 
 
-
-
-
-
-
-&lt;div id="outline-container-org3f8e04a" class="outline-2"&gt;
-&lt;h2 id="org3f8e04a"&gt;Настройка eslint&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3f8e04a"&gt;
+&lt;div id="outline-container-org8aa27a8" class="outline-2"&gt;
+&lt;h2 id="org8aa27a8"&gt;Настройка eslint&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8aa27a8"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;when&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;maybe-require-package&lt;/span&gt; &lt;span class="ss"&gt;'add-node-modules-path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;after-load&lt;/span&gt; &lt;span class="ss"&gt;'web-mode&lt;/span&gt;
     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;add-hook&lt;/span&gt; &lt;span class="ss"&gt;'web-mode-hook&lt;/span&gt; &lt;span class="ss"&gt;'add-node-modules-path&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
@@ -62,24 +57,24 @@ c поддержкой svelte доступен пока только в unstable
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9702303" class="outline-3"&gt;
-&lt;h3 id="org9702303"&gt;установить глобально eslint&lt;sub&gt;d&lt;/sub&gt;&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9702303"&gt;
+&lt;div id="outline-container-org5604b4a" class="outline-3"&gt;
+&lt;h3 id="org5604b4a"&gt;установить глобально eslint&lt;sub&gt;d&lt;/sub&gt;&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5604b4a"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;npm install -g eslint eslint_d
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc1df6e3" class="outline-3"&gt;
-&lt;h3 id="orgc1df6e3"&gt;установить в директорию с проектом&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc1df6e3"&gt;
+&lt;div id="outline-container-orgf8cce70" class="outline-3"&gt;
+&lt;h3 id="orgf8cce70"&gt;установить в директорию с проектом&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf8cce70"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;npm install eslint-plugin-svelte3 babel-eslint --save-dev
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd453ac6" class="outline-3"&gt;
-&lt;h3 id="orgd453ac6"&gt;в директорию с проектом поместить .eslintrc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd453ac6"&gt;
+&lt;div id="outline-container-org632c4ab" class="outline-3"&gt;
+&lt;h3 id="org632c4ab"&gt;в директорию с проектом поместить .eslintrc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org632c4ab"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{
   "parserOptions": { "ecmaVersion": 2019, "sourceType": "module" },
   "env": {

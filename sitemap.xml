@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-01-08T12:10:00Z</lastmod>
+  <lastmod>2020-01-09T10:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-01-08T12:10:00Z</lastmod>
+  <lastmod>2020-01-09T10:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/algorithms/</loc>
@@ -48,6 +48,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/scheme/</loc>
   <lastmod>2020-01-08T12:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/sicp-scheme-lisp/</loc>
+  <lastmod>2020-01-09T10:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/sicp/</loc>
@@ -76,6 +80,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</loc>
   <lastmod>2019-12-31T17:40:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-iz-glavy-11/</loc>
+  <lastmod>2020-01-09T10:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/zadachi-po-kursu-sicp/</loc>

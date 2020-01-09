@@ -7,11 +7,11 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/algorithms.xml</loc>
-  <lastmod>2019-11-17T17:23:00Z</lastmod>
+  <lastmod>2020-01-08T16:09:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/android.xml</loc>
-  <lastmod>2019-11-17T14:36:00Z</lastmod>
+  <lastmod>2020-01-08T13:41:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/emacs.xml</loc>
@@ -23,15 +23,19 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/lisp.xml</loc>
-  <lastmod>2020-01-08T13:12:00Z</lastmod>
+  <lastmod>2020-01-08T13:43:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-01-08T13:12:00Z</lastmod>
+  <lastmod>2020-01-08T13:43:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/sicp-scheme-lisp.xml</loc>
+  <lastmod>2020-01-09T10:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-01-08T13:12:00Z</lastmod>
+  <lastmod>2020-01-08T13:43:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
@@ -43,10 +47,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-01-08T13:12:00Z</lastmod>
+  <lastmod>2020-01-09T10:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-01-08T13:12:00Z</lastmod>
+  <lastmod>2020-01-09T10:21:00Z</lastmod>
  </sitemap>
 </sitemapindex>
