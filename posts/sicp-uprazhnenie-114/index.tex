@@ -1,7 +1,7 @@
-.. title: SICP Упражнение 1.14, 1.15.
+.. title: SICP Упражнения 1.14, 1.15, 1.16, 1.17.
 .. slug: sicp-uprazhnenie-114
 .. date: 2020-01-11 14:54:25 UTC+03:00
-.. tags: sicp, scheme, lisp, draw
+.. tags: sicp, scheme, lisp
 .. category: 
 .. link: 
 .. description: 
@@ -106,3 +106,144 @@
 
 Порядок роста по количеству итераций равен $\theta(log{n})$.
 По месту так же.
+
+\chapter{Упражнение 1.16}
+
+Написать итеративный вариант быстрой экспоненты с порядком роста $\theta(log{n})$
+
+Рекурсивный вариант:
+\begin{codelisting}{scheme}
+(define (even? n)
+  (= (remainder n 2) 0))
+(even? 2)
+(even? 7)
+
+(define (fast-expt b n)
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (else (* b (fast-expt b (- n 1))))))
+(fast-expt 5 10)
+\end{codelisting}
+
+Итеративный вариант:
+\begin{codelisting}{scheme}
+(define (even? n)
+  (= (remainder n 2) 0))
+
+(define (expt b n)
+  (define (expt-iter a count)
+    (cond ((= count 1) a)
+          ((= count 0) a)
+          ((>= count (- n 1)) (expt-iter (square b) (/ count 2)))
+          (else (expt-iter (square a) (/ count 2)))))
+  (if (even? n)
+      (expt-iter 1 n)
+      (* b (expt-iter 1 (- n 1)))))
+(expt 3 150)
+\end{codelisting}
+
+
+\chapter{Упражнение 1.17}
+
+Допустим у нас нет процедуры умножения, написать процедуру использую только сложение и предопределенные процедуры halve и double, с порядком роста $\theta(log{n})$
+
+\begin{codelisting}{scheme}
+(define (double x)
+  (* x 2))
+(double 2)
+
+(define (halve x)
+  (/ x 2))
+(halve 4)
+
+(define (even? n)
+  (= (remainder n 2) 0))
+(even? 6)
+
+(define (fast? a b)
+  (cond ((or (= b 0) (= a 0)) 0)
+        ((= b 1) a)
+        ((even? b) (double (fast? a (halve b))))
+        (else (+ a (double (fast? a (halve (- b 1))))))))
+(fast? 10 0)
+(fast? 0 10)
+(fast? 10 10)
+(fast? 10 11)
+\end{codelisting}
+
+\chapter{Упражнение 1.18}
+
+Используя результаты 1.16, 1.17 разработайте итеративную процедуру умножения двух чисел в терминах ``удвоить, взять половину, добавить'', процедура должна выполняться с порядком роста $\theta(log{n})$.
+
+\begin{codelisting}{scheme}
+(define (fast? a b)
+  (define (fast-iter asum bsum count)
+    (cond ((= bsum 0) asum)
+          ((= bsum 1) asum)
+          ((even? bsum) (fast-iter (double asum) (halve bsum)))
+          (else (fast-iter (+ asum asum) (- bsum 1)))))
+  (cond (or (= b 0) (= a 0) 0)
+        ((= b 1) a)
+        (else (fast-iter a b))))
+(fast? 16 18)
+\end{codelisting}
+
+
+\chapter{Упражнение 1.19}
+
+Доработать вычисление функции Фибоначи, процедура должна выполняться с порядком роста $\theta(log{n})$.
+
+В последнем итеративном подсчете Фибоначи мы перезаписывали a <- a + b и b <- a, назовем это трансформацией T. Заметим что применение T n раз даст пару Fib(n + 1) и Fib(n), иными словами числа генерируются применением T^n.
+Теперь рассмотрим частный случай T p = 0 q = 1 в преобразовании Tpq, где Tpq преобразует пару (a, b) в a <- bq + aq + ap и b <- bp + aq.
+Покажите что если применить такую трансформацию Tpq дважды, результат будет тем же как и от единственной трансформации Tp'q' такой же формы, для которой p' и q' выраженны через p и q.
+Это даст нам возможность ускорить процедуру, как мы делали в fast-exp. Собрав все это вместе закончите процедуру приведенную ниже.
+
+Выражаем p' и q' через p и q.
+
+\begin{proposition}
+a1 b1
+a2 = b1q + a1q + a1p
+b2 = b1p + a1q
+
+
+a3 = b2q + a2q + a2p
+b3 = b2p + a2q
+
+
+a3 = (b1p + a1q)q + (b1q + a1q + a1p)q + (b1q + a1q + a1p)p
+b3 = (b1p + a1q)p + (b1q + a1q + a1p)q
+
+a3 = b1q' + a1q' + a1p' (1)
+b3 = b1p' + a1q' (2)
+
+a3 = b1pq + a1qq + b1qq + a1qq + a1pq + b1pq + a1pq + a1pp
+b3 = b1pp + a1pq + b1qq + a1qq + a1pq
+
+a3 = b1(2pq + qq) + a1(2qq + 2pq + pp) (3)
+b3 = b1(pp + qq) + a1(2pq + qq) (4)
+
+a3 = b1(2pq + qq) + a1(2pq + qq) + a1(qq + pp)
+
+
+q' = 2pq + qq
+
+p' = pp + qq
+\end{proposition}
+
+\begin{codelisting}{scheme}
+(define (fib n)
+  (fib-iter 1 0 0 1 n))
+(define (fib-iter a b p q count)
+  (cond ((= count 0) b)
+        ((even? count)
+         (fib-iter a
+                   b
+                   (+ (square p) (square q))      ; compute p'
+                   (+ (* 2 p q) (square q))      ; compute q'
+                   (/ count 2)))
+        (else (fib-iter (+ (* b q) (* a q) (* a p))
+                        (+ (* b p) (* a q))
+                        p
+                        q
+                        (- count 1)))))
+\end{codelisting}

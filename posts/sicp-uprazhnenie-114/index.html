@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>SICP Упражнение 1.14, 1.15. | VelikiiNehochuha Blog</title>
+<title>SICP Упражнения 1.14, 1.15, 1.16, 1.17. | VelikiiNehochuha Blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
@@ -14,7 +14,7 @@
 <!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
 <link rel="prev" href="../sicp-uprazhnenie-113/" title="SICP Упражнение 1.13" type="text/html">
 <meta property="og:site_name" content="VelikiiNehochuha Blog">
-<meta property="og:title" content="SICP Упражнение 1.14, 1.15.">
+<meta property="og:title" content="SICP Упражнения 1.14, 1.15, 1.16, 1.17.">
 <meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-uprazhnenie-114/">
 <meta property="og:description" content="Упражнение 1.14
   
@@ -28,7 +28,6 @@
  2 ;; Сколькими способами мы ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-01-11T14:54:25+03:00">
-<meta property="article:tag" content="draw">
 <meta property="article:tag" content="lisp">
 <meta property="article:tag" content="scheme">
 <meta property="article:tag" content="sicp">
@@ -50,7 +49,7 @@
     
     
     
-    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP Упражнение 1.14, 1.15.</a></h1>
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP Упражнения 1.14, 1.15, 1.16, 1.17.</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
@@ -215,11 +214,185 @@
    </div>
   </div>
  </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.16
+  </h2>
+  <div>
+   <div>
+    <p>
+     Написать итеративный вариант быстрой экспоненты с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="../../formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>
+    </p>
+    <p>
+     Рекурсивный вариант:
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="nb">even? </span><span class="mi">2</span><span class="p">)</span>
+<span class="lineno"> 4 </span><span class="p">(</span><span class="nb">even? </span><span class="mi">7</span><span class="p">)</span>
+<span class="lineno"> 5 </span>
+<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 7 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno"> 8 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="lineno"> 9 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">)</span>
+</pre>
+</div>   <div>
+    <p>
+     Итеративный вариант:
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno"> 3 </span>
+<span class="lineno"> 4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">expt </span><span class="nv">b</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 5 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expt-iter</span> <span class="nv">a</span> <span class="nv">count</span><span class="p">)</span>
+<span class="lineno"> 6 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
+<span class="lineno"> 7 </span>          <span class="p">((</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
+<span class="lineno"> 8 </span>          <span class="p">((</span><span class="nb">&gt;= </span><span class="nv">count</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nf">expt-iter</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">count</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="lineno"> 9 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">expt-iter</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">count</span> <span class="mi">2</span><span class="p">)))))</span>
+<span class="lineno">10 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
+<span class="lineno">11 </span>      <span class="p">(</span><span class="nf">expt-iter</span> <span class="mi">1</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">12 </span>      <span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="p">(</span><span class="nf">expt-iter</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="lineno">13 </span><span class="p">(</span><span class="nb">expt </span><span class="mi">3</span> <span class="mi">150</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.17
+  </h2>
+  <div>
+   <div>
+    <p>
+     Допустим у нас нет процедуры умножения, написать процедуру использую только сложение и предопределенные процедуры halve и double, с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="../../formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">double</span> <span class="nv">x</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">double</span> <span class="mi">2</span><span class="p">)</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">halve</span> <span class="nv">x</span><span class="p">)</span>
+<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">halve</span> <span class="mi">4</span><span class="p">)</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
+<span class="lineno">10 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="nb">even? </span><span class="mi">6</span><span class="p">)</span>
+<span class="lineno">12 </span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="lineno">14 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno">15 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
+<span class="lineno">16 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">double</span> <span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="p">(</span><span class="nf">halve</span> <span class="nv">b</span><span class="p">))))</span>
+<span class="lineno">17 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="p">(</span><span class="nf">double</span> <span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="p">(</span><span class="nf">halve</span> <span class="p">(</span><span class="nb">- </span><span class="nv">b</span> <span class="mi">1</span><span class="p">))))))))</span>
+<span class="lineno">18 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">10</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno">19 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">0</span> <span class="mi">10</span><span class="p">)</span>
+<span class="lineno">20 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">10</span> <span class="mi">10</span><span class="p">)</span>
+<span class="lineno">21 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">10</span> <span class="mi">11</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.18
+  </h2>
+  <div>
+   <div>
+    <p>
+     Используя результаты 1.16, 1.17 разработайте итеративную процедуру умножения двух чисел в терминах “удвоить, взять половину, добавить”, процедура должна выполняться с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="../../formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast-iter</span> <span class="nv">asum</span> <span class="nv">bsum</span> <span class="nv">count</span><span class="p">)</span>
+<span class="lineno"> 3 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">bsum</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">asum</span><span class="p">)</span>
+<span class="lineno"> 4 </span>          <span class="p">((</span><span class="nb">= </span><span class="nv">bsum</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">asum</span><span class="p">)</span>
+<span class="lineno"> 5 </span>          <span class="p">((</span><span class="nb">even? </span><span class="nv">bsum</span><span class="p">)</span> <span class="p">(</span><span class="nf">fast-iter</span> <span class="p">(</span><span class="nf">double</span> <span class="nv">asum</span><span class="p">)</span> <span class="p">(</span><span class="nf">halve</span> <span class="nv">bsum</span><span class="p">)))</span>
+<span class="lineno"> 6 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">fast-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">asum</span> <span class="nv">asum</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">bsum</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="lineno"> 7 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno"> 8 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
+<span class="lineno"> 9 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">fast-iter</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">16</span> <span class="mi">18</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.19
+  </h2>
+  <div>
+   <div>
+    <p>
+     Доработать вычисление функции Фибоначи, процедура должна выполняться с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="../../formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>.
+    </p>
+    <p>
+     В последнем итеративном подсчете Фибоначи мы перезаписывали a &lt;- a + b и b &lt;- a, назовем это трансформацией T. Заметим что применение T n раз даст пару Fib(n + 1) и Fib(n), иными словами числа генерируются применением T^n. Теперь рассмотрим частный случай T p = 0 q = 1 в преобразовании Tpq, где Tpq преобразует пару (a, b) в a &lt;- bq + aq + ap и b &lt;- bp + aq. Покажите что если применить такую трансформацию Tpq дважды, результат будет тем же как и от единственной трансформации Tp'q' такой же формы, для которой p' и q' выраженны через p и q. Это даст нам возможность ускорить процедуру, как мы делали в fast-exp. Собрав все это вместе закончите процедуру приведенную ниже.
+    </p>
+    <p>
+     Выражаем p' и q' через p и q.
+    </p>
+    <div class="theorem-environment theorem-proposition-environment">
+     <div class="theorem-header theorem-proposition-header">
+      Утверждение.
+     </div>
+     <div class="theorem-content theorem-proposition-content">
+      <p>
+       a1 b1 a2 = b1q + a1q + a1p b2 = b1p + a1q
+      </p>
+      <p>
+       a3 = b2q + a2q + a2p b3 = b2p + a2q
+      </p>
+      <p>
+       a3 = (b1p + a1q)q + (b1q + a1q + a1p)q + (b1q + a1q + a1p)p b3 = (b1p + a1q)p + (b1q + a1q + a1p)q
+      </p>
+      <p>
+       a3 = b1q' + a1q' + a1p' (1) b3 = b1p' + a1q' (2)
+      </p>
+      <p>
+       a3 = b1pq + a1qq + b1qq + a1qq + a1pq + b1pq + a1pq + a1pp b3 = b1pp + a1pq + b1qq + a1qq + a1pq
+      </p>
+      <p>
+       a3 = b1(2pq + qq) + a1(2qq + 2pq + pp) (3) b3 = b1(pp + qq) + a1(2pq + qq) (4)
+      </p>
+      <p>
+       a3 = b1(2pq + qq) + a1(2pq + qq) + a1(qq + pp)
+      </p>
+      <p>
+       q' = 2pq + qq
+      </p>
+      <p>
+       p' = pp + qq
+      </p>
+     </div>
+    </div>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">fib-iter</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="nv">n</span><span class="p">))</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib-iter</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">p</span> <span class="nv">q</span> <span class="nv">count</span><span class="p">)</span>
+<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">b</span><span class="p">)</span>
+<span class="lineno"> 5 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">count</span><span class="p">)</span>
+<span class="lineno"> 6 </span>         <span class="p">(</span><span class="nf">fib-iter</span> <span class="nv">a</span>
+<span class="lineno"> 7 </span>                   <span class="nv">b</span>
+<span class="lineno"> 8 </span>                   <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">q</span><span class="p">))</span>      <span class="c1">; compute p'</span>
+<span class="lineno"> 9 </span>                   <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="nv">p</span> <span class="nv">q</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">q</span><span class="p">))</span>      <span class="c1">; compute q'</span>
+<span class="lineno">10 </span>                   <span class="p">(</span><span class="nb">/ </span><span class="nv">count</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="lineno">11 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">fib-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="nv">q</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">q</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">p</span><span class="p">))</span>
+<span class="lineno">12 </span>                        <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">q</span><span class="p">))</span>
+<span class="lineno">13 </span>                        <span class="nv">p</span>
+<span class="lineno">14 </span>                        <span class="nv">q</span>
+<span class="lineno">15 </span>                        <span class="p">(</span><span class="nb">- </span><span class="nv">count</span> <span class="mi">1</span><span class="p">)))))</span>
+</pre>
+</div>  </div>
+ </div>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../../categories/draw/" rel="tag">draw</a></li>
-            <li><a class="tag p-category" href="../../categories/lisp/" rel="tag">lisp</a></li>
+<li><a class="tag p-category" href="../../categories/lisp/" rel="tag">lisp</a></li>
             <li><a class="tag p-category" href="../../categories/scheme/" rel="tag">scheme</a></li>
             <li><a class="tag p-category" href="../../categories/sicp/" rel="tag">sicp</a></li>
         </ul>
