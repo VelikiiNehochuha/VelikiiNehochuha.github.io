@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о mathematics)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/mathematics.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Sat, 11 Jan 2020 10:45:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP Упражнение 1.13</title><link>http://velikiinehochuha.github.io/posts/sicp-uprazhnenie-113/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div class="chapter-block"&gt;
+ &lt;h2&gt;
+  Упражнение 1.13
+ &lt;/h2&gt;
+ &lt;div&gt;
+  &lt;div class="section-block"&gt;
+   &lt;h3&gt;
+    Доказать что Fib(n) равно ближайшему целому от &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="51" height="20" src="http://velikiinehochuha.github.io/formulae/qmmHpyMlLsLpIpLHlURTp1owmHnJlfTVv755nw.png" alt="\phi^n/\sqrt{5}" title="\phi^n/\sqrt{5}"&gt;&lt;/span&gt;, где &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="117" height="20" src="http://velikiinehochuha.github.io/formulae/hZnPfd8DlYO9DZt9mrqHPU3pZH.9aebd5WDGlg.png" alt="\phi = (1+\sqrt{5})/2" title="\phi = (1+\sqrt{5})/2"&gt;&lt;/span&gt;
+   &lt;/h3&gt;
+   &lt;div&gt;
+    &lt;p&gt;
+     при n=0, &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="113" height="20" src="http://velikiinehochuha.github.io/formulae/kGR35pg.J1oIAbS3ByyC3CfU7u_zYp7UkShLJA.png" alt="\phi^0/\sqrt{5} = 1/\sqrt{5}" title="\phi^0/\sqrt{5} = 1/\sqrt{5}"&gt;&lt;/span&gt;, что округляя до целых рано 0.
+    &lt;/p&gt;
+    &lt;p&gt;
+     при n=1, &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="375" height="21" src="http://velikiinehochuha.github.io/formulae/2bqrTUr.StkHYLtOgqb2S6yXaVJRKkmml3mJOQ.png" alt="\phi^1/\sqrt{5} = (1+\sqrt(5))/(2*\sqrt{5}) = 1/2 + 1/(2*\sqrt{5})" title="\phi^1/\sqrt{5} = (1+\sqrt(5))/(2*\sqrt{5}) = 1/2 + 1/(2*\sqrt{5})"&gt;&lt;/span&gt;, что округляя до целых равно 1. осталось доказать что Fib(n) = Fib(n-2) + Fib(n-1) (1):
+    &lt;/p&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="399" height="21" src="http://velikiinehochuha.github.io/formulae/ZURQpAKWFG6.0WAEX.BQDw361iAytlELyBK8rw.png" alt="((1+\sqrt{5})/2)^n = ((1+\sqrt{5})/2)^{n-1} + ((1+\sqrt{5})/2)^{n-2}" title="((1+\sqrt{5})/2)^n = ((1+\sqrt{5})/2)^{n-1} + ((1+\sqrt{5})/2)^{n-2}"&gt;
+    &lt;/div&gt;
+    &lt;p&gt;
+     , (тождество 1) делим все на &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="124" height="20" src="http://velikiinehochuha.github.io/formulae/P64fheNboh7kjVc.J65fG8aaUiK4lNgXCZmWew.png" alt="((1+\sqrt{5})/2)^{n-2}" title="((1+\sqrt{5})/2)^{n-2}"&gt;&lt;/span&gt;, получаем:
+    &lt;/p&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="255" height="21" src="http://velikiinehochuha.github.io/formulae/OhVfNfT1IDLrXElHys_g1uIdw4zxYkeUMSN2gA.png" alt="((1+\sqrt{5})/2)^2 = ((1+\sqrt{5})/2) + 1" title="((1+\sqrt{5})/2)^2 = ((1+\sqrt{5})/2) + 1"&gt;
+    &lt;/div&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="188" height="21" src="http://velikiinehochuha.github.io/formulae/WdC6BsCq.ziw2FoIpJJN.MGzpGRlNpFiA0Z7HA.png" alt="(1+\sqrt{5})^2 = 2+2\sqrt{5} + 4" title="(1+\sqrt{5})^2 = 2+2\sqrt{5} + 4"&gt;
+    &lt;/div&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="40" height="11" src="http://velikiinehochuha.github.io/formulae/y.GRlg4873GC_OIUeajnnK2yU.iIDK26NTUc9g.png" alt="0 = 0" title="0 = 0"&gt;
+    &lt;/div&gt;
+    &lt;p&gt;
+     Ч.т.д.
+    &lt;/p&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="section-block"&gt;
+   &lt;h3&gt;
+    Доказать по индукции что функцию Фибоначи можно считать как &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="165" height="20" src="http://velikiinehochuha.github.io/formulae/mF8cUs5LkLg5BCDr.3uAay12c56n.d8XMHDpKQ.png" alt="f(n) = (\phi^n-\psi^n)/\sqrt{5}" title="f(n) = (\phi^n-\psi^n)/\sqrt{5}"&gt;&lt;/span&gt;, где &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="117" height="20" src="http://velikiinehochuha.github.io/formulae/hZnPfd8DlYO9DZt9mrqHPU3pZH.9aebd5WDGlg.png" alt="\phi = (1+\sqrt{5})/2" title="\phi = (1+\sqrt{5})/2"&gt;&lt;/span&gt; и &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="119" height="20" src="http://velikiinehochuha.github.io/formulae/oxKL1Mb1N_iMBE2vAPapClklGGyJp1NSTo3KTw.png" alt="\psi = (1-\sqrt{5})/2" title="\psi = (1-\sqrt{5})/2"&gt;&lt;/span&gt;
+   &lt;/h3&gt;
+   &lt;div&gt;
+    &lt;p&gt;
+     при n=0, &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="136" height="20" src="http://velikiinehochuha.github.io/formulae/jLMP21rgYPtqQeX8CrNrJkXZjCDu0pSpVoCj9g.png" alt="(\phi^0-\psi^0)/\sqrt{5} = 0" title="(\phi^0-\psi^0)/\sqrt{5} = 0"&gt;&lt;/span&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+     при n=1, &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="295" height="21" src="http://velikiinehochuha.github.io/formulae/nSajWKu5CFrSKniUBj10DkIqKy3LRye6a8cl8A.png" alt="((1+\sqrt{5})/2)-(1-\sqrt{5})/2))/\sqrt(5) = 1" title="((1+\sqrt{5})/2)-(1-\sqrt{5})/2))/\sqrt(5) = 1"&gt;&lt;/span&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+     осталось доказать что Fib(n) = Fib(n-2) + Fib(n-1) (2):
+    &lt;/p&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="953" height="21" src="http://velikiinehochuha.github.io/formulae/wq.Rq.HXT9H104.ghU.llmrz5UuKrAI0m.hgBA.png" alt="(((1+\sqrt{5})/2)^n - ((1-\sqrt{5})/2)^n)/\sqrt{5} = (((1+\sqrt{5})/2)^{n-1} - ((1-\sqrt{5})/2)^{n-1})/\sqrt{5} + (((1+\sqrt{5})/2)^{n-2} - ((1-\sqrt{5})/2)^{n-2})/\sqrt{5}" title="(((1+\sqrt{5})/2)^n - ((1-\sqrt{5})/2)^n)/\sqrt{5} = (((1+\sqrt{5})/2)^{n-1} - ((1-\sqrt{5})/2)^{n-1})/\sqrt{5} + (((1+\sqrt{5})/2)^{n-2} - ((1-\sqrt{5})/2)^{n-2})/\sqrt{5}"&gt;
+    &lt;/div&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="817" height="21" src="http://velikiinehochuha.github.io/formulae/Am4sZVszc.AJBcPvGGP2Hg7B_r2VB.lJFJe7rw.png" alt="((1+\sqrt{5})/2)^n - ((1-\sqrt{5})/2)^n = ((1+\sqrt{5})/2)^{n-1} - ((1-\sqrt{5})/2)^{n-1} + ((1+\sqrt{5})/2)^{n-2} - ((1-\sqrt{5})/2)^{n-2}" title="((1+\sqrt{5})/2)^n - ((1-\sqrt{5})/2)^n = ((1+\sqrt{5})/2)^{n-1} - ((1-\sqrt{5})/2)^{n-1} + ((1+\sqrt{5})/2)^{n-2} - ((1-\sqrt{5})/2)^{n-2}"&gt;
+    &lt;/div&gt;
+    &lt;p&gt;
+     применяя тождество 1, получаем:
+    &lt;/p&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="399" height="21" src="http://velikiinehochuha.github.io/formulae/mBgmwA_a43nN1qjuDL0a6pF5vhKZV2qnhE5gQg.png" alt="((1-\sqrt{5})/2)^n = ((1-\sqrt{5})/2)^{n-1} + ((1-\sqrt{5})/2)^{n-2}" title="((1-\sqrt{5})/2)^n = ((1-\sqrt{5})/2)^{n-1} + ((1-\sqrt{5})/2)^{n-2}"&gt;
+    &lt;/div&gt;
+    &lt;p&gt;
+     доказывается точно также как тождество 1:
+    &lt;/p&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="255" height="21" src="http://velikiinehochuha.github.io/formulae/a8t2dmDEAsinmvCGJofpZncar22jW5V8rrFouA.png" alt="((1-\sqrt{5})/2)^2 = ((1-\sqrt{5})/2) + 1" title="((1-\sqrt{5})/2)^2 = ((1-\sqrt{5})/2) + 1"&gt;
+    &lt;/div&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="188" height="21" src="http://velikiinehochuha.github.io/formulae/kO6G5BYnE8.uTj3lK4dBHJYVKD59RAU6XGtnZA.png" alt="(1-\sqrt{5})^2 = 2-2\sqrt{5} + 4" title="(1-\sqrt{5})^2 = 2-2\sqrt{5} + 4"&gt;
+    &lt;/div&gt;
+    &lt;div class="display-formula"&gt;
+     &lt;img class="img-display-formula img-formula" width="40" height="11" src="http://velikiinehochuha.github.io/formulae/y.GRlg4873GC_OIUeajnnK2yU.iIDK26NTUc9g.png" alt="0 = 0" title="0 = 0"&gt;
+    &lt;/div&gt;
+    &lt;p&gt;
+     Ч.т.д.
+    &lt;/p&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</description><category>mathematics</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-uprazhnenie-113/</guid><pubDate>Fri, 10 Jan 2020 19:44:12 GMT</pubDate></item></channel></rss>

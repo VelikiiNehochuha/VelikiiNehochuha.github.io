@@ -13,20 +13,26 @@
 <link rel="canonical" href="http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-iz-glavy-11/">
 <!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
 <link rel="prev" href="../zadachi-po-kursu-sicp/" title="Задачи по курсу SICP. Введение." type="text/html">
+<link rel="next" href="../sicp-uprazhneniia-iz-glavy-12/" title="SICP Упражнения из главы 1.2 (1.9-1.12)" type="text/html">
 <meta property="og:site_name" content="VelikiiNehochuha Blog">
 <meta property="og:title" content="SICP Упражнения из главы 1.1">
 <meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-iz-glavy-11/">
-<meta property="og:description" content="Exercise 1.1. Простейшие арифметические операции, специальные формы if, define, cond.
+<meta property="og:description" content="Exercise 1.1.
+
+
+Простейшие арифметические операции, специальные формы if, define, cond.
 
 10 ;Value: 10
 (+ 5 3 4) ;Value: 12
 (- 9 1) ;Value: 8
 (/ 6 2) ;Value: 3
 (+ (* 2 4) (- 4 6)) ;Value: 6
-(define a 3)">
+(define a ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-01-09T13:10:04+03:00">
-<meta property="article:tag" content="sicp scheme lisp">
+<meta property="article:tag" content="lisp">
+<meta property="article:tag" content="scheme">
+<meta property="article:tag" content="sicp">
 </head>
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
@@ -60,9 +66,12 @@
         </div>
         
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org5117551" class="outline-2">
-<h2 id="org5117551">Exercise 1.1. Простейшие арифметические операции, специальные формы if, define, cond.</h2>
-<div class="outline-text-2" id="text-org5117551">
+    <div id="outline-container-orga933951" class="outline-2">
+<h2 id="orga933951">Exercise 1.1.</h2>
+<div class="outline-text-2" id="text-orga933951">
+<p>
+Простейшие арифметические операции, специальные формы if, define, cond.
+</p>
 <div class="highlight"><pre><span></span><span class="mi">10</span> <span class="c1">;Value: 10</span>
 <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">;Value: 12</span>
 <span class="p">(</span><span class="nb">- </span><span class="mi">9</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">;Value: 8</span>
@@ -87,9 +96,13 @@
 </div>
 </div>
 
-<div id="outline-container-org7243cdb" class="outline-2">
-<h2 id="org7243cdb">Exercise 1.2. Перевести формулу с картинки в scheme.</h2>
-<div class="outline-text-2" id="text-org7243cdb">
+<div id="outline-container-org3679b76" class="outline-2">
+<h2 id="org3679b76">Exercise 1.2.</h2>
+<div class="outline-text-2" id="text-org3679b76">
+<p>
+Перевести формулу с картинки в scheme.
+</p>
+
 <p>
 <img src="../../images/ch1-Z-G-3.gif" alt="nil"></p>
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">4</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="p">(</span><span class="nb">- </span><span class="mi">3</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">6</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">4</span> <span class="mi">3</span><span class="p">)))))</span> <span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="p">(</span><span class="nb">- </span><span class="mi">6</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="mi">7</span><span class="p">)))</span> <span class="c1">;Value: -23/90</span>
@@ -97,9 +110,12 @@
 </div>
 </div>
 
-<div id="outline-container-orge042014" class="outline-2">
-<h2 id="orge042014">Exercise 1.3. Определить функцию сложения квадратов, двух чисел, выбрав их из трех аргументов.</h2>
-<div class="outline-text-2" id="text-orge042014">
+<div id="outline-container-org5f5c07d" class="outline-2">
+<h2 id="org5f5c07d">Exercise 1.3.</h2>
+<div class="outline-text-2" id="text-org5f5c07d">
+<p>
+Определить функцию сложения квадратов, двух чисел, выбрав их из трех аргументов.
+</p>
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">squire</span> <span class="nv">x</span><span class="p">)</span>
   <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
 
@@ -116,10 +132,14 @@
 </div>
 </div>
 
-<div id="outline-container-org73babb5" class="outline-2">
-<h2 id="org73babb5">Exercise 1.4. Scheme позволяет выбирать операнды так же как и обычные переменные.</h2>
-<div class="outline-text-2" id="text-org73babb5">
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">define</span> <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">plus</span><span class="o">-</span><span class="nb">abs</span><span class="o">-</span><span class="n">b</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span> <span class="p">;;</span> <span class="n">Можно</span> <span class="n">выбирать</span> <span class="n">какую</span> <span class="n">операцию</span> <span class="n">применить</span> <span class="n">в</span> <span class="n">зависимости</span> <span class="n">от</span> <span class="n">условия</span><span class="p">,</span> <span class="n">то</span> <span class="n">есть</span> <span class="n">функции</span> <span class="n">можно</span> <span class="n">рассматривать</span> <span class="n">как</span> <span class="n">объекты</span>
+<div id="outline-container-org3b3179a" class="outline-2">
+<h2 id="org3b3179a">Exercise 1.4.</h2>
+<div class="outline-text-2" id="text-org3b3179a">
+<p>
+Scheme позволяет выбирать операнды так же как и обычные переменные.
+Можно выбирать какую операцию применить в зависимости от условия, то есть функции можно рассматривать как объекты.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">define</span> <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">plus</span><span class="o">-</span><span class="nb">abs</span><span class="o">-</span><span class="n">b</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span>
   <span class="p">((</span><span class="k">if</span> <span class="p">(</span><span class="o">&gt;</span> <span class="n">b</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="o">-</span><span class="p">)</span> <span class="n">a</span> <span class="n">b</span><span class="p">))</span>
 
 <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">plus</span><span class="o">-</span><span class="nb">abs</span><span class="o">-</span><span class="n">b</span> <span class="mi">5</span> <span class="o">-</span><span class="mi">6</span><span class="p">)</span>
@@ -127,13 +147,13 @@
 </div>
 </div>
 
-<div id="outline-container-orge53b3ec" class="outline-2">
-<h2 id="orge53b3ec">Exercise 1.5. Пытаемся разобраться в какой последовательности выполняются процедуры и зачем нужны специальные формы.</h2>
-<div class="outline-text-2" id="text-orge53b3ec">
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">p</span><span class="p">))</span> <span class="c1">;; scheme сначала вычисляет аргументы, а потом тело процедуры (applicative-order evaluation)</span>
-<span class="c1">;; при попытке вычислить (test 0 (p)) интерпретатор пытается сначала</span>
-<span class="c1">;; посчитать аргументы функции test, что приводит к бесконечному рекурсивному вызову (define (p) (p))</span>
-<span class="c1">;; если мы это была специальная форма, а не обычный define, то нам не пришлось бы вычислять (p) и результатом был бы 0</span>
+<div id="outline-container-org5893909" class="outline-2">
+<h2 id="org5893909">Exercise 1.5.</h2>
+<div class="outline-text-2" id="text-org5893909">
+<p>
+Пытаемся разобраться в какой последовательности выполняются процедуры и зачем нужны специальные формы.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">p</span><span class="p">))</span>
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">test</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="mi">0</span><span class="p">)</span>
       <span class="mi">0</span>
@@ -141,12 +161,23 @@
 
 <span class="p">(</span><span class="nf">test</span> <span class="mi">0</span> <span class="p">(</span><span class="nf">p</span><span class="p">))</span>
 </pre></div>
+
+<p>
+Scheme сначала вычисляет аргументы, а потом тело процедуры (applicative-order evaluation)
+при попытке вычислить (test 0 (p)) интерпретатор пытается сначала
+посчитать аргументы функции test, что приводит к бесконечному рекурсивному вызову (define (p) (p))
+если мы это была специальная форма, а не обычный define, то нам не пришлось бы вычислять (p) и результатом был бы 0
+</p>
 </div>
 </div>
 
-<div id="outline-container-org6f66b73" class="outline-2">
-<h2 id="org6f66b73">Exercise 1.6. Хакер Алиса не понимает для чего нужны специальные формы. ``Почему я не могу просто определить if как обычную процедуру в терминах cond?'' - спросила она. Её друг Ева Ли Атор согласился что это действительно можно сделать, и она записала свою реализацию специальной формы if через define:</h2>
-<div class="outline-text-2" id="text-org6f66b73">
+<div id="outline-container-orgbe9d794" class="outline-2">
+<h2 id="orgbe9d794">Exercise 1.6.</h2>
+<div class="outline-text-2" id="text-orgbe9d794">
+<p>
+Хакер Алиса не понимает для чего нужны специальные формы. ``Почему я не могу просто определить if как обычную процедуру в терминах cond?'' - спросила она. Её друг Ева Ли Атор согласился что это действительно можно сделать, и она записала свою реализацию специальной формы if через define:
+</p>
+
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">new-if</span> <span class="nv">predicate</span> <span class="nv">then-clause</span> <span class="nv">else-clause</span><span class="p">)</span>
   <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="nf">predicate</span> <span class="nv">then-clause</span><span class="p">)</span>
 	<span class="p">(</span><span class="k">else </span><span class="nv">else-clause</span><span class="p">)))</span>
@@ -195,9 +226,13 @@ predicate, затем в зависимости от условия выполн
 </div>
 </div>
 
-<div id="outline-container-orgf40d202" class="outline-2">
-<h2 id="orgf40d202">Exercise 1.7. Ограничение приведенное в книге не подходит для малых чисел а так же для больших. Так же в реальном мире, арифметические операции всегда выполняются с погрешностью. Это делает наш тест неподходящим для больших чисел. Поясните данное утверждение, приведите примеры когда исходный вариант программы работает плохо. В качестве альтернативной реализации напишите программу которая считает результат подходящим когда изменение предположения между двумя итерациями много меньше предыдущего предполагаемого решения, то есть мы будем получать очень малое уточнение за все последующие операции. Попробуйте получить результат с помощью новой процедуры.</h2>
-<div class="outline-text-2" id="text-orgf40d202">
+<div id="outline-container-orgbd61893" class="outline-2">
+<h2 id="orgbd61893">Exercise 1.7.</h2>
+<div class="outline-text-2" id="text-orgbd61893">
+<p>
+Ограничение приведенное в книге не подходит для малых чисел а так же для больших. Так же в реальном мире, арифметические операции всегда выполняются с погрешностью. Это делает наш тест неподходящим для больших чисел. Поясните данное утверждение, приведите примеры когда исходный вариант программы работает плохо. В качестве альтернативной реализации напишите программу которая считает результат подходящим когда изменение предположения между двумя итерациями много меньше предыдущего предполагаемого решения, то есть мы будем получать очень малое уточнение за все последующие операции. Попробуйте получить результат с помощью новой процедуры.
+</p>
+
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)</span>
   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
     <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">square</span> <span class="nv">guess</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span> <span class="mf">0.001</span><span class="p">))</span>
@@ -246,9 +281,13 @@ predicate, затем в зависимости от условия выполн
 </div>
 </div>
 
-<div id="outline-container-orgc3d164a" class="outline-2">
-<h2 id="orgc3d164a">Exercise 1.8. Метод Ньютона для кубического корня основан на факте что приближенное значение можно искать по формуле с картинки. Реализуйте метод извлечения кубического корня из числа.</h2>
-<div class="outline-text-2" id="text-orgc3d164a">
+<div id="outline-container-orgf299247" class="outline-2">
+<h2 id="orgf299247">Exercise 1.8.</h2>
+<div class="outline-text-2" id="text-orgf299247">
+<p>
+Метод Ньютона для кубического корня основан на факте что приближенное значение можно искать по формуле с картинки. Реализуйте метод извлечения кубического корня из числа.
+</p>
+
 <p>
 <img src="../../images/ch1-Z-G-5.gif" alt="nil"></p>
 
@@ -271,11 +310,16 @@ predicate, затем в зависимости от условия выполн
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../../categories/sicp-scheme-lisp/" rel="tag">sicp scheme lisp</a></li>
+<li><a class="tag p-category" href="../../categories/lisp/" rel="tag">lisp</a></li>
+            <li><a class="tag p-category" href="../../categories/scheme/" rel="tag">scheme</a></li>
+            <li><a class="tag p-category" href="../../categories/sicp/" rel="tag">sicp</a></li>
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../zadachi-po-kursu-sicp/" rel="prev" title="Задачи по курсу SICP. Введение.">Предыдущая запись</a>
+            </li>
+            <li class="next">
+                <a href="../sicp-uprazhneniia-iz-glavy-12/" rel="next" title="SICP Упражнения из главы 1.2 (1.9-1.12)">Следующая запись</a>
             </li>
         </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
