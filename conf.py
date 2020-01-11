@@ -308,9 +308,12 @@ COMPILERS = {
     # "pandoc": ('.rst', '.md', '.txt'),
 }
 COMPILERS["orgmode"] = ('.org',)
+COMPILERS["latex"] = ('.tex',)
 # Add org files to your POSTS, PAGES
 POSTS = POSTS + (("posts/*.org", "posts", "post.tmpl"),)
 PAGES = PAGES + (("stories/*.org", "stories", "story.tmpl"),)
+POSTS = POSTS + (("posts/*.tex", "posts", "post.tmpl"),)
+PAGES = PAGES + (("stories/*.tex", "stories", "story.tmpl"),)
 
 
 # Enable reST directives that insert the contents of external files such
