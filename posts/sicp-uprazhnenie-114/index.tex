@@ -1,0 +1,83 @@
+.. title: SICP Упражнение 1.14.
+.. slug: sicp-uprazhnenie-114
+.. date: 2020-01-11 14:54:25 UTC+03:00
+.. tags: sicp, scheme, lisp, draw
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+\chapter{Упражнение 1.14}
+
+\section{Изобразите дерево иллюстрирующее процесс процедуры count-charge из секции 1.22 для 11 центов.}
+
+\begin{codelisting}{scheme}
+;; Example: Counting change
+;; Сколькими способами мы можем внесни изменение в сумму
+;; если у нас есть монеты 50 25 10 5 и 1 центов.
+;; Есть простое решение через рекурсивную процедуру
+;; если a = 0 1 способ внести изменение
+;; если a < 0 0 способов
+;; если n = 0, 0 способов внести изменение
+(define (count-change amount)
+  (cc amount 5))
+(define (first-denomination kinds-of-coins)
+  (cond ((= kinds-of-coins 1) 1)
+        ((= kinds-of-coins 2) 5)
+        ((= kinds-of-coins 3) 10)
+        ((= kinds-of-coins 4) 25)
+        ((= kinds-of-coins 5) 50)))
+
+(define (cc amount kinds-of-coins)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (= kinds-of-coins 0)) 0)
+        (else (+ (cc amount
+                     (- kinds-of-coins 1)) ;; изменение берем разные монетки
+                 (cc (- amount
+                        (first-denomination kinds-of-coins)) ;; изменяем сумму на значение монетки
+                     kinds-of-coins)))))
+\end{codelisting}
+
+Иттерируя можно себе представить что получится что-то вроде.
+\begin{codelisting}{scheme}
+                            (cc 11 5)
+                     (cc 11 4)     (cc -39 5)
+                (cc 11 3) (cc -14 4)      0
+           (cc 11 2) (cc 1 3) | 0
+      (cc 11 1) (cc 6 2) | (cc 1 2) (cc -9 3)
+ (cc 11 0) (cc 10 1) | (cc 6 1) (cc 1 1) | (cc 1 1) (cc -4 2) | 0
+    0 | (cc 10 0) (cc 9 0) | (cc 6 0) (cc 5 1) | (cc 1 0) (cc 0 1) | (cc 1 0) (cc 0 1) | 0
+          0 | 0 | 0 | (cc 5 0) (cc 4 1) | 0 | 0 | 0 | 0
+          0 | 0 | (cc 4 0) (cc 3 1)
+          0 | (cc 3 0) (cc 2 1)
+          0 | (cc 2 0) (cc 1 1)
+          0 | (cc 1 0) (cc 0 1)
+          0 | 0
+\end{codelisting}
+
+\section{Каков порядок роста ($\theta(n)$) по памяти и по количеству шагов. Где n - сумма.}
+
+По памяти все просто $\theta(n)$.
+
+По количеству шагов, давайте представим что у нас есть всего одна монетка для изменений. Тогда.
+
+\begin{codelisting}{scheme}
+        (cc amount 1)
+  (cc amount 0)  (cc (amount - 1) 1)
+0                0     (cc (amount - 2) 1)
+\end{codelisting}
+
+Видим что у нас левая часть всегда вырождается в 0. А порядок роста в право это просто $\theta(n)$
+
+Теперь посмотрим что будет происходить с двумя монетками для изменения.
+
+\begin{codelisting}{scheme}
+        (cc amount 2)
+  (cc amount 1)  (cc (amount - 1) 2)
+\end{codelisting}
+
+Видим что в левой части у нас в точности то что при одной монетке. А в провой части у нас каждый раз будет создаваться новая левая для одной монетки и еще одна правая. Порядок роста у нас получится $\theta(n^2)$.
+
+И так при каждом добавлении еще одного номинала разменной монетки, порядок роста будет увеличиваться на n.
+
+У нас в задаче 5 разменных монет, поэтому для нашей задачи порядок роста $\theta(n^5)$.
