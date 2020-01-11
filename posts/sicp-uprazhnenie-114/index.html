@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>SICP Упражнение 1.14. | VelikiiNehochuha Blog</title>
+<title>SICP Упражнение 1.14, 1.15. | VelikiiNehochuha Blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
@@ -14,18 +14,18 @@
 <!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
 <link rel="prev" href="../sicp-uprazhnenie-113/" title="SICP Упражнение 1.13" type="text/html">
 <meta property="og:site_name" content="VelikiiNehochuha Blog">
-<meta property="og:title" content="SICP Упражнение 1.14.">
+<meta property="og:title" content="SICP Упражнение 1.14, 1.15.">
 <meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-uprazhnenie-114/">
 <meta property="og:description" content="Упражнение 1.14
- 
- 
+  
   
    
-    Изобразите дерево иллюстрирующее процесс процедуры count-charge из секции 1.22 для 11 центов.
-   
-   
+    
+     Изобразите дерево иллюстрирующее процесс процедуры count-charge из секции 1.22 для 11 центов.
+    
+    
  1 ;; Example: Counting change
- 2 ;; Сколькими способами мы можем в">
+ 2 ;; Сколькими способами мы ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-01-11T14:54:25+03:00">
 <meta property="article:tag" content="draw">
@@ -50,7 +50,7 @@
     
     
     
-    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP Упражнение 1.14.</a></h1>
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP Упражнение 1.14, 1.15.</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
@@ -65,16 +65,17 @@
         </div>
         
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div class="chapter-block">
- <h2>
-  Упражнение 1.14
- </h2>
- <div>
-  <div class="section-block">
-   <h3>
-    Изобразите дерево иллюстрирующее процесс процедуры count-charge из секции 1.22 для 11 центов.
-   </h3>
-   <div>
+    <div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.14
+  </h2>
+  <div>
+   <div class="section-block">
+    <h3>
+     Изобразите дерево иллюстрирующее процесс процедуры count-charge из секции 1.22 для 11 центов.
+    </h3>
+    <div>
 <div class="code-scheme">
 <pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; Example: Counting change</span>
 <span class="lineno"> 2 </span><span class="c1">;; Сколькими способами мы можем внесни изменение в сумму</span>
@@ -101,11 +102,11 @@
 <span class="lineno">23 </span>                        <span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">kinds-of-coins</span><span class="p">))</span> <span class="c1">;; изменяем сумму на значение монетки</span>
 <span class="lineno">24 </span>                     <span class="nv">kinds-of-coins</span><span class="p">)))))</span>
 </pre>
-</div>    <div>
-     <p>
-      Иттерируя можно себе представить что получится что-то вроде.
-     </p>
-    </div>
+</div>     <div>
+      <p>
+       Иттерируя можно себе представить что получится что-то вроде.
+      </p>
+     </div>
 <div class="code-scheme">
 <pre class="code literal-block"><span></span><span class="lineno"> 1 </span>                            <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">5</span><span class="p">)</span>
 <span class="lineno"> 2 </span>                     <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">4</span><span class="p">)</span>     <span class="p">(</span><span class="nf">cc</span> <span class="mi">-39</span> <span class="mi">5</span><span class="p">)</span>
@@ -121,48 +122,95 @@
 <span class="lineno">12 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">)</span>
 <span class="lineno">13 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span>
 </pre>
-</div>   </div>
-  </div>
-  <div class="section-block">
-   <h3>
-    Каков порядок роста (<span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="../../formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>) по памяти и по количеству шагов. Где n - сумма.
-   </h3>
-   <div>
+</div>    </div>
+   </div>
+   <div class="section-block">
+    <h3>
+     Каков порядок роста (<span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="../../formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>) по памяти и по количеству шагов. Где n - сумма.
+    </h3>
     <div>
-     <p>
-      По памяти все просто <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="../../formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>.
-     </p>
-     <p>
-      По количеству шагов, давайте представим что у нас есть всего одна монетка для изменений. Тогда.
-     </p>
-    </div>
+     <div>
+      <p>
+       По количеству шагов, давайте представим что у нас есть всего одна монетка для изменений. Тогда.
+      </p>
+     </div>
 <div class="code-scheme">
 <pre class="code literal-block"><span></span><span class="lineno">1 </span>        <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">1</span><span class="p">)</span>
 <span class="lineno">2 </span>  <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nf">amount</span> <span class="nv">-</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
 <span class="lineno">3 </span><span class="mi">0</span>                <span class="mi">0</span>     <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nf">amount</span> <span class="nv">-</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
 </pre>
-</div>    <div>
-     <p>
-      Видим что у нас левая часть всегда вырождается в 0. А порядок роста в право это просто <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="../../formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>
-     </p>
-     <p>
-      Теперь посмотрим что будет происходить с двумя монетками для изменения.
-     </p>
-    </div>
+</div>     <div>
+      <p>
+       Видим что у нас левая часть всегда вырождается в 0. А порядок роста в право это просто <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="../../formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>
+      </p>
+      <p>
+       Теперь посмотрим что будет происходить с двумя монетками для изменения.
+      </p>
+     </div>
 <div class="code-scheme">
 <pre class="code literal-block"><span></span><span class="lineno">1 </span>        <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">2</span><span class="p">)</span>
 <span class="lineno">2 </span>  <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nf">amount</span> <span class="nv">-</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
 </pre>
-</div>    <div>
-     <p>
-      Видим что в левой части у нас в точности то что при одной монетке. А в провой части у нас каждый раз будет создаваться новая левая для одной монетки и еще одна правая. Порядок роста у нас получится <span class="inline-formula"><img class="img-inline-formula img-formula" width="40" height="18" src="../../formulae/TDMg7xotZXKkYHRB35dASqEHcCEqzcosTs4gqA.png" alt="\theta(n^2)" title="\theta(n^2)"></span>.
-     </p>
-     <p>
-      И так при каждом добавлении еще одного номинала разменной монетки, порядок роста будет увеличиваться на n.
-     </p>
-     <p>
-      У нас в задаче 5 разменных монет, поэтому для нашей задачи порядок роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="40" height="18" src="../../formulae/fOU3P7Sr57KOt1u0RoA3w7g8.o4nZ4F8ewg70g.png" alt="\theta(n^5)" title="\theta(n^5)"></span>.
-     </p>
+</div>     <div>
+      <p>
+       Видим что в левой части у нас в точности то что при одной монетке. А в провой части у нас каждый раз будет создаваться новая левая для одной монетки и еще одна правая. Порядок роста у нас получится <span class="inline-formula"><img class="img-inline-formula img-formula" width="40" height="18" src="../../formulae/TDMg7xotZXKkYHRB35dASqEHcCEqzcosTs4gqA.png" alt="\theta(n^2)" title="\theta(n^2)"></span>.
+      </p>
+      <p>
+       И так при каждом добавлении еще одного номинала разменной монетки, порядок роста будет увеличиваться на n.
+      </p>
+      <p>
+       У нас в задаче 5 разменных монет, поэтому для нашей задачи порядок роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="40" height="18" src="../../formulae/fOU3P7Sr57KOt1u0RoA3w7g8.o4nZ4F8ewg70g.png" alt="\theta(n^5)" title="\theta(n^5)"></span>.
+      </p>
+      <p>
+       По памяти <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="../../formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span> (порядок максимального разветвления дерева).
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.15
+  </h2>
+  <div>
+   <div>
+    <p>
+     Синус угла (указанный в радианах) может быть вычислен используя приближение что <span class="inline-formula"><img class="img-inline-formula img-formula" width="74" height="17" src="../../formulae/VwTzGshSwoUNeeeAXWnwBL9X4VMacim1a14XTQ.png" alt="\sin(r) = r" title="\sin(r) = r"></span> если <span class="inline-formula"><img class="img-inline-formula img-formula" width="8" height="7" src="../../formulae/9PDR_uZ5xxt4l_bI_FVKMXrwFl94B6.ue5eEfg.png" alt="r" title="r"></span> малое значение. Для итеративного уменьшения угла будем использовать тригонометрическое тождество <span class="inline-formula"><img class="img-inline-formula img-formula" width="204" height="18" src="../../formulae/B.h1aEvWmQVlz4e7yBgWDTMA515GD0w6mJyTvg.png" alt="\sin{r} = 3\sin{r/3} - 4sin^3{r/3}" title="\sin{r} = 3\sin{r/3} - 4sin^3{r/3}"></span>.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cube</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+<span class="lineno">2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">p</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">4</span> <span class="p">(</span><span class="nf">cube</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="lineno">3 </span>
+<span class="lineno">4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sine</span> <span class="nv">angle</span><span class="p">)</span>
+<span class="lineno">5 </span>   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">abs </span><span class="nv">angle</span><span class="p">)</span> <span class="mf">0.1</span><span class="p">))</span>
+<span class="lineno">6 </span>       <span class="nv">angle</span>
+<span class="lineno">7 </span>       <span class="p">(</span><span class="nf">p</span> <span class="p">(</span><span class="nf">sine</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">angle</span> <span class="mf">3.0</span><span class="p">)))))</span>
+</pre>
+</div>   <div>
+    <div class="section-block">
+     <h3>
+      Сколько раз выполнится процедура p применительно к sin 12.15?
+     </h3>
+     <div>
+      <p>
+       Будем делить угол на 3 пока, он не станет меньше чем 0.1. 12.15/3/3/3/3/3 = 0.049, значит 5 раз.
+      </p>
+      <p>
+       А если записать в общем виде это будет <span class="inline-formula"><img class="img-inline-formula img-formula" width="73" height="16" src="../../formulae/WyZGa87XcDVFaBuL3zhCCfou.bf8HHwAK4huJg.png" alt="\log_3{x} + a" title="\log_3{x} + a"></span>, где а константа.
+      </p>
+     </div>
+    </div>
+    <div class="section-block">
+     <h3>
+      Каков порядок роста этой функции.
+     </h3>
+     <div>
+      <p>
+       Порядок роста по количеству итераций равен <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="../../formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>. По месту так же.
+      </p>
+     </div>
     </div>
    </div>
   </div>
