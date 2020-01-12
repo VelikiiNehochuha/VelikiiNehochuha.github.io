@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-01-11T22:05:00Z</lastmod>
+  <lastmod>2020-01-12T15:51:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-01-11T12:18:00Z</lastmod>
+  <lastmod>2020-01-12T23:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/algorithms/</loc>
@@ -34,10 +34,6 @@
   <lastmod>2019-12-31T17:40:00Z</lastmod>
  </url>
  <url>
-  <loc>http://velikiinehochuha.github.io/categories/draw/</loc>
-  <lastmod>2020-01-11T12:18:00Z</lastmod>
- </url>
- <url>
   <loc>http://velikiinehochuha.github.io/categories/emacs/</loc>
   <lastmod>2019-12-31T17:40:00Z</lastmod>
  </url>
@@ -46,12 +42,24 @@
   <lastmod>2019-12-31T17:40:00Z</lastmod>
  </url>
  <url>
+  <loc>http://velikiinehochuha.github.io/categories/gcd/</loc>
+  <lastmod>2020-01-12T15:51:00Z</lastmod>
+ </url>
+ <url>
   <loc>http://velikiinehochuha.github.io/categories/lisp/</loc>
   <lastmod>2020-01-08T12:10:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/mathematics/</loc>
   <lastmod>2020-01-11T10:45:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/primary_numbers/</loc>
+  <lastmod>2020-01-12T15:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/prime_numbers/</loc>
+  <lastmod>2020-01-12T23:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/scheme/</loc>
@@ -92,6 +100,14 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhnenie-114/</loc>
   <lastmod>2020-01-11T12:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-120-124/</loc>
+  <lastmod>2020-01-12T23:44:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-120-128/</loc>
+  <lastmod>2020-01-12T15:51:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-iz-glavy-11/</loc>

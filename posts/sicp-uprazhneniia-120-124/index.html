@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html prefix="
+        og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+    " vocab="http://ogp.me/ns" lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24 | VelikiiNehochuha Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="../../rss.xml">
+<link rel="canonical" href="http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-120-124/">
+<!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
+<link rel="prev" href="../sicp-uprazhnenie-114/" title="SICP Упражнения 1.14, 1.15, 1.16, 1.17." type="text/html">
+<meta property="og:site_name" content="VelikiiNehochuha Blog">
+<meta property="og:title" content="SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24">
+<meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-120-124/">
+<meta property="og:description" content="Упражнение 1.20
+  
+  
+   
+    
+     Процесс который генерируется процедурой естественно зависит от правил интерпритатора. Как пример возьмем итеративную процецудуру нахождения наибольшего общего делит">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-01-12T12:32:43+03:00">
+<meta property="article:tag" content="gcd">
+<meta property="article:tag" content="prime_numbers">
+<meta property="article:tag" content="scheme">
+<meta property="article:tag" content="sicp">
+</head>
+<body>
+    <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
+    <div id="container">
+             <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+
+        <span id="blog-title">VelikiiNehochuha Blog</span>
+    </a></h1>
+
+        
+            <nav id="menu"><ul>
+<li><a href="../../archive.html">Архив</a></li>
+                <li><a href="../../categories/">Тэги</a></li>
+                <li><a href="../../rss.xml">RSS лента</a></li>
+
+    
+    
+    
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-12T12:32:43+03:00" itemprop="datePublished" title="2020-01-12 12:32">2020-01-12 12:32</time></a>
+            </p>
+                    <p class="sourceline"><a href="index.tex" class="sourcelink">Источник</a></p>
+
+        </div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.20
+  </h2>
+  <div>
+   <div>
+    <p>
+     Процесс который генерируется процедурой естественно зависит от правил интерпритатора. Как пример возьмем итеративную процецудуру нахождения наибольшего общего делителя приведенного выше. Предположим мы интерпритируем это процедуру используя "нормамальный порядок выполнения". Используя метод подстановки проиллюстрируйте процесс вычисления (gcd 206 40) и указать "reminder" операции которые реально выполняются. Сколько таких операций выполнится при "нормальном порядке" и сколько при "апликативном".
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; нормальный порядок</span>
+<span class="lineno"> 2 </span><span class="p">(</span><span class="nb">gcd </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="mi">40</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno"> 4 </span><span class="p">(</span><span class="nb">gcd </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span>
+<span class="lineno"> 5 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">; 6 + 1 раз</span>
+<span class="lineno"> 6 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="nb">gcd </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span>
+<span class="lineno"> 8 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">; 4 + 2 раза</span>
+<span class="lineno"> 9 </span><span class="p">(</span><span class="nb">gcd </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))))</span>
+<span class="lineno">10 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">; 2 + 4 раза</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="nb">gcd </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))))</span>
+<span class="lineno">12 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">reminder</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))))</span> <span class="mi">0</span><span class="p">))</span><span class="c1">; 0; + 7 раз</span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="o">...</span><span class="p">)</span>
+<span class="lineno">14 </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span> <span class="c1">;; 4 раза</span>
+<span class="lineno">15 </span><span class="c1">;; 18 вычислений reminder</span>
+<span class="lineno">16 </span><span class="c1">;; при апликативной форме этих вычислений всего 4</span>
+</pre>
+</div>   <div>
+    <p>
+     Вывод: при normal-order-evaluation 18 вызовов reminder, при applicative-order-evaluation 4.
+    </p>
+   </div>
+  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.21
+  </h2>
+  <div>
+   <div>
+    <p>
+     Используя процедуру "smallest-divisor" Найдите наиментший делитель для 199б 1999, 19999
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="nv">test-divisor</span><span class="p">)</span>
+<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">square</span> <span class="nv">test-divisor</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 5 </span>        <span class="p">((</span><span class="nf">divides?</span> <span class="nv">test-divisor</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">test-divisor</span><span class="p">)</span>
+<span class="lineno"> 6 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">test-divisor</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">divides?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno"> 9 </span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="mi">199</span><span class="p">)</span> <span class="c1">; 199</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="mi">1999</span><span class="p">)</span> <span class="c1">; 1999</span>
+<span class="lineno">12 </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="mi">19999</span><span class="p">)</span> <span class="c1">; 7</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.22
+  </h2>
+  <div>
+   <div>
+    <p>
+     Большинство реализаций lisp включаются примитиву runtime, которая возвращает время работы системы. Ниже написана процедура которое замеряет время теста на простоту. Используя ей, напишите процедуру search-for-primes, которая проверяет простоту последовательных нечетных целых в заданном диапазоне. Используйте её чтобы найти 3 простых &gt; 1000; &gt; 10 000; &gt; 100 000; &gt; 1 000 000. Замерьте время для проверки каждого простого числа. Так как тестирующий алгоритм имеет порядок роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="47" height="18" src="../../formulae/Fm5mrdojcg8nfk0moVZWNPpDRW6kuON6Rr83Gg.png" alt="\theta(\sqrt{n})" title="\theta(\sqrt{n})"></span>, вы должны ожидать получить для время для 10 000 в <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="18" src="../../formulae/stpajtmjWkASRa_Px.gSazh7yZYs.WaF43zFUg.png" alt="\sqrt{10}" title="\sqrt{10}"></span> больше времени чем для 1 000. Посмотрите как работает это соотношение для разных диапазонов n.
+    </p>
+    <p>
+     Запись кривовата, потому что нет конструкции (let или progn как в emacs lisp, просто их еще не было в курсе). Тенденция <span class="inline-formula"><img class="img-inline-formula img-formula" width="33" height="18" src="../../formulae/R5RobS5u6di.UD.78_HWXVOLw_0Y2cnEpyVVEQ.png" alt="\theta{\sqrt{n}}" title="\theta{\sqrt{n}}"></span> начинает походить на оценку только с 10 000 000. До этого все данные совпадают и нет прироста.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">report-prime</span> <span class="nv">start-time</span> <span class="nv">end-time</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="lineno"> 3 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">" *** "</span><span class="p">)</span>
+<span class="lineno"> 4 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">start-time</span><span class="p">)</span>
+<span class="lineno"> 5 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"; "</span><span class="p">)</span>
+<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">end-time</span><span class="p">)</span>
+<span class="lineno"> 7 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"; "</span><span class="p">)</span>
+<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nb">- </span><span class="nv">end-time</span> <span class="nv">start-time</span><span class="p">)))</span>
+<span class="lineno"> 9 </span>
+<span class="lineno">10 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">prime?</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">11 </span>  <span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)))</span>
+<span class="lineno">12 </span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-iter</span> <span class="nv">from</span> <span class="nv">number</span> <span class="nv">start-time</span><span class="p">)</span>
+<span class="lineno">14 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">= </span><span class="nv">number</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno">15 </span>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">prime?</span> <span class="nv">from</span><span class="p">)</span>
+<span class="lineno">16 </span>          <span class="p">(</span><span class="nf">report-and-continue</span> <span class="nv">from</span> <span class="nv">number</span> <span class="nv">start-time</span> <span class="p">(</span><span class="nf">runtime</span><span class="p">))</span>
+<span class="lineno">17 </span>          <span class="p">(</span><span class="nf">search-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">from</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">number</span> <span class="nv">start-time</span><span class="p">))))</span>
+<span class="lineno">18 </span>
+<span class="lineno">19 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">report-and-continue</span> <span class="nv">from</span> <span class="nv">number</span> <span class="nv">start-time</span> <span class="nv">end-time</span><span class="p">)</span>
+<span class="lineno">20 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="lineno">21 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">from</span><span class="p">)</span>
+<span class="lineno">22 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="lineno">23 </span>  <span class="p">(</span><span class="nf">report-prime</span> <span class="nv">start-time</span> <span class="nv">end-time</span><span class="p">)</span>
+<span class="lineno">24 </span>  <span class="p">(</span><span class="nf">search-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">from</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">number</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">start-time</span><span class="p">))</span>
+<span class="lineno">25 </span>
+<span class="lineno">26 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="nv">from</span> <span class="nv">number</span><span class="p">)</span>
+<span class="lineno">27 </span>  <span class="p">(</span><span class="nf">search-iter</span> <span class="nv">from</span> <span class="nv">number</span> <span class="p">(</span><span class="nf">runtime</span><span class="p">)))</span>
+<span class="lineno">28 </span>
+<span class="lineno">29 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">1000</span> <span class="mi">3</span><span class="p">)</span>
+<span class="lineno">30 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">10000</span> <span class="mi">3</span><span class="p">)</span>
+<span class="lineno">31 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">100000</span> <span class="mi">3</span><span class="p">)</span>
+<span class="lineno">32 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">1000000</span> <span class="mi">3</span><span class="p">)</span>
+<span class="lineno">33 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">10000000</span> <span class="mi">3</span><span class="p">)</span>
+<span class="lineno">34 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">100000000</span> <span class="mi">3</span><span class="p">)</span>
+</pre>
+</div>   <div class="center-block">
+    <p>
+     </p>
+<div class="tabular-wrapper"><table>
+<tr>
+<td class="cell-lt" style="text-align: left;">1009 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1013 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1019 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10007 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10009 </td>
+<td class="cell-lrt" style="text-align: center;"> .00999999999999801 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10037 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100003 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100019 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100043 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1000003 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1000033 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1000037 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10000019 </td>
+<td class="cell-lrt" style="text-align: center;"> .00999999999999801 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10000079 </td>
+<td class="cell-lrt" style="text-align: center;"> .03999999999999915 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10000103 </td>
+<td class="cell-lrt" style="text-align: center;"> .05999999999999872 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100000007 </td>
+<td class="cell-lrt" style="text-align: center;"> .03999999999999915 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10000079 </td>
+<td class="cell-lrt" style="text-align: center;"> .08999999999999986 </td>
+</tr>
+<tr>
+<td class="cell-ltb" style="text-align: left;">10000103 </td>
+<td class="cell-lrtb" style="text-align: center;"> .129999999999999 </td>
+</tr>
+</table></div>
+    
+   </div>
+  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.23
+  </h2>
+  <div>
+   <div>
+    <p>
+     Процедура smallest-divisor приведенная в начале главы выполняет много ненужных проверок. После проверки деления на 2, нет смысла делить на любые другие четные. То есть значениями для проверки должны быть не 2, 3, 4, 5, 6, ..., а 2, 3, 5, 7, 9, ....
+    </p>
+    <p>
+     Сделайте это изменение реализовав процедуру next, которая вернет 3 если на вход получили 2, в ином случае вернет входное значение плюс два. Измените smallest-divisor используя (next test-divisor) (+ test-divisor 1).
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span>
+<span class="lineno"> 5 </span>      <span class="mi">3</span>
+<span class="lineno"> 6 </span>      <span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="nv">test-divisor</span><span class="p">)</span>
+<span class="lineno"> 8 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">square</span> <span class="nv">test-divisor</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 9 </span>        <span class="p">((</span><span class="nf">divides?</span> <span class="nv">test-divisor</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">test-divisor</span><span class="p">)</span>
+<span class="lineno">10 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">test-divisor</span><span class="p">)))))</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">divides?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+</pre>
+</div>   <div>
+    <p>
+     Повторите тест из 1.22
+    </p>
+    <div class="center-block">
+     <p>
+      </p>
+<div class="tabular-wrapper"><table>
+<tr>
+<td class="cell-lt" style="text-align: left;">1009 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1013 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1019 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10007 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10009 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10037 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100003 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100019 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100043 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1000003 </td>
+<td class="cell-lrt" style="text-align: center;"> 0. </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1000033 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">1000037 </td>
+<td class="cell-lrt" style="text-align: center;"> 2.0000000000003126e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10000019 </td>
+<td class="cell-lrt" style="text-align: center;"> .0 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10000079 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">10000103 </td>
+<td class="cell-lrt" style="text-align: center;"> 3.0000000000001137e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100000007 </td>
+<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
+</tr>
+<tr>
+<td class="cell-lt" style="text-align: left;">100000037 </td>
+<td class="cell-lrt" style="text-align: center;"> .05000000000000071 </td>
+</tr>
+<tr>
+<td class="cell-ltb" style="text-align: left;">100000039 </td>
+<td class="cell-lrtb" style="text-align: center;"> .07000000000000028 </td>
+</tr>
+</table></div>
+     
+    </div>
+    <p>
+     Во многих случаях уменьшилось в два раза.
+    </p>
+   </div>
+  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.24
+  </h2>
+  <div>
+   <div>
+    <p>
+     Измените процедуру timed-prime-test из 1.22 что бы она использовала fast-prime? (метод Ферма), протестируйте 12 чисел которые были найдены в упражнении 1.22. Сравните время проверки. Так как тест Ферма имеет порядок роста (log n), каково ожидание по времени для чисел около 1,000,000 в сравнении с числами около 1000? Подтвержают ли это ваши данные? Можете объяснить несоответствия, которые найдете?
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span>
+<span class="lineno"> 5 </span>      <span class="mi">3</span>
+<span class="lineno"> 6 </span>      <span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="nv">test-divisor</span><span class="p">)</span>
+<span class="lineno"> 8 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">square</span> <span class="nv">test-divisor</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 9 </span>        <span class="p">((</span><span class="nf">divides?</span> <span class="nv">test-divisor</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">test-divisor</span><span class="p">)</span>
+<span class="lineno">10 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">test-divisor</span><span class="p">)))))</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">divides?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+</pre>
+</div>   <div>
+    <p>
+     для диапазанов &lt; 10,000,000 время проверки по исходному тесту было .0, поэтому я добавил еще один диапазон и протестировал сначала старую функцию timed-prime-test
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno"> 2 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; 1.9999999999999574e-2</span>
+<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; .05000000000000071</span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; .05999999999999872</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; .07000000000000028</span>
+</pre>
+</div>   <div>
+    <p>
+     результаты выполнения теста между 1 и 2 диапазоном &lt; <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="18" src="../../formulae/stpajtmjWkASRa_Px.gSazh7yZYs.WaF43zFUg.png" alt="\sqrt{10}" title="\sqrt{10}"></span> между 2 и 3 приближенно равны ему.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno"> 2 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; 1.9999999999999574e-2</span>
+<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; .05000000000000071</span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; .05999999999999872</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; .07000000000000028</span>
+</pre>
+</div>   <div>
+    <p>
+     после этого переписал через fast-prime, время теста зависит от количества проверок
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">; c 10 проверками</span>
+<span class="lineno"> 2 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; 0.</span>
+<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; 0.</span>
+<span class="lineno"> 4 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; .00999999999999801</span>
+<span class="lineno"> 5 </span>
+<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; 0.</span>
+<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; .00999999999999801</span>
+<span class="lineno"> 8 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; .00999999999999801</span>
+<span class="lineno"> 9 </span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno">12 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
+<span class="lineno">13 </span>
+<span class="lineno">14 </span><span class="c1">; с 1000 проверками</span>
+<span class="lineno">15 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; .1999999999999993</span>
+<span class="lineno">16 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; .20000000000000284</span>
+<span class="lineno">17 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; .21999999999999886</span>
+<span class="lineno">18 </span>
+<span class="lineno">19 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; .23000000000000043</span>
+<span class="lineno">20 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; .23999999999999844</span>
+<span class="lineno">21 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; .240000000000002</span>
+<span class="lineno">22 </span>
+<span class="lineno">23 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; .2699999999999996</span>
+<span class="lineno">24 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; .26000000000000156</span>
+<span class="lineno">25 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; .259999999999998</span>
+</pre>
+</div>   <div>
+    <p>
+     оба тесты похожи на линейный прирост времени.
+    </p>
+   </div>
+  </div>
+ </div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/gcd/" rel="tag">gcd</a></li>
+            <li><a class="tag p-category" href="../../categories/prime_numbers/" rel="tag">prime_numbers</a></li>
+            <li><a class="tag p-category" href="../../categories/scheme/" rel="tag">scheme</a></li>
+            <li><a class="tag p-category" href="../../categories/sicp/" rel="tag">sicp</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../sicp-uprazhnenie-114/" rel="prev" title="SICP Упражнения 1.14, 1.15, 1.16, 1.17.">Предыдущая запись</a>
+            </li>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+                <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>
