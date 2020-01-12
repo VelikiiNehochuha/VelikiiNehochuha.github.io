@@ -1,0 +1,255 @@
+.. title: SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24
+.. slug: sicp-uprazhneniia-120-124
+.. date: 2020-01-12 12:32:43 UTC+03:00
+.. tags: sicp, scheme, gcd, prime_numbers
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+
+
+\chapter{Упражнение 1.20}
+
+Процесс который генерируется процедурой естественно зависит от правил интерпритатора. Как пример возьмем итеративную процецудуру нахождения наибольшего общего делителя приведенного выше. Предположим мы интерпритируем это процедуру используя "нормамальный порядок выполнения". Используя метод подстановки проиллюстрируйте процесс вычисления (gcd 206 40) и указать "reminder" операции которые реально выполняются. Сколько таких операций выполнится при "нормальном порядке" и сколько при "апликативном".
+
+\begin{codelisting}{scheme}
+;; нормальный порядок
+(gcd 206 40)
+(if (= 40 0))
+(gcd 40 (remainder 206 40))
+(if (= (remainder 206 40) 0)) ; 6 + 1 раз
+(if (= 6 0))
+(gcd (remainder 206 40) (remainder 40 (remainder 206 40)))
+(if (= (remainder 40 (remainder 206 40)) 0)) ; 4 + 2 раза
+(gcd (remainder 40 (remainder 206 40)) (remainder (remainder 206 40) (remainder 40 (remainder 206 40))))
+(if (= (remainder (remainder 206 40) (remainder 40 (remainder 206 40))) 0)) ; 2 + 4 раза
+(gcd (remainder (remainder 206 40) (remainder 40 (remainder 206 40))) (remainder (remainder 40 (remainder 206 40)) (remainder (remainder 206 40) (remainder 40 (remainder 206 40)))))
+(if (= (reminder (remainder 40 (remainder 206 40)) (remainder (remainder 206 40) (remainder 40 (remainder 206 40)))) 0)); 0; + 7 раз
+(if (= 0 0) ...)
+(remainder (remainder 206 40) (remainder 40 (remainder 206 40))) ;; 4 раза
+;; 18 вычислений reminder
+;; при апликативной форме этих вычислений всего 4
+\end{codelisting}
+
+Вывод: при normal-order-evaluation 18 вызовов reminder, при applicative-order-evaluation 4.
+
+\chapter{Упражнение 1.21}
+
+Используя процедуру "smallest-divisor" Найдите наиментший делитель для 199б 1999, 19999
+
+\begin{codelisting}{scheme}
+(define (smallest-divisor n)
+  (find-divisor n 2))
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+(define (divides? a b)
+  (= (remainder b a) 0))
+
+(smallest-divisor 199) ; 199
+(smallest-divisor 1999) ; 1999
+(smallest-divisor 19999) ; 7
+\end{codelisting}
+
+\chapter{Упражнение 1.22}
+
+Большинство реализаций lisp включаются примитиву runtime, которая возвращает время работы системы. Ниже написана процедура которое замеряет время теста на простоту. Используя ей, напишите процедуру search-for-primes, которая проверяет простоту последовательных нечетных целых в заданном диапазоне. Используйте её чтобы найти 3 простых > 1000; > 10 000; > 100 000; > 1 000 000. Замерьте время для проверки каждого простого числа. Так как тестирующий алгоритм имеет порядок роста $\theta(\sqrt{n})$, вы должны ожидать получить для время для 10 000 в $\sqrt{10}$ больше времени чем для 1 000. Посмотрите как работает это соотношение для разных диапазонов n.
+
+
+Запись кривовата, потому что нет конструкции (let или progn как в emacs lisp, просто их еще не было в курсе). Тенденция $\theta{\sqrt{n}}$ начинает походить на оценку только с 10 000 000. До этого все данные совпадают и нет прироста.
+
+\begin{codelisting}{scheme}
+(define (report-prime start-time end-time)
+  (newline)
+  (display " *** ")
+  (display start-time)
+  (display "; ")
+  (display end-time)
+  (display "; ")
+  (display (- end-time start-time)))
+
+(define (prime? n)
+  (= n (smallest-divisor n)))
+
+(define (search-iter from number start-time)
+  (if (not (= number 0))
+      (if (prime? from)
+          (report-and-continue from number start-time (runtime))
+          (search-iter (+ from 1) number start-time))))
+
+(define (report-and-continue from number start-time end-time)
+  (newline)
+  (display from)
+  (newline)
+  (report-prime start-time end-time)
+  (search-iter (+ from 1) (- number 1) start-time))
+
+(define (search-for-primes from number)
+  (search-iter from number (runtime)))
+
+(search-for-primes 1000 3)
+(search-for-primes 10000 3)
+(search-for-primes 100000 3)
+(search-for-primes 1000000 3)
+(search-for-primes 10000000 3)
+(search-for-primes 100000000 3)
+\end{codelisting}
+
+\begin{center}
+  \begin{tabular}{ | l | c | }
+    \hline
+    1009 & 0. \\ \hline
+    1013 & 1.0000000000001563e-2 \\ \hline
+    1019 & 1.0000000000001563e-2 \\ \hline
+    10007 & 0. \\ \hline
+    10009 & .00999999999999801 \\ \hline
+    10037 & 1.9999999999999574e-2 \\ \hline
+    100003 & 0. \\ \hline
+    100019 & 1.0000000000001563e-2 \\ \hline
+    100043 & 1.9999999999999574e-2 \\ \hline
+    1000003 & 0. \\ \hline
+    1000033 & 1.0000000000001563e-2 \\ \hline
+    1000037 & 1.9999999999999574e-2 \\ \hline
+    10000019 & .00999999999999801 \\ \hline
+    10000079 & .03999999999999915 \\ \hline
+    10000103 & .05999999999999872 \\ \hline
+    100000007 & .03999999999999915 \\ \hline
+    10000079 & .08999999999999986 \\ \hline
+    10000103 & .129999999999999 \\ \hline
+  \end{tabular}
+\end{center}
+
+\chapter{Упражнение 1.23}
+
+Процедура smallest-divisor приведенная в начале главы выполняет много ненужных проверок. После проверки деления на 2, нет смысла делить на любые другие четные. То есть значениями для проверки должны быть не 2, 3, 4, 5, 6, ..., а 2, 3, 5, 7, 9, ....
+
+Сделайте это изменение реализовав процедуру next, которая вернет 3 если на вход получили 2, в ином случае вернет входное значение плюс два. Измените smallest-divisor используя (next test-divisor) (+ test-divisor 1).
+
+\begin{codelisting}{scheme}
+(define (smallest-divisor n)
+  (find-divisor n 2))
+(define (next n)
+  (if (= n 2)
+      3
+      (+ n 2)))
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (next test-divisor)))))
+(define (divides? a b)
+  (= (remainder b a) 0))
+\end{codelisting}
+
+Повторите тест из 1.22
+
+\begin{center}
+  \begin{tabular}{ | l | c | }
+    \hline
+    1009 & 0. \\ \hline
+    1013 & 0. \\ \hline
+    1019 & 1.0000000000001563e-2 \\ \hline
+    10007 & 0. \\ \hline
+    10009 & 0. \\ \hline
+    10037 & 1.0000000000001563e-2 \\ \hline
+    100003 & 0. \\ \hline
+    100019 & 1.0000000000001563e-2 \\ \hline
+    100043 & 1.9999999999999574e-2 \\ \hline
+    1000003 & 0. \\ \hline
+    1000033 & 1.0000000000001563e-2 \\ \hline
+    1000037 & 2.0000000000003126e-2 \\ \hline
+    10000019 & .0 \\ \hline
+    10000079 & 1.9999999999999574e-2 \\ \hline
+    10000103 & 3.0000000000001137e-2 \\ \hline
+    100000007 & 1.9999999999999574e-2 \\ \hline
+    100000037 & .05000000000000071 \\ \hline
+    100000039 & .07000000000000028 \\ \hline
+  \end{tabular}
+\end{center}
+
+Во многих случаях уменьшилось в два раза.
+
+
+\chapter{Упражнение 1.24}
+
+Измените процедуру timed-prime-test из 1.22 что бы она использовала fast-prime? (метод Ферма), протестируйте 12 чисел которые были найдены в упражнении 1.22. Сравните время проверки. Так как тест Ферма имеет порядок роста (log n), каково ожидание по времени для чисел около 1,000,000 в сравнении с числами около 1000? Подтвержают ли это ваши данные? Можете объяснить несоответствия, которые найдете?
+
+\begin{codelisting}{scheme}
+(define (smallest-divisor n)
+  (find-divisor n 2))
+(define (next n)
+  (if (= n 2)
+      3
+      (+ n 2)))
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (next test-divisor)))))
+(define (divides? a b)
+  (= (remainder b a) 0))
+\end{codelisting}
+
+для диапазанов < 10,000,000 время проверки по исходному тесту было .0, поэтому я добавил еще один диапазон и протестировал сначала старую функцию timed-prime-test
+
+\begin{codelisting}{scheme}
+(timed-prime-test 10000019); 1.0000000000001563e-2
+(timed-prime-test 10000079); 1.0000000000001563e-2
+(timed-prime-test 10000103); 1.0000000000001563e-2
+
+(timed-prime-test 100000007); 1.9999999999999574e-2
+(timed-prime-test 100000037); 2.0000000000003126e-2
+(timed-prime-test 100000039); 2.0000000000003126e-2
+
+(timed-prime-test 1000000007); .05000000000000071
+(timed-prime-test 1000000009); .05999999999999872
+(timed-prime-test 1000000021); .07000000000000028
+\end{codelisting}
+
+результаты выполнения теста между 1 и 2 диапазоном < $\sqrt{10}$ между 2 и 3 приближенно равны ему.
+
+\begin{codelisting}{scheme}
+(timed-prime-test 10000019); 1.0000000000001563e-2
+(timed-prime-test 10000079); 1.0000000000001563e-2
+(timed-prime-test 10000103); 1.0000000000001563e-2
+
+(timed-prime-test 100000007); 1.9999999999999574e-2
+(timed-prime-test 100000037); 2.0000000000003126e-2
+(timed-prime-test 100000039); 2.0000000000003126e-2
+
+(timed-prime-test 1000000007); .05000000000000071
+(timed-prime-test 1000000009); .05999999999999872
+(timed-prime-test 1000000021); .07000000000000028
+\end{codelisting}
+
+после этого переписал через fast-prime, время теста зависит от количества проверок
+
+\begin{codelisting}{scheme}
+; c 10 проверками
+(timed-prime-test 10000019); 0.
+(timed-prime-test 10000079); 0.
+(timed-prime-test 10000103); .00999999999999801
+
+(timed-prime-test 100000007); 0.
+(timed-prime-test 100000037); .00999999999999801
+(timed-prime-test 100000039); .00999999999999801
+
+(timed-prime-test 1000000007); 1.0000000000001563e-2
+(timed-prime-test 1000000009); 1.0000000000001563e-2
+(timed-prime-test 1000000021); 1.0000000000001563e-2
+
+; с 1000 проверками
+(timed-prime-test 10000019); .1999999999999993
+(timed-prime-test 10000079); .20000000000000284
+(timed-prime-test 10000103); .21999999999999886
+
+(timed-prime-test 100000007); .23000000000000043
+(timed-prime-test 100000037); .23999999999999844
+(timed-prime-test 100000039); .240000000000002
+
+(timed-prime-test 1000000007); .2699999999999996
+(timed-prime-test 1000000009); .26000000000000156
+(timed-prime-test 1000000021); .259999999999998
+\end{codelisting}
+
+оба тесты похожи на линейный прирост времени.
