@@ -1,0 +1,132 @@
+.. title: SICP Упражнения 1.25, 1.26, 1.27, 1.28
+.. slug: sicp-uprazhneniia-125-126-127-128
+.. date: 2020-01-13 14:34:28 UTC+03:00
+.. tags: sicp, scheme, gcd, prime_numbers
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+
+\chapter{Упражнение 1.25}
+
+Алиса посетовала что мы проделали много лишней работы при написании expmod. В конце концов, сказала она, мы уже знаем как посчитать экспоненту, мы могли бы просто написать:
+
+\begin{codelisting}{scheme}
+(define (expmod base exp m)
+  (remainder (fast-expt base exp) m))
+\end{codelisting}
+
+Правильно ли это? Будет ли эта процедура работать так же быстро как fast-prime тест?
+
+\begin{codelisting}{scheme}
+;; метод который используем в fast-prime?
+;; Два числа называются сопоставимыми по модулю n если оба имеют одинаковый остаток при делении на n.
+;; вызывая каждый раз reminder, числа с которыми мы работаем остаются малыми
+
+;; 2 7 7
+;; 2 <- 2 * (2 6 7)
+;; 1 <- square (2 3 7)
+;; 1 <- 2 * (2 2 7)
+;; 4 <- sqaure (2 1 7)
+;; 2 <- 2 * (2 0 7)
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+
+expmod (100 1000000007 1000000007)
+reminder (100 * [expmod(100 1000000006 1000000007)]) 1000000007
+;; тут мы будем умножать на остаток []
+[] = reminder (square ([expmod 100 500000003 1000000007])) 1000000007)
+;; возводить в квадрат и перемножать мы будем остаток от деления
+;; мы сделаем это лагорифмическое число раз
+reminder (square (100 * expmod(100 1000000006/2 1000000007))
+
+;; метод Алисы
+(define (fast-expt b n)
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (else (* b (fast-expt b (- n 1))))))
+(define (expmod base exp m)
+  (remainder (fast-expt base exp) m))
+;; тут мы сначала вычисляем экспоненту, с числами навроде 100**1000000007
+;; умножение и возведение в квадрат на таких больших числах приводит к росту времени, алгоритм у нас по прежнему имеет лагорифмическую оценку по подсчету экспоненты, но порядок цифр таков, что обычное умножение требует больгих ресурсов компьютера.
+\end{codelisting}
+
+\chapter{Упражнение 1.26}
+
+Луи изменил процедуру expmod как приведено ниже.
+\begin{codelisting}{scheme}
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (* (expmod base (/ exp 2) m)
+                       (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+\end{codelisting}
+
+Его тест с fast-prime? стал работать медленнее теста prime? Записав процедуру таким образом мы изменили порядок роста $\theta(log(n))$ на $\theta(n)$. Поясните.
+
+На каждой итерации (вернее через одну) мы сокращаем показатель экспоненты в два раза, но при этом мы увеличиваем количество операций в два раза. И таких шагов будет порядка n. То есть порядок роста данной процедуры будет $\theta(log(2^n) = \theta(n)$.
+
+\chapter{Упражнение 1.27}
+
+Продемонстрируйте что числа Кармайкла действительно проходят тест Фрема.
+Напишите процедуру которая принимает целое и тестуриует все числе < n.
+
+\begin{codelisting}{scheme}
+(define (fermat-test-all n)
+  (define (iter-test a)
+    (cond ((>= a n) (display "passed full fermat"))
+          ((= (expmod a n n) a) (iter-test (+ a 1)))
+          (else (display "Ferma test failed"))))
+  (iter-test 2))
+
+(fermat-test-all 561)  ; passed full fermat
+(fermat-test-all 1105) ; passed full fermat
+(fermat-test-all 1729) ; passed full fermat
+(fermat-test-all 2465) ; passed full fermat
+(fermat-test-all 2821) ; passed full fermat
+(fermat-test-all 6601) ; passed full fermat
+\end{codelisting}
+
+
+\chapter{Упражнение 1.28}
+
+Один из вариантов теста Ферма, который не может быть одурачен числами Кармайкла, называется тест Миллера-Рабина (Миллер 1976; Рабин 1980). Он отталкивается от альтернативной формы Малой Теоремы Ферма, которая говорит что, если n - простое число и есть положительное целое a меньшее n, тогда $a^{n-1} \equiv 1 mod(n)$.
+
+Для тестирования простоты числа n, мы выбираем произвольный a < n и возводим его в степень (n-1), берем молуль используя процедуру expmod.
+
+Каждый раз когда мы выполняем возведение в квадрат, мы делаем дополнительную проверку на "не тривиальность квадратного корня к 1 по модулю n", то есть число не равное 1 или n-1, квадрат которого равен 1 по модулю n. Возможно доказать что если есть нетривиальный квадратный корень сопоставимый с 1 mod n, тогда n не простое. Также возможно доказать что если n нечетное число, которое не является простым, то по крайне мере для половины чисел a<n, вычисление $a^{n-1}$ таким образом выявит нетривиальный квадратный корень от 1 по модулю n. (Именно из-за этого уточнения числа Кармайкла отсеиваются).
+Измените процедуру expmod что бы в случае обнаружения нетривиального квадратного корня она сигнализировала об ошибке.
+
+\begin{codelisting}{scheme}
+(define (expmod-miller-rabin base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (let ((x (expmod-miller-rabin base (/ exp 2) m)))
+           (cond ((or (= x 1) (= x (- m 1))) (remainder (square x) m))
+                 ((= (remainder (square x) m) 1) 0)
+                 (else (remainder (square x) m)))))
+        (else (remainder (* base (expmod-miller-rabin base (- exp 1) m))
+                         m))))
+
+(define (miller-rabin-test-all n)
+  (define (iter-test a)
+    (cond ((>= a n) (display "passed full miller-rabin test"))
+          ((= (expmod-miller-rabin a n n) a) (iter-test (+ a 1)))
+          (else (display "miller-rabin test failed"))))
+  (iter-test 2))
+
+(miller-rabin-test-all 1999) ;;  passed full miller-rabin test
+(miller-rabin-test-all 561) ;;  miller-rabin test failed
+\end{codelisting}
