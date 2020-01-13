@@ -1,5 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Sun, 12 Jan 2020 23:44:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24</title><link>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-120-124/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Mon, 13 Jan 2020 17:59:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP Упражнения 1.25, 1.26, 1.27, 1.28</title><link>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-125-126-127-128/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div&gt;
+ &lt;div class="chapter-block"&gt;
+  &lt;h2&gt;
+   Упражнение 1.25
+  &lt;/h2&gt;
+  &lt;div&gt;
+   &lt;div&gt;
+    &lt;p&gt;
+     Алиса посетовала что мы проделали много лишней работы при написании expmod. В конце концов, сказала она, мы уже знаем как посчитать экспоненту, мы могли бы просто написать:
+    &lt;/p&gt;
+   &lt;/div&gt;
+&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="nv"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;   &lt;div&gt;
+    &lt;p&gt;
+     Правильно ли это? Будет ли эта процедура работать так же быстро как fast-prime тест?
+    &lt;/p&gt;
+   &lt;/div&gt;
+&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="c1"&gt;;; метод который используем в fast-prime?&lt;/span&gt;
+&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="c1"&gt;;; Два числа называются сопоставимыми по модулю n если оба имеют одинаковый остаток при делении на n.&lt;/span&gt;
+&lt;span class="lineno"&gt; 3 &lt;/span&gt;&lt;span class="c1"&gt;;; вызывая каждый раз reminder, числа с которыми мы работаем остаются малыми&lt;/span&gt;
+&lt;span class="lineno"&gt; 4 &lt;/span&gt;
+&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="c1"&gt;;; 2 7 7&lt;/span&gt;
+&lt;span class="lineno"&gt; 6 &lt;/span&gt;&lt;span class="c1"&gt;;; 2 &amp;lt;- 2 * (2 6 7)&lt;/span&gt;
+&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="c1"&gt;;; 1 &amp;lt;- square (2 3 7)&lt;/span&gt;
+&lt;span class="lineno"&gt; 8 &lt;/span&gt;&lt;span class="c1"&gt;;; 1 &amp;lt;- 2 * (2 2 7)&lt;/span&gt;
+&lt;span class="lineno"&gt; 9 &lt;/span&gt;&lt;span class="c1"&gt;;; 4 &amp;lt;- sqaure (2 1 7)&lt;/span&gt;
+&lt;span class="lineno"&gt;10 &lt;/span&gt;&lt;span class="c1"&gt;;; 2 &amp;lt;- 2 * (2 0 7)&lt;/span&gt;
+&lt;span class="lineno"&gt;11 &lt;/span&gt;
+&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;13 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;14 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;15 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;16 &lt;/span&gt;                    &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;17 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt;18 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;19 &lt;/span&gt;                    &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="lineno"&gt;20 &lt;/span&gt;
+&lt;span class="lineno"&gt;21 &lt;/span&gt;&lt;span class="nv"&gt;expmod&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;1000000007&lt;/span&gt; &lt;span class="mi"&gt;1000000007&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;22 &lt;/span&gt;&lt;span class="nv"&gt;reminder&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="nv"&gt;*&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;expmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;1000000006&lt;/span&gt; &lt;span class="mi"&gt;1000000007&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt; &lt;span class="mi"&gt;1000000007&lt;/span&gt;
+&lt;span class="lineno"&gt;23 &lt;/span&gt;&lt;span class="c1"&gt;;; тут мы будем умножать на остаток []&lt;/span&gt;
+&lt;span class="lineno"&gt;24 &lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="nv"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;reminder&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="nv"&gt;expmod&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;500000003&lt;/span&gt; &lt;span class="mi"&gt;1000000007&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt; &lt;span class="mi"&gt;1000000007&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;25 &lt;/span&gt;&lt;span class="c1"&gt;;; возводить в квадрат и перемножать мы будем остаток от деления&lt;/span&gt;
+&lt;span class="lineno"&gt;26 &lt;/span&gt;&lt;span class="c1"&gt;;; мы сделаем это лагорифмическое число раз&lt;/span&gt;
+&lt;span class="lineno"&gt;27 &lt;/span&gt;&lt;span class="nv"&gt;reminder&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="nv"&gt;*&lt;/span&gt; &lt;span class="nv"&gt;expmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;1000000006&lt;/span&gt;&lt;span class="nv"&gt;/2&lt;/span&gt; &lt;span class="mi"&gt;1000000007&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;28 &lt;/span&gt;
+&lt;span class="lineno"&gt;29 &lt;/span&gt;&lt;span class="c1"&gt;;; метод Алисы&lt;/span&gt;
+&lt;span class="lineno"&gt;30 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;31 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;32 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="lineno"&gt;33 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
+&lt;span class="lineno"&gt;34 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;35 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="nv"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;36 &lt;/span&gt;&lt;span class="c1"&gt;;; тут мы сначала вычисляем экспоненту, с числами навроде 100**1000000007&lt;/span&gt;
+&lt;span class="lineno"&gt;37 &lt;/span&gt;&lt;span class="c1"&gt;;; умножение и возведение в квадрат на таких больших числах приводит к росту времени, алгоритм у нас по прежнему имеет лагорифмическую оценку по подсчету экспоненты, но порядок цифр таков, что обычное умножение требует больгих ресурсов компьютера.&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="chapter-block"&gt;
+  &lt;h2&gt;
+   Упражнение 1.26
+  &lt;/h2&gt;
+  &lt;div&gt;
+   &lt;div&gt;
+    &lt;p&gt;
+     Луи изменил процедуру expmod как приведено ниже.
+    &lt;/p&gt;
+   &lt;/div&gt;
+&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;3 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;4 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;5 &lt;/span&gt;                       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;6 &lt;/span&gt;                    &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;7 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt;8 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;9 &lt;/span&gt;                    &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;   &lt;div&gt;
+    &lt;p&gt;
+     Его тест с fast-prime? стал работать медленнее теста prime? Записав процедуру таким образом мы изменили порядок роста &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="69" height="17" src="http://velikiinehochuha.github.io/formulae/1x5T1vUP00ZqvVjCivgudKxH94n8CzR8J2yhGg.png" alt="\theta(log(n))" title="\theta(log(n))"&gt;&lt;/span&gt; на &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="32" height="17" src="http://velikiinehochuha.github.io/formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"&gt;&lt;/span&gt;. Поясните.
+    &lt;/p&gt;
+    &lt;p&gt;
+     На каждой итерации (вернее через одну) мы сокращаем показатель экспоненты в два раза, но при этом мы увеличиваем количество операций в два раза. И таких шагов будет порядка n. То есть порядок роста данной процедуры будет &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="125" height="17" src="http://velikiinehochuha.github.io/formulae/l0_g5HESpbwL51Bg3kOuV1NK6d.gEU49UQiD0w.png" alt="\theta(log(2^n) = \theta(n)" title="\theta(log(2^n) = \theta(n)"&gt;&lt;/span&gt;.
+    &lt;/p&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="chapter-block"&gt;
+  &lt;h2&gt;
+   Упражнение 1.27
+  &lt;/h2&gt;
+  &lt;div&gt;
+   &lt;div&gt;
+    &lt;p&gt;
+     Продемонстрируйте что числа Кармайкла действительно проходят тест Фрема. Напишите процедуру которая принимает целое и тестуриует все числе &amp;lt; n.
+    &lt;/p&gt;
+   &lt;/div&gt;
+&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fermat-test-all&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-test&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt; 3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;"passed full fermat"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt; 4 &lt;/span&gt;          &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-test&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="lineno"&gt; 5 &lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;"Ferma test failed"&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="lineno"&gt; 6 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-test&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt; 7 &lt;/span&gt;
+&lt;span class="lineno"&gt; 8 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fermat-test-all&lt;/span&gt; &lt;span class="mi"&gt;561&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;; passed full fermat&lt;/span&gt;
+&lt;span class="lineno"&gt; 9 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fermat-test-all&lt;/span&gt; &lt;span class="mi"&gt;1105&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; passed full fermat&lt;/span&gt;
+&lt;span class="lineno"&gt;10 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fermat-test-all&lt;/span&gt; &lt;span class="mi"&gt;1729&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; passed full fermat&lt;/span&gt;
+&lt;span class="lineno"&gt;11 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fermat-test-all&lt;/span&gt; &lt;span class="mi"&gt;2465&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; passed full fermat&lt;/span&gt;
+&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fermat-test-all&lt;/span&gt; &lt;span class="mi"&gt;2821&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; passed full fermat&lt;/span&gt;
+&lt;span class="lineno"&gt;13 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fermat-test-all&lt;/span&gt; &lt;span class="mi"&gt;6601&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; passed full fermat&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="chapter-block"&gt;
+  &lt;h2&gt;
+   Упражнение 1.28
+  &lt;/h2&gt;
+  &lt;div&gt;
+   &lt;div&gt;
+    &lt;p&gt;
+     Один из вариантов теста Ферма, который не может быть одурачен числами Кармайкла, называется тест Миллера-Рабина (Миллер 1976; Рабин 1980). Он отталкивается от альтернативной формы Малой Теоремы Ферма, которая говорит что, если n - простое число и есть положительное целое a меньшее n, тогда &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="124" height="18" src="http://velikiinehochuha.github.io/formulae/h1NxGLnmrm3jF.Dr5t2Dx3FVFJTQnTF5iXXiSQ.png" alt="a^{n-1} \equiv 1 mod(n)" title="a^{n-1} \equiv 1 mod(n)"&gt;&lt;/span&gt;.
+    &lt;/p&gt;
+    &lt;p&gt;
+     Для тестирования простоты числа n, мы выбираем произвольный a &amp;lt; n и возводим его в степень (n-1), берем молуль используя процедуру expmod.
+    &lt;/p&gt;
+    &lt;p&gt;
+     Каждый раз когда мы выполняем возведение в квадрат, мы делаем дополнительную проверку на "не тривиальность квадратного корня к 1 по модулю n", то есть число не равное 1 или n-1, квадрат которого равен 1 по модулю n. Возможно доказать что если есть нетривиальный квадратный корень сопоставимый с 1 mod n, тогда n не простое. Также возможно доказать что если n нечетное число, которое не является простым, то по крайне мере для половины чисел a&amp;lt;n, вычисление &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="36" height="14" src="http://velikiinehochuha.github.io/formulae/DiMGXUF1qBWcScK6PAT_f9sf89ACJHw5efZfAg.png" alt="a^{n-1}" title="a^{n-1}"&gt;&lt;/span&gt; таким образом выявит нетривиальный квадратный корень от 1 по модулю n. (Именно из-за этого уточнения числа Кармайкла отсеиваются). Измените процедуру expmod что бы в случае обнаружения нетривиального квадратного корня она сигнализировала об ошибке.
+    &lt;/p&gt;
+   &lt;/div&gt;
+&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod-miller-rabin&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt; 3 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt; 4 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod-miller-rabin&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="lineno"&gt; 5 &lt;/span&gt;           &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt; 6 &lt;/span&gt;                 &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt; 7 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+&lt;span class="lineno"&gt; 8 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod-miller-rabin&lt;/span&gt; &lt;span class="nv"&gt;base&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;exp&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt; 9 &lt;/span&gt;                         &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="lineno"&gt;10 &lt;/span&gt;
+&lt;span class="lineno"&gt;11 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;miller-rabin-test-all&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;12 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-test&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;13 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;"passed full miller-rabin test"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;14 &lt;/span&gt;          &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;expmod-miller-rabin&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-test&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="lineno"&gt;15 &lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;"miller-rabin test failed"&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="lineno"&gt;16 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-test&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="lineno"&gt;17 &lt;/span&gt;
+&lt;span class="lineno"&gt;18 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;miller-rabin-test-all&lt;/span&gt; &lt;span class="mi"&gt;1999&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;;  passed full miller-rabin test&lt;/span&gt;
+&lt;span class="lineno"&gt;19 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;miller-rabin-test-all&lt;/span&gt; &lt;span class="mi"&gt;561&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;;  miller-rabin test failed&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</description><category>gcd</category><category>prime_numbers</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-125-126-127-128/</guid><pubDate>Mon, 13 Jan 2020 11:34:28 GMT</pubDate></item><item><title>SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24</title><link>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-120-124/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div&gt;
  &lt;div class="chapter-block"&gt;
   &lt;h2&gt;
    Упражнение 1.20

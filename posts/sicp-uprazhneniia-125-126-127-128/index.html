@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html prefix="
+        og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+    " vocab="http://ogp.me/ns" lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>SICP Упражнения 1.25, 1.26, 1.27, 1.28 | VelikiiNehochuha Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="../../rss.xml">
+<link rel="canonical" href="http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-125-126-127-128/">
+<!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
+<link rel="prev" href="../sicp-uprazhneniia-120-124/" title="SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24" type="text/html">
+<meta property="og:site_name" content="VelikiiNehochuha Blog">
+<meta property="og:title" content="SICP Упражнения 1.25, 1.26, 1.27, 1.28">
+<meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-125-126-127-128/">
+<meta property="og:description" content="Упражнение 1.25
+  
+  
+   
+    
+     Алиса посетовала что мы проделали много лишней работы при написании expmod. В конце концов, сказала она, мы уже знаем как посчитать экспоненту, мы могли бы просто н">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-01-13T14:34:28+03:00">
+<meta property="article:tag" content="gcd">
+<meta property="article:tag" content="prime_numbers">
+<meta property="article:tag" content="scheme">
+<meta property="article:tag" content="sicp">
+</head>
+<body>
+    <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
+    <div id="container">
+             <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+
+        <span id="blog-title">VelikiiNehochuha Blog</span>
+    </a></h1>
+
+        
+            <nav id="menu"><ul>
+<li><a href="../../archive.html">Архив</a></li>
+                <li><a href="../../categories/">Тэги</a></li>
+                <li><a href="../../rss.xml">RSS лента</a></li>
+
+    
+    
+    
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP Упражнения 1.25, 1.26, 1.27, 1.28</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-13T14:34:28+03:00" itemprop="datePublished" title="2020-01-13 14:34">2020-01-13 14:34</time></a>
+            </p>
+                    <p class="sourceline"><a href="index.tex" class="sourcelink">Источник</a></p>
+
+        </div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.25
+  </h2>
+  <div>
+   <div>
+    <p>
+     Алиса посетовала что мы проделали много лишней работы при написании expmod. В конце концов, сказала она, мы уже знаем как посчитать экспоненту, мы могли бы просто написать:
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">base</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+</pre>
+</div>   <div>
+    <p>
+     Правильно ли это? Будет ли эта процедура работать так же быстро как fast-prime тест?
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; метод который используем в fast-prime?</span>
+<span class="lineno"> 2 </span><span class="c1">;; Два числа называются сопоставимыми по модулю n если оба имеют одинаковый остаток при делении на n.</span>
+<span class="lineno"> 3 </span><span class="c1">;; вызывая каждый раз reminder, числа с которыми мы работаем остаются малыми</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="c1">;; 2 7 7</span>
+<span class="lineno"> 6 </span><span class="c1">;; 2 &lt;- 2 * (2 6 7)</span>
+<span class="lineno"> 7 </span><span class="c1">;; 1 &lt;- square (2 3 7)</span>
+<span class="lineno"> 8 </span><span class="c1">;; 1 &lt;- 2 * (2 2 7)</span>
+<span class="lineno"> 9 </span><span class="c1">;; 4 &lt;- sqaure (2 1 7)</span>
+<span class="lineno">10 </span><span class="c1">;; 2 &lt;- 2 * (2 0 7)</span>
+<span class="lineno">11 </span>
+<span class="lineno">12 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
+<span class="lineno">13 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">exp</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno">14 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">exp</span><span class="p">)</span>
+<span class="lineno">15 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+<span class="lineno">16 </span>                    <span class="nv">m</span><span class="p">))</span>
+<span class="lineno">17 </span>        <span class="p">(</span><span class="nf">else</span>
+<span class="lineno">18 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="nv">base</span> <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">- </span><span class="nv">exp</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+<span class="lineno">19 </span>                    <span class="nv">m</span><span class="p">))))</span>
+<span class="lineno">20 </span>
+<span class="lineno">21 </span><span class="nv">expmod</span> <span class="p">(</span><span class="mi">100</span> <span class="mi">1000000007</span> <span class="mi">1000000007</span><span class="p">)</span>
+<span class="lineno">22 </span><span class="nv">reminder</span> <span class="p">(</span><span class="mi">100</span> <span class="nv">*</span> <span class="p">[</span><span class="nv">expmod</span><span class="p">(</span><span class="mi">100</span> <span class="mi">1000000006</span> <span class="mi">1000000007</span><span class="p">)])</span> <span class="mi">1000000007</span>
+<span class="lineno">23 </span><span class="c1">;; тут мы будем умножать на остаток []</span>
+<span class="lineno">24 </span><span class="p">[]</span> <span class="nv">=</span> <span class="nv">reminder</span> <span class="p">(</span><span class="nf">square</span> <span class="p">([</span><span class="nv">expmod</span> <span class="mi">100</span> <span class="mi">500000003</span> <span class="mi">1000000007</span><span class="p">]))</span> <span class="mi">1000000007</span><span class="p">)</span>
+<span class="lineno">25 </span><span class="c1">;; возводить в квадрат и перемножать мы будем остаток от деления</span>
+<span class="lineno">26 </span><span class="c1">;; мы сделаем это лагорифмическое число раз</span>
+<span class="lineno">27 </span><span class="nv">reminder</span> <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="mi">100</span> <span class="nv">*</span> <span class="nv">expmod</span><span class="p">(</span><span class="mi">100</span> <span class="mi">1000000006</span><span class="nv">/2</span> <span class="mi">1000000007</span><span class="p">))</span>
+<span class="lineno">28 </span>
+<span class="lineno">29 </span><span class="c1">;; метод Алисы</span>
+<span class="lineno">30 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">31 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno">32 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="lineno">33 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+<span class="lineno">34 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
+<span class="lineno">35 </span>  <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">base</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+<span class="lineno">36 </span><span class="c1">;; тут мы сначала вычисляем экспоненту, с числами навроде 100**1000000007</span>
+<span class="lineno">37 </span><span class="c1">;; умножение и возведение в квадрат на таких больших числах приводит к росту времени, алгоритм у нас по прежнему имеет лагорифмическую оценку по подсчету экспоненты, но порядок цифр таков, что обычное умножение требует больгих ресурсов компьютера.</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.26
+  </h2>
+  <div>
+   <div>
+    <p>
+     Луи изменил процедуру expmod как приведено ниже.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">exp</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno">3 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">exp</span><span class="p">)</span>
+<span class="lineno">4 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">)</span>
+<span class="lineno">5 </span>                       <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+<span class="lineno">6 </span>                    <span class="nv">m</span><span class="p">))</span>
+<span class="lineno">7 </span>        <span class="p">(</span><span class="nf">else</span>
+<span class="lineno">8 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="nv">base</span> <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">- </span><span class="nv">exp</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+<span class="lineno">9 </span>                    <span class="nv">m</span><span class="p">))))</span>
+</pre>
+</div>   <div>
+    <p>
+     Его тест с fast-prime? стал работать медленнее теста prime? Записав процедуру таким образом мы изменили порядок роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="69" height="17" src="../../formulae/1x5T1vUP00ZqvVjCivgudKxH94n8CzR8J2yhGg.png" alt="\theta(log(n))" title="\theta(log(n))"></span> на <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="../../formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>. Поясните.
+    </p>
+    <p>
+     На каждой итерации (вернее через одну) мы сокращаем показатель экспоненты в два раза, но при этом мы увеличиваем количество операций в два раза. И таких шагов будет порядка n. То есть порядок роста данной процедуры будет <span class="inline-formula"><img class="img-inline-formula img-formula" width="125" height="17" src="../../formulae/l0_g5HESpbwL51Bg3kOuV1NK6d.gEU49UQiD0w.png" alt="\theta(log(2^n) = \theta(n)" title="\theta(log(2^n) = \theta(n)"></span>.
+    </p>
+   </div>
+  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.27
+  </h2>
+  <div>
+   <div>
+    <p>
+     Продемонстрируйте что числа Кармайкла действительно проходят тест Фрема. Напишите процедуру которая принимает целое и тестуриует все числе &lt; n.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-test</span> <span class="nv">a</span><span class="p">)</span>
+<span class="lineno"> 3 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt;= </span><span class="nv">a</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">display </span><span class="s">"passed full fermat"</span><span class="p">))</span>
+<span class="lineno"> 4 </span>          <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">a</span> <span class="nv">n</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">iter-test</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="lineno"> 5 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">display </span><span class="s">"Ferma test failed"</span><span class="p">))))</span>
+<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nf">iter-test</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno"> 7 </span>
+<span class="lineno"> 8 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">561</span><span class="p">)</span>  <span class="c1">; passed full fermat</span>
+<span class="lineno"> 9 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">1105</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">1729</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
+<span class="lineno">11 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">2465</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
+<span class="lineno">12 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">2821</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
+<span class="lineno">13 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">6601</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.28
+  </h2>
+  <div>
+   <div>
+    <p>
+     Один из вариантов теста Ферма, который не может быть одурачен числами Кармайкла, называется тест Миллера-Рабина (Миллер 1976; Рабин 1980). Он отталкивается от альтернативной формы Малой Теоремы Ферма, которая говорит что, если n - простое число и есть положительное целое a меньшее n, тогда <span class="inline-formula"><img class="img-inline-formula img-formula" width="124" height="18" src="../../formulae/h1NxGLnmrm3jF.Dr5t2Dx3FVFJTQnTF5iXXiSQ.png" alt="a^{n-1} \equiv 1 mod(n)" title="a^{n-1} \equiv 1 mod(n)"></span>.
+    </p>
+    <p>
+     Для тестирования простоты числа n, мы выбираем произвольный a &lt; n и возводим его в степень (n-1), берем молуль используя процедуру expmod.
+    </p>
+    <p>
+     Каждый раз когда мы выполняем возведение в квадрат, мы делаем дополнительную проверку на "не тривиальность квадратного корня к 1 по модулю n", то есть число не равное 1 или n-1, квадрат которого равен 1 по модулю n. Возможно доказать что если есть нетривиальный квадратный корень сопоставимый с 1 mod n, тогда n не простое. Также возможно доказать что если n нечетное число, которое не является простым, то по крайне мере для половины чисел a&lt;n, вычисление <span class="inline-formula"><img class="img-inline-formula img-formula" width="36" height="14" src="../../formulae/DiMGXUF1qBWcScK6PAT_f9sf89ACJHw5efZfAg.png" alt="a^{n-1}" title="a^{n-1}"></span> таким образом выявит нетривиальный квадратный корень от 1 по модулю n. (Именно из-за этого уточнения числа Кармайкла отсеиваются). Измените процедуру expmod что бы в случае обнаружения нетривиального квадратного корня она сигнализировала об ошибке.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">exp</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno"> 3 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">exp</span><span class="p">)</span>
+<span class="lineno"> 4 </span>         <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">)))</span>
+<span class="lineno"> 5 </span>           <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="p">(</span><span class="nb">- </span><span class="nv">m</span> <span class="mi">1</span><span class="p">)))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+<span class="lineno"> 6 </span>                 <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">m</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno"> 7 </span>                 <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">m</span><span class="p">)))))</span>
+<span class="lineno"> 8 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="nv">base</span> <span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">- </span><span class="nv">exp</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
+<span class="lineno"> 9 </span>                         <span class="nv">m</span><span class="p">))))</span>
+<span class="lineno">10 </span>
+<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">miller-rabin-test-all</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">12 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-test</span> <span class="nv">a</span><span class="p">)</span>
+<span class="lineno">13 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt;= </span><span class="nv">a</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">display </span><span class="s">"passed full miller-rabin test"</span><span class="p">))</span>
+<span class="lineno">14 </span>          <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">a</span> <span class="nv">n</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">iter-test</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="lineno">15 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">display </span><span class="s">"miller-rabin test failed"</span><span class="p">))))</span>
+<span class="lineno">16 </span>  <span class="p">(</span><span class="nf">iter-test</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno">17 </span>
+<span class="lineno">18 </span><span class="p">(</span><span class="nf">miller-rabin-test-all</span> <span class="mi">1999</span><span class="p">)</span> <span class="c1">;;  passed full miller-rabin test</span>
+<span class="lineno">19 </span><span class="p">(</span><span class="nf">miller-rabin-test-all</span> <span class="mi">561</span><span class="p">)</span> <span class="c1">;;  miller-rabin test failed</span>
+</pre>
+</div>  </div>
+ </div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/gcd/" rel="tag">gcd</a></li>
+            <li><a class="tag p-category" href="../../categories/prime_numbers/" rel="tag">prime_numbers</a></li>
+            <li><a class="tag p-category" href="../../categories/scheme/" rel="tag">scheme</a></li>
+            <li><a class="tag p-category" href="../../categories/sicp/" rel="tag">sicp</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../sicp-uprazhneniia-120-124/" rel="prev" title="SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24">Предыдущая запись</a>
+            </li>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+                <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>
