@@ -23,7 +23,11 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/gcd.xml</loc>
-  <lastmod>2020-01-13T15:53:00Z</lastmod>
+  <lastmod>2020-01-13T18:03:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/higher_order_procedures.xml</loc>
+  <lastmod>2020-01-14T12:36:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/lisp.xml</loc>
@@ -35,15 +39,15 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/prime_numbers.xml</loc>
-  <lastmod>2020-01-13T15:53:00Z</lastmod>
+  <lastmod>2020-01-13T18:03:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-01-13T15:53:00Z</lastmod>
+  <lastmod>2020-01-14T12:36:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-01-13T15:53:00Z</lastmod>
+  <lastmod>2020-01-14T12:36:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
@@ -55,10 +59,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-01-13T15:53:00Z</lastmod>
+  <lastmod>2020-01-14T12:36:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-01-13T15:53:00Z</lastmod>
+  <lastmod>2020-01-14T12:36:00Z</lastmod>
  </sitemap>
 </sitemapindex>
