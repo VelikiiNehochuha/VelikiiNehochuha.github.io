@@ -1,0 +1,201 @@
+.. title: SICP Процедуры высшего порядка, упражнения 1.29-1.34
+.. slug: sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133
+.. date: 2020-01-14 12:43:07 UTC+03:00
+.. tags: sicp, scheme, higher_order_procedures
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+
+\chapter{Упражнение 1.29}
+
+Правило Симпсона более точный метод вычисления интеграла чем метод приведенный ранее в книге. По правилу Симпсона, интеграл функции f от а до b приблизительно равен $\frac{h}{3}[y_0+4y_1+2y_2+...+2y_{n-2}+4y_{n-1}+2y_n]$, где h=(b-a)/n, $y_k=f(a+kh)$. Напишите процедуру вычисляющую интеграл по этому методу. Сравните результаты с предыдущим методом при n=100, n=1000.
+
+\begin{codelisting}{scheme}
+(define (sum-simpson term a next b controln k)
+  (if (> a b)
+      0
+      (+ (* (controln k)(term a))
+         (sum-simpson term (next a) next b controln (+ k 1)))))
+
+(define (integral-simpson f a b n)
+  (define (getdx start end steps)
+    (/ (- end start) steps))
+  (let ((dx (getdx a b n)))
+    (define (controln step-number)
+      (cond ((= step-number 0) 1)
+            ((even? step-number) 2)
+            (else 4)))
+
+    (define (next-a x)
+      (+ x dx))
+  ;; ;; (define (add-dx x) (+ x (getdx dx)))
+    (* (sum-simpson f a next-a b controln 0)
+       (/ (getdx a b n) 3))
+    ))
+
+(integral-simpson cube 0 1 100);;19/75 0.25333333333333335
+(integral-simpson cube 0 1 1000);; 751/3000 0.25033333333333335
+\end{codelisting}
+
+\chapter{Упражнение 1.30}
+
+Процедура sum приведенная в книге генерирует линейную рекурсию. Процедуру можно переписать что бы сумма вычислялась итерациями. Покажите как это сделать.
+
+\begin{codelisting}{scheme}
+(define (sum term a next b)
+  (define (iter a result)
+    (if <??>
+        <??>
+        (iter <??> <??>)))
+  (iter <??> <??>))
+\end{codelisting}
+
+
+\begin{codelisting}{scheme}
+(define (sum term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
+(sum identity 1 inc 5) ; 15
+\end{codelisting}
+
+\chapter{Упражнение 1.31}
+
+a. Процедура sum является лишь простым примером из огромного числа подобных абстракций, которые могут быть сформулированы через процедуры высшего порядка. Напишите аналогичную процедуру product которая возвращает произведение значений функции в точках заданного интервала. Покажите как определить факториал через данную процедуру. Также используйте product для вычисления приближения $\pi$ используя формулу $\frac{\pi}{4}=\frac{2\cdot4\cdot4\cdot6\cdot6\cdot8...}{3\cdot3\cdot5\cdot5\cdot7\cdot7...}$.
+
+b. Если ваша процедура генерирует рекурсивный процесс, перепишите её на итерационный процесс.
+
+\begin{codelisting}{scheme}
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
+
+(define (producti term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (* result (term a)))))
+  (iter a 1))
+
+(define (product-factorial n)
+  (product identity 1 inc 5))
+(product-factorial 5) ;; 120
+
+(define (multiplicate-pi x)
+  (square (/ (+ 4 x) (+ 5 x))))
+
+(define (product-pi n)
+  (define (sub-pi x)
+    (* (/ x (+ 1 x)) (/ (+ x 2) (+ x 1))))
+  (define (next-x x)
+    (+ x 2))
+  (* 4 (product sub-pi 2 next-x n)))
+(product-pi 1000) ; 3.1431607055322663
+\end{codelisting}
+
+\chapter{Упражнение 1.32}
+
+a. Покажите что процедуры sum и product оба являются частными случаями более общей нотации accumulate, которая объединяет набор терминов в более общую функцию.
+
+b. сделайте рекурсивный и итерационный вариант.
+
+\begin{codelisting}{scheme}
+;; рекурсивный
+(define (accumulate combiner null-value term a next b)
+  (if (> a b)
+      null-value
+      (combiner (term a)
+                (accumulate combiner null-value term (next a) next b))))
+
+;; итерационный
+(define (accumulate combiner null-value term a next b)
+  (define (iter a result)
+    (if (> a b)
+      result
+      (iter (next a) (combiner result (term a)))))
+  (iter a null-value))
+
+(define (product term a next b)
+  (accumulate * 1 term a next b))
+(define (sum term a next b)
+  (accumulate + 0 term a next b))
+
+(define (accumulate-factorial n)
+  (product identity 1 inc 5))
+(accumulate-factorial 5) ; 120
+(define (accumulate-sum a b)
+  (sum identity a inc b))
+(accumulate-sum 1 5) ; 15
+\end{codelisting}
+
+
+\chapter{Упражнение 1.33}
+
+Вы можете получить еще более общую версию accumulate, введя понятие фильтра по слагаемым. То есть складывать (или перемножать) только те значения которые удовлетворяют заданному условию. Результирующая абстракция filtered-accumulate все те же параметры как и accumulate, плюс дополнительным предикатом одного аргумента, описывающим фильтр. Напишите процедуру filtered-accumulate. Покажите как выразить следующие понятия используя её.
+
+a. Сумма квадратов простых чисел в интервале от a до b.
+b. Перемножение всех положительных целых меньших чем n, которые взаимно простых с n (GCD (i,n) = 1)
+
+\begin{codelisting}{scheme}
+;; рекурсивный
+(define (filtered-accumulate combiner null-value term a next b filter)
+  (if (> a b)
+      null-value
+      (combiner (if (filter a b) (term a) null-value)
+                (filtered-accumulate combiner null-value term (next a) next b filter))))
+
+;; итерационный
+(define (filtered-accumulate combiner null-value term a next b filter)
+  (define (iter a result)
+    (if (> a b)
+      result
+      (iter (next a) (if (filter a b)
+                         (combiner result (term a))
+                         result)
+            )))
+  (iter a null-value))
+
+
+;; cумма квадратов целых в диапазоне
+;; передаем в фильтр два параметра a b что бы работало абстракция со следующим примером
+(define (filter-prime? x end)
+  (if (prime? x)
+      1
+      false))
+(define (sum-square-primes a b)
+  (filtered-accumulate + 0 square a inc b filter-prime?))
+(sum-square-primes 1 5) ; 14
+
+;; перемножение всех взаимно простых с n в диапазоне [m n]
+(define (filter-relative-prime? x end)
+  (if (= (gcd x end) 1)
+      1
+      false))
+
+(define (product-relative-primes a b)
+  (filtered-accumulate * 1 identity a inc b filter-relative-prime?))
+(product-relative-primes 1 6); 5
+\end{codelisting}
+
+\chapter{Упражнение 1.34}
+
+Предположим мы определили процедуру
+
+\begin{codelisting}{scheme}
+(define (f g)
+  (g 2))
+(f square) ; 4
+(f (lambda (z) (* z (+ z 1)))) ; 6
+
+(2 2)
+\end{codelisting}
+
+Что произойдет если вызвать (f f)?
+
+Происходит ошибка ;The object 2 is not applicable. Функция f ожидает в качестве параметра получить функцию которую можно вызвать, она его и получает и вызывает функцию f с параметром 2 (рекурсивно второй раз), и пытается выполнить функцию (2 2), на что и ругается интерпретатор, потому что 2 не процедура.
