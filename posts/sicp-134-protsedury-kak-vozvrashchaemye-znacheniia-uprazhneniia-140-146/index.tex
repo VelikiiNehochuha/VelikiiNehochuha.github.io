@@ -1,0 +1,132 @@
+.. title: SICP 1.34 Процедуры как возвращаемые значения, упражнения 1.40-1.46
+.. slug: sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146
+.. date: 2020-01-15 19:17:40 UTC+03:00
+.. tags: sicp, scheme, procedures_as_returned_values
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+\chapter{Упражнение 1.40}
+
+Определите процедуру cubic, которая может быть использована вместе с newtons-method для нахождения корней $x^3+a\cdot x^2+b\cdot x+c$
+
+
+\begin{codelisting}{scheme}
+(define (cubic a b c)
+  (lambda (x)
+    (+ (* x x x) (* a x x) (* b x) c)))
+
+(newtons-method (cubic 1 1 1) 1)
+\end{codelisting}
+
+\chapter{Упражнение 1.41}
+
+Определите процедуру double которая принимает процедуру как аргумент и возвращает процедуру, которая применяет переданную процедуру дважды. К примеру (double inc) должена вернуть процедуру которая два раза делает inc. Какое значение вернет (((double (double double)) inc) 5)?
+
+
+\begin{codelisting}{scheme}
+(define (double f)
+  (lambda (x)
+    (f (f x))))
+(((double (double double)) inc) 0) ; 16
+\end{codelisting}
+
+\chapter{Упражнение 1.42}
+
+Пусть f и g две функции одного аргумента. Композицией f после g называется $x\mapsto f(g(x))$. Определите процедуру compose, которая составляет композицию двух функций.
+
+\begin{codelisting}{scheme}
+(define (compose f g)
+  (lambda (x) (f (g x))))
+((compose square inc) 6) ; 49
+\end{codelisting}
+
+\chapter{Упражнение 1.43}
+
+Если f числовая функция и n положительное целое, тогда мы можем n раз применить функцию к результату выполнения исходной функции, то есть $f(f(...(f(x))...))$. К примеру, если f(x) = x + 1, тогда если мы применим функцию n раз, то получим функцию f(x)=x+n. Если f - возведение в квадрат,тогда результирующая функция будет x в степени 2n. Напишите процедуру, что бы её можно было использовать вот таким образом ((repeated square 2) 5), используйте compose из упражнения 1.42.
+
+\begin{codelisting}{scheme}
+(define (repeated f n)
+  (if (= n 1)
+      (lambda (x) (f x))
+      (compose f (repeated f (- n 1)))))
+
+((repeated square 2) 5) ;; 625
+\end{codelisting}
+
+\chapter{Упражнение 1.44}
+
+Идея сглаживающей функции важна при обработке сигналов. Если f - функция и dx - некоторое малое приращение, тогда сглаженная версия функции f, эта функция  значение которой в точке x среднее между f(x-dx) и f(x+dx). Напишете процедуру smooth которая принимает на вход функцию и возвращает сглаженную функцию f. Иногда полезно применить сглаживание несколько раз (то есть сгладить сглаженную функцию) что-бы получить n-раз сглаженную функцию. Покажите как генерировать n раз сглаженную функцию при помощи процедуры repeat из 1.43.
+
+\begin{codelisting}{scheme}
+(define dx 0.00001)
+(define (smooth f)
+  (lambda (x) (average (f (- x dx)) (f (+ x dx)))))
+
+(define (smooth-n f n)
+  ((repeated smooth n) f))
+((smooth square) 2)
+((smooth-n square 5) 2)
+\end{codelisting}
+
+
+\chapter{Упражнение 1.45}
+
+В разделе 1.3.3 мы видели, что вычилсить квадратные корни путем лобового нахождения фиксированной точки от $y\mapsto x/y$ не получается, это удалось починить методом усреднения. Тот же метод работает для нахождения кубического корня. К сожалению процесс не срабатывает для корня четвертой степени. Одного усреднения не достаточно что бы выполнить поиск фиксированной точки для схождения $y\mapsto x/y^3$. C другой стороны если применить усреднение два раза , поиск фиксированной точки начинает сходиться. Поэксперементируйте с количеством усреднений для вычисления корня n-ой степени, то есть на отображении $y\mapsto x/y^{n-1}$. Используя это запишите процедуру для вычисления корня n-ой степени, через fixed-point, average-damp и repeated.
+
+\begin{codelisting}{scheme}
+;; 1 ; 1 0
+;; 2 ; 2 1
+     ; 3 1
+;; 4 ; 4 2
+     ; 5 2
+     ; 6 2
+     ; 7 2
+;; 8 ; 8 3
+     ; 15 3
+     ; 16 4
+     ; 32 4
+     ; 33 5
+(define (nth-root x n)
+  (define (get-ad-count n i)
+    (if (< n (fast-expt 2 i))
+        (- i 1)
+        (get-ad-count n (+ i 1))))
+  (display (get-ad-count n 1))
+  (fixed-point ((repeated average-damp (get-ad-count n 1)) (lambda (y) (/ x (fast-expt y (- n 1)))))
+               1.0))
+(nth-root 27 64)
+\end{codelisting}
+
+\chapter{Упражнение 1.46}
+
+Некоторые из численных методов, описанных в этой главе являются примерами примерами чрезвычайно общей вычислитетельной стратегии известной как итеративное улучшение. Итеративное вычисление говорит о том, что для вычисления чего либо, мы начнем с первоначальной догадки для ответа, проверим, является ли догадка достаточно хорошей, иначе улчучшим догадку и продолжим процесс используя улучшенную догадку в качестве новой догадки. Напишите процедуру iterative-improve которая принимает две процедуры в качестве аргументов: метод определяющий достаточно ли хороша догадка и метод улучшения догадки. Iterative-improve должна возвращать процедуру которая принимает в качестве аргумента догадку и улучшает её пока она не проходит проверку на предел. Перепишете процедуру квадратного корня и процедуру fixed-point в терминах iterative-improve.
+
+\begin{codelisting}{scheme}
+(define tolerance 0.00001)
+(define (close-enough? v1 v2)
+  (< (abs (- v1 v2)) tolerance))
+
+(define (iterative-improve good-enough? improve)
+  (define (try guess x)
+    (let ((next (improve guess)))
+      (if (close-enough? guess next)
+          next
+          (try next x))))
+  (lambda (x guess) (try guess x)))
+
+(define (sqrt x)
+  (define (improve guess)
+    (define (average x y)
+      (/ (+ x y) 2))
+    (average guess (/ x guess)))
+  ((iterative-improve close-enough? improve) x 1.0))
+
+(sqrt 2) ;Value: 1.4142156862745097
+
+
+(define (fixed-point f)
+  ((iterative-improve close-enough? f) 1.0 1.0))
+(fixed-point cos) ;Value: .7390822985224024
+\end{codelisting}

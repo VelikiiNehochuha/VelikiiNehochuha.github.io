@@ -33,7 +33,164 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/poluchit-sms-s-telefona/" class="u-url">Получить смс с android телефона</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/nastroika-emacs-dlia-svelte/" class="u-url">Настройка emacs для svelte</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/nastroika-emacs-dlia-svelte/" rel="bookmark">
+            <time class="published dt-published" datetime="2019-11-26T22:58:31+03:00" itemprop="datePublished" title="2019-11-26 22:58">2019-11-26 22:58</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-orgf99b1d5" class="outline-2">
+<h2 id="orgf99b1d5">Установить необходимые пакеты в emacs</h2>
+<div class="outline-text-2" id="text-orgf99b1d5">
+<p>
+Я добавил поддержку svelte шаблонов сравнительно недавно, поэтому web-mode
+c поддержкой svelte доступен пока только в unstable melpa
+</p>
+
+<div class="highlight"><pre><span></span><span class="nv">package-install</span> <span class="nv">web-mode</span>
+<span class="nv">package-install</span> <span class="nv">add-node-modules-path</span>
+<span class="nv">package-install</span> <span class="nv">flycheck</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org53994fa" class="outline-2">
+<h2 id="org53994fa">Настроим web-mode</h2>
+<div class="outline-text-2" id="text-org53994fa">
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/web-mode.el"</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.svelte\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.html\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.jsx\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.js\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-engines-alist</span>
+    <span class="o">'</span><span class="p">((</span><span class="s">"django"</span>    <span class="o">.</span> <span class="s">"\\.html\\'"</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-web-mode-hook</span> <span class="p">()</span>
+  <span class="s">"Hooks for Web mode."</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-indent-style</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-markup-indent-offset</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-css-indent-offset</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-code-indent-offset</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">;; 4</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-style-padding</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-script-padding</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-block-padding</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-part-padding</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'web-mode-hook</span>  <span class="ss">'my-web-mode-hook</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org8aa27a8" class="outline-2">
+<h2 id="org8aa27a8">Настройка eslint</h2>
+<div class="outline-text-2" id="text-org8aa27a8">
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nv">maybe-require-package</span> <span class="ss">'add-node-modules-path</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">after-load</span> <span class="ss">'web-mode</span>
+    <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'web-mode-hook</span> <span class="ss">'add-node-modules-path</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">setenv</span> <span class="s">"PATH"</span> <span class="p">(</span><span class="nv">concat</span> <span class="p">(</span><span class="nv">getenv</span> <span class="s">"PATH"</span><span class="p">)</span> <span class="s">":/home/anton/.nvm/versions/node/v10.15.3/bin/"</span><span class="p">))</span>
+<span class="p">(</span><span class="k">setq</span> <span class="nv">exec-path</span> <span class="p">(</span><span class="nb">append</span> <span class="nv">exec-path</span> <span class="o">'</span><span class="p">(</span><span class="s">"/home/anton/.nvm/versions/node/v10.15.3/bin"</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">setq</span> <span class="nv">flycheck-javascript-eslint-executable</span> <span class="s">"eslint_d"</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">with-eval-after-load</span> <span class="ss">'flycheck</span>
+  <span class="p">(</span><span class="nv">flycheck-add-mode</span> <span class="ss">'javascript-eslint</span> <span class="ss">'web-mode</span><span class="p">))</span>
+</pre></div>
+</div>
+
+<div id="outline-container-org5604b4a" class="outline-3">
+<h3 id="org5604b4a">установить глобально eslint<sub>d</sub>
+</h3>
+<div class="outline-text-3" id="text-org5604b4a">
+<div class="highlight"><pre><span></span>npm install -g eslint eslint_d
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgf8cce70" class="outline-3">
+<h3 id="orgf8cce70">установить в директорию с проектом</h3>
+<div class="outline-text-3" id="text-orgf8cce70">
+<div class="highlight"><pre><span></span>npm install eslint-plugin-svelte3 babel-eslint --save-dev
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org632c4ab" class="outline-3">
+<h3 id="org632c4ab">в директорию с проектом поместить .eslintrc</h3>
+<div class="outline-text-3" id="text-org632c4ab">
+<div class="highlight"><pre><span></span>{
+  "parserOptions": { "ecmaVersion": 2019, "sourceType": "module" },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "svelte3"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
+  "rules": {
+    //"no-undefined": 2,
+    "no-unused-vars": 2,
+    "no-use-before-define": 2
+  }
+}
+</pre></div>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/binarnyi-poisk-realizatsiia-na-python/" class="u-url">Бинарный поиск (реализация на python)</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/binarnyi-poisk-realizatsiia-na-python/" rel="bookmark">
+            <time class="published dt-published" datetime="2019-11-17T20:14:29+03:00" itemprop="datePublished" title="2019-11-17 20:14">2019-11-17 20:14</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+Представьте англо-русский словарь и вам нужно найти какое-то слово на букву "o".
+Для этого мы откроем словарь посередине и в зависимости на какую букву будет начинаться
+слово примем решение левая или правая половина листов нам нужна. Повторим это пока не найдем страницу с буквой "o".
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="n">minimum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">minimum</span> <span class="o">&lt;</span> <span class="n">maximum</span><span class="p">:</span>
+	<span class="n">midle</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">maximum</span> <span class="o">+</span> <span class="n">minimum</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s1">'midle'</span><span class="p">,</span> <span class="n">midle</span><span class="p">)</span>
+	<span class="n">current</span> <span class="o">=</span> <span class="n">iterable</span><span class="p">[</span><span class="n">midle</span><span class="p">]</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s1">'current'</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s1">'item'</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">current</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">midle</span>
+	<span class="k">elif</span> <span class="n">item</span> <span class="o">&gt;</span> <span class="n">current</span><span class="p">:</span>
+	    <span class="nb">print</span><span class="p">(</span><span class="s1">'ehrhe'</span><span class="p">)</span>
+	    <span class="n">minimum</span> <span class="o">=</span> <span class="n">midle</span>
+	<span class="k">elif</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">current</span><span class="p">:</span>
+	    <span class="n">maximum</span> <span class="o">=</span> <span class="n">midle</span>
+	<span class="k">else</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">binary_search</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">7</span>
+</pre></div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/poluchit-sms-s-telefona/" class="u-url">Получить смс с android телефона</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha

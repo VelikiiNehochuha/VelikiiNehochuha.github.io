@@ -1,0 +1,189 @@
+.. title: SICP 1.33 Процедуры как обобщающие методы, упражнения 1.35-1.39
+.. slug: sicp-133-protsedury-kak-obobshchaiushchie-metody-uprazhneniia-135-139
+.. date: 2020-01-15 01:36:40 UTC+03:00
+.. tags: sicp, scheme, procedures_as_general_methods
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+
+\chapter{Упражнение 1.35}
+
+Показать что золотое сечение $\phi$ это фиксированная точка трансформации $x\mapsto1+1/x$ и используя этот факт, вычислить $\phi$ через fixed-point.
+
+По определению фиксированной точки $\phi=1+1/\phi$, где $\phi=(1+\sqrt{5})/2$ в общем очевидно что $\phi$ фиксированная точка на таком отображении.
+
+
+\begin{codelisting}{scheme}
+(define (phi x)
+  (fixed-point (lambda (y) (+ 1 (/ 1 y)))
+  1.0))
+
+(phi 1) ;Value: 1.6180327868852458
+\end{codelisting}
+
+\chapter{Упражнение 1.36}
+
+Измените процедуру fixed-point чтобы она печатала последовательность генерируемых приближений используя newline и display из упражнения 1.22. Затем найдите решение для $x^x=1000$ найдя фиксированную точку для $x\mapsto\log(1000)/\log(x)$. Сравните количество шагов с использованием усреднения и без него.
+
+\begin{codelisting}{scheme}
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (newline)
+    (display guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+\end{codelisting}
+
+\begin{codelisting}{scheme}
+(define (xx1000)
+  (fixed-point (lambda (y) (/ (log 1000) (log y)))
+               2.0))
+(xx1000)
+\end{codelisting}
+
+2.
+9.965784284662087
+3.004472209841214
+6.279195757507157
+3.759850702401539
+5.215843784925895
+4.182207192401397
+4.8277650983445906
+4.387593384662677
+4.671250085763899
+4.481403616895052
+4.6053657460929
+4.5230849678718865
+4.577114682047341
+4.541382480151454
+4.564903245230833
+4.549372679303342
+4.559606491913287
+4.552853875788271
+4.557305529748263
+4.554369064436181
+4.556305311532999
+4.555028263573554
+4.555870396702851
+4.555315001192079
+4.5556812635433275
+4.555439715736846
+4.555599009998291
+4.555493957531389
+4.555563237292884
+4.555517548417651
+4.555547679306398
+4.555527808516254
+4.555540912917957
+;Value: 4.555532270803653
+
+35 раз.
+
+\begin{codelisting}{scheme}
+(define (xx1000)
+  (fixed-point (lambda (y) (average y (/ (log 1000) (log y))))
+               2.0))
+(xx1000)
+\end{codelisting}
+
+2.
+5.9828921423310435
+4.922168721308343
+4.628224318195455
+4.568346513136242
+4.5577305909237005
+4.555909809045131
+4.555599411610624
+4.5555465521473675
+;Value: 4.555537551999825
+
+10 раз.
+
+\chapter{Упражнение 1.37}
+
+a. Бесконечная непрерывная дробь, выражение вида $f=\frac{N_1}{D_1+\frac{N_2}{D_2+\frac{N_3}{D_3+...}}}$. В качестве примера можно показать что если для всех i $N_i=1$ $D_i=1$, то дробь будут равна $1/\phi$, где $\phi$ золотое сечение рассмотренное в упражнении 1.22. Один из способов приближенного вычисления такой дроби это отсечь дальнейшее деление при каком-то i=k. Такое усечение называется k-выраженная конечная непрерывная дробь. $\frac{N_1}{D_1+\frac{N_2}{...+\frac{N_k}{D_k}}}$.
+Предположим что n и d процедуры одного аргумента (в терминах индекса i), которые возвращают $N_i$ и $D_i$ в терминологии непрерывной дроби. Определите процедуру cont-frac так что выполнение (cont-frac n d k) вычисляет значение дроби усеченной по k. Проверьте вашу процедуру на приближенное вычисление $1/\phi$ используя код
+
+\begin{codelisting}{scheme}
+(cont-frac (lambda (i) 1.0)
+           (lambda (i) 1.0)
+           k)
+\end{codelisting}
+
+b. Напишите рекурсивную и итеративную реализацию процедуры cont-frac.
+
+\begin{codelisting}{scheme}
+(define (cont-frac n d k)
+  (define (revert-index n d i)
+    (if (> i k)
+        (/ (n i) (+ (d i) 0.0))
+        (/ (n i) (+ (d i) (revert-index n d (+ i 1))))))
+  (revert-index n d 0))
+
+(cont-frac (lambda (i) 1.0)
+           (lambda (i) 1.0)
+           100) ;Value: .6180339887498948
+
+
+(define (cont-frac n d k)
+  (define (iter i result)
+    (newline)
+    (display result)
+    (if (= i 0)
+        (/ (n i) (+ (d i) result))
+        (iter (- i 1) (/ (n i) (+ (d i) result)))))
+  (iter k 0.0))
+
+(cont-frac (lambda (i) 1.0)
+           (lambda (i) 1.0)
+           100) ;Value: .6180339887498948
+\end{codelisting}
+
+\chapter{Упражнение 1.38}
+
+В 1737 швейцарский математик Леонард Эйлер опубликовал мемуары De Fractionibus Continuis, которые содержали запись непрерывной дроби для e-2, где e - основание натурального логарифма. В этой дроби все Ni = 1, а Di соответственно 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, ... Напишите процедуру для приближенного вычисления e.
+
+\begin{codelisting}{scheme}
+(define (e-approximation k)
+  (+ 2 (cont-frac (lambda (i) 1.0)
+                  (lambda (i) (cond ((= i 0) 1.0)
+                               ((= i 1) 2.0)
+                               ((<= i 3) 1.0)
+                               ((= (remainder (- i 1) 3) 0) (* 2 (/ (- i 1) 3)))
+                               (else 1.0)))
+                  k)))
+
+(e-approximation 100) ;Value: 2.7208245385621153
+\end{codelisting}
+
+
+\chapter{Упражнение 1.39}
+
+Бесконечная дробь для тангенса была опубликована в 1970 немецким математиком Ламбертом. $\tan{x}=\frac{x}{1-\frac{x^2}{3-\frac{x^2}{5-...}}}$. Напишите процедуру для приближенного вычисления тангенса.
+
+\begin{codelisting}{scheme}
+(define (cont-frac-params n d k x)
+  (define (iter i result)
+    (newline)
+    (display result)
+    (if (= i 0)
+        (/ (n i x) (- (d i x) result))
+        (iter (- i 1) (/ (n i x) (- (d i x) result)))))
+  (iter k 0.0))
+
+
+(define (tan-cf x k)
+  (cont-frac-params (lambda (i j) (cond ((= i 0) j)
+                          (else (square j))))
+           (lambda (i x) (+ 1 (* 2 i)))
+           100 x))
+
+(tan-cf 2 100);Value: -2.185039863261519
+\end{codelisting}

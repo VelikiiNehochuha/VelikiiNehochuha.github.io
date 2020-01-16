@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="rss.xml">
 <link rel="canonical" href="http://velikiinehochuha.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/" type="text/html">
 </head>
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
@@ -33,7 +33,384 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/" class="u-url">SICP Процедуры высшего порядка, упражнения 1.29-1.34</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/" class="u-url">SICP 1.34 Процедуры как возвращаемые значения, упражнения 1.40-1.46</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-15T19:17:40+03:00" itemprop="datePublished" title="2020-01-15 19:17">2020-01-15 19:17</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.40
+  </h2>
+  <div>
+   <div>
+    <p>
+     Определите процедуру cubic, которая может быть использована вместе с newtons-method для нахождения корней <span class="inline-formula"><img class="img-inline-formula img-formula" width="158" height="16" src="formulae/sXwqMiZD7UL6oHbZ.i0kVUnRMNW4SotUtae6OQ.png" alt="x^3+a\cdot x^2+b\cdot x+c" title="x^3+a\cdot x^2+b\cdot x+c"></span>
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cubic</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+<span class="lineno">3 </span>    <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="lineno">4 </span>
+<span class="lineno">5 </span><span class="p">(</span><span class="nf">newtons-method</span> <span class="p">(</span><span class="nf">cubic</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.41
+  </h2>
+  <div>
+   <div>
+    <p>
+     Определите процедуру double которая принимает процедуру как аргумент и возвращает процедуру, которая применяет переданную процедуру дважды. К примеру (double inc) должена вернуть процедуру которая два раза делает inc. Какое значение вернет (((double (double double)) inc) 5)?
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">double</span> <span class="nv">f</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+<span class="lineno">3 </span>    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="lineno">4 </span><span class="p">(((</span><span class="nf">double</span> <span class="p">(</span><span class="nf">double</span> <span class="nv">double</span><span class="p">))</span> <span class="nv">inc</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">; 16</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.42
+  </h2>
+  <div>
+   <div>
+    <p>
+     Пусть f и g две функции одного аргумента. Композицией f после g называется <span class="inline-formula"><img class="img-inline-formula img-formula" width="93" height="17" src="formulae/gZRHSPvfgublk.GfaBQZG_htxW7etTPzHVF0_g.png" alt="x\mapsto f(g(x))" title="x\mapsto f(g(x))"></span>. Определите процедуру compose, которая составляет композицию двух функций.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">compose</span> <span class="nv">f</span> <span class="nv">g</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">g</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="lineno">3 </span><span class="p">((</span><span class="nf">compose</span> <span class="nv">square</span> <span class="nv">inc</span><span class="p">)</span> <span class="mi">6</span><span class="p">)</span> <span class="c1">; 49</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.43
+  </h2>
+  <div>
+   <div>
+    <p>
+     Если f числовая функция и n положительное целое, тогда мы можем n раз применить функцию к результату выполнения исходной функции, то есть <span class="inline-formula"><img class="img-inline-formula img-formula" width="124" height="17" src="formulae/HU6llSc5.Zpyr.Hr5NnGjQGw2XI4.RQN15cVAQ.png" alt="f(f(...(f(x))...))" title="f(f(...(f(x))...))"></span>. К примеру, если f(x) = x + 1, тогда если мы применим функцию n раз, то получим функцию f(x)=x+n. Если f - возведение в квадрат,тогда результирующая функция будет x в степени 2n. Напишите процедуру, что бы её можно было использовать вот таким образом ((repeated square 2) 5), используйте compose из упражнения 1.42.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">repeated</span> <span class="nv">f</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno">3 </span>      <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">))</span>
+<span class="lineno">4 </span>      <span class="p">(</span><span class="nf">compose</span> <span class="nv">f</span> <span class="p">(</span><span class="nf">repeated</span> <span class="nv">f</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="lineno">5 </span>
+<span class="lineno">6 </span><span class="p">((</span><span class="nf">repeated</span> <span class="nv">square</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">;; 625</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.44
+  </h2>
+  <div>
+   <div>
+    <p>
+     Идея сглаживающей функции важна при обработке сигналов. Если f - функция и dx - некоторое малое приращение, тогда сглаженная версия функции f, эта функция значение которой в точке x среднее между f(x-dx) и f(x+dx). Напишете процедуру smooth которая принимает на вход функцию и возвращает сглаженную функцию f. Иногда полезно применить сглаживание несколько раз (то есть сгладить сглаженную функцию) что-бы получить n-раз сглаженную функцию. Покажите как генерировать n раз сглаженную функцию при помощи процедуры repeat из 1.43.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">dx</span> <span class="mf">0.00001</span><span class="p">)</span>
+<span class="lineno">2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smooth</span> <span class="nv">f</span><span class="p">)</span>
+<span class="lineno">3 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">dx</span><span class="p">))</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">dx</span><span class="p">)))))</span>
+<span class="lineno">4 </span>
+<span class="lineno">5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smooth-n</span> <span class="nv">f</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">6 </span>  <span class="p">((</span><span class="nf">repeated</span> <span class="nv">smooth</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">f</span><span class="p">))</span>
+<span class="lineno">7 </span><span class="p">((</span><span class="nf">smooth</span> <span class="nv">square</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+<span class="lineno">8 </span><span class="p">((</span><span class="nf">smooth-n</span> <span class="nv">square</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.45
+  </h2>
+  <div>
+   <div>
+    <p>
+     В разделе 1.3.3 мы видели, что вычилсить квадратные корни путем лобового нахождения фиксированной точки от <span class="inline-formula"><img class="img-inline-formula img-formula" width="64" height="17" src="formulae/zdJWgnFS7PUYZhExeEvrX_tFSENKt1VSCK.Y5Q.png" alt="y\mapsto x/y" title="y\mapsto x/y"></span> не получается, это удалось починить методом усреднения. Тот же метод работает для нахождения кубического корня. К сожалению процесс не срабатывает для корня четвертой степени. Одного усреднения не достаточно что бы выполнить поиск фиксированной точки для схождения <span class="inline-formula"><img class="img-inline-formula img-formula" width="71" height="18" src="formulae/lgB8nsh8BmlyJvAIU7tAqvbF8Rl8.f5Qr5TrSA.png" alt="y\mapsto x/y^3" title="y\mapsto x/y^3"></span>. C другой стороны если применить усреднение два раза , поиск фиксированной точки начинает сходиться. Поэксперементируйте с количеством усреднений для вычисления корня n-ой степени, то есть на отображении <span class="inline-formula"><img class="img-inline-formula img-formula" width="91" height="18" src="formulae/3G5wsHuLMEIvQKNcMebKrdcrXyGTIDeetUDp8Q.png" alt="y\mapsto x/y^{n-1}" title="y\mapsto x/y^{n-1}"></span>. Используя это запишите процедуру для вычисления корня n-ой степени, через fixed-point, average-damp и repeated.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; 1 ; 1 0</span>
+<span class="lineno"> 2 </span><span class="c1">;; 2 ; 2 1</span>
+<span class="lineno"> 3 </span>     <span class="c1">; 3 1</span>
+<span class="lineno"> 4 </span><span class="c1">;; 4 ; 4 2</span>
+<span class="lineno"> 5 </span>     <span class="c1">; 5 2</span>
+<span class="lineno"> 6 </span>     <span class="c1">; 6 2</span>
+<span class="lineno"> 7 </span>     <span class="c1">; 7 2</span>
+<span class="lineno"> 8 </span><span class="c1">;; 8 ; 8 3</span>
+<span class="lineno"> 9 </span>     <span class="c1">; 15 3</span>
+<span class="lineno">10 </span>     <span class="c1">; 16 4</span>
+<span class="lineno">11 </span>     <span class="c1">; 32 4</span>
+<span class="lineno">12 </span>     <span class="c1">; 33 5</span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">nth-root</span> <span class="nv">x</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">14 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="nv">i</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">2</span> <span class="nv">i</span><span class="p">))</span>
+<span class="lineno">16 </span>        <span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno">17 </span>        <span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="lineno">18 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+<span class="lineno">19 </span>  <span class="p">(</span><span class="nf">fixed-point</span> <span class="p">((</span><span class="nf">repeated</span> <span class="nv">average-damp</span> <span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="lineno">20 </span>               <span class="mf">1.0</span><span class="p">))</span>
+<span class="lineno">21 </span><span class="p">(</span><span class="nf">nth-root</span> <span class="mi">27</span> <span class="mi">64</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.46
+  </h2>
+  <div>
+   <div>
+    <p>
+     Некоторые из численных методов, описанных в этой главе являются примерами примерами чрезвычайно общей вычислитетельной стратегии известной как итеративное улучшение. Итеративное вычисление говорит о том, что для вычисления чего либо, мы начнем с первоначальной догадки для ответа, проверим, является ли догадка достаточно хорошей, иначе улчучшим догадку и продолжим процесс используя улучшенную догадку в качестве новой догадки. Напишите процедуру iterative-improve которая принимает две процедуры в качестве аргументов: метод определяющий достаточно ли хороша догадка и метод улучшения догадки. Iterative-improve должна возвращать процедуру которая принимает в качестве аргумента догадку и улучшает её пока она не проходит проверку на предел. Перепишете процедуру квадратного корня и процедуру fixed-point в терминах iterative-improve.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="nv">tolerance</span> <span class="mf">0.00001</span><span class="p">)</span>
+<span class="lineno"> 2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">close-enough?</span> <span class="nv">v1</span> <span class="nv">v2</span><span class="p">)</span>
+<span class="lineno"> 3 </span>  <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="nv">v1</span> <span class="nv">v2</span><span class="p">))</span> <span class="nv">tolerance</span><span class="p">))</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iterative-improve</span> <span class="nv">good-enough?</span> <span class="nv">improve</span><span class="p">)</span>
+<span class="lineno"> 6 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">try</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+<span class="lineno"> 7 </span>    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">next</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">)))</span>
+<span class="lineno"> 8 </span>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">close-enough?</span> <span class="nv">guess</span> <span class="nv">next</span><span class="p">)</span>
+<span class="lineno"> 9 </span>          <span class="nv">next</span>
+<span class="lineno">10 </span>          <span class="p">(</span><span class="nf">try</span> <span class="nv">next</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="lineno">11 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">guess</span><span class="p">)</span> <span class="p">(</span><span class="nf">try</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="lineno">12 </span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)</span>
+<span class="lineno">14 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+<span class="lineno">16 </span>      <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno">17 </span>    <span class="p">(</span><span class="nf">average</span> <span class="nv">guess</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="nv">guess</span><span class="p">)))</span>
+<span class="lineno">18 </span>  <span class="p">((</span><span class="nf">iterative-improve</span> <span class="nv">close-enough?</span> <span class="nv">improve</span><span class="p">)</span> <span class="nv">x</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="lineno">19 </span>
+<span class="lineno">20 </span><span class="p">(</span><span class="nb">sqrt </span><span class="mi">2</span><span class="p">)</span> <span class="c1">;Value: 1.4142156862745097</span>
+<span class="lineno">21 </span>
+<span class="lineno">22 </span>
+<span class="lineno">23 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fixed-point</span> <span class="nv">f</span><span class="p">)</span>
+<span class="lineno">24 </span>  <span class="p">((</span><span class="nf">iterative-improve</span> <span class="nv">close-enough?</span> <span class="nv">f</span><span class="p">)</span> <span class="mf">1.0</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="lineno">25 </span><span class="p">(</span><span class="nf">fixed-point</span> <span class="nv">cos</span><span class="p">)</span> <span class="c1">;Value: .7390822985224024</span>
+</pre>
+</div>  </div>
+ </div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-133-protsedury-kak-obobshchaiushchie-metody-uprazhneniia-135-139/" class="u-url">SICP 1.33 Процедуры как обобщающие методы, упражнения 1.35-1.39</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-133-protsedury-kak-obobshchaiushchie-metody-uprazhneniia-135-139/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-15T01:36:40+03:00" itemprop="datePublished" title="2020-01-15 01:36">2020-01-15 01:36</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.35
+  </h2>
+  <div>
+   <div>
+    <p>
+     Показать что золотое сечение <span class="inline-formula"><img class="img-inline-formula img-formula" width="10" height="15" src="formulae/nnhzdqchKKCzaVcrUWETL.T75aNctBowFpJaFA.png" alt="\phi" title="\phi"></span> это фиксированная точка трансформации <span class="inline-formula"><img class="img-inline-formula img-formula" width="94" height="17" src="formulae/1nMkSU9aUmKU94eNCFHsW76zCOstgHrGuaN.JA.png" alt="x\mapsto1+1/x" title="x\mapsto1+1/x"></span> и используя этот факт, вычислить <span class="inline-formula"><img class="img-inline-formula img-formula" width="10" height="15" src="formulae/nnhzdqchKKCzaVcrUWETL.T75aNctBowFpJaFA.png" alt="\phi" title="\phi"></span> через fixed-point.
+    </p>
+    <p>
+     По определению фиксированной точки <span class="inline-formula"><img class="img-inline-formula img-formula" width="91" height="17" src="formulae/WYQmJitF3lTCsDqateA03gibfHVchhI21clQqA.png" alt="\phi=1+1/\phi" title="\phi=1+1/\phi"></span>, где <span class="inline-formula"><img class="img-inline-formula img-formula" width="117" height="20" src="formulae/UjJadbN6A6Af7gemc_E398qzlsLx0k7YuMSyaw.png" alt="\phi=(1+\sqrt{5})/2" title="\phi=(1+\sqrt{5})/2"></span> в общем очевидно что <span class="inline-formula"><img class="img-inline-formula img-formula" width="10" height="15" src="formulae/nnhzdqchKKCzaVcrUWETL.T75aNctBowFpJaFA.png" alt="\phi" title="\phi"></span> фиксированная точка на таком отображении.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">phi</span> <span class="nv">x</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">fixed-point</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">1</span> <span class="nv">y</span><span class="p">)))</span>
+<span class="lineno">3 </span>  <span class="mf">1.0</span><span class="p">))</span>
+<span class="lineno">4 </span>
+<span class="lineno">5 </span><span class="p">(</span><span class="nf">phi</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">;Value: 1.6180327868852458</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.36
+  </h2>
+  <div>
+   <div>
+    <p>
+     Измените процедуру fixed-point чтобы она печатала последовательность генерируемых приближений используя newline и display из упражнения 1.22. Затем найдите решение для <span class="inline-formula"><img class="img-inline-formula img-formula" width="76" height="11" src="formulae/HM9Qm.s3HgJ57VPQ4wJ9rQUqMNF5eAQN2wpsuQ.png" alt="x^x=1000" title="x^x=1000"></span> найдя фиксированную точку для <span class="inline-formula"><img class="img-inline-formula img-formula" width="164" height="17" src="formulae/XbkaMPB9jJlE1P3QZghbOy1J0EdWxwV8s53z7g.png" alt="x\mapsto\log(1000)/\log(x)" title="x\mapsto\log(1000)/\log(x)"></span>. Сравните количество шагов с использованием усреднения и без него.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fixed-point</span> <span class="nv">f</span> <span class="nv">first-guess</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">close-enough?</span> <span class="nv">v1</span> <span class="nv">v2</span><span class="p">)</span>
+<span class="lineno"> 3 </span>    <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="nv">v1</span> <span class="nv">v2</span><span class="p">))</span> <span class="nv">tolerance</span><span class="p">))</span>
+<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">try</span> <span class="nv">guess</span><span class="p">)</span>
+<span class="lineno"> 5 </span>    <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="lineno"> 6 </span>    <span class="p">(</span><span class="nb">display </span><span class="nv">guess</span><span class="p">)</span>
+<span class="lineno"> 7 </span>    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">next</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">guess</span><span class="p">)))</span>
+<span class="lineno"> 8 </span>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">close-enough?</span> <span class="nv">guess</span> <span class="nv">next</span><span class="p">)</span>
+<span class="lineno"> 9 </span>          <span class="nv">next</span>
+<span class="lineno">10 </span>          <span class="p">(</span><span class="nf">try</span> <span class="nv">next</span><span class="p">))))</span>
+<span class="lineno">11 </span>  <span class="p">(</span><span class="nf">try</span> <span class="nv">first-guess</span><span class="p">))</span>
+</pre>
+</div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">xx1000</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">fixed-point</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">log </span><span class="mi">1000</span><span class="p">)</span> <span class="p">(</span><span class="nb">log </span><span class="nv">y</span><span class="p">)))</span>
+<span class="lineno">3 </span>               <span class="mf">2.0</span><span class="p">))</span>
+<span class="lineno">4 </span><span class="p">(</span><span class="nf">xx1000</span><span class="p">)</span>
+</pre>
+</div>   <div>
+    <p>
+     2. 9.965784284662087 3.004472209841214 6.279195757507157 3.759850702401539 5.215843784925895 4.182207192401397 4.8277650983445906 4.387593384662677 4.671250085763899 4.481403616895052 4.6053657460929 4.5230849678718865 4.577114682047341 4.541382480151454 4.564903245230833 4.549372679303342 4.559606491913287 4.552853875788271 4.557305529748263 4.554369064436181 4.556305311532999 4.555028263573554 4.555870396702851 4.555315001192079 4.5556812635433275 4.555439715736846 4.555599009998291 4.555493957531389 4.555563237292884 4.555517548417651 4.555547679306398 4.555527808516254 4.555540912917957 ;Value: 4.555532270803653
+    </p>
+    <p>
+     35 раз.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">xx1000</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">fixed-point</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">average</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">log </span><span class="mi">1000</span><span class="p">)</span> <span class="p">(</span><span class="nb">log </span><span class="nv">y</span><span class="p">))))</span>
+<span class="lineno">3 </span>               <span class="mf">2.0</span><span class="p">))</span>
+<span class="lineno">4 </span><span class="p">(</span><span class="nf">xx1000</span><span class="p">)</span>
+</pre>
+</div>   <div>
+    <p>
+     2. 5.9828921423310435 4.922168721308343 4.628224318195455 4.568346513136242 4.5577305909237005 4.555909809045131 4.555599411610624 4.5555465521473675 ;Value: 4.555537551999825
+    </p>
+    <p>
+     10 раз.
+    </p>
+   </div>
+  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.37
+  </h2>
+  <div>
+   <div>
+    <p>
+     a. Бесконечная непрерывная дробь, выражение вида <span class="inline-formula"><img class="img-inline-formula img-formula" width="137" height="42" src="formulae/sjdXVLc6Vxzo8R25UmTxO.UuXfYfmoa9vN_8.Q.png" alt="f=\frac{N_1}{D_1+\frac{N_2}{D_2+\frac{N_3}{D_3+...}}}" title="f=\frac{N_1}{D_1+\frac{N_2}{D_2+\frac{N_3}{D_3+...}}}"></span>. В качестве примера можно показать что если для всех i <span class="inline-formula"><img class="img-inline-formula img-formula" width="51" height="14" src="formulae/a5St5HY2vJG2jaktUsvEtzVWFraPzgmbnMYF1g.png" alt="N_i=1" title="N_i=1"></span> <span class="inline-formula"><img class="img-inline-formula img-formula" width="52" height="14" src="formulae/bDp8GpJmdsEE0J6UTQXqXGylrL1NSnQeOKvqew.png" alt="D_i=1" title="D_i=1"></span>, то дробь будут равна <span class="inline-formula"><img class="img-inline-formula img-formula" width="28" height="17" src="formulae/jqoyPqGFD.741uy0dJ7pDnObupyLxw9ZqHDK_w.png" alt="1/\phi" title="1/\phi"></span>, где <span class="inline-formula"><img class="img-inline-formula img-formula" width="10" height="15" src="formulae/nnhzdqchKKCzaVcrUWETL.T75aNctBowFpJaFA.png" alt="\phi" title="\phi"></span> золотое сечение рассмотренное в упражнении 1.22. Один из способов приближенного вычисления такой дроби это отсечь дальнейшее деление при каком-то i=k. Такое усечение называется k-выраженная конечная непрерывная дробь. <span class="inline-formula"><img class="img-inline-formula img-formula" width="79" height="43" src="formulae/5YQQAqK.eBLHAcmk.ZOTVEMFDhO2rwHnTcpQRA.png" alt="\frac{N_1}{D_1+\frac{N_2}{...+\frac{N_k}{D_k}}}" title="\frac{N_1}{D_1+\frac{N_2}{...+\frac{N_k}{D_k}}}"></span>. Предположим что n и d процедуры одного аргумента (в терминах индекса i), которые возвращают <span class="inline-formula"><img class="img-inline-formula img-formula" width="20" height="14" src="formulae/sZiS..WGvCGhxZnDSGl5MdBWBV0bOes6DufUgQ.png" alt="N_i" title="N_i"></span> и <span class="inline-formula"><img class="img-inline-formula img-formula" width="20" height="14" src="formulae/E9O3WRQowdTN.EcibQkKJgNdUqBImg.3BViLZQ.png" alt="D_i" title="D_i"></span> в терминологии непрерывной дроби. Определите процедуру cont-frac так что выполнение (cont-frac n d k) вычисляет значение дроби усеченной по k. Проверьте вашу процедуру на приближенное вычисление <span class="inline-formula"><img class="img-inline-formula img-formula" width="28" height="17" src="formulae/jqoyPqGFD.741uy0dJ7pDnObupyLxw9ZqHDK_w.png" alt="1/\phi" title="1/\phi"></span> используя код
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="nf">cont-frac</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno">2 </span>           <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno">3 </span>           <span class="nv">k</span><span class="p">)</span>
+</pre>
+</div>   <div>
+    <p>
+     b. Напишите рекурсивную и итеративную реализацию процедуры cont-frac.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cont-frac</span> <span class="nv">n</span> <span class="nv">d</span> <span class="nv">k</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">revert-index</span> <span class="nv">n</span> <span class="nv">d</span> <span class="nv">i</span><span class="p">)</span>
+<span class="lineno"> 3 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">i</span> <span class="nv">k</span><span class="p">)</span>
+<span class="lineno"> 4 </span>        <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">n</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">d</span> <span class="nv">i</span><span class="p">)</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="lineno"> 5 </span>        <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">n</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">d</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nf">revert-index</span> <span class="nv">n</span> <span class="nv">d</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))))))</span>
+<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nf">revert-index</span> <span class="nv">n</span> <span class="nv">d</span> <span class="mi">0</span><span class="p">))</span>
+<span class="lineno"> 7 </span>
+<span class="lineno"> 8 </span><span class="p">(</span><span class="nf">cont-frac</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno"> 9 </span>           <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno">10 </span>           <span class="mi">100</span><span class="p">)</span> <span class="c1">;Value: .6180339887498948</span>
+<span class="lineno">11 </span>
+<span class="lineno">12 </span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cont-frac</span> <span class="nv">n</span> <span class="nv">d</span> <span class="nv">k</span><span class="p">)</span>
+<span class="lineno">14 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">i</span> <span class="nv">result</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="lineno">16 </span>    <span class="p">(</span><span class="nb">display </span><span class="nv">result</span><span class="p">)</span>
+<span class="lineno">17 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">i</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno">18 </span>        <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">n</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">d</span> <span class="nv">i</span><span class="p">)</span> <span class="nv">result</span><span class="p">))</span>
+<span class="lineno">19 </span>        <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">n</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">d</span> <span class="nv">i</span><span class="p">)</span> <span class="nv">result</span><span class="p">)))))</span>
+<span class="lineno">20 </span>  <span class="p">(</span><span class="nf">iter</span> <span class="nv">k</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="lineno">21 </span>
+<span class="lineno">22 </span><span class="p">(</span><span class="nf">cont-frac</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno">23 </span>           <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno">24 </span>           <span class="mi">100</span><span class="p">)</span> <span class="c1">;Value: .6180339887498948</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.38
+  </h2>
+  <div>
+   <div>
+    <p>
+     В 1737 швейцарский математик Леонард Эйлер опубликовал мемуары De Fractionibus Continuis, которые содержали запись непрерывной дроби для e-2, где e - основание натурального логарифма. В этой дроби все Ni = 1, а Di соответственно 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, ... Напишите процедуру для приближенного вычисления e.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">e-approximation</span> <span class="nv">k</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">+ </span><span class="mi">2</span> <span class="p">(</span><span class="nf">cont-frac</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno"> 3 </span>                  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">i</span> <span class="mi">0</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno"> 4 </span>                               <span class="p">((</span><span class="nb">= </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="lineno"> 5 </span>                               <span class="p">((</span><span class="nb">&lt;= </span><span class="nv">i</span> <span class="mi">3</span><span class="p">)</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="lineno"> 6 </span>                               <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="lineno"> 7 </span>                               <span class="p">(</span><span class="k">else </span><span class="mf">1.0</span><span class="p">)))</span>
+<span class="lineno"> 8 </span>                  <span class="nv">k</span><span class="p">)))</span>
+<span class="lineno"> 9 </span>
+<span class="lineno">10 </span><span class="p">(</span><span class="nf">e-approximation</span> <span class="mi">100</span><span class="p">)</span> <span class="c1">;Value: 2.7208245385621153</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.39
+  </h2>
+  <div>
+   <div>
+    <p>
+     Бесконечная дробь для тангенса была опубликована в 1970 немецким математиком Ламбертом. <span class="inline-formula"><img class="img-inline-formula img-formula" width="133" height="37" src="formulae/Kh3Tu0aZ5ik5TrqUeTNCTUfOTq2DBN23c_X9Qw.png" alt="\tan{x}=\frac{x}{1-\frac{x^2}{3-\frac{x^2}{5-...}}}" title="\tan{x}=\frac{x}{1-\frac{x^2}{3-\frac{x^2}{5-...}}}"></span>. Напишите процедуру для приближенного вычисления тангенса.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cont-frac-params</span> <span class="nv">n</span> <span class="nv">d</span> <span class="nv">k</span> <span class="nv">x</span><span class="p">)</span>
+<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">i</span> <span class="nv">result</span><span class="p">)</span>
+<span class="lineno"> 3 </span>    <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="lineno"> 4 </span>    <span class="p">(</span><span class="nb">display </span><span class="nv">result</span><span class="p">)</span>
+<span class="lineno"> 5 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">i</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno"> 6 </span>        <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">n</span> <span class="nv">i</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">d</span> <span class="nv">i</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">result</span><span class="p">))</span>
+<span class="lineno"> 7 </span>        <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">n</span> <span class="nv">i</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">d</span> <span class="nv">i</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">result</span><span class="p">)))))</span>
+<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nf">iter</span> <span class="nv">k</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="lineno"> 9 </span>
+<span class="lineno">10 </span>
+<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tan-cf</span> <span class="nv">x</span> <span class="nv">k</span><span class="p">)</span>
+<span class="lineno">12 </span>  <span class="p">(</span><span class="nf">cont-frac-params</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span> <span class="nv">j</span><span class="p">)</span> <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">i</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">j</span><span class="p">)</span>
+<span class="lineno">13 </span>                          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">square</span> <span class="nv">j</span><span class="p">))))</span>
+<span class="lineno">14 </span>           <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="nv">i</span><span class="p">)))</span>
+<span class="lineno">15 </span>           <span class="mi">100</span> <span class="nv">x</span><span class="p">))</span>
+<span class="lineno">16 </span>
+<span class="lineno">17 </span><span class="p">(</span><span class="nf">tan-cf</span> <span class="mi">2</span> <span class="mi">100</span><span class="p">)</span><span class="c1">;Value: -2.185039863261519</span>
+</pre>
+</div>  </div>
+ </div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/" class="u-url">SICP Процедуры высшего порядка, упражнения 1.29-1.34</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha
@@ -1745,163 +2122,6 @@ predicate, затем в зависимости от условия выполн
 <p>
 Пишем что-то в правой вкладке, жмем C-x C-e, видим результат в левой.
 </p>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/nastroika-emacs-dlia-svelte/" class="u-url">Настройка emacs для svelte</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/nastroika-emacs-dlia-svelte/" rel="bookmark">
-            <time class="published dt-published" datetime="2019-11-26T22:58:31+03:00" itemprop="datePublished" title="2019-11-26 22:58">2019-11-26 22:58</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-orgf99b1d5" class="outline-2">
-<h2 id="orgf99b1d5">Установить необходимые пакеты в emacs</h2>
-<div class="outline-text-2" id="text-orgf99b1d5">
-<p>
-Я добавил поддержку svelte шаблонов сравнительно недавно, поэтому web-mode
-c поддержкой svelte доступен пока только в unstable melpa
-</p>
-
-<div class="highlight"><pre><span></span><span class="nv">package-install</span> <span class="nv">web-mode</span>
-<span class="nv">package-install</span> <span class="nv">add-node-modules-path</span>
-<span class="nv">package-install</span> <span class="nv">flycheck</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org53994fa" class="outline-2">
-<h2 id="org53994fa">Настроим web-mode</h2>
-<div class="outline-text-2" id="text-org53994fa">
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/web-mode.el"</span><span class="p">)</span>
-<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.svelte\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.html\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.jsx\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.js\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
-
-<span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-engines-alist</span>
-    <span class="o">'</span><span class="p">((</span><span class="s">"django"</span>    <span class="o">.</span> <span class="s">"\\.html\\'"</span><span class="p">))</span>
-<span class="p">)</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-web-mode-hook</span> <span class="p">()</span>
-  <span class="s">"Hooks for Web mode."</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-indent-style</span> <span class="mi">2</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-markup-indent-offset</span> <span class="mi">2</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-css-indent-offset</span> <span class="mi">2</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-code-indent-offset</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">;; 4</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-style-padding</span> <span class="mi">2</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-script-padding</span> <span class="mi">2</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-block-padding</span> <span class="mi">2</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">web-mode-part-padding</span> <span class="mi">2</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'web-mode-hook</span>  <span class="ss">'my-web-mode-hook</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-org8aa27a8" class="outline-2">
-<h2 id="org8aa27a8">Настройка eslint</h2>
-<div class="outline-text-2" id="text-org8aa27a8">
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nv">maybe-require-package</span> <span class="ss">'add-node-modules-path</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">after-load</span> <span class="ss">'web-mode</span>
-    <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'web-mode-hook</span> <span class="ss">'add-node-modules-path</span><span class="p">)))</span>
-<span class="p">(</span><span class="nv">setenv</span> <span class="s">"PATH"</span> <span class="p">(</span><span class="nv">concat</span> <span class="p">(</span><span class="nv">getenv</span> <span class="s">"PATH"</span><span class="p">)</span> <span class="s">":/home/anton/.nvm/versions/node/v10.15.3/bin/"</span><span class="p">))</span>
-<span class="p">(</span><span class="k">setq</span> <span class="nv">exec-path</span> <span class="p">(</span><span class="nb">append</span> <span class="nv">exec-path</span> <span class="o">'</span><span class="p">(</span><span class="s">"/home/anton/.nvm/versions/node/v10.15.3/bin"</span><span class="p">)))</span>
-<span class="p">(</span><span class="k">setq</span> <span class="nv">flycheck-javascript-eslint-executable</span> <span class="s">"eslint_d"</span><span class="p">)</span>
-<span class="p">(</span><span class="nv">with-eval-after-load</span> <span class="ss">'flycheck</span>
-  <span class="p">(</span><span class="nv">flycheck-add-mode</span> <span class="ss">'javascript-eslint</span> <span class="ss">'web-mode</span><span class="p">))</span>
-</pre></div>
-</div>
-
-<div id="outline-container-org5604b4a" class="outline-3">
-<h3 id="org5604b4a">установить глобально eslint<sub>d</sub>
-</h3>
-<div class="outline-text-3" id="text-org5604b4a">
-<div class="highlight"><pre><span></span>npm install -g eslint eslint_d
-</pre></div>
-</div>
-</div>
-<div id="outline-container-orgf8cce70" class="outline-3">
-<h3 id="orgf8cce70">установить в директорию с проектом</h3>
-<div class="outline-text-3" id="text-orgf8cce70">
-<div class="highlight"><pre><span></span>npm install eslint-plugin-svelte3 babel-eslint --save-dev
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org632c4ab" class="outline-3">
-<h3 id="org632c4ab">в директорию с проектом поместить .eslintrc</h3>
-<div class="outline-text-3" id="text-org632c4ab">
-<div class="highlight"><pre><span></span>{
-  "parserOptions": { "ecmaVersion": 2019, "sourceType": "module" },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "node": true
-  },
-  "plugins": [
-    "svelte3"
-  ],
-  "overrides": [
-    {
-      "files": ["**/*.svelte"],
-      "processor": "svelte3/svelte3"
-    }
-  ],
-  "rules": {
-    //"no-undefined": 2,
-    "no-unused-vars": 2,
-    "no-use-before-define": 2
-  }
-}
-</pre></div>
-</div>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/binarnyi-poisk-realizatsiia-na-python/" class="u-url">Бинарный поиск (реализация на python)</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/binarnyi-poisk-realizatsiia-na-python/" rel="bookmark">
-            <time class="published dt-published" datetime="2019-11-17T20:14:29+03:00" itemprop="datePublished" title="2019-11-17 20:14">2019-11-17 20:14</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <p>
-Представьте англо-русский словарь и вам нужно найти какое-то слово на букву "o".
-Для этого мы откроем словарь посередине и в зависимости на какую букву будет начинаться
-слово примем решение левая или правая половина листов нам нужна. Повторим это пока не найдем страницу с буквой "o".
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-    <span class="n">minimum</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
-    <span class="k">while</span> <span class="n">minimum</span> <span class="o">&lt;</span> <span class="n">maximum</span><span class="p">:</span>
-	<span class="n">midle</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">maximum</span> <span class="o">+</span> <span class="n">minimum</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-	<span class="nb">print</span><span class="p">(</span><span class="s1">'midle'</span><span class="p">,</span> <span class="n">midle</span><span class="p">)</span>
-	<span class="n">current</span> <span class="o">=</span> <span class="n">iterable</span><span class="p">[</span><span class="n">midle</span><span class="p">]</span>
-	<span class="nb">print</span><span class="p">(</span><span class="s1">'current'</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span>
-	<span class="nb">print</span><span class="p">(</span><span class="s1">'item'</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-	<span class="k">if</span> <span class="n">current</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
-	    <span class="k">return</span> <span class="n">midle</span>
-	<span class="k">elif</span> <span class="n">item</span> <span class="o">&gt;</span> <span class="n">current</span><span class="p">:</span>
-	    <span class="nb">print</span><span class="p">(</span><span class="s1">'ehrhe'</span><span class="p">)</span>
-	    <span class="n">minimum</span> <span class="o">=</span> <span class="n">midle</span>
-	<span class="k">elif</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">current</span><span class="p">:</span>
-	    <span class="n">maximum</span> <span class="o">=</span> <span class="n">midle</span>
-	<span class="k">else</span><span class="p">:</span>
-	    <span class="k">return</span> <span class="kc">None</span>
-
-<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">binary_search</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">7</span>
-</pre></div>
     </div>
     </article>
 </div>
