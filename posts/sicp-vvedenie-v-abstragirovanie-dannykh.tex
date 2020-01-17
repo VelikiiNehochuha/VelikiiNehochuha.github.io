@@ -1,0 +1,435 @@
+.. title: SICP Введение в абстрагирование данных
+.. slug: sicp-vvedenie-v-abstragirovanie-dannykh
+.. date: 2020-01-16 11:35:27 UTC+03:00
+.. tags: sicp, scheme, data_abstraction
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+
+\chapter{Упражнение 2.1}
+
+Определите make-rat которая будет определять знак.
+
+\begin{codelisting}{scheme}
+(define (make-rat n d)
+  (let ((g (gcd n d))
+        (sign (cond (or ((and (> n 0) (> d 0)) (and (< n 0) (< d 0))) 1)
+                        (else 0))))
+    (cons
+     (if (> sign 0) (abs (/ n g)) (* -1 (abs (/ n g))))
+     (abs (/ d g)))))
+\end{codelisting}
+
+\chapter{Упражнение 2.2}
+
+Рассмотрим проблему представления отрезков на плоскости. Каждый отрезок представлен в виде пары точек. Определите консруктор отрезка make-segment и методы получения (selectors) начала и конца отрезка: start-segment, end-segment, которые определяют представление сегмента в виде точек. Кроме того точка может быть представлена в виде пары чисел. Наконец определите процедуру для средней точки отрезка midpoint-segment.
+
+\begin{codelisting}{scheme}
+(define (average a b) (/ (+ a b) 2))
+
+(define (make-point x y) (cons x y))
+(define (x-point p) (car p))
+(define (y-point p) (cdr p))
+
+(define (print-point p)
+  (newline)
+  (display "(")
+  (display (x-point p))
+  (display ",")
+  (display (y-point p))
+  (display ")"))
+(define (average-points a b)
+   (make-point (average (x-point a) (x-point b))
+               (average (y-point a) (y-point b))))
+(define (distance-points a b)
+  (sqrt (+ (square (- (x-point a) (x-point b)))
+           (square (- (y-point a) (y-point b))))))
+(print-point (make-point 1 2))
+
+(define (make-segment start end) (cons start end))
+(define (start-segment s) (car s))
+(define (end-segment s) (cdr s))
+
+(define (midpoint-segment s) (average-points (start-segment s) (end-segment s)))
+(print-point (midpoint-segment (make-segment (make-point 0 0) (make-point 6 0))))
+\end{codelisting}
+
+
+\chapter{Упражнение 2.3}
+
+Определите представление прямоугольника на плоскости. В терминаха вашего конструктора и селекторов создайте процедуру которая вывчисляет периметр и площадь. Теперь реализуйте другое представление для прямоугольников. Можете ли вы спроектировать вашу сисетму с подходящими барьерами абстракций, что бы одни и теже процедуры для перемитра и площади работали с разными представлениями.
+
+\begin{codelisting}{scheme}
+(define (segment-lenght s)
+  (distance-points (start-segment s) (end-segment s)))
+;; (segment-lenght (make-segment (make-point 0 0) (make-point 6 0)))
+
+(define (make-rect seg1 seg2) (cons seg1 seg2))
+(define (rect-base r) (car r))
+(define (rect-side r) (cdr r))
+
+(define (rect-perimeter r)
+  (* 2.0 (+ (segment-lenght (rect-base r)) (segment-lenght (rect-side r)))))
+(define (react-area r)
+  (* (segment-lenght (rect-base r)) (segment-lenght (rect-side r))))
+
+(rect-perimeter (make-rect
+                 (make-segment (make-point 0 0) (make-point 6 0))
+                 (make-segment (make-point 0 0) (make-point 0 6))
+                 ))
+
+(react-area (make-rect
+                 (make-segment (make-point 0 0) (make-point 6 0))
+                 (make-segment (make-point 0 0) (make-point 0 6))
+                 ))
+
+
+;; другое представление прямоугольника например тремя точками
+(define (make-rect point1 point2 point3) (cons (cons point1 point2) (cons point2 point3)))
+(rect-perimeter (make-rect
+                 (make-point 6 0) (make-point 0 0) (make-point 0 6)
+                 ))
+
+(react-area (make-rect
+             (make-point 6 0) (make-point 0 0) (make-point 0 6)
+             ))
+\end{codelisting}
+
+
+\chapter{Упражнение 2.4}
+
+Дано альтернативное процедурное представление пары. Проверить Что с его помощью можно получить первое значение из пары, допишите реализацию получения второго значения из пары?
+
+\begin{codelisting}{scheme}
+(define (cons x y)
+  (lambda (m) (m x y)))
+
+(cons 1 2)
+
+(define (car z)
+  (z (lambda (p q) p)))
+
+;; (cons 1 3)
+;; (car (cons 1 3))
+;; (car (lambda (m) (m x y)))
+;; ((lambda (m) (m x y)) (lambda (p q) p))
+;; (m x y) это как раз вызвать процедуру которая в параметрах с параметрами x y
+;; но следующая проуедура как раз возвращает первый параметр p, то есть все выражение
+;; вернет x
+(car (cons 1 2))
+
+(define (cdr z)
+  (z (lambda (p q) q)))
+
+(cdr (cons 1 2))
+\end{codelisting}
+
+
+\chapter{Упражнение 2.5}
+
+Покажите что мы можем представить пары неотрицательных целых чисел, используя только числа и арифметические операции, если представим пару a и b как целое произведение $2^a\cdot 3^b$. Приведите соответствующие процедуры cons, car, cdr.
+
+
+\begin{codelisting}{scheme}
+(define logB
+    (lambda (x B)
+      (/ (log x) (log B))))
+
+(define (cons a b)
+  (* (fast-expt 2 a) (fast-expt 3 b)))
+
+(define (cdr r)
+  (if (> (remainder r 2) 0)
+      (logB r 3)
+      (cdr (/ r 2))))
+
+(define (car r)
+  (if (> (remainder r 3) 0)
+      (logB r 2)
+      (car (/ r 3))))
+
+(cons 1 4) ; 162
+(car 162) ; 1
+(cdr 162) ; 4
+\end{codelisting}
+
+
+\chapter{Упражнение 2.6}
+
+Если случай представления пар в виде процедур был не достаточно ошеломляющим, учтите что в языке который может манипулировать процедурами, мы можем обойтись без чисел , по крайне мерее если говорить о неотрицательных целых числах, реализовав 0 и операцию добавления 1 как:
+
+\begin{codelisting}{scheme}
+(define zero (lambda (f) (lambda (x) x)))
+
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
+\end{codelisting}
+
+Это представление изветсно как цифры Черча в честь изобретателя Алонсо Черча, логика который изобрел исчисления. Дайте определении one и two (напрямую без использования zero add-1) (Используйте подстановку выполненния (add-1 zero)). Дайте прямое определение процедуры + (не в терминах повторения add-1)
+
+\begin{codelisting}{scheme}
+(define zero (lambda (f) (lambda (x) x)))
+
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
+\end{codelisting}
+
+\begin{codelisting}{scheme}
+;; (add-1 zero)
+;; (add-1 (lambda (f) (lambda (x) x)))
+;; ((n f) x) будет просто x, так как n это zero
+;;
+;; (lambda (x) (f x))
+(define (one f)
+  (lambda (x) (f x)))
+;; (add-1 one)
+;;
+(define (two f)
+  (lambda (x) (f (f x))))
+(define (add m n)
+  (lambda (f) (lambda (x) ((m f) ((n f) x)))))
+;; пусть m=one, n=one
+;; ((n f) x) = (f x)
+;; ((m f) (f x))
+;; (f (f x))
+;; (lambda (x) (f (f x))) а это не что иное как два
+(add one one)
+
+(define (print-church n)
+  (display ((n inc) 0)) (newline))
+
+(print-church zero)
+(print-church one)
+(print-church two)
+(print-church (add two two))
+\end{codelisting}
+
+\chapter{Упражнение 2.7}
+
+Определите селекторы upper-bound и lower-bound.
+
+\begin{codelisting}{scheme}
+(define (make-interval a b) (cons a b))
+(define (upper-bound i) (max (car i) (cdr i)))
+(define (lower-bound i) (min (car i) (cdr i)))
+\end{codelisting}
+
+\chapter{Упражнение 2.8}
+
+Используя рассуждения Алисы напишите процедуру для вычисления разности интервалов.
+
+\begin{codelisting}{scheme}
+(define (sub-interval x y)
+  (make-interval (- (lower-bound x) (upper-bound y))
+                 (- (upper-bound x) (lower-bound y))))
+\end{codelisting}
+
+\chapter{Упражнение 2.9}
+
+Ширина интервала - половина разницы между верхней и нижней оценкой. Ширина является мерой неопределенности значения указанного для интервала. Для некоторых операций над интервалами результирующая ширина является функцией от ширин интервалов, которые были аргументами, а для некотрых операций нет. Покажите что ширина суммы (или разницы) является такой функцией. А для умножения и деления правило не выполняется.
+
+\begin{codelisting}{scheme}
+;; определяем функцию ширины интервала
+(define (width-interval i)
+  (/ (- (upper-bound i) (lower-bound i)) 2.0))
+
+(width-interval (make-interval 4.0 6.0)) ;; 1
+(width-interval (make-interval 10 14)) ;; 2
+(width-interval (add-interval (make-interval 4 6)
+                              (make-interval 10 14)));; 3
+
+(width-interval (sub-interval (make-interval 4 6)
+                              (make-interval 10 14)));; 3
+(width-interval (mul-interval (make-interval 10 14)
+                              (make-interval 4 6)));; 22
+
+(width-interval (div-interval (make-interval 10.0 14.0)
+                              (make-interval 4.0 6.0)));; 0.916
+\end{codelisting}
+
+Видим что для сложения и вычитания результирующая ширина равна сумме исходных.
+Для yмножения и деления это все не выполняется.
+
+
+\chapter{Упражнение 2.10}
+
+Бен Битдиддл подсказал что неясно как делить если интервал с нулевой границей. Добавить в код обработку ошибки.
+
+
+\begin{codelisting}{scheme}
+(define (div-interval x y)
+  (cond ((= (upper-bound y) 0) (error "Error upper-bound = 0"))
+        ((= (lower-bound y) 0) (error "Error lower-bound = 0"))
+        (else
+         (mul-interval x
+                       (make-interval (/ 1.0 (upper-bound y))
+                                      (/ 1.0 (lower-bound y)))))))
+\end{codelisting}
+
+
+\chapter{Упражнение 2.11}
+
+Испытывая знаки конечных точек интервалов можно разбить multi-interval на девять случаев, только один из которых требует более двух перемножений. Перепишите процедуру используя этот совет.
+
+
+\begin{codelisting}{scheme}
+(define (mul-interval x y)
+  ;; Если все положительно
+  (cond ((and (>= (lower-bound x) 0) (>= (lower-bound y) 0)) (make-interval
+                                                              (* (lower-bound x) (lower-bound y))
+                                                              (* (upper-bound x) (upper-bound y))))
+        ;; Если все отрицательное
+        ((and (<= (upper-bound x) 0) (<= (upper-bound y) 0)) (make-interval
+                                                              (* (upper-bound x) (upper-bound y))
+                                                              (* (lower-bound x) (lower-bound y))))
+        ;; x положительный, а y содержит 0
+        ((and (>= (lower-bound x) 0) (< (lower-bound y) 0) (>= (upper-bound y) 0)) (make-interval
+                                                                                    (* (upper-bound x) (upper-bound y))
+                                                                                    (* (upper-bound x) (lower-bound y))))
+        ;; x положительный, а y весь отрицательный
+        ((and (>= (lower-bound x) 0) (< (upper-bound y) 0)) (make-interval
+                                                             (* (upper-bound x) (lower-bound y))
+                                                             (* (lower-bound x) (upper-bound y))))
+        ;; y положительный, а x содержит 0
+        ((and (>= (lower-bound y) 0) (< (lower-bound x) 0) (>= (upper-bound x) 0)) (make-interval
+                                                             (* (upper-bound y) (lower-bound x))
+                                                             (* (upper-bound x) (upper-bound y))))
+        ;; y положительный, а x весь отрицательный
+        ((and (>= (lower-bound y) 0) (< (lower-bound x) 0) (>= (upper-bound x) 0)) (make-interval
+                                                             (* (upper-bound y) (lower-bound x))
+                                                             (* (lower-bound x) (lower-bound y))))
+        ;; x отрицательный y пересекает 0
+        ((and (< (upper-bound x) 0) (< (lower-bound y) 0) (>= (upper-bound y) 0)) (make-interval
+                                                             (* (lower-bound x) (upper-bound y))
+                                                             (* (lower-bound x) (lower-bound y))))
+        ;; y отрицательный x пересекает 0
+        ((and (< (upper-bound y) 0) (< (lower-bound x) 0) (>= (upper-bound x) 0)) (make-interval
+                                                             (* (lower-bound y) (upper-bound x))
+                                                             (* (lower-bound x) (lower-bound y))))
+        ;; иначе у нас и x и y пересекают 0, в этом случае и нужно перемножать значения
+        (else (let ((p1 (* (lower-bound x) (lower-bound y)))
+                    (p2 (* (lower-bound x) (upper-bound y)))
+                    (p3 (* (upper-bound x) (lower-bound y)))
+                    (p4 (* (upper-bound x) (upper-bound y))))
+                (make-interval (min p1 p2 p3 p4)
+                               (max p1 p2 p3 p4))))))
+
+;; Тесты
+;; 1) x, y >
+(mul-interval (make-interval 10 14)
+              (make-interval 0 6))
+;; 2) x, y <
+(mul-interval (make-interval -14 -10)
+              (make-interval -6 -4))
+;; 3) x> y<
+(mul-interval (make-interval 14 10)
+              (make-interval -6 -4))
+;; 4) x> y 0
+(mul-interval (make-interval 14 10)
+              (make-interval -2 2))
+;; 5) y> x 0
+(mul-interval (make-interval -2 2)
+              (make-interval 14 10))
+;; 6) y> x<
+(mul-interval (make-interval -4 -2)
+              (make-interval 14 10))
+;; 7) x< y 0
+(mul-interval (make-interval -4 -2)
+              (make-interval -2 6))
+;; 8) y< x 0
+(mul-interval (make-interval -2 6)
+              (make-interval -4 -2))
+;; 9) x, y 0
+(mul-interval (make-interval -6 -3)
+              (make-interval -4 -2))
+\end{codelisting}
+
+\chapter{Упражнение 2.12}
+
+Определите конструктор make-center-percent который получает центр и процент погрешности что бы создать интервал. Вам также нужно определить селектор percent, который вычисляет погрешность для интервала.
+
+\begin{codelisting}{scheme}
+(define (make-center-percent c p)
+  (make-interval (- c  (* c (/ p 100.0))) (+ c (* c (/ p 100.0)))))
+
+(define (percent i)
+  (let ((c (center i)))
+    (/ (* (- (upper-bound i) c) 100) c)))
+(make-center-percent 5 10)
+(percent (make-center-percent 5 10))
+\end{codelisting}
+
+\chapter{Упражнение 2.13}
+
+Покажите что при малых процентных допусках, есть простая формула для вычисления приблизительного значения допуска для произведения двух интервалов в терминах допусков факторов. Вы можете упростить задачу предположив что все интервалы положительные.
+
+Пусть Сx Cy центры двух интервалов, их погрешности Tx, Ty соответственно, пусть Сx, Cy > 0.
+Тогда перемножая их получим:
+
+$min = (Cx-Tx)(Cy-Ty) = CxCy - (TxCy + TyCx) + TxTy$
+$max = (Cx+Tx)(Cy+Ty) = CxCy + (TxCy + TyCx) + TxTy$
+
+$Tmul = \frac{CyTx + CxTy}{CxCy + TxTy}=\frac{CyTx + CxTy}{CxCy}$.
+значением TxTy в знаменателе можно пренебречь.
+
+
+\chapter{Упражнение 2.14, 2.15, 2.16}
+
+Продемонстрируйте что утверждения Лема из книги правильно. Исследуйте поведение системы на различных арифметических выражениях. Создайте интервалы A и B и используйте их для вычисления A/A и B/B. Вы получите наибольшее понимание, используя интервалы, чья ширина составляет небольшой процент от значения центра. Изучите результаты вычислений в форме центр-процент.
+
+получается что при повторном делении умножении мы увеличиваем % погрешности, а центр смещается на малую величину.
+
+\begin{codelisting}{scheme}
+(let ((A (make-center-percent 100 3)) (B (make-center-percent 80 4)))
+  (define (par1 r1 r2)
+    (div-interval (mul-interval r1 r2)
+                  (add-interval r1 r2)))
+  (define (par2 r1 r2)
+    (let ((one (make-interval 1 1)))
+      (div-interval one
+                    (add-interval (div-interval one r1)
+                                  (div-interval one r2)))))
+  ;; Подтверждение утверждения Лема
+  ;; (display (width A))
+  ;; (newline)
+  ;; (display (width B))
+  ;; (newline)
+  ;; (display (par1 A B))
+  ;; (newline)
+  ;; (display (center (par1 A B)))
+  ;; (newline)
+  ;; (display (percent (par1 A B)))
+  ;; (newline)
+  ;; (display (par2 A B))
+  ;; (newline)
+  ;; (display (center (par2 A B)))
+  ;; (newline)
+  ;; (display (percent (par2 A B)))
+  ;; (newline)
+
+  (display "****B****")
+  (display B)
+  (newline)
+  (display (center B))
+  (newline)
+  (display (percent B))
+  (newline)
+  (display "****B*(B/B)****")
+  (display (mul-interval B (div-interval B B)))
+  (newline)
+  (display (center (mul-interval B (div-interval B B))))
+  (newline)
+  (display (percent (mul-interval B (div-interval B B))))
+  (newline)
+  )
+\end{codelisting}
+
+Другой пользователь так же заметил различные результаты подсчета интервалов при эквивалентных алгебраических выражениях. Она говорит, что формула для вычисления интервалов с использованием сисетмы Алисы даст более жесткие границы ошибок, если её можно записать в такой форме, что никакая переменная, представляющая неопределенное число, не повторяется. Поэтому par2 "лучше" par1. Права ли она? Почему?
+
+"лучше" потому что погрешность получается меньше. она получается меньше, потому что в случае par2 у интервала 1 нет погрешности, поэтому все действия с этим интервалом не приводят к росту погрешности в целом, напротив в первом случае мы вводим дополнительную погрешность при каждом действии с интервалом. А нам нужно вводить погрешность столько раз сколько элемент задействован в цепи. То есть по разу для R1 и R2, поэтому вторая формула лучше.
+
+Объясните, в общем, почему эквивалентные алгебраические выражения могут привести к разным ответам. Можете ли вы разработать интервально-арифметический пакет, который не имеет этого недостатка, или эта задача невозможна? (Предупреждение: эта проблема очень сложная.)
+
+Алгебраические выражения не учитывают физического смысла встречающихся элементов. Если разрабатывать такой пакет, то нам при каждом расчете нужно знать сколько раз встречается тот или иной элемент и в каким способом он задействован, что бы дать расчет неопределенности конкретно для этого случая. Наверно можно разработать пакет которые будет находить минимально возможную неопределенность. Если проанализировать все действия которые нам надо выполнять и выявить повторы, можно перестроить уравнение таким образом что бы уменьшить количество действий с неопределенными интервалами.
