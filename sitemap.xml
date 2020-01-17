@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/algorithms/</loc>
@@ -32,6 +32,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/android/</loc>
   <lastmod>2019-12-31T17:40:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/data_abstraction/</loc>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/emacs/</loc>
@@ -87,7 +91,7 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-1.html</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/listings/</loc>
@@ -140,6 +144,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-iz-glavy-12/</loc>
   <lastmod>2020-01-10T09:38:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-vvedenie-v-abstragirovanie-dannykh/</loc>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/zadachi-po-kursu-sicp/</loc>

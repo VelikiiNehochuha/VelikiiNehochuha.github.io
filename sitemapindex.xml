@@ -14,6 +14,10 @@
   <lastmod>2020-01-11T22:05:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/data_abstraction.xml</loc>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/emacs.xml</loc>
   <lastmod>2020-01-11T22:05:00Z</lastmod>
  </sitemap>
@@ -47,15 +51,15 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/procedures_as_returned_values.xml</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-16T01:01:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
@@ -67,10 +71,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-01-15T22:46:00Z</lastmod>
+  <lastmod>2020-01-17T17:22:00Z</lastmod>
  </sitemap>
 </sitemapindex>
