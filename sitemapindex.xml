@@ -15,7 +15,7 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/data_abstraction.xml</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-17T19:18:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/emacs.xml</loc>
@@ -28,6 +28,14 @@
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/gcd.xml</loc>
   <lastmod>2020-01-13T18:03:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/hierarchical_data-the_closure_property.xml</loc>
+  <lastmod>2020-01-18T18:11:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/hierarchical_data.xml</loc>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/higher_order_procedures.xml</loc>
@@ -55,15 +63,19 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
   <lastmod>2020-01-11T22:05:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/the_closure_property.xml</loc>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/galleries/rss.xml</loc>
@@ -71,10 +83,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </sitemap>
 </sitemapindex>

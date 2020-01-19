@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-18T17:55:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/algorithms/</loc>
@@ -48,6 +48,14 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/gcd/</loc>
   <lastmod>2020-01-12T15:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/hierarchical_data-the_closure_property/</loc>
+  <lastmod>2020-01-18T17:55:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/hierarchical_data/</loc>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/higher_order_procedures/</loc>
@@ -86,12 +94,16 @@
   <lastmod>2019-12-31T17:40:00Z</lastmod>
  </url>
  <url>
+  <loc>http://velikiinehochuha.github.io/categories/the_closure_property/</loc>
+  <lastmod>2020-01-19T16:44:00Z</lastmod>
+ </url>
+ <url>
   <loc>http://velikiinehochuha.github.io/galleries/</loc>
   <lastmod>2019-12-31T17:40:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-1.html</loc>
-  <lastmod>2020-01-17T17:22:00Z</lastmod>
+  <lastmod>2020-01-18T17:55:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/listings/</loc>
@@ -116,6 +128,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/</loc>
   <lastmod>2020-01-15T22:46:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/</loc>
+  <lastmod>2020-01-18T17:55:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/</loc>

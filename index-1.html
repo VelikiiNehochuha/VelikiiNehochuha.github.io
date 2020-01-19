@@ -33,7 +33,261 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/zadachi-po-kursu-sicp/" class="u-url">Задачи по курсу SICP. Введение.</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-uprazhneniia-iz-glavy-11/" class="u-url">SICP Упражнения из главы 1.1</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-uprazhneniia-iz-glavy-11/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-09T13:10:04+03:00" itemprop="datePublished" title="2020-01-09 13:10">2020-01-09 13:10</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-orga933951" class="outline-2">
+<h2 id="orga933951">Exercise 1.1.</h2>
+<div class="outline-text-2" id="text-orga933951">
+<p>
+Простейшие арифметические операции, специальные формы if, define, cond.
+</p>
+<div class="highlight"><pre><span></span><span class="mi">10</span> <span class="c1">;Value: 10</span>
+<span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">;Value: 12</span>
+<span class="p">(</span><span class="nb">- </span><span class="mi">9</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">;Value: 8</span>
+<span class="p">(</span><span class="nb">/ </span><span class="mi">6</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">;Value: 3</span>
+<span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="mi">4</span> <span class="mi">6</span><span class="p">))</span> <span class="c1">;Value: 6</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">a</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">;Value: a</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">b</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="mi">1</span><span class="p">))</span> <span class="c1">;Value: b</span>
+<span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))</span> <span class="c1">;Value: 19</span>
+<span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="c1">;Value: #f</span>
+<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="nv">b</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)))</span>
+    <span class="nv">b</span>
+    <span class="nv">a</span><span class="p">)</span> <span class="c1">;Value: 4</span>
+<span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">4</span><span class="p">)</span> <span class="mi">6</span><span class="p">)</span>
+      <span class="p">((</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">6</span> <span class="mi">7</span> <span class="nv">a</span><span class="p">))</span>
+      <span class="p">(</span><span class="k">else </span><span class="mi">25</span><span class="p">))</span> <span class="c1">;Value: 16</span>
+<span class="p">(</span><span class="nb">+ </span><span class="mi">2</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="nv">b</span> <span class="nv">a</span><span class="p">))</span> <span class="c1">;Value: 6</span>
+<span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
+	 <span class="p">((</span><span class="nb">&lt; </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">b</span><span class="p">)</span>
+	 <span class="p">(</span><span class="k">else </span><span class="mi">-1</span><span class="p">))</span>
+   <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="mi">1</span><span class="p">))</span> <span class="c1">;Value: 16</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org3679b76" class="outline-2">
+<h2 id="org3679b76">Exercise 1.2.</h2>
+<div class="outline-text-2" id="text-org3679b76">
+<p>
+Перевести формулу с картинки в scheme.
+</p>
+
+<p>
+<img src="images/ch1-Z-G-3.gif" alt="nil"></p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">4</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="p">(</span><span class="nb">- </span><span class="mi">3</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">6</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">4</span> <span class="mi">3</span><span class="p">)))))</span> <span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="p">(</span><span class="nb">- </span><span class="mi">6</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="mi">7</span><span class="p">)))</span> <span class="c1">;Value: -23/90</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org5f5c07d" class="outline-2">
+<h2 id="org5f5c07d">Exercise 1.3.</h2>
+<div class="outline-text-2" id="text-org5f5c07d">
+<p>
+Определить функцию сложения квадратов, двух чисел, выбрав их из трех аргументов.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">squire</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum-squire-two-larger</span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">y</span> <span class="nv">z</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">squire</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">squire</span> <span class="nv">y</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">squire</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">squire</span> <span class="nv">z</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">x</span> <span class="nv">z</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">squire</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">squire</span> <span class="nv">x</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">squire</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">squire</span> <span class="nv">z</span><span class="p">)))))</span>
+<span class="p">(</span><span class="nf">sum-squire-two-larger</span> <span class="mi">0</span> <span class="mi">5</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org3b3179a" class="outline-2">
+<h2 id="org3b3179a">Exercise 1.4.</h2>
+<div class="outline-text-2" id="text-org3b3179a">
+<p>
+Scheme позволяет выбирать операнды так же как и обычные переменные.
+Можно выбирать какую операцию применить в зависимости от условия, то есть функции можно рассматривать как объекты.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">define</span> <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">plus</span><span class="o">-</span><span class="nb">abs</span><span class="o">-</span><span class="n">b</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span>
+  <span class="p">((</span><span class="k">if</span> <span class="p">(</span><span class="o">&gt;</span> <span class="n">b</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="o">-</span><span class="p">)</span> <span class="n">a</span> <span class="n">b</span><span class="p">))</span>
+
+<span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">plus</span><span class="o">-</span><span class="nb">abs</span><span class="o">-</span><span class="n">b</span> <span class="mi">5</span> <span class="o">-</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org5893909" class="outline-2">
+<h2 id="org5893909">Exercise 1.5.</h2>
+<div class="outline-text-2" id="text-org5893909">
+<p>
+Пытаемся разобраться в какой последовательности выполняются процедуры и зачем нужны специальные формы.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">p</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">test</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="mi">0</span>
+      <span class="nv">y</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">test</span> <span class="mi">0</span> <span class="p">(</span><span class="nf">p</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Scheme сначала вычисляет аргументы, а потом тело процедуры (applicative-order evaluation)
+при попытке вычислить (test 0 (p)) интерпретатор пытается сначала
+посчитать аргументы функции test, что приводит к бесконечному рекурсивному вызову (define (p) (p))
+если мы это была специальная форма, а не обычный define, то нам не пришлось бы вычислять (p) и результатом был бы 0
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbe9d794" class="outline-2">
+<h2 id="orgbe9d794">Exercise 1.6.</h2>
+<div class="outline-text-2" id="text-orgbe9d794">
+<p>
+Хакер Алиса не понимает для чего нужны специальные формы. ``Почему я не могу просто определить if как обычную процедуру в терминах cond?'' - спросила она. Её друг Ева Ли Атор согласился что это действительно можно сделать, и она записала свою реализацию специальной формы if через define:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">new-if</span> <span class="nv">predicate</span> <span class="nv">then-clause</span> <span class="nv">else-clause</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="nf">predicate</span> <span class="nv">then-clause</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">else </span><span class="nv">else-clause</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+Ева продемонстрировала программу Алисе:
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">new-if</span> <span class="p">(</span><span class="nb">= </span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">;; 5</span>
+<span class="p">(</span><span class="nf">new-if</span> <span class="p">(</span><span class="nb">= </span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">;; 0</span>
+</pre></div>
+
+<p>
+Обрадовавшись, Алиса использует new-if чтобы переписать программу получения квадратного корня:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sqrt-iter</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">new-if</span> <span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+	  <span class="nv">guess</span>
+	  <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+		     <span class="nv">x</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+Что произойдет при попытке использовать новую версию программы? Объясните.
+</p>
+
+<p>
+При попытке вывполнить программу мы получаем сообщение об ошибке
+</p>
+<div class="highlight"><pre><span></span><span class="c1">;Aborting!: maximum recursion depth exceeded</span>
+</pre></div>
+
+<p>
+обычный if (if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;) сначала выполняет
+predicate, затем в зависимости от условия выполнятеся consequent или alternative.
+</p>
+
+<p>
+в случае же new-if эта правило нарушается, то есть в new-if
+(new-if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;) интерпретатор сначала выполняет predicate и потом не зависимо от результата пытается вычислить результат consequent и alternative (так как это аргументы процедуры new-if), но так как alternative содержит рекурсию, то данная операция выполняется всегда, так как условие проверяется постфактум.
+Это и приводит к ошибке (Превышена глубина рекурсии). Поэтому специальная форма if необходима в данном случае.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbd61893" class="outline-2">
+<h2 id="orgbd61893">Exercise 1.7.</h2>
+<div class="outline-text-2" id="text-orgbd61893">
+<p>
+Ограничение приведенное в книге не подходит для малых чисел а так же для больших. Так же в реальном мире, арифметические операции всегда выполняются с погрешностью. Это делает наш тест неподходящим для больших чисел. Поясните данное утверждение, приведите примеры когда исходный вариант программы работает плохо. В качестве альтернативной реализации напишите программу которая считает результат подходящим когда изменение предположения между двумя итерациями много меньше предыдущего предполагаемого решения, то есть мы будем получать очень малое уточнение за все последующие операции. Попробуйте получить результат с помощью новой процедуры.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">square</span> <span class="nv">guess</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span> <span class="mf">0.001</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">average</span> <span class="nv">guess</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="nv">guess</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sqrt-iter</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+	<span class="nv">guess</span>
+	<span class="p">(</span><span class="nf">sqrt-iter</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="mf">1.0</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">sqrt </span><span class="mf">0.01</span><span class="p">)</span> <span class="c1">;Value: .10032578510960605 Ok</span>
+<span class="p">(</span><span class="nb">sqrt </span><span class="mf">0.001</span><span class="p">)</span> <span class="c1">;Value: .04124542607499115 Работает плохо "реальное значение" 0.03162277660168379</span>
+
+<span class="p">(</span><span class="nb">sqrt </span><span class="mi">10000000</span><span class="p">)</span> <span class="c1">;Value: 3162.277660168379, Ok "реальное значение" 3162.2776601683795</span>
+<span class="p">(</span><span class="nb">sqrt </span><span class="mi">12345678901234567</span><span class="p">)</span> <span class="c1">;; Слишком много итераций, программа зависает.</span>
+</pre></div>
+
+<p>
+Новая версия
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span> <span class="nv">prev-guess</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="nv">guess</span> <span class="nv">prev-guess</span><span class="p">))</span> <span class="mf">0.001</span><span class="p">))</span> <span class="c1">;; изменение guess менее десятой доли процента</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">average</span> <span class="nv">guess</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="nv">guess</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sqrt-iter</span> <span class="nv">g</span> <span class="nv">prev-g</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">g</span> <span class="nv">prev-g</span><span class="p">)</span>
+	<span class="nv">g</span>
+	<span class="p">(</span><span class="nf">sqrt-iter</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">g</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">g</span> <span class="nv">x</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="mf">1.0</span> <span class="mf">1.002</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">sqrt </span><span class="mi">2</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">sqrt </span><span class="mi">12345678901234567</span><span class="p">)</span> <span class="c1">;Value: 111111110.6111111</span>
+<span class="p">(</span><span class="nb">sqrt </span><span class="mf">0.001</span><span class="p">)</span> <span class="c1">;Value: .03162278245070105</span>
+</pre></div>
+
+<p>
+Видим что стало работать быстро на больших числах и точно на любых с заданной погрешностью.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf299247" class="outline-2">
+<h2 id="orgf299247">Exercise 1.8.</h2>
+<div class="outline-text-2" id="text-orgf299247">
+<p>
+Метод Ньютона для кубического корня основан на факте что приближенное значение можно искать по формуле с картинки. Реализуйте метод извлечения кубического корня из числа.
+</p>
+
+<p>
+<img src="images/ch1-Z-G-5.gif" alt="nil"></p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cube-root</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span> <span class="nv">prev-guess</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="nv">guess</span> <span class="nv">prev-guess</span><span class="p">))</span> <span class="mf">0.001</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">average</span> <span class="nv">guess</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">guess</span><span class="p">))</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="nv">guess</span><span class="p">))</span> <span class="mi">3</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sqrt-iter</span> <span class="nv">g</span> <span class="nv">prev-g</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">g</span> <span class="nv">prev-g</span><span class="p">)</span>
+	<span class="nv">g</span>
+	<span class="p">(</span><span class="nf">sqrt-iter</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">g</span><span class="p">)</span> <span class="nv">g</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="mf">1.0</span> <span class="mf">1.002</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">cube-root</span> <span class="mi">27</span><span class="p">)</span> <span class="c1">;Value: 3.000935399157486</span>
+</pre></div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/zadachi-po-kursu-sicp/" class="u-url">Задачи по курсу SICP. Введение.</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha
