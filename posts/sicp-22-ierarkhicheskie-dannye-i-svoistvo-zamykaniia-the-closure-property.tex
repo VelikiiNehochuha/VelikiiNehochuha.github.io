@@ -1,0 +1,490 @@
+.. title: SICP 2.2 Иерархические данные и свойство замыкания (the closure property).
+.. slug: sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property
+.. date: 2020-01-18 15:18:01 UTC+03:00
+.. tags: sicp, scheme, hierarchical_data, the_closure_property
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+
+\chapter{Упражнение 2.17}
+
+Определите процедуру last-pair, которая возвращает список который содержит только последний элемент данного (непустого списка).
+
+
+\begin{codelisting}{scheme}
+(define (last-pair list1)
+  (if (null? (cdr list1))
+      list1
+      (last-pair (cdr list1))))
+\end{codelisting}
+
+\chapter{Упражнение 2.18}
+
+Определите процедуру reverse, которая возвращает список элементы которого записаны в обратном порядке.
+
+
+\begin{codelisting}{scheme}
+(define (reverse list1)
+  (define (iter l result)
+    (if (null? l)
+        result
+        (iter (cdr l) (cons (car l) result))))
+  (iter list1 nil))
+\end{codelisting}
+
+\chapter{Упражнение 2.19}
+
+Рассмотрим программу подсчета количества изменений из раздела 1.2.2. Было бы хорошо легко изменить валюту. Когда программа написана валюта учитывается в методах first-denomination и count-change.
+
+\begin{codelisting}{scheme}
+;; исходная программа
+(define (count-change amount)
+  (cc amount 5))
+(define (cc amount kinds-of-coins)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (= kinds-of-coins 0)) 0)
+        (else (+ (cc amount
+                     (- kinds-of-coins 1))
+                 (cc (- amount
+                        (first-denomination kinds-of-coins))
+                     kinds-of-coins)))))
+(define (first-denomination kinds-of-coins)
+  (cond ((= kinds-of-coins 1) 1)
+        ((= kinds-of-coins 2) 5)
+        ((= kinds-of-coins 3) 10)
+        ((= kinds-of-coins 4) 25)
+        ((= kinds-of-coins 5) 50)))
+
+(cc 100 5)
+\end{codelisting}
+
+Было бы лучше иметь список монет которые могут быть использованы для размена.
+
+\begin{codelisting}{scheme}
+(define us-coins (list 50 25 10 5 1))
+(define uk-coins (list 100 50 20 10 5 2 1 0.5))
+\end{codelisting}
+
+Мы хотим переписать программу cc что бы её второй аргумент представлял собой список значений монет, вместо целого числа. Тогда у нас будут списки для каждого вида валют.
+
+\begin{codelisting}{scheme}
+(cc 100 us-coins)
+292
+\end{codelisting}
+
+Для этого потребуется несколько изменить программу cc. Доступ ко второму элементу будет осуществляться по другому.
+
+\begin{codelisting}{scheme}
+(define (cc amount coin-values)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (no-more? coin-values)) 0)
+        (else
+         (+ (cc amount
+                (except-first-denomination coin-values))
+            (cc (- amount
+                   (first-denomination coin-values))
+                coin-values)))))
+\end{codelisting}
+
+Определите процедуры first-denomination, except-first-denomination, no-more. Влияет ли порядок в списке на итоговое число?
+
+\begin{codelisting}{scheme}
+(define us-coins (list 1 25 10 5 50))
+(define uk-coins (list 100 50 20 10 5 2 1 0.5))
+(define (except-first-denomination list1)
+  (cdr list1))
+(define (first-denomination list1)
+  (car list1))
+(define (no-more? list1)
+  (if (null? list1)
+      list1
+      false))
+(define (cc amount coin-values)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (no-more? coin-values)) 0)
+        (else
+         (+ (cc amount
+                (except-first-denomination coin-values))
+            (cc (- amount
+                   (first-denomination coin-values))
+                coin-values)))))
+(cc 100 us-coins)
+\end{codelisting}
+
+Порядок не влияет, так как рекурсивно обходятся все варианты изменения.
+
+
+\chapter{Упражнение 2.20}
+
+Используя нотацию dotted-tail, напишите процедуру same-parity которая принимает одно или более целых чисел и возвращает список всех аргументов которые имеют такое-же четное-нечетное соотношение как первый аргумент.
+
+\begin{codelisting}{scheme}
+(define (same-parity x . l)
+  (define (filter list1 same?)
+    (if (null? list1)
+        list1
+        (if (same? (car list1))
+            (cons (car list1) (filter (cdr list1) same?))
+            (filter (cdr list1) same?)
+            )))
+  (define same-even-odd (lambda (i) (if (or (and (not (even? x)) (not (even? i))) (and (even? x) (even? i))) 1 false)))
+  (cons x (filter l same-even-odd)))
+
+(same-parity 2 3 4 5 6 7 8)
+\end{codelisting}
+
+\chapter{Упражнение 2.21}
+
+Процедура square-list принимает список аргументов и возвращает список квадратов.
+
+\begin{codelisting}{scheme}
+(square-list (list 1 2 3 4))
+(1 4 9 16)
+\end{codelisting}
+
+Приведены два реализации square-list. Дополните их.
+
+\begin{codelisting}{scheme}
+(define (square-list items)
+  (if (null? items)
+      nil
+      (cons (square (car items)) (square-list (cdr items)))))
+
+
+(define (square-list items)
+  (map (lambda (x) (square x)) items))
+(square-list (list 1 2 3))
+\end{codelisting}
+
+
+\chapter{Упражнение 2.22}
+
+Луис пытается переписать первую реализацию square-list (2.21) что бы она генерировала итеративный процесс.
+
+\begin{codelisting}{scheme}
+(define (square-list items)
+  (define (iter things answer)
+    (if (null? things)
+        answer
+        (iter (cdr things) 
+              (cons (square (car things))
+                    answer))))
+  (iter items nil))
+\end{codelisting}
+
+К сожалению список получается в обратном порядке, почему?
+
+(list 1 2 3) nil
+iter (list 2 3) (cons 1 nil)
+iter (list 3) (cons 4 (cons 1 nil))
+iter () (cons 9 (cons 4 (cons 1 nil)))
+return (cons 9 (cons 4 (cons 1 nil)))
+
+Луис пытается починить баг переставляя аргументы в cons
+
+\begin{codelisting}{scheme}
+(define (square-list items)
+  (define (iter things answer)
+    (if (null? things)
+        answer
+        (iter (cdr things)
+              (cons answer
+                    (square (car things))))))
+  (iter items nil))
+\end{codelisting}
+
+Это не работает получается (cons (cons (cons nil 1) 4) 9)
+
+
+\chapter{Упражнение 2.23}
+
+Процедура for-each похожа на map, только вместо того чтобы возвращать измененный список она просто применяет переданную функцию к каждому элементу. Используется что бы выполнить действия над списком, например печать.
+
+\begin{codelisting}{scheme}
+(for-each (lambda (x) (newline) (display x))
+          (list 57 321 88))
+57
+321
+88
+\end{codelisting}
+
+Возвращаемое значение может быть любым например true. Дайте определение процедуры for-each.
+
+\begin{codelisting}{scheme}
+(define (for-each proc items)
+  (if (not (null? items))
+      (proc (car items)))
+  (if (not (null? items))
+      (for-each proc (cdr items)))
+  true)
+\end{codelisting}
+
+
+\chapter{Упражнение 2.24}
+
+Предположим мы оцениваем выражение (list 1 (list 2 (list 3 4))). Что даст вывод интерпретатора. Изобразите box-and-pointer и древовидную структуры.
+
+
+\begin{codelisting}{scheme}
+(1 (2 (3 4)))
+
+(list 1 (list 2 (list 3 4)))
+     /      \
+    /        \
+   1   (list 2 (list 3 4))
+            /        \
+           /          \
+          2         (list 3 4)
+                     /      \
+                    /        \
+                   3          4
+
+(cons 1  (cons (list 2 (...)) nil)
+     [.][.]- - - - - - - >[.][/]
+      |                    |
+      |                    |
+      v                    v
+      1                   [.][.]- ->[.][/]
+                           |         |
+                           |         |
+                           v         v
+                           2     (cons 3 (cons 4 nil)
+                                    [.][.]- ->[.][/]
+                                     |         |
+                                     |         |
+                                     v         v
+                                     3         4
+\end{codelisting}
+
+\chapter{Упражнение 2.25}
+
+Приведите комюинации cars и cdrs которые выбирую 7 из каждого списка.
+
+\begin{codelisting}{scheme}
+;; (1 3 (5 7) 9)
+(car (cdr (car (cdr (cdr (list 1 3 (list 5 7) 9))))))
+;; ((7))
+(car (car (list (list 7))))
+;; (1 (2 (3 (4 (5 (6 7))))))
+(define list3 (list 1 (list 2 (list 3 (list 4 (list 5 (list 6 7)))))))
+(car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr list3))))))))))))
+\end{codelisting}
+
+\chapter{Упражнение 2.26}
+
+Допустим определили два списка. Какой будет результат выражений.
+
+\begin{codelisting}{scheme}
+(define x (list 1 2 3))
+(define y (list 4 5 6))
+
+(append x y)
+;; (1 2 3 4 5 6)
+(cons x y)
+;; ((1 2 3) 4 5 6)
+(list x y)
+;; (cons x (cons y nil)
+;; ((1 2 4) (4 5 6))
+\end{codelisting}
+
+то есть list создаст список списков, в то время как cons запишет в car первый список, а в cdr указатель на y, что приведет к разному результату с list x y. cons просто добавляет элемент в начало списка y.
+
+\chapter{Упражнение 2.27}
+
+Измените процедуру reverse что бы она умела разворачивать вложенные списки.
+\begin{codelisting}{scheme}
+(define x (list (list 1 2) (list 3 4)))
+
+(define (deep-reverse list1)
+  (define (iter l result)
+    (if (null? l)
+        result
+        (iter (cdr l) (cons (deep-reverse (car l)) result))))
+  (if (pair? list1)
+      (iter list1 nil)
+      list1))
+\end{codelisting}
+
+тут просто рекурсивно вызываем deep-reverse и если list1 это не список просто возвращаем значение.
+
+\chapter{Упражнение 2.28}
+
+Напишите процедуру fringe, которая принимает дерево в виде списка и возвращает список всех листьев в порядке слева на право.
+
+Например:
+\begin{codelisting}{scheme}
+(define x (list (list 1 2) (list 3 4)))
+
+(fringe x)
+(1 2 3 4)
+
+(fringe (list x x))
+(1 2 3 4 1 2 3 4)
+\end{codelisting}
+
+
+\begin{codelisting}{scheme}
+define (fringe x)
+  (if (null? x)
+      x
+      (if (pair? (car x))
+          (append (fringe (car x)) (fringe (cdr x)))
+          x)))
+\end{codelisting}
+
+\chapter{Упражнение 2.29}
+
+Бинарный ползунок состоит из двух веток, левой и правой. Мы можем представить бинарный ползунок используя объединение из двух веток (к примеру используя list).
+
+\begin{codelisting}{scheme}
+(define (make-mobile left right)
+  (list left right))
+\end{codelisting}
+
+ Каждая ветка это стержень определенной длинны + вес либо еще один бинарный ползунок.
+
+\begin{codelisting}{scheme}
+(define (make-branch length structure)
+  (list length structure))
+\end{codelisting}
+
+a. Напишите селекторы left-branch и right-branch, которые возвращабт ветки + branch-length и branch-structure, которые возвращают компоненты ветки.
+b. Используя селекторы напишите процедуру total-weight, которая возвращает суммарный вес.
+с. Ползунок сбалансирован, когда крутящий момент верхней левой ветки равен верхней правой ветке (то есть длинна стержня умножить на вес свисающий с этого стержня). Напишите процедуру которая тестирует сбалансировал ли ползунок.
+d. Предположим мы поменяли представление так что конструктор стал таким
+
+\begin{codelisting}{scheme}
+(define (make-mobile left right)
+  (cons left right))
+(define (make-branch length structure)
+  (cons length structure))
+\end{codelisting}
+
+Как много изменений нужно внести в программу после этого?
+
+\begin{codelisting}{scheme}
+(define (make-mobile left right)
+  (list left right))
+
+(define (make-branch length structure)
+  (list length structure))
+(define (left-branch m)
+  (car m))
+(define (right-branch m)
+  (car (cdr m)))
+(define (branch-length b)
+  (car b))
+(define (branch-structure b)
+  (car (cdr b)))
+
+
+(define l0 (make-branch 3 10))
+(define r0 (make-branch 3 10))
+(define m0 (make-mobile l0 r0))
+
+(define l1 (make-branch 10 10))
+(define r1 (make-branch 5 m0))
+(define m1 (make-mobile l1 r1))
+
+;; общий вес
+(define (structure-weight s)
+  (if (pair? s)
+      (total-weight s)
+      s))
+(define (branch-weight b)
+  (structure-weight (branch-structure b)))
+
+(define (total-weight m)
+  (+ (branch-weight (left-branch m)) (branch-weight (right-branch m))))
+
+(total-weight m1)
+
+;; балансировка
+(define (balanced? m)
+  (= (* (branch-weight (left-branch m)) (branch-length (left-branch m)))
+     (* (branch-weight (right-branch m)) (branch-length (right-branch m)))))
+
+(balanced? m1)
+(balanced? m0)
+(define (make-mobile left right)
+  (cons left right))
+(define (make-branch length structure)
+  (cons length structure))
+
+(define (left-branch m)
+  (car m))
+(left-branch m0)
+(define (right-branch m) ;; поменял метод
+  (cdr m))
+(right-branch m0)
+(define (branch-length b)
+  (car b))
+(define (branch-structure b) ;; поменял метод
+  (cdr b))
+\end{codelisting}
+
+поменяли два селектора.
+
+
+\chapter{Упражнение 2.30}
+
+Напишите процедуру square-tree без и с использованием map.
+
+\begin{codelisting}{scheme}
+(define (square-tree tree)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (square tree))
+        (else (cons (square-tree (car tree))
+                    (square-tree (cdr tree))))))
+
+(define (square-tree tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (square-tree sub-tree)
+             (square sub-tree)))
+       tree))
+\end{codelisting}
+
+\chapter{Упражнение 2.31}
+
+Абстрагируйте ваш ответ к 2.30 что бы можно было записывать процедуру square-tree через tree-map.
+
+\begin{codelisting}{scheme}
+(define (square-tree tree) (tree-map square tree))
+
+
+(define (tree-map proc tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (tree-map proc sub-tree)
+             (proc sub-tree)))
+       tree))
+\end{codelisting}
+
+\chapter{Упражнение 2.32}
+
+Мы можем представить set как список уникальных элементов, а так же set всех подмножеств как список списков. К примеру set (1 2 3), тогда сет всех подмножеств будет (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3)). Допишите функцию генерирующую список всех подмножеств сета и дайте пояснение как она работает.
+
+\begin{codelisting}{scheme}
+(define (subsets s)
+  (if (null? s)
+      (list nil)
+      (let ((rest (subsets (cdr s))))
+        (append rest (map <??> rest)))))
+\end{codelisting}
+
+\begin{codelisting}{scheme}
+(define (subsets s)
+  (if (null? s)
+      (list nil)
+      (let ((rest (subsets (cdr s))))
+        (append rest (map (lambda (set) (cons (car s) set)) rest)))))
+
+(subsets (list 1 2 3))
+;Value: (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))
+\end{codelisting}
+
+выбираем список без первого элемента, генерируем для него все подмножества. добавляем к полученным подмножествам такое же подмножество но везде первым элементом идет первый элемент.
+на последней итерации у нас получается пустое список, он возвращает () - нулевое подмножество. в итоге мы перебрали все возможные варианты.
