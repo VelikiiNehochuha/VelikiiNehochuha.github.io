@@ -1,0 +1,18 @@
+#+BEGIN_COMMENT
+.. title: SICP 2.2.4 Пример: Язык изображений.
+.. slug: sicp-224-primer-iazyk-izobrazhenii
+.. date: 2020-01-21 21:12:26 UTC+03:00
+.. tags: sicp, scheme, a_picture_language
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* Упражнение 2.44.
+Определите процедуру up-split используя corner-split.
+
+#+BEGIN_SRC scheme
+#+END_SRC
+
