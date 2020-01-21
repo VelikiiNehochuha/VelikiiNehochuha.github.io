@@ -1,0 +1,309 @@
+#+BEGIN_COMMENT
+.. title: SICP 2.2.3 Последовательности как обобщающие интерфейсы.
+.. slug: sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy
+.. date: 2020-01-20 14:08:28 UTC+03:00
+.. tags: sicp, scheme, sequences_as_conventional_interfaces
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+[[img-url:/images/ch2-Z-G-17.gif]]
+
+
+* Упражнение 2.33
+
+Заполните недостающие выражения, чтобы завершить определения некоторых основных операций над списками через накопление.
+
+#+BEGIN_SRC scheme
+(define (map p sequence)
+  (accumulate (lambda (x y) <??>) nil sequence))
+(define (append seq1 seq2)
+  (accumulate cons <??> <??>))
+(define (length sequence)
+  (accumulate <??> 0 sequence))
+#+END_SRC
+
+#+BEGIN_SRC scheme
+(define (map p sequence)
+  (accumulate (lambda (x y) (cons (p x) y)) nil sequence))
+(define (append seq1 seq2)
+  (accumulate cons seq2 seq1))
+(define (length sequence)
+  (accumulate (lambda (x y) (+ 1 y)) 0 sequence))
+#+END_SRC
+
+* Упражнение 2.34
+
+Оценка полинома от одной переменной x в заданной точке, может быть сформулирована в терминах накопления. Мы оцениваем полином
+$a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0x$ используя широко известный алгоритм - правило Хорнера, который структурирует вычисление как $(...(a_nx+a_{n-1})x+...+a_1)x + a_0$.
+
+Другими словами начиная с a_n умноженного на x, добавляем a_{n-1}, умножаем на x и так далее, пока не достигаем a_0. Заполните шаблон что бы закончить процедуру вычисления полинома, предполагая что коэффициенты полинома заданы списком.
+
+#+BEGIN_SRC scheme
+(define (horner-eval x coefficient-sequence)
+  (accumulate (lambda (this-coeff higher-terms) <??>)
+              0
+              coefficient-sequence))
+(horner-eval 2 (list 1 3 0 5 0 1))
+
+(define (horner-eval x coefficient-sequence)
+  (accumulate (lambda (this-coeff higher-terms) (+ this-coeff (* x higher-terms)))
+              0
+              coefficient-sequence))
+#+END_SRC
+
+* Упражнение 2.35
+
+Переопределите count-leaves из секции 2.2.2 через накопление.
+
+#+BEGIN_SRC scheme
+(define (count-leaves t)
+  (accumulate <??> <??> (map <??> <??>)))
+#+END_SRC
+
+#+BEGIN_SRC scheme
+(define (count-leaves t)
+  (accumulate + 0
+              (map (lambda (sub-tree)
+                     (if (pair? sub-tree)
+                         (count-leaves sub-tree)
+                         1)) t)))
+#+END_SRC
+
+* Упражнение 2.36
+Процедура accumulate-n похожа на accumulate, но принимает третий аргумент последовательность последовательностей. Предполагается что все они имеют одинаковое количество аргументов. Она применяет назначенную процедуру накопления для всех первых элементов последовательности, всех вторых и так далее. И возвращает последовательность результатов. К примеру результат (accumulate-n + 0 s), где s это ((1 2 3) (4 5 6) (7 8 9) (10 11 12)), будет равен (22 26 30). Заполните пропуски в определении процедуры.
+
+#+BEGIN_SRC scheme
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+      nil
+      (cons (accumulate op init <??>)
+            (accumulate-n op init <??>))))
+#+END_SRC
+
+#+BEGIN_SRC scheme
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+      nil
+      (cons (accumulate op init (map (lambda (seq) (car seq)) seqs))
+            (accumulate-n op init (map (lambda (seq) (cdr seq)) seqs)))))
+#+END_SRC
+
+* Упражнение 2.37
+
+Предположим мы представляем векторы v = (v_i) как последовательность чисел и матрицы m =(m_ij) как последовательность векторов (строки матрицы). К примеру матрица:
+
+|1 2 3 4|
+|4 5 6 7|
+|6 7 8 9|
+
+представлена как последовательность ((1 2 3 4) (4 5 6 6) (6 7 8 9)).
+C этим представлением мы можем использовать последовательности операций чтобы выразить основные операции на матрицей и вектором. Эти операции (которые описаны в любой книжке по алгебре) следующие:
+
+(dot-product v w)
+(matrix-*-vector m v)
+(matrix-*-matrix m n)
+(transpose m) ;; вернет матрицу n, где n_ij = m_ji
+
+
+Мы можем определить dot-product как (map - стандартный из scheme):
+
+#+BEGIN_SRC scheme
+(define (dot-product v w)
+  (accumulate + 0 (map * v w)))
+#+END_SRC
+
+Заполните недостающие места в следующих процедурах для остальных операций над матрицами. (Процедура accumulate-n определена в упражнении 2.36)
+
+#+BEGIN_SRC scheme
+(define (matrix-*-vector m v)
+  (map (lambda (w) (dot-product w v)) m))
+
+(define (transpose mat)
+  (accumulate-n cons () mat))
+
+(define (matrix-*-matrix m n)
+  (let ((cols (transpose n)))
+    (map (lambda (row) (matrix-*-vector cols row)) m)))
+#+END_SRC
+
+* Упражнение 2.38
+
+Процедура accumulate так же известна как fold-right, потому что она объединяет первый элемент последовательности с результатами объединения всех элементов справа. Также есть fold-left, которая объединяет элементы в обратном направлении.
+
+#+BEGIN_SRC scheme
+(define (fold-left op initial sequence)
+  (define (iter result rest)
+    (if (null? rest)
+        result
+        (iter (op result (car rest))
+              (cdr rest))))
+  (iter initial sequence))
+
+;; Каковы значения выражений?
+(fold-right / 1 (list 1 2 3)) ;; 3/2
+(fold-left / 1 (list 1 2 3)) ;;  1/6
+(fold-right list nil (list 1 2 3));; (list 1 (list 2 ( list 3 ())))
+(fold-left list nil (list 1 2 3)) ;; (list (list (list () 1) 2) 3)
+#+END_SRC
+
+Каким свойством должен обладать op что бы fold-right, fold-left были одинаковыми? Коммутативность и ассоциативность.
+
+* Упражнение 2.39
+
+Дайте определение reverse через fold-right и fold-left.
+
+#+BEGIN_SRC scheme
+(define (reverse sequence)
+  (fold-right (lambda (first part-reversed) (append part-reversed (list first))) nil sequence))
+(reverse (list 1 2 3))
+
+(define (reverse sequence)
+  (fold-left (lambda (result last) (cons last result)) nil sequence))
+#+END_SRC
+
+
+* Упражнение 2.40
+Определите процедуру unique-pairs, которая принимая целое n, генерирует последовательность пар (i,j) 1<=j<i<=n. Используя процедуру unique-pairs упростите определение prime-sum-pairs, приведенное в книге.
+
+#+BEGIN_SRC scheme
+(define (unique-pairs n)
+  (flatmap
+   (lambda (i)
+     (map (lambda (j) (list i j))
+          (enumerate-interval 1 (- i 1))))
+   (enumerate-interval 1 n)))
+
+(define (prime-sum-pairs n)
+  (map make-pair-sum
+       (filter prime-sum?
+               (unique-pairs n))))
+(prime-sum-pairs 6)
+#+END_SRC
+
+* Упражнение 2.41
+Напишите процедуру, чтобы найти все упорядоченные тройки различных положительных целых чисел i, j, k, меньших или равных заданному числу n, сумма которых равна заданному числу S.
+#+BEGIN_SRC scheme
+(define (not-end-with-1? pair)
+  (not (= (cadr pair) 1)))
+(define (uniq-3 n)
+  (flatmap
+   (lambda (pair)
+     (map (lambda (k) (list (car pair) (cadr pair) k))
+          (enumerate-interval 1 (- (cadr pair) 1))))
+   (filter not-end-with-1? (unique-pairs n))))
+
+
+(define (uniq-tuples-m n m)
+  (cond ((< n m) nil)
+        ((= m 1) (map list (enumerate-interval 1 n)))
+        (else (flatmap
+               (lambda (tuple)
+                 (map (lambda (k) (cons k tuple))
+                      (enumerate-interval (+ (car tuple) 1) n)))
+               (uniq-tuples-m (- n 1) (- m 1))))))
+
+(uniq-tuples-m 5 3)
+#+END_SRC
+
+* Упражнение 2.42
+Задача о восьми ферзях. Как разместить 8 ферзей на шахматной доске, что бы не один ферзь не бил другого. Одно из возможных решений представлено на картинке.
+
+[[img-url:/images/ch2-Z-G-23.gif]]
+
+Один способ решения ставим первого ферзя на любую клетку доски. Остальные k-1 ферзей мы должны расставить так что бы они не шаховали друг друга. Можно сформулировать этот подход рекурсивно. Предположим мы уже сгенерировали всех возможных способов расстановки k-1 ферзей в первых k-1 столбцах доски. Для каждого из этих способов генерируем дополнительный набор позиций размещая ферзя в каждой строчке k-ой колонки. Теперь отфильтруем их оставляя только позиции в которых ферзь не атакован другими. Это даст все возможные расположения k ферзей в первых k колонках. Продолжая этот процесс мы получим решения головоломки.
+
+Мы записали эту процедуру под именем queens. Она возвращает список всех решений для досок n x n. Она содержит внутреннюю процедуру queen-cols, которая возвращает список всех способов разместить ферзей на первых k колонках доски.
+
+#+BEGIN_SRC scheme
+(define (queens board-size)
+  (define (queen-cols k)
+    (if (= k 0)
+        (list empty-board)
+        (filter
+         (lambda (positions) (safe? k positions))
+         (flatmap
+          (lambda (rest-of-queens)
+            (map (lambda (new-row)
+                   (adjoin-position new-row k rest-of-queens))
+                 (enumerate-interval 1 board-size)))
+          (queen-cols (- k 1))))))
+  (queen-cols board-size))
+#+END_SRC
+
+rest-of-queens - способ разместить k -1 ферзей в первых k - 1 колонках и new-row - строчка в которой надо поместить ферзя в k-ой колонке.
+Завершите программу реализовав представление позиций, включая adjoin-position, которая добавляет новую позицию к существующим позициям, и empty-set - пустой список позиций. Также нужно написать процедуру safe?.
+
+#+BEGIN_SRC scheme
+(define empty-board ())
+(define (adjoin-position new-row k rest-of-queens)
+  (cons new-row rest-of-queens))
+
+(define (include-row? item positions)
+  (if (null? positions)
+      false
+      (or (= item (car positions)) (include? item (cdr positions)))))
+
+(define (include-diagonale? item positions k)
+  (define (positive item positions k)
+    (if (null? positions)
+        false
+        (or (= (+ item 1) (car positions)) (positive (+ item 1) (cdr positions) k))
+        ))
+  (define (negative item positions k)
+    (if (or (null? positions) (< (- item 1) 1))
+        false
+        (or (= (- item 1) (car positions)) (negative (- item 1) (cdr positions) k))
+        ))
+  (or (negative item positions k) (positive item positions k)))
+
+(define (safe? k positions)
+  (and
+   (not (include-row? (car positions) (cdr positions))) ;; нет совпадений по строкам
+   (not (include-diagonale? (car positions) (cdr positions) k)))) ;; не совпадает по диагоналям
+
+(define (queens board-size)
+  (define (queen-cols k)
+    (if (= k 0)
+        (list empty-board)
+        (filter
+         (lambda (positions) (safe? k positions))
+         (flatmap
+          (lambda (rest-of-queens)
+            (map (lambda (new-row)
+                   (adjoin-position new-row k rest-of-queens))
+                 (enumerate-interval 1 board-size)))
+          (queen-cols (- k 1))))))
+  (queen-cols board-size))
+
+(queens 8) ;; Value: ((4 2 7 3 6 8 5 1) (5 2 4 7 3 8 6 1) (3 5 2 8 6 4 7 1) (3 6 4 2 8 5 7 1) (5 7 1 3 8 6 4 2) (4 6 8 3 1 7 5 2) (3 6 8 1 4 7 5 2) (5 3 8 4 7 1 6 2) (5 7 4 1 3 8 6 2) (4 1 5 8 6 3 7 2) (3 6 4 1 8 5 7 2) (4 7 5 3 1 6 8 2) (6 4 2 8 5 7 1 3) (6 4 7 1 8 2 5 3) (1 7 4 6 8 2 5 3) (6 8 2 4 1 7 5 3) (6 2 7 1 4 8 5 3) (4 7 1 8 5 2 6 3) (5 8 4 1 7 2 6 3) (4 8 1 5 7 2 6 3) (2 7 5 8 1 4 6 3) (1 7 5 8 2 4 6 3) (2 5 7 4 1 8 6 3) (4 2 7 5 1 8 6 3) (5 7 1 4 2 8 6 3) (6 4 1 5 8 2 7 3) (5 1 4 6 8 2 7 3) (5 2 6 1 7 4 8 3) (6 3 7 2 8 5 1 4) (2 7 3 6 8 5 1 4) (7 3 1 6 8 5 2 4) (5 1 8 6 3 7 2 4) (1 5 8 6 3 7 2 4) (3 6 8 1 5 7 2 4) (6 3 1 7 5 8 2 4) (7 5 3 1 6 8 2 4) (7 3 8 2 5 1 6 4) (5 3 1 7 2 8 6 4) (2 5 7 1 3 8 6 4) (3 6 2 5 8 1 7 4) (6 1 5 2 8 3 7 4) (8 3 1 6 2 5 7 4) (2 8 6 1 3 5 7 4) (5 7 2 6 3 1 8 4) (3 6 2 7 5 1 8 4) (6 2 7 1 3 5 8 4) (3 7 2 8 6 4 1 5) (6 3 7 2 4 8 1 5) (4 2 7 3 6 8 1 5) (7 1 3 8 6 4 2 5) (1 6 8 3 7 4 2 5) (3 8 4 7 1 6 2 5) (6 3 7 4 1 8 2 5) (7 4 2 8 6 1 3 5) (4 6 8 2 7 1 3 5) (2 6 1 7 4 8 3 5) (2 4 6 8 3 1 7 5) (3 6 8 2 4 1 7 5) (6 3 1 8 4 2 7 5) (8 4 1 3 6 2 7 5) (4 8 1 3 6 2 7 5) (2 6 8 3 1 4 7 5) (7 2 6 3 1 4 8 5) (3 6 2 7 1 4 8 5) (4 7 3 8 2 5 1 6) (4 8 5 3 1 7 2 6) (3 5 8 4 1 7 2 6) (4 2 8 5 7 1 3 6) (5 7 2 4 8 1 3 6) (7 4 2 5 8 1 3 6) (8 2 4 1 7 5 3 6) (7 2 4 1 8 5 3 6) (5 1 8 4 2 7 3 6) (4 1 5 8 2 7 3 6) (5 2 8 1 4 7 3 6) (3 7 2 8 5 1 4 6) (3 1 7 5 8 2 4 6) (8 2 5 3 1 7 4 6) (3 5 2 8 1 7 4 6) (3 5 7 1 4 2 8 6) (5 2 4 6 8 3 1 7) (6 3 5 8 1 4 2 7) (5 8 4 1 3 6 2 7) (4 2 5 8 6 1 3 7) (4 6 1 5 2 8 3 7) (6 3 1 8 5 2 4 7) (5 3 1 6 8 2 4 7) (4 2 8 6 1 3 5 7) (6 3 5 7 1 4 2 8) (6 4 7 1 3 5 2 8) (4 7 5 2 6 1 3 8) (5 7 2 6 3 1 4 8))
+(length (queens 8)) ;Value: 92
+#+END_SRC
+
+
+* Упражнение 2.43
+
+Процедура Луиса для queens работала медленно. Выяснилось что он поменял местами отображения в flatmap.
+
+#+BEGIN_SRC scheme
+(flatmap
+ (lambda (new-row)
+   (map (lambda (rest-of-queens)
+          (adjoin-position new-row k rest-of-queens))
+        (queen-cols (- k 1))))
+ (enumerate-interval 1 board-size))
+#+END_SRC
+
+Объясните почему смена отображения замедляет программу. Оцени время для восьми ферзей если для 6 было время T.
+
+(queen-cols (- k 1)) вызывается 8 раз.
+
+Замедление происходит потому что считаем 8 раз предыдущие позиции на каждом вызове рекурсии. То есть если оценивать во времени обхода этих позиций то рост будет 8^N где N количество позиций. Количество позиций сложная функция из-за фильтра, но после 5 она начинает резко расти. За счет этого наблюдается замедление.
+
+Допустим для 6 позиций заняло время T. что бы для 7 позиций посчитать она выполнит 8 раз для 6 позиций. Потом количество позиций увеличится в 8 раз. потом применим функцию фильтра, которая сократит варианты. И еще раз выполнится 8 раз для 7. То есть итоговое T, будет порядка (8^2) T.
+
+
+

@@ -6,6 +6,10 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/a_picture_language.xml</loc>
+  <lastmod>2020-01-21T18:18:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/algorithms.xml</loc>
   <lastmod>2020-01-11T22:05:00Z</lastmod>
  </sitemap>
@@ -30,10 +34,6 @@
   <lastmod>2020-01-13T18:03:00Z</lastmod>
  </sitemap>
  <sitemap>
-  <loc>http://velikiinehochuha.github.io/categories/hierarchical_data-the_closure_property.xml</loc>
-  <lastmod>2020-01-18T18:11:00Z</lastmod>
- </sitemap>
- <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/hierarchical_data.xml</loc>
   <lastmod>2020-01-19T16:44:00Z</lastmod>
  </sitemap>
@@ -43,7 +43,7 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/lisp.xml</loc>
-  <lastmod>2020-01-11T22:05:00Z</lastmod>
+  <lastmod>2020-01-20T10:24:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/mathematics.xml</loc>
@@ -63,11 +63,15 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-01-19T16:44:00Z</lastmod>
+  <lastmod>2020-01-21T18:18:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/sequences_as_conventional_interfaces.xml</loc>
+  <lastmod>2020-01-21T18:18:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-01-19T16:44:00Z</lastmod>
+  <lastmod>2020-01-21T18:18:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
@@ -83,10 +87,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-01-19T16:44:00Z</lastmod>
+  <lastmod>2020-01-21T18:18:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-01-19T16:44:00Z</lastmod>
+  <lastmod>2020-01-21T18:18:00Z</lastmod>
  </sitemap>
 </sitemapindex>
