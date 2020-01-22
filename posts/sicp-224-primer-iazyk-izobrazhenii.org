@@ -11,8 +11,301 @@
 #+END_COMMENT
 
 * Упражнение 2.44.
-Определите процедуру up-split используя corner-split.
+Определите процедуру up-split используемую в corner-split.
+
+[[img-url:/images/up-split-einstein.png]]
 
 #+BEGIN_SRC scheme
+(define (up-split painter n)
+  (if (= n 0)
+      painter
+      (let ((smaller (up-split painter (- n 1))))
+        (below painter (beside smaller smaller)))))
 #+END_SRC
+
+* Упражнение 2.45.
+Определите процедуру обобщение up-split right-split.
+
+#+BEGIN_SRC scheme
+(define (split fs ss)
+  (lambda (painter, n)
+    (if (= n 0)
+        painter
+        (let ((smaller ((split fs ss) painter (- n 1))))
+          (fs painter (ss smaller smaller))))))
+(define right-split (split beside below))
+(define up-split (split below beside))
+#+END_SRC
+
+* Упражнение 2.46
+Двумерный вектор v проведенный из точки отсчета в некоторую точку может быть представлен как пара координат x и y. Реализуйте абстракцию для векторов задав конструктор make-vect и соответствующие селекторы xcor-vect, ycor-vect. Реализуйте процедуры add-vect, sub-vect и scale-vect, которые выполняют операции над вектором.
+
+#+BEGIN_SRC scheme
+(define (make-vect x y)
+  (cons x y))
+(define (xcor-vect v)
+  (car v))
+(define (ycor-vect v)
+  (cdr v))
+(ycor-vect (make-vect 1 2))
+
+(define (add-vect v1 v2)
+  (make-vect (+ (xcor-vect v1) (xcor-vect v2)) (+ (ycor-vect v1) (ycor-vect v2))))
+
+(define (sub-vect v1 v2)
+  (make-vect (- (xcor-vect v1) (xcor-vect v2)) (- (ycor-vect v1) (ycor-vect v2))))
+(define (scale-vect v n)
+  (make-vect (* (xcor-vect v) n) (* (ycor-vect v) n)))
+#+END_SRC
+
+* Упражнение 2.47
+
+Здесь две возможных конструктора для фреймов:
+#+BEGIN_SRC scheme
+(define (make-frame origin edge1 edge2)
+  (list origin edge1 edge2))
+
+(define (make-frame origin edge1 edge2)
+  (cons origin (cons edge1 edge2)))
+#+END_SRC
+
+Для каждого конструктора укажите соответствующие селекторы что бы реализовать процедуры для фреймов.
+
+#+BEGIN_SRC scheme
+(define (origin-frame frame)
+  (car frame))
+(define (edge1-frame frame)
+  (card frame))
+(define (edge1-frame frame)
+  (card (cdr frame)))
+
+;; 2
+(define (origin-frame frame)
+  (car frame))
+(define (edge1-frame frame)
+  (car (cdr frame)))
+(define (edge1-frame frame)
+  (cdr (cdr frame)))
+#+END_SRC
+
+* Упражнение 2.48
+Сегмент направленной линии на плоскости может быть представлен в виде пары векторов: вектор идущий от начала координат до начальной точки сегмента и вектор идущий от начала координат до конечной точки сегмента. Используя векторное представление из 2.46 что бы определить представление для сегментов с конструктором make-segment и селекторами start-segment, end-segment.
+
+#+BEGIN_SRC scheme
+(define (make-segment v1 v2)
+  (cons v1 v2))
+(define (start-segment seg)
+  (car seg))
+(define (end-segment seg)
+  (cdr seg))
+#+END_SRC
+
+* Упражнение 2.49
+
+Используя segments->painter определите следующие процедуры
+a. Нарисовать контур обозначенной рамки.
+b. Нарисовать Х соединяющий противоположные углы рамки.
+c. Нарисовать ромбовидную форму соединяющую центры рамки.
+d. Нарисовать волну.
+#+BEGIN_SRC scheme
+(define (for-each proc items)
+  (if (not (null? items))
+      (proc (car items)))
+  (if (not (null? items))
+      (for-each proc (cdr items)))
+  true)
+;; frame
+(define (make-frame origin edge1 edge2)
+  (list origin edge1 edge2))
+
+(define (origin-frame frame)
+  (car frame))
+(define (edge1-frame frame)
+  (card frame))
+(define (edge2-frame frame)
+  (card (cdr frame)))
+
+;; segment
+(define (make-segment v1 v2)
+  (cons v1 v2))
+(define (start-segment seg)
+  (car seg))
+(define (end-segment seg)
+  (cdr seg))
+
+;; vector
+(define (make-vect x y)
+  (cons x y))
+(define (xcor-vect v)
+  (car v))
+(define (ycor-vect v)
+  (cdr v))
+
+(define (add-vect v1 v2)
+  (make-vect (+ (xcor-vect v1) (xcor-vect v2)) (+ (ycor-vect v1) (ycor-vect v2))))
+
+(define (sub-vect v1 v2)
+  (make-vect (- (xcor-vect v1) (xcor-vect v2)) (- (ycor-vect v1) (ycor-vect v2))))
+(define (scale-vect v n)
+  (make-vect (* (xcor-vect v) n) (* (ycor-vect v) n)))
+
+;; a
+
+(define (segments->painter segment-list)
+  (lambda (frame)
+    (for-each
+     (lambda (segment)
+       (draw-line
+        ((frame-coord-map frame) (start-segment segment))
+        ((frame-coord-map frame) (end-segment segment))))
+     segment-list)))
+
+(define frame1 (make-frame (make-vect 0 0) (make-vect 0 1) (make-vect 1 0)))
+
+(define segment-list-a (list (make-segment (make-vect 0 0) (make-vect 0 1))
+                            (make-segment (make-vect 0 1) (make-vect 1 1))
+                            (make-segment (make-vect 1 1) (make-vect 1 0))
+                            (make-segment (make-vect 1 0) (make-vect 0 0))
+                            ))
+
+((segments->painter segment-list-a) frame1)
+
+(define segment-list-b (list (make-segment (make-vect 0 0) (make-vect 1 1))
+                            (make-segment (make-vect 0 1) (make-vect 1 0))
+                            ))
+
+((segments->painter segment-list-b) frame1)
+
+
+(define segment-list-c (list (make-segment (make-vect 0.5 0) (make-vect 1 0.5))
+                            (make-segment (make-vect 1 0.5) (make-vect 0.5 1))
+                            (make-segment (make-vect 0.5 1) (make-vect 0 0.5))
+                            (make-segment (make-vect 0 0.5) (make-vect 0.5 0))
+                            ))
+
+((segments->painter segment-list-c) frame1)
+
+
+(define segment-list-d (list (make-segment (make-vect .25 0) (make-vect .35 .5))
+                             (make-segment (make-vect .35 .5) (make-vect .3 .6))
+                             (make-segment (make-vect .3 .6) (make-vect .15 .4))
+                             (make-segment (make-vect .15 .4) (make-vect 0 .65))
+                             (make-segment (make-vect 0 .65) (make-vect 0 .85))
+                             (make-segment (make-vect 0 .85) (make-vect .15 .6))
+                             (make-segment (make-vect .15 .6) (make-vect .3 .65))
+                             (make-segment (make-vect .3 .65) (make-vect .4 .65))
+                             (make-segment (make-vect .4 .65) (make-vect .35 .85))
+                             (make-segment (make-vect .35 .85) (make-vect .4 1))
+                             (make-segment (make-vect .4 1) (make-vect .6 1))
+                             (make-segment (make-vect .6 1) (make-vect .65 .85))
+                             (make-segment (make-vect .65 .85) (make-vect .6 .65))
+                             (make-segment (make-vect .6 .65) (make-vect .75 .65))
+                             (make-segment (make-vect .75 .65) (make-vect 1 .35))
+                             (make-segment (make-vect 1 .35) (make-vect 1 .15))
+                             (make-segment (make-vect 1 .15) (make-vect .6 .45))
+                             (make-segment (make-vect .6 .45) (make-vect .75 0))
+                             (make-segment (make-vect .75 0) (make-vect .6 0))
+                             (make-segment (make-vect .6 0) (make-vect .5 .3))
+                             (make-segment (make-vect .5 .3) (make-vect .4 0))
+                             (make-segment (make-vect .4 0) (make-vect .25 0))
+                             ))
+
+((segments->painter segment-list-d) frame1)
+
+#+END_SRC
+
+* Упражнение 2.50
+
+Определите процедуру flip-horiz и трансформации которые вращают изображения против часовой стрелки на 180 и 270 градусов.
+
+
+#+BEGIN_SRC scheme
+(define (flip-horiz painter)
+  (transform-painter painter
+                     (make-vect 1.0 .0)
+                     (make-vect .0 .0)
+                     (make-vect 1.0 1.0)))
+
+(define (repeated f n)
+  (if (= n 1)
+      (lambda (x) (f x))
+      (lambda (x) (f ((repeated f (- n 1)) x)))))
+
+(define (rotate90 painter)
+  (transform-painter painter
+                     (make-vect 1.0 0.0)
+                     (make-vect 1.0 1.0)
+                     (make-vect 0.0 0.0)))
+
+(define (rotate270 painter)
+  ((repeated rotate90 3) painter))
+
+(define (rotate180 painter)
+  ((repeated rotate90 2) painter))
+#+END_SRC
+
+* Упражнение 2.51
+
+Определите процедуру below. Как аналог beside и второй раз через beside и подходящие трасформации.
+
+#+BEGIN_SRC scheme
+(define (below painter1 painter2)
+  (let ((split-point (make-vect 0.0 0.5)))
+    (let ((paint-bottom
+           (transform-painter painter1
+                              (make-vect 0.0 0.0)
+                              (make-vect 1.0 0.0)
+                              split-point))
+          (paint-top
+           (transform-painter painter2
+                              split-point
+                              (make-vect 1.0 0.5)
+                              (make-vect 0.0 1.0))))
+      (lambda (frame)
+        (paint-bottom frame)
+        (paint-top frame)))))
+
+
+(define (below-2 painter1 painter2)
+   (rotate270 (beside painter1 painter2)))
+#+END_SRC
+
+
+* Упражнение 2.52
+Внесите изменение в square-limit на разных уровнях абстракции
+а. Добавьте какие-нибудь сегменты к примитиву wave.
+
+#+BEGIN_SRC scheme
+;; тут просто добавляем в список элементов пару сегментов
+(make-segment (make-vect .5 .75) (make-vect .5 .77))
+(make-segment (make-vect .45 .75) (make-vect .55 .75))
+#+END_SRC
+
+б. измените corner-split (к примеру используя только одну копию up-split и right-split вместо двух).
+
+#+BEGIN_SRC scheme
+;; тут просто редактируем функцию corner-split
+(define (corner-split painter n)
+  (if (= n 0)
+      painter
+      (let ((up (up-split painter (- n 1)))
+            (right (right-split painter (- n 1))))
+        (let ((top-left (beside up up))
+              (bottom-right (below right right))
+              (corner (corner-split painter (- n 1))))
+          (beside (below painter top-left)
+                  (below painter corner))))))
+#+END_SRC
+в. измените square-limit, что бы собрать углы по другому шаблону
+
+#+BEGIN_SRC scheme
+;; тут просто редактируем функцию square-limit
+(define (square-limit painter n)
+   (let ((combine4 (square-of-four flip-vert rotate180
+                                   identity flip-horiz)))
+     (combine4 (corner-split painter n))))
+#+END_SRC
+
+пример программы показывает что мы делаем редактирование только на одном из уровней абстракций.
+
 
