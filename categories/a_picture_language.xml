@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о a_picture_language)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/a_picture_language.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Wed, 22 Jan 2020 19:50:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 2.2.4 Пример: Язык изображений.</title><link>http://velikiinehochuha.github.io/posts/sicp-224-primer-iazyk-izobrazhenii/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org6859af3" class="outline-2"&gt;
-&lt;h2 id="org6859af3"&gt;Упражнение 2.44.&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6859af3"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о a_picture_language)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/a_picture_language.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 24 Jan 2020 13:36:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 2.2.4 Пример: Язык изображений.</title><link>http://velikiinehochuha.github.io/posts/sicp-224-primer-iazyk-izobrazhenii/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org7c6fd9b" class="outline-2"&gt;
+&lt;h2 id="org7c6fd9b"&gt;Упражнение 2.44.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7c6fd9b"&gt;
 &lt;p&gt;
 Определите процедуру up-split используемую в corner-split.
 &lt;/p&gt;
@@ -19,9 +19,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org42bdc83" class="outline-2"&gt;
-&lt;h2 id="org42bdc83"&gt;Упражнение 2.45.&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org42bdc83"&gt;
+&lt;div id="outline-container-orgc1f752f" class="outline-2"&gt;
+&lt;h2 id="orgc1f752f"&gt;Упражнение 2.45.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc1f752f"&gt;
 &lt;p&gt;
 Определите процедуру обобщение up-split right-split.
 &lt;/p&gt;
@@ -38,9 +38,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7875ebc" class="outline-2"&gt;
-&lt;h2 id="org7875ebc"&gt;Упражнение 2.46&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7875ebc"&gt;
+&lt;div id="outline-container-org7d94fea" class="outline-2"&gt;
+&lt;h2 id="org7d94fea"&gt;Упражнение 2.46&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7d94fea"&gt;
 &lt;p&gt;
 Двумерный вектор v проведенный из точки отсчета в некоторую точку может быть представлен как пара координат x и y. Реализуйте абстракцию для векторов задав конструктор make-vect и соответствующие селекторы xcor-vect, ycor-vect. Реализуйте процедуры add-vect, sub-vect и scale-vect, которые выполняют операции над вектором.
 &lt;/p&gt;
@@ -64,9 +64,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org57b4585" class="outline-2"&gt;
-&lt;h2 id="org57b4585"&gt;Упражнение 2.47&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org57b4585"&gt;
+&lt;div id="outline-container-org91bb85a" class="outline-2"&gt;
+&lt;h2 id="org91bb85a"&gt;Упражнение 2.47&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org91bb85a"&gt;
 &lt;p&gt;
 Здесь две возможных конструктора для фреймов:
 &lt;/p&gt;
@@ -84,9 +84,9 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;origin-frame&lt;/span&gt; &lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;edge1-frame&lt;/span&gt; &lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;card&lt;/span&gt; &lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cadr &lt;/span&gt;&lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;edge1-frame&lt;/span&gt; &lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;card&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cadr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
 
 &lt;span class="c1"&gt;;; 2&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;origin-frame&lt;/span&gt; &lt;span class="nv"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -99,9 +99,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4fd628a" class="outline-2"&gt;
-&lt;h2 id="org4fd628a"&gt;Упражнение 2.48&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4fd628a"&gt;
+&lt;div id="outline-container-org6773718" class="outline-2"&gt;
+&lt;h2 id="org6773718"&gt;Упражнение 2.48&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6773718"&gt;
 &lt;p&gt;
 Сегмент направленной линии на плоскости может быть представлен в виде пары векторов: вектор идущий от начала координат до начальной точки сегмента и вектор идущий от начала координат до конечной точки сегмента. Используя векторное представление из 2.46 что бы определить представление для сегментов с конструктором make-segment и селекторами start-segment, end-segment.
 &lt;/p&gt;
@@ -116,9 +116,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc99297d" class="outline-2"&gt;
-&lt;h2 id="orgc99297d"&gt;Упражнение 2.49&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc99297d"&gt;
+&lt;div id="outline-container-orgd1f80c5" class="outline-2"&gt;
+&lt;h2 id="orgd1f80c5"&gt;Упражнение 2.49&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd1f80c5"&gt;
 &lt;p&gt;
 Используя segments-&amp;gt;painter определите следующие процедуры
 a. Нарисовать контур обозначенной рамки.
@@ -233,9 +233,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2b39407" class="outline-2"&gt;
-&lt;h2 id="org2b39407"&gt;Упражнение 2.50&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2b39407"&gt;
+&lt;div id="outline-container-orge422d16" class="outline-2"&gt;
+&lt;h2 id="orge422d16"&gt;Упражнение 2.50&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge422d16"&gt;
 &lt;p&gt;
 Определите процедуру flip-horiz и трансформации которые вращают изображения против часовой стрелки на 180 и 270 градусов.
 &lt;/p&gt;
@@ -267,9 +267,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcf03c30" class="outline-2"&gt;
-&lt;h2 id="orgcf03c30"&gt;Упражнение 2.51&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcf03c30"&gt;
+&lt;div id="outline-container-org6a92d68" class="outline-2"&gt;
+&lt;h2 id="org6a92d68"&gt;Упражнение 2.51&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6a92d68"&gt;
 &lt;p&gt;
 Определите процедуру below. Как аналог beside и второй раз через beside и подходящие трасформации.
 &lt;/p&gt;
@@ -298,9 +298,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgd82b7bc" class="outline-2"&gt;
-&lt;h2 id="orgd82b7bc"&gt;Упражнение 2.52&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd82b7bc"&gt;
+&lt;div id="outline-container-org67a1205" class="outline-2"&gt;
+&lt;h2 id="org67a1205"&gt;Упражнение 2.52&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org67a1205"&gt;
 &lt;p&gt;
 Внесите изменение в square-limit на разных уровнях абстракции
 а. Добавьте какие-нибудь сегменты к примитиву wave.

@@ -1,0 +1,628 @@
+#+BEGIN_COMMENT
+.. title: SICP 2.3 Символические данные.
+.. slug: sicp-23-simvolicheskie-dannye
+.. date: 2020-01-23 01:03:21 UTC+03:00
+.. tags: sicp, scheme, symbolic_data
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* Упражнение 2.54
+
+Два списка называются равными если они содержат одинаковые элементы в одной последовательности. Определите equal? как рекурсивную функцию сравнения при помощи eq?.
+#+BEGIN_SRC scheme
+(define (equal? a b)
+  (if (not (and (pair? a) (pair? b)))
+      (eq? a b)
+      (and (equal? (car a) (car b)) (equal? (cdr a) (cdr b)))))
+#+END_SRC
+
+* Упражнение 2.55
+
+#+BEGIN_SRC scheme
+(car ''abracadabra)
+;; '''asdfsfsf = (quote (quote asdfsfsf))
+#+END_SRC
+
+* Упражнение 2.56
+
+Покажите как расширить базовое дифференцирование чтобы оно могло обрабатывать больше видов выражений. Например реализовав правило  $\frac{d(u^n)}{dx}=nu^{n-1}\frac{du}{dx}$ 
+добавив условие на проверку экспоненты и реализовав определения exponentiation?, base, exponent и make-exponentiation.
+
+#+BEGIN_SRC scheme
+(define (exponentiation? x)
+  (and (pair? x) (eq? (car x) '**)))
+(define (base exponentiation) (cadr exponentiation))
+(define (exponent exponentiation) (caddr exponentiation))
+
+(define (make-exponentiation b1 e2)
+  (cond ((=number? e2 0) 1)
+        ((=number? e2 1) b1)
+        ((=number? b1 0) 1)
+        ((and (number? b1) (number? e2)) (expt b1 e2))
+        (else (list '** b1 e2))))
+
+
+(define (deriv exp var)
+  (cond ((number? exp) 0)
+        ((variable? exp)
+         (if (same-variable? exp var) 1 0))
+        ((sum? exp)
+         (make-sum (deriv (addend exp) var)
+                   (deriv (augend exp) var)))
+        ((product? exp)
+         (make-sum
+           (make-product (multiplier exp)
+                         (deriv (multiplicand exp) var))
+           (make-product (deriv (multiplier exp) var)
+                         (multiplicand exp))))
+        ((exponentiation? exp)
+         (make-product (make-product (exponent exp)
+                                     (make-exponentiation (base exp)
+                                                          (make-sum (exponent exp)
+                                                                    -1)))
+                       (deriv (base exp) var)))
+        (else
+         (error "unknown expression type -- DERIV" exp))))
+
+(deriv '(** x 4) 'x)
+#+END_SRC
+
+* Упражнение 2.57
+
+Расширьте программу для дифференцирования что бы сумма и умножение могло вычисляться двух или более под выражений. То есть что бы можно было писать так.
+
+#+BEGIN_SRC scheme
+(deriv '(* x y (+ x 3)) 'x)
+#+END_SRC
+
+Попробуйте добиться этого изменяя только представление суммы и умножения, не изменяя саму функцию deriv.
+
+#+BEGIN_SRC scheme
+(define (make-sum a1 a2 . an)
+  (cond ((and (number? a1) (number? a2)) (append (list '+ (+ a1 a2)) an))
+        (else (append (list '+ a1 a2) an))))
+
+(define (make-product m1 m2 . mn)
+  (cond ((or (=number? m1 0) (=number? m2 0)) 0)
+        ;; ((=number? m1 1) m2)
+        ;; ((=number? m2 1) m1)
+        ((and (number? m1) (number? m2)) (append (list '+ (* m1 m2)) mn))
+        (else (append (list '* m1 m2) mn))))
+
+(define (addend s) (cadr s))
+(define (augend s)
+  (if (= (length s) 3)
+      (caddr s)
+      (append (list '+) (cdr (cdr s)))))
+
+(define (multiplier p) (cadr p))
+(define (multiplicand p)
+  (if (= (length p) 3)
+      (caddr p)
+      (append (list '*) (cdr (cdr p)))))
+#+END_SRC
+
+
+* Упражнение 2.58
+
+Предположим мы хотим записывать программу для дифференцирования в обычной математической нотации. [2/2]
+
+- [X] предложите решение когда сумма и умножение всегда принимают два аргумента и приоритет выражений полностью задан скобками (x + (3 * (x + (y + 2))))
+
+#+BEGIN_SRC scheme
+(define (variable? x) (symbol? x))
+(define (same-variable? v1 v2)
+  (and (variable? v1) (variable? v2) (eq? v1 v2)))
+
+(define (make-sum a1 a2) (append (list a1) (list '+) (list a2)))
+(define (sum? x)
+  (and (pair? x) (eq? (cadr x) '+)))
+(define (addend s) (car s))
+(define (augend s) (caddr s))
+(addend (make-sum 1 2))
+(augend (make-sum 1 2))
+
+(define (make-product m1 m2) (append (list m1) (list '*) (list m2)))
+(define (product? x)
+  (and (pair? x) (eq? (cadr x) '*)))
+(define (multiplier p) (car p))
+(define (multiplicand p) (caddr p))
+(make-product 1 2)
+(product? (make-product 1 2))
+(multiplier (make-product 1 2))
+(multiplicand (make-product 1 2))
+#+END_SRC
+
+- [X] проблема становится сложнее если опустить необязательные скобки и подразумевать что умножение имеет приоритет над суммой, предложите свое решение для этого случая (x + 3 * (x + y + 2)) когда аргументов может быть более 2.
+
+еще может быть вот такой случай (x + 3 * (x + y + 2) + (x * x)) тут после второй итерации нужно делать не умножение а ещё одну сумму.
+
+#+BEGIN_SRC scheme
+(define (search-first-operand-position op exp n)
+  (if (or (not (pair? exp)) (null? exp) (< (length exp) 3))
+      0
+      (if (eq? (cadr exp) op)
+          (+ n 1)
+          (search-first-operand-position op (cdr (cdr exp)) (+ n 1)))))
+(define (make-sum a1 a2) (append (list a1) (list '+) (list a2)))
+(define (sum? s)
+  (let ((fop (search-first-operand-position '+ s 0)))
+    (> fop 0)))
+
+(define (addend s)
+  (let ((rev (reverse s)))
+    (let ((fop (search-first-operand-position '+ rev 0)) (addends ()))
+      (define (iter-shift ss n)
+        (if (= n 0)
+            ss
+            (iter-shift (cdr (cdr ss)) (- n 1))))
+      (define addends (iter-shift rev fop))
+      (if (= (length addends) 1)
+          (car addends)
+          (reverse addends)))))
+
+(define (augend s)
+  (let ((fop (search-first-operand-position '+ s 0)) (aug ()))
+    (define (iter-shift ss n)
+      (if (= n 0)
+          ss
+          (iter-shift (cdr (cdr ss)) (- n 1))))
+    (define aug (iter-shift s fop))
+    (if (= (length aug) 1)
+        (car aug)
+        aug)))
+
+(deriv '(x + 3 * (x + y + 2)) 'x)
+#+END_SRC
+
+* Упражнение 2.59
+
+Определите процедуру union-set если set не отсортированный список.
+
+#+BEGIN_SRC scheme
+(define (union-set set1 set2)
+  (cond ((null? set2) set1)
+        ((element-of-set? (car set2) set1) (union-set set1 (cdr set2)))
+        (else (cons (car set2) (union-set set1 (cdr set2))))))
+#+END_SRC
+
+так как все процедуры используют element-of-set? эта функция сильно влияет на порядок роста. Порядок роста для element-of-set? и adjoin-set равен n. Для intersection-set и union-set n^2.
+
+* Упражнение 2.60
+
+Предположим сеты могут иметь дубликаты. Реализуйте методы для сетов для такой структуры. Как от этого изменится порядок роста?
+
+#+BEGIN_SRC scheme
+(define (element-of-set? x set)
+  (cond ((null? set) false)
+        ((equal? x (car set)) true)
+        (else (element-of-set? x (cdr set)))))
+
+(define (adjoin-set x set)
+  (cons x set))
+
+(define (intersection-set set1 set2)
+  (cond ((or (null? set1) (null? set2)) '())
+        ((element-of-set? (car set1) set2)
+         (cons (car set1)
+               (intersection-set (cdr set1) set2)))
+        (else (intersection-set (cdr set1) set2))))
+
+
+(define (union-set set1 set2)
+  (append set1 set2))
+#+END_SRC
+
+Для element-of-set порядок роста n, для adjoin-set 1, для intersection-set n^2, для union-set n (так как append займет n).
+
+* Упражнение 2.61
+
+Дайте определение adjoin-set для сортированных списков.
+
+#+BEGIN_SRC scheme
+(define (adjoin-set x set)
+  (cond ((null? set) (list x))
+        ((= x (car set)) set)
+        ((< x (car set)) (cons x set))
+        (else (cons (car set) (adjoin-set x (cdr set))))))
+#+END_SRC
+порядок роста по прежнему n, но иногда работает быстрее.
+
+* Упражнение 2.62
+
+Приведите определение union-set с порядком роста n.
+
+#+BEGIN_SRC scheme
+(define (union-set set1 set2)
+  (cond ((null? set1) set2)
+        ((null? set2) set1)
+        (else (let ((x1 (car set1)) (x2 (car set2)))
+                (cond ((= x1 x2)
+                       (cons x1
+                             (union-set (cdr set1)
+                                        (cdr set2))))
+                      ((< x1 x2)
+                       (cons x1 (union-set (cdr set1) set2)))
+                      ((< x2 x1)
+                       (cons x2 (union-set set1 (cdr set2)))))))))
+#+END_SRC
+
+* Упражнение 2.63
+Обе процедуры приведенные ниже трансформируют дерево в список.
+
+#+BEGIN_SRC scheme
+(define (tree->list-1 tree)
+  (if (null? tree)
+      '()
+      (append (tree->list-1 (left-branch tree))
+              (cons (entry tree)
+                    (tree->list-1 (right-branch tree))))))
+(define (tree->list-2 tree)
+  (define (copy-to-list tree result-list)
+    (if (null? tree)
+        result-list
+        (copy-to-list (left-branch tree)
+                      (cons (entry tree)
+                            (copy-to-list (right-branch tree)
+                                          result-list)))))
+  (copy-to-list tree '()))
+#+END_SRC
+
+a. Будут ли отличаться результаты двух процедур? Какие списки будут для дерева с рисунка 2.16
+
+#+BEGIN_SRC scheme
+(define tree1 (make-tree 7
+                         (make-tree 3
+                                    (make-tree 1 () ())
+                                    (make-tree 5 () ()))
+                         (make-tree 9
+                                    ()
+                                    (make-tree 11 () ()))))
+
+tree1
+(tree->list-1 tree1)
+(tree->list-2 tree1)
+
+(define tree2 (make-tree 3
+                         (make-tree 7
+                                    (make-tree 5 () ())
+                                    (make-tree 9
+                                               ()
+                                               (make-tree 11 () ())))
+                         (make-tree 1
+                                    ()
+                                    ())))
+
+tree2
+(tree->list-1 tree2)
+(tree->list-2 tree2)
+
+(define tree3 (make-tree 5
+                         (make-tree 3
+                                    (make-tree 1 () ())
+                                    ())
+                         (make-tree 9
+                                    (make-tree 7 () ())
+                                    (make-tree 11 () ()))))
+tree3
+(tree->list-1 tree3)
+(tree->list-2 tree3)
+#+END_SRC
+
+списки одинаковые
+
+b. как отличается порядок роста?
+в первом случае за счет линейного времени append, порядок роста n*log(n)
+во втором случае порядок роста будет n.
+
+* Упражнение 2.64
+
+Следующая процедура list->tree преобразует отсортированный список в сбалансированное бинарное дерево. Вспомогательная процедура partial-tree принимает в качестве аргументов целое n и список и строит сбалансированное  бинарное дерево содержащее первые n элементов списка. Результат это функции - пара, первое значение это созданное дерево, а cdr элементы не вошедшие в дерево.
+
+#+BEGIN_SRC scheme
+(define (list->tree elements)
+  (car (partial-tree elements (length elements))))
+
+(define (partial-tree elts n)
+  (if (= n 0)
+      (cons '() elts)
+      (let ((left-size (quotient (- n 1) 2)))
+        (let ((left-result (partial-tree elts left-size)))
+          (let ((left-tree (car left-result))
+                (non-left-elts (cdr left-result))
+                (right-size (- n (+ left-size 1))))
+            (let ((this-entry (car non-left-elts))
+                  (right-result (partial-tree (cdr non-left-elts)
+                                              right-size)))
+              (let ((right-tree (car right-result))
+                    (remaining-elts (cdr right-result)))
+                (cons (make-tree this-entry left-tree right-tree)
+                      remaining-elts))))))))
+#+END_SRC
+
+a. Кратко опишите как работает partial-tree. Нарисуйте дерево для списка (1 3 5 7 9 11).
+
+Берем половину списка, строим от него дерево из первых int((n-1)/2 элементов. берем следующий элемент это будет вершина дерева, берем остальные элементы это будет правая часть дерева. для левой и правой стороны дерева процесс построения рекурсивно повторяется.
+
+#+BEGIN_SRC scheme
+
+;Value: ((5 (1 () (3 () ())) (9 (7 () ()) (11 () ()))))
+
+           5
+        /      \
+       1         9
+        \       /  \
+     ()  3     7    11
+        / \   /\    / \
+       () () ()()  ()  ()
+
+#+END_SRC
+
+b. Каков порядок роста list->tree?
+
+Порядок роста n.
+
+* Упражнение 2.65
+
+Используя результаты упражнений 2.63 и 2.64 приведите определение union-set и intersection-set для множеств определенных как сбалансированные бинарные деревья.
+
+#+BEGIN_SRC scheme
+
+        4                     7
+      /  \                /      \
+     3    5              1         9
+    / \   / \              \       /  \
+  ()   1 6   11         ()  3     8    11
+                           / \   /\    / \
+                          () () ()()  ()  ()
+
+(define (union-tree-set set1 set2)
+  (let ((orderedlist1 (tree->list-2 set1)) (orderedlist2 (tree->list-2 set2)))
+    (define (union-set set1 set2)
+      (cond ((null? set1) set2)
+            ((null? set2) set1)
+            (else (let ((x1 (car set1)) (x2 (car set2)))
+                    (cond ((= x1 x2)
+                           (cons x1
+                                 (union-set (cdr set1)
+                                            (cdr set2))))
+                          ((< x1 x2)
+                           (cons x1 (union-set (cdr set1) set2)))
+                          ((< x2 x1)
+                           (cons x2 (union-set set1 (cdr set2)))))))))
+
+    (list->tree (union-set orderedlist1 orderedlist2))))
+
+(define (intersection-tree-set set1 set2)
+  (let ((orderedlist1 (tree->list-2 set1)) (orderedlist2 (tree->list-2 set2)))
+    (define (intersection-set set1 set2)
+      (if (or (null? set1) (null? set2))
+          '()
+          (let ((x1 (car set1)) (x2 (car set2)))
+            (cond ((= x1 x2)
+                   (cons x1
+                         (intersection-set (cdr set1)
+                                           (cdr set2))))
+                  ((< x1 x2)
+                   (intersection-set (cdr set1) set2))
+                  ((< x2 x1)
+                   (intersection-set set1 (cdr set2)))))))
+    (list->tree (intersection-set orderedlist1 orderedlist2))))
+#+END_SRC
+
+так как tree->list-2, list->tree и intersection-set, union-set (на сортированных списках) имеют порядок роста n, то и последовательное применение этих алгоритмов также имеет такой же порядок роста.
+
+* Упражнение 2.66
+
+Определите lookup для бинарного дерева.
+
+#+BEGIN_SRC scheme
+(define (lookup given-key tree)
+  (cond ((null? tree) false)
+        ((equal? given-key (entry tree)) (entry tree))
+        ((> given-key (entry tree)) (lookup given-key (right-branch tree)))
+        ((< given-key (entry tree)) (lookup given-key (left-branch tree)))))
+#+END_SRC
+
+log n
+
+* Упражнение 2.67
+
+Дано кодирующее дерево и сообщение, используя decode расшифруйте сообщение.
+
+#+BEGIN_SRC scheme
+(define sample-tree
+  (make-code-tree (make-leaf 'A 4)
+                  (make-code-tree
+                   (make-leaf 'B 2)
+                   (make-code-tree (make-leaf 'D 1)
+                                   (make-leaf 'C 1)))))
+
+(define sample-message '(0 1 1 0 0 1 0 1 0 1 1 1 0))
+(decode sample-message sample-tree)
+;Value: (a d a b b c a)
+#+END_SRC
+
+* Упражнение 2.68
+Процедура encode принимает на вход сообщение и дерево и генерирует последовательность бит.
+
+#+BEGIN_SRC scheme
+(define (in-list? symbol symbols)
+  (if (null? symbols)
+      false
+      (if (equal? symbol (car symbols))
+          true
+          (in-list? symbol (cdr symbols)))))
+(in-list? 'A '(b c a))
+
+(define (encode-symbol symbol tree)
+  (let ((l-branch (left-branch tree))
+        (r-branch (right-branch tree)))
+    (cond ((in-list? symbol (symbols l-branch)) (if (leaf? l-branch)
+                                                    (cons '0 ())
+                                                    (cons '0 (encode-symbol symbol l-branch))))
+          ((in-list? symbol (symbols r-branch)) (if (leaf? r-branch)
+                                                    (cons '1 ())
+                                                    (cons '1 (encode-symbol symbol r-branch))))
+          (else
+           (error "not exist symbol -- ENCODE-SYMBOL" symbol)))))
+(encode '(a d a b b c a) sample-tree) ;Value: (0 1 1 0 0 1 0 1 0 1 1 1 0)
+#+END_SRC
+
+Encode-symbol - процедура кодирующая один символ. Дайте определение этой процедуры. Протестируйте на результате упражнения 2.67.
+
+* Упражнение 2.69
+
+Следующая процедура генерирует дерево по Хафману из пар символ-частота.
+
+#+BEGIN_SRC scheme
+(define (generate-huffman-tree pairs)
+  (successive-merge (make-leaf-set pairs)))
+#+END_SRC
+
+Make-leaf-set, процедура приведенная выше, сортирует пары. Нужно дать определение процедуры successive-merge, которая делает слияние элементов с наименьшим весом, пока не останется один элемент.
+
+#+BEGIN_SRC scheme
+;; вставка отсортированная по весу
+(define (adjoin-set x set)
+  (cond ((null? set) (list x))
+        ((< (weight x) (weight (car set))) (cons x set))
+        (else (cons (car set)
+                    (adjoin-set x (cdr set))))))
+
+;; получаем сортированный список листов.
+(define (make-leaf-set pairs)
+  (if (null? pairs)
+      '()
+      (let ((pair (car pairs)))
+        (adjoin-set (make-leaf (car pair)    ; symbol
+                               (cadr pair))  ; frequency
+                    (make-leaf-set (cdr pairs))))))
+(define (successive-merge opairs)
+  (if (< (length opairs) 2)
+      (car opairs)
+      (let ((merged (make-code-tree (car opairs) (cadr opairs))))
+        (display merged)
+        (newline)
+        (successive-merge (adjoin-set merged (cdr (cdr opairs)))))))
+
+(define (generate-huffman-tree pairs)
+  (successive-merge (make-leaf-set pairs)))
+
+(define gentree (generate-huffman-tree (list (list 'A 4) (list 'B 2) (list 'C 1) (list 'D 1))))
+gentree
+(symbols gentree)
+
+(encode '(a d a b b c a) gentree)
+#+END_SRC
+
+
+* Упражнение 2.70
+
+Следующий 8ми символьный алфавит с заданными частотами повторения был разработан чтобы эффективно кодировать рок лирику пятидесятых.
+
+| A    | 2 | NA  | 16 |
+| BOOM | 1 | SHA |  3 |
+| GET  | 2 | YIP |  9 |
+| JOB  | 2 | WAH |  1 |
+
+
+Get a job
+
+Sha na na na na na na na na
+
+Get a job
+
+Sha na na na na na na na na
+
+Wah yip yip yip yip yip yip yip yip yip
+
+Sha boom
+
+Сколько бит потребуется для кодирования?
+
+#+BEGIN_SRC scheme
+(define pairs (list (list 'A 2) (list 'BOOM 1) (list 'GET 2) (list 'JOB 2) (list 'NA 16) (list 'SHA 3) (list 'YIP 9) (list 'WAH 1)))
+
+(define lyric-tree (generate-huffman-tree pairs))
+(define song '(Get a job Sha na na na na na na na na Get a job Sha na na na na na na na na Wah yip yip yip yip yip yip yip yip yip Sha boom))
+song
+
+(length (encode song lyric-tree))
+;; 84
+
+(* 3 (length song))
+
+;; 108
+;; 22.333%
+#+END_SRC
+
+* Упражнение 2.71
+
+Предположим у нас есть дерево по Хафману для алфавита из n символов, частота которых 1,2,4,..,2^(n-1). Сделайте набросок дерева для n=5 и n=10. Сколько бит требуется в таком дереве что бы закодировать наиболее часто встречающийся символ? Наименее часто встречающийся?
+
+#+BEGIN_SRC scheme
+;; n = 5
+;; 1,2,4,8,16
+;; (1,2, 3)
+;; (1,2,4 7)
+;; (1,2,4,8 15)
+;; (1,2,4,8,16 31)
+(define pairs (list (list 'A 1) (list 'B 2) (list 'C 4) (list 'D 8) (list 'E 16)))
+(define bin-tree (generate-huffman-tree pairs))
+(encode '(A) bin-tree)
+;; (0 0 0 0)
+
+
+;; (1,2,4,8,16,32 63)
+
+;; n = 10
+;; 1,2,4,8,16
+;; (1,2, 3)
+;; (1,2,4 7)
+;; (1,2,4,8 15)
+;; (1,2,4,8,16 31)
+;; (1,2,4,8,16,32 63)
+;; (1,2,4,8,16,32,64 127)
+;; (1,2,4,8,16,32,64,128 255)
+;; (1,2,4,8,16,32,64,128,256 511)
+;; (1,2,4,8,16,32,64,128,256,512 1023)
+
+;; чтобы закодировать самый частый символ 1 бит
+;; чтобы закодировать самый редкий символ для n=5, 
+
+;; 1,2,4,8,16,32,64,128,256,512
+(define pairs (list (list 'A 1) (list 'B 2) (list 'C 4) (list 'D 8) (list 'E 16) (list 'F 32) (list 'G 64) (list 'H 128) (list 'I 256) (list 'J 512)))
+(define bin-tree (generate-huffman-tree pairs))
+bin-tree
+(encode '(A) bin-tree)
+;; (0 0 0 0 0 0 0 0 0)
+
+
+                     (a b c d e) 31
+                     /           \
+                (a b c d) 15      e 16
+                 /     \
+           (a b c) 7    d 8
+             /    \
+        (a b) 3    c 4
+         /   \
+      a 1    b 2
+;; получается n-1 бит
+#+END_SRC
+
+
+* Упражнение 2.72
+
+Каков порядок роста для процедуры кодирования символа? Убедитесь что учли поиск вхождения символа. Ответить на этот вопрос в общем сложно. Поэтому рассмотрите частный случай когда частота символов при кодировании будет как в упражнении 2.71. И приведите порядок роста для кодирования наиболее часто встречающегося символа и наименее часто встречающегося символа.
+
+для самого частого символа, нам нужно всего один раз проверить что символ встретился в алфавите, то есть порядок роста будет равен порядку роста поиска элемента в отсортированном списке, у нас это n (так как бинарное дерево не используется).
+
+для самого редко встречающегося символа нам потребуется n -1 раз делать поиск по (n-1)/2 элементам то есть итоговый порядок роста будет n^2
+
+То есть общий ответ будет между n и n^2.

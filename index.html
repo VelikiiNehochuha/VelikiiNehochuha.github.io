@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="rss.xml">
 <link rel="canonical" href="http://velikiinehochuha.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-224-primer-iazyk-izobrazhenii/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-23-simvolicheskie-dannye/" type="text/html">
 </head>
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
@@ -33,7 +33,786 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-224-primer-iazyk-izobrazhenii/" class="u-url">SICP 2.2.4 Пример: Язык изображений.</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-23-simvolicheskie-dannye/" class="u-url">SICP 2.3 Символические данные.</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-23-simvolicheskie-dannye/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-23T01:03:21+03:00" itemprop="datePublished" title="2020-01-23 01:03">2020-01-23 01:03</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org3297eb5" class="outline-2">
+<h2 id="org3297eb5">Упражнение 2.54</h2>
+<div class="outline-text-2" id="text-org3297eb5">
+<p>
+Два списка называются равными если они содержат одинаковые элементы в одной последовательности. Определите equal? как рекурсивную функцию сравнения при помощи eq?.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">pair? </span><span class="nv">b</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nb">eq? </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">equal? </span><span class="p">(</span><span class="nb">car </span><span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">b</span><span class="p">))</span> <span class="p">(</span><span class="nb">equal? </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">b</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org1901cd8" class="outline-2">
+<h2 id="org1901cd8">Упражнение 2.55</h2>
+<div class="outline-text-2" id="text-org1901cd8">
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">car </span><span class="o">'</span><span class="ss">'abracadabra</span><span class="p">)</span>
+<span class="c1">;; '''asdfsfsf = (quote (quote asdfsfsf))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org51fd1bc" class="outline-2">
+<h2 id="org51fd1bc">Упражнение 2.56</h2>
+<div class="outline-text-2" id="text-org51fd1bc">
+<p>
+Покажите как расширить базовое дифференцирование чтобы оно могло обрабатывать больше видов выражений. Например реализовав правило  \(\frac{d(u^n)}{dx}=nu^{n-1}\frac{du}{dx}\) 
+добавив условие на проверку экспоненты и реализовав определения exponentiation?, base, exponent и make-exponentiation.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exponentiation?</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">eq? </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">)</span> <span class="ss">'**</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">base</span> <span class="nv">exponentiation</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">exponentiation</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exponent</span> <span class="nv">exponentiation</span><span class="p">)</span> <span class="p">(</span><span class="nb">caddr </span><span class="nv">exponentiation</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-exponentiation</span> <span class="nv">b1</span> <span class="nv">e2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">=number?</span> <span class="nv">e2</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">((</span><span class="nf">=number?</span> <span class="nv">e2</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">b1</span><span class="p">)</span>
+	<span class="p">((</span><span class="nf">=number?</span> <span class="nv">b1</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">number? </span><span class="nv">b1</span><span class="p">)</span> <span class="p">(</span><span class="nb">number? </span><span class="nv">e2</span><span class="p">))</span> <span class="p">(</span><span class="nb">expt </span><span class="nv">b1</span> <span class="nv">e2</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">list </span><span class="ss">'**</span> <span class="nv">b1</span> <span class="nv">e2</span><span class="p">))))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="p">((</span><span class="nf">variable?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+	<span class="p">((</span><span class="nf">sum?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">addend</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">augend</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+	<span class="p">((</span><span class="nf">product?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nf">make-sum</span>
+	   <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">exp</span><span class="p">)</span>
+			 <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">))</span>
+	   <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+			 <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">exp</span><span class="p">))))</span>
+	<span class="p">((</span><span class="nf">exponentiation?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">exponent</span> <span class="nv">exp</span><span class="p">)</span>
+				     <span class="p">(</span><span class="nf">make-exponentiation</span> <span class="p">(</span><span class="nf">base</span> <span class="nv">exp</span><span class="p">)</span>
+							  <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">exponent</span> <span class="nv">exp</span><span class="p">)</span>
+								    <span class="mi">-1</span><span class="p">)))</span>
+		       <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">base</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">else</span>
+	 <span class="p">(</span><span class="nf">error</span> <span class="s">"unknown expression type -- DERIV"</span> <span class="nv">exp</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nf">deriv</span> <span class="o">'</span><span class="p">(</span><span class="nv">**</span> <span class="nv">x</span> <span class="mi">4</span><span class="p">)</span> <span class="ss">'x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgc07f50d" class="outline-2">
+<h2 id="orgc07f50d">Упражнение 2.57</h2>
+<div class="outline-text-2" id="text-orgc07f50d">
+<p>
+Расширьте программу для дифференцирования что бы сумма и умножение могло вычисляться двух или более под выражений. То есть что бы можно было писать так.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">deriv</span> <span class="o">'</span><span class="p">(</span><span class="nv">*</span> <span class="nv">x</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">3</span><span class="p">))</span> <span class="ss">'x</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Попробуйте добиться этого изменяя только представление суммы и умножения, не изменяя саму функцию deriv.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span> <span class="o">.</span> <span class="nv">an</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">number? </span><span class="nv">a1</span><span class="p">)</span> <span class="p">(</span><span class="nb">number? </span><span class="nv">a2</span><span class="p">))</span> <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a1</span> <span class="nv">a2</span><span class="p">))</span> <span class="nv">an</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="nv">an</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-product</span> <span class="nv">m1</span> <span class="nv">m2</span> <span class="o">.</span> <span class="nv">mn</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nf">=number?</span> <span class="nv">m1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">=number?</span> <span class="nv">m2</span> <span class="mi">0</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="c1">;; ((=number? m1 1) m2)</span>
+	<span class="c1">;; ((=number? m2 1) m1)</span>
+	<span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">number? </span><span class="nv">m1</span><span class="p">)</span> <span class="p">(</span><span class="nb">number? </span><span class="nv">m2</span><span class="p">))</span> <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="p">(</span><span class="nb">* </span><span class="nv">m1</span> <span class="nv">m2</span><span class="p">))</span> <span class="nv">mn</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="ss">'*</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">)</span> <span class="nv">mn</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">addend</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">s</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">augend</span> <span class="nv">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">length </span><span class="nv">s</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">caddr </span><span class="nv">s</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="ss">'+</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">s</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplier</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">p</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">p</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">length </span><span class="nv">p</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">caddr </span><span class="nv">p</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="ss">'*</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">p</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb1537f1" class="outline-2">
+<h2 id="orgb1537f1">Упражнение 2.58</h2>
+<div class="outline-text-2" id="text-orgb1537f1">
+<p>
+Предположим мы хотим записывать программу для дифференцирования в обычной математической нотации. <code>[2/2]</code>
+</p>
+
+<ul class="org-ul">
+<li class="on">
+<code>[X]</code> предложите решение когда сумма и умножение всегда принимают два аргумента и приоритет выражений полностью задан скобками (x + (3 * (x + (y + 2))))</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">variable?</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">symbol? </span><span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">v1</span> <span class="nv">v2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nf">variable?</span> <span class="nv">v1</span><span class="p">)</span> <span class="p">(</span><span class="nf">variable?</span> <span class="nv">v2</span><span class="p">)</span> <span class="p">(</span><span class="nb">eq? </span><span class="nv">v1</span> <span class="nv">v2</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="nv">a1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">a2</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum?</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">eq? </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">x</span><span class="p">)</span> <span class="ss">'+</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">addend</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">s</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">augend</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">caddr </span><span class="nv">s</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">addend</span> <span class="p">(</span><span class="nf">make-sum</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">augend</span> <span class="p">(</span><span class="nf">make-sum</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-product</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">)</span> <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="nv">m1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'*</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">m2</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">product?</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">eq? </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">x</span><span class="p">)</span> <span class="ss">'*</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplier</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">p</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">caddr </span><span class="nv">p</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">make-product</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">product?</span> <span class="p">(</span><span class="nf">make-product</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">multiplier</span> <span class="p">(</span><span class="nf">make-product</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">multiplicand</span> <span class="p">(</span><span class="nf">make-product</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+
+<ul class="org-ul">
+<li class="on">
+<code>[X]</code> проблема становится сложнее если опустить необязательные скобки и подразумевать что умножение имеет приоритет над суммой, предложите свое решение для этого случая (x + 3 * (x + y + 2)) когда аргументов может быть более 2.</li>
+</ul>
+<p>
+еще может быть вот такой случай (x + 3 * (x + y + 2) + (x * x)) тут после второй итерации нужно делать не умножение а ещё одну сумму.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-first-operand-position</span> <span class="nv">op</span> <span class="nv">exp</span> <span class="nv">n</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">exp</span><span class="p">))</span> <span class="p">(</span><span class="nb">null? </span><span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">length </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">3</span><span class="p">))</span>
+      <span class="mi">0</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">eq? </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">exp</span><span class="p">)</span> <span class="nv">op</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nf">search-first-operand-position</span> <span class="nv">op</span> <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">exp</span><span class="p">))</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nb">list </span><span class="nv">a1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">a2</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum?</span> <span class="nv">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">fop</span> <span class="p">(</span><span class="nf">search-first-operand-position</span> <span class="ss">'+</span> <span class="nv">s</span> <span class="mi">0</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nb">&gt; </span><span class="nv">fop</span> <span class="mi">0</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">addend</span> <span class="nv">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">rev</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">s</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">fop</span> <span class="p">(</span><span class="nf">search-first-operand-position</span> <span class="ss">'+</span> <span class="nv">rev</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">addends</span> <span class="p">()))</span>
+      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-shift</span> <span class="nv">ss</span> <span class="nv">n</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+	    <span class="nv">ss</span>
+	    <span class="p">(</span><span class="nf">iter-shift</span> <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">ss</span><span class="p">))</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))</span>
+      <span class="p">(</span><span class="k">define </span><span class="nv">addends</span> <span class="p">(</span><span class="nf">iter-shift</span> <span class="nv">rev</span> <span class="nv">fop</span><span class="p">))</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">length </span><span class="nv">addends</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">car </span><span class="nv">addends</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">reverse </span><span class="nv">addends</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">augend</span> <span class="nv">s</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">fop</span> <span class="p">(</span><span class="nf">search-first-operand-position</span> <span class="ss">'+</span> <span class="nv">s</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">aug</span> <span class="p">()))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-shift</span> <span class="nv">ss</span> <span class="nv">n</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+	  <span class="nv">ss</span>
+	  <span class="p">(</span><span class="nf">iter-shift</span> <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">ss</span><span class="p">))</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))</span>
+    <span class="p">(</span><span class="k">define </span><span class="nv">aug</span> <span class="p">(</span><span class="nf">iter-shift</span> <span class="nv">s</span> <span class="nv">fop</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">length </span><span class="nv">aug</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">(</span><span class="nb">car </span><span class="nv">aug</span><span class="p">)</span>
+	<span class="nv">aug</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nf">deriv</span> <span class="o">'</span><span class="p">(</span><span class="nv">x</span> <span class="nv">+</span> <span class="mi">3</span> <span class="nv">*</span> <span class="p">(</span><span class="nf">x</span> <span class="nv">+</span> <span class="nv">y</span> <span class="nv">+</span> <span class="mi">2</span><span class="p">))</span> <span class="ss">'x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org89b4f10" class="outline-2">
+<h2 id="org89b4f10">Упражнение 2.59</h2>
+<div class="outline-text-2" id="text-org89b4f10">
+<p>
+Определите процедуру union-set если set не отсортированный список.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">set2</span><span class="p">)</span> <span class="nv">set1</span><span class="p">)</span>
+	<span class="p">((</span><span class="nf">element-of-set?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set2</span><span class="p">)</span> <span class="nv">set1</span><span class="p">)</span> <span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">)))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">set2</span><span class="p">)</span> <span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">))))))</span>
+</pre></div>
+
+<p>
+так как все процедуры используют element-of-set? эта функция сильно влияет на порядок роста. Порядок роста для element-of-set? и adjoin-set равен n. Для intersection-set и union-set n<sup>2</sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc43a71b" class="outline-2">
+<h2 id="orgc43a71b">Упражнение 2.60</h2>
+<div class="outline-text-2" id="text-orgc43a71b">
+<p>
+Предположим сеты могут иметь дубликаты. Реализуйте методы для сетов для такой структуры. Как от этого изменится порядок роста?
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">element-of-set?</span> <span class="nv">x</span> <span class="nv">set</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">set</span><span class="p">)</span> <span class="nv">false</span><span class="p">)</span>
+	<span class="p">((</span><span class="nb">equal? </span><span class="nv">x</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set</span><span class="p">))</span> <span class="nv">true</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">element-of-set?</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">adjoin-set</span> <span class="nv">x</span> <span class="nv">set</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">set</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">intersection-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">null? </span><span class="nv">set1</span><span class="p">)</span> <span class="p">(</span><span class="nb">null? </span><span class="nv">set2</span><span class="p">))</span> <span class="o">'</span><span class="p">())</span>
+	<span class="p">((</span><span class="nf">element-of-set?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">set1</span><span class="p">)</span>
+	       <span class="p">(</span><span class="nf">intersection-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">)))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">intersection-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">))))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">append </span><span class="nv">set1</span> <span class="nv">set2</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Для element-of-set порядок роста n, для adjoin-set 1, для intersection-set n<sup>2</sup>, для union-set n (так как append займет n).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga4b7165" class="outline-2">
+<h2 id="orga4b7165">Упражнение 2.61</h2>
+<div class="outline-text-2" id="text-orga4b7165">
+<p>
+Дайте определение adjoin-set для сортированных списков.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">adjoin-set</span> <span class="nv">x</span> <span class="nv">set</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">set</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span><span class="p">))</span>
+	<span class="p">((</span><span class="nb">= </span><span class="nv">x</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set</span><span class="p">))</span> <span class="nv">set</span><span class="p">)</span>
+	<span class="p">((</span><span class="nb">&lt; </span><span class="nv">x</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set</span><span class="p">))</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">set</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">set</span><span class="p">)</span> <span class="p">(</span><span class="nf">adjoin-set</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set</span><span class="p">))))))</span>
+</pre></div>
+<p>
+порядок роста по прежнему n, но иногда работает быстрее.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2d060af" class="outline-2">
+<h2 id="org2d060af">Упражнение 2.62</h2>
+<div class="outline-text-2" id="text-org2d060af">
+<p>
+Приведите определение union-set с порядком роста n.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">)</span>
+	<span class="p">((</span><span class="nb">null? </span><span class="nv">set2</span><span class="p">)</span> <span class="nv">set1</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set1</span><span class="p">))</span> <span class="p">(</span><span class="nf">x2</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set2</span><span class="p">)))</span>
+		<span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span>
+		       <span class="p">(</span><span class="nb">cons </span><span class="nv">x1</span>
+			     <span class="p">(</span><span class="nf">union-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span>
+					<span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">))))</span>
+		      <span class="p">((</span><span class="nb">&lt; </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span>
+		       <span class="p">(</span><span class="nb">cons </span><span class="nv">x1</span> <span class="p">(</span><span class="nf">union-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">)))</span>
+		      <span class="p">((</span><span class="nb">&lt; </span><span class="nv">x2</span> <span class="nv">x1</span><span class="p">)</span>
+		       <span class="p">(</span><span class="nb">cons </span><span class="nv">x2</span> <span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">)))))))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orged02fc2" class="outline-2">
+<h2 id="orged02fc2">Упражнение 2.63</h2>
+<div class="outline-text-2" id="text-orged02fc2">
+<p>
+Обе процедуры приведенные ниже трансформируют дерево в список.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tree-&gt;list-1</span> <span class="nv">tree</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span>
+      <span class="o">'</span><span class="p">()</span>
+      <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nf">tree-&gt;list-1</span> <span class="p">(</span><span class="nf">left-branch</span> <span class="nv">tree</span><span class="p">))</span>
+	      <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">entry</span> <span class="nv">tree</span><span class="p">)</span>
+		    <span class="p">(</span><span class="nf">tree-&gt;list-1</span> <span class="p">(</span><span class="nf">right-branch</span> <span class="nv">tree</span><span class="p">))))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">tree</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">copy-to-list</span> <span class="nv">tree</span> <span class="nv">result-list</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span>
+	<span class="nv">result-list</span>
+	<span class="p">(</span><span class="nf">copy-to-list</span> <span class="p">(</span><span class="nf">left-branch</span> <span class="nv">tree</span><span class="p">)</span>
+		      <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">entry</span> <span class="nv">tree</span><span class="p">)</span>
+			    <span class="p">(</span><span class="nf">copy-to-list</span> <span class="p">(</span><span class="nf">right-branch</span> <span class="nv">tree</span><span class="p">)</span>
+					  <span class="nv">result-list</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="nf">copy-to-list</span> <span class="nv">tree</span> <span class="o">'</span><span class="p">()))</span>
+</pre></div>
+
+<p>
+a. Будут ли отличаться результаты двух процедур? Какие списки будут для дерева с рисунка 2.16
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">tree1</span> <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">7</span>
+			 <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">3</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">1</span> <span class="p">()</span> <span class="p">())</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">5</span> <span class="p">()</span> <span class="p">()))</span>
+			 <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">9</span>
+				    <span class="p">()</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">11</span> <span class="p">()</span> <span class="p">()))))</span>
+
+<span class="nv">tree1</span>
+<span class="p">(</span><span class="nf">tree-&gt;list-1</span> <span class="nv">tree1</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">tree1</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">tree2</span> <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">3</span>
+			 <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">7</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">5</span> <span class="p">()</span> <span class="p">())</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">9</span>
+					       <span class="p">()</span>
+					       <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">11</span> <span class="p">()</span> <span class="p">())))</span>
+			 <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">1</span>
+				    <span class="p">()</span>
+				    <span class="p">())))</span>
+
+<span class="nv">tree2</span>
+<span class="p">(</span><span class="nf">tree-&gt;list-1</span> <span class="nv">tree2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">tree2</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">tree3</span> <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">5</span>
+			 <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">3</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">1</span> <span class="p">()</span> <span class="p">())</span>
+				    <span class="p">())</span>
+			 <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">9</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">7</span> <span class="p">()</span> <span class="p">())</span>
+				    <span class="p">(</span><span class="nf">make-tree</span> <span class="mi">11</span> <span class="p">()</span> <span class="p">()))))</span>
+<span class="nv">tree3</span>
+<span class="p">(</span><span class="nf">tree-&gt;list-1</span> <span class="nv">tree3</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">tree3</span><span class="p">)</span>
+</pre></div>
+
+<p>
+списки одинаковые
+</p>
+
+<p>
+b. как отличается порядок роста?
+в первом случае за счет линейного времени append, порядок роста n*log(n)
+во втором случае порядок роста будет n.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8be82d5" class="outline-2">
+<h2 id="org8be82d5">Упражнение 2.64</h2>
+<div class="outline-text-2" id="text-org8be82d5">
+<p>
+Следующая процедура list-&gt;tree преобразует отсортированный список в сбалансированное бинарное дерево. Вспомогательная процедура partial-tree принимает в качестве аргументов целое n и список и строит сбалансированное  бинарное дерево содержащее первые n элементов списка. Результат это функции - пара, первое значение это созданное дерево, а cdr элементы не вошедшие в дерево.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">list-&gt;tree</span> <span class="nv">elements</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nf">partial-tree</span> <span class="nv">elements</span> <span class="p">(</span><span class="nb">length </span><span class="nv">elements</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">partial-tree</span> <span class="nv">elts</span> <span class="nv">n</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">cons </span><span class="o">'</span><span class="p">()</span> <span class="nv">elts</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">left-size</span> <span class="p">(</span><span class="nb">quotient </span><span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">2</span><span class="p">)))</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">left-result</span> <span class="p">(</span><span class="nf">partial-tree</span> <span class="nv">elts</span> <span class="nv">left-size</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">left-tree</span> <span class="p">(</span><span class="nb">car </span><span class="nv">left-result</span><span class="p">))</span>
+		<span class="p">(</span><span class="nf">non-left-elts</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">left-result</span><span class="p">))</span>
+		<span class="p">(</span><span class="nf">right-size</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">left-size</span> <span class="mi">1</span><span class="p">))))</span>
+	    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">this-entry</span> <span class="p">(</span><span class="nb">car </span><span class="nv">non-left-elts</span><span class="p">))</span>
+		  <span class="p">(</span><span class="nf">right-result</span> <span class="p">(</span><span class="nf">partial-tree</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">non-left-elts</span><span class="p">)</span>
+					      <span class="nv">right-size</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">right-tree</span> <span class="p">(</span><span class="nb">car </span><span class="nv">right-result</span><span class="p">))</span>
+		    <span class="p">(</span><span class="nf">remaining-elts</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">right-result</span><span class="p">)))</span>
+		<span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">make-tree</span> <span class="nv">this-entry</span> <span class="nv">left-tree</span> <span class="nv">right-tree</span><span class="p">)</span>
+		      <span class="nv">remaining-elts</span><span class="p">))))))))</span>
+</pre></div>
+
+<p>
+a. Кратко опишите как работает partial-tree. Нарисуйте дерево для списка (1 3 5 7 9 11).
+</p>
+
+<p>
+Берем половину списка, строим от него дерево из первых int((n-1)/2 элементов. берем следующий элемент это будет вершина дерева, берем остальные элементы это будет правая часть дерева. для левой и правой стороны дерева процесс построения рекурсивно повторяется.
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;Value: ((5 (1 () (3 () ())) (9 (7 () ()) (11 () ()))))</span>
+
+	   <span class="mi">5</span>
+	<span class="nv">/</span>      <span class="err">\</span>
+       <span class="mi">1</span>         <span class="mi">9</span>
+	<span class="err">\</span>       <span class="nv">/</span>  <span class="err">\</span>
+     <span class="p">()</span>  <span class="mi">3</span>     <span class="mi">7</span>    <span class="mi">11</span>
+	<span class="nv">/</span> <span class="err">\</span>   <span class="nv">/</span><span class="err">\</span>    <span class="nv">/</span> <span class="err">\</span>
+       <span class="p">()</span> <span class="p">()</span> <span class="p">()()</span>  <span class="p">()</span>  <span class="p">()</span>
+</pre></div>
+
+<p>
+b. Каков порядок роста list-&gt;tree?
+</p>
+
+<p>
+Порядок роста n.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org517d17c" class="outline-2">
+<h2 id="org517d17c">Упражнение 2.65</h2>
+<div class="outline-text-2" id="text-org517d17c">
+<p>
+Используя результаты упражнений 2.63 и 2.64 приведите определение union-set и intersection-set для множеств определенных как сбалансированные бинарные деревья.
+</p>
+
+<div class="highlight"><pre><span></span>	<span class="mi">4</span>                     <span class="mi">7</span>
+      <span class="nv">/</span>  <span class="err">\</span>                <span class="nv">/</span>      <span class="err">\</span>
+     <span class="mi">3</span>    <span class="mi">5</span>              <span class="mi">1</span>         <span class="mi">9</span>
+    <span class="nv">/</span> <span class="err">\</span>   <span class="nv">/</span> <span class="err">\</span>              <span class="err">\</span>       <span class="nv">/</span>  <span class="err">\</span>
+  <span class="p">()</span>   <span class="mi">1</span> <span class="mi">6</span>   <span class="mi">11</span>         <span class="p">()</span>  <span class="mi">3</span>     <span class="mi">8</span>    <span class="mi">11</span>
+			   <span class="nv">/</span> <span class="err">\</span>   <span class="nv">/</span><span class="err">\</span>    <span class="nv">/</span> <span class="err">\</span>
+			  <span class="p">()</span> <span class="p">()</span> <span class="p">()()</span>  <span class="p">()</span>  <span class="p">()</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">union-tree-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">orderedlist1</span> <span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">set1</span><span class="p">))</span> <span class="p">(</span><span class="nf">orderedlist2</span> <span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">set2</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">)</span>
+	    <span class="p">((</span><span class="nb">null? </span><span class="nv">set2</span><span class="p">)</span> <span class="nv">set1</span><span class="p">)</span>
+	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set1</span><span class="p">))</span> <span class="p">(</span><span class="nf">x2</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set2</span><span class="p">)))</span>
+		    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span>
+			   <span class="p">(</span><span class="nb">cons </span><span class="nv">x1</span>
+				 <span class="p">(</span><span class="nf">union-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span>
+					    <span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">))))</span>
+			  <span class="p">((</span><span class="nb">&lt; </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span>
+			   <span class="p">(</span><span class="nb">cons </span><span class="nv">x1</span> <span class="p">(</span><span class="nf">union-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">)))</span>
+			  <span class="p">((</span><span class="nb">&lt; </span><span class="nv">x2</span> <span class="nv">x1</span><span class="p">)</span>
+			   <span class="p">(</span><span class="nb">cons </span><span class="nv">x2</span> <span class="p">(</span><span class="nf">union-set</span> <span class="nv">set1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">)))))))))</span>
+
+    <span class="p">(</span><span class="nf">list-&gt;tree</span> <span class="p">(</span><span class="nf">union-set</span> <span class="nv">orderedlist1</span> <span class="nv">orderedlist2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">intersection-tree-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">orderedlist1</span> <span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">set1</span><span class="p">))</span> <span class="p">(</span><span class="nf">orderedlist2</span> <span class="p">(</span><span class="nf">tree-&gt;list-2</span> <span class="nv">set2</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">intersection-set</span> <span class="nv">set1</span> <span class="nv">set2</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">null? </span><span class="nv">set1</span><span class="p">)</span> <span class="p">(</span><span class="nb">null? </span><span class="nv">set2</span><span class="p">))</span>
+	  <span class="o">'</span><span class="p">()</span>
+	  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set1</span><span class="p">))</span> <span class="p">(</span><span class="nf">x2</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set2</span><span class="p">)))</span>
+	    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nb">cons </span><span class="nv">x1</span>
+			 <span class="p">(</span><span class="nf">intersection-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span>
+					   <span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">))))</span>
+		  <span class="p">((</span><span class="nb">&lt; </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">intersection-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set1</span><span class="p">)</span> <span class="nv">set2</span><span class="p">))</span>
+		  <span class="p">((</span><span class="nb">&lt; </span><span class="nv">x2</span> <span class="nv">x1</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">intersection-set</span> <span class="nv">set1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set2</span><span class="p">)))))))</span>
+    <span class="p">(</span><span class="nf">list-&gt;tree</span> <span class="p">(</span><span class="nf">intersection-set</span> <span class="nv">orderedlist1</span> <span class="nv">orderedlist2</span><span class="p">))))</span>
+</pre></div>
+
+<p>
+так как tree-&gt;list-2, list-&gt;tree и intersection-set, union-set (на сортированных списках) имеют порядок роста n, то и последовательное применение этих алгоритмов также имеет такой же порядок роста.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org93769a0" class="outline-2">
+<h2 id="org93769a0">Упражнение 2.66</h2>
+<div class="outline-text-2" id="text-org93769a0">
+<p>
+Определите lookup для бинарного дерева.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">lookup</span> <span class="nv">given-key</span> <span class="nv">tree</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span> <span class="nv">false</span><span class="p">)</span>
+	<span class="p">((</span><span class="nb">equal? </span><span class="nv">given-key</span> <span class="p">(</span><span class="nf">entry</span> <span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nf">entry</span> <span class="nv">tree</span><span class="p">))</span>
+	<span class="p">((</span><span class="nb">&gt; </span><span class="nv">given-key</span> <span class="p">(</span><span class="nf">entry</span> <span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nf">lookup</span> <span class="nv">given-key</span> <span class="p">(</span><span class="nf">right-branch</span> <span class="nv">tree</span><span class="p">)))</span>
+	<span class="p">((</span><span class="nb">&lt; </span><span class="nv">given-key</span> <span class="p">(</span><span class="nf">entry</span> <span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nf">lookup</span> <span class="nv">given-key</span> <span class="p">(</span><span class="nf">left-branch</span> <span class="nv">tree</span><span class="p">)))))</span>
+</pre></div>
+
+<p>
+log n
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb3dd010" class="outline-2">
+<h2 id="orgb3dd010">Упражнение 2.67</h2>
+<div class="outline-text-2" id="text-orgb3dd010">
+<p>
+Дано кодирующее дерево и сообщение, используя decode расшифруйте сообщение.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">sample-tree</span>
+  <span class="p">(</span><span class="nf">make-code-tree</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="ss">'A</span> <span class="mi">4</span><span class="p">)</span>
+		  <span class="p">(</span><span class="nf">make-code-tree</span>
+		   <span class="p">(</span><span class="nf">make-leaf</span> <span class="ss">'B</span> <span class="mi">2</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">make-code-tree</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="ss">'D</span> <span class="mi">1</span><span class="p">)</span>
+				   <span class="p">(</span><span class="nf">make-leaf</span> <span class="ss">'C</span> <span class="mi">1</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">sample-message</span> <span class="o">'</span><span class="p">(</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">decode</span> <span class="nv">sample-message</span> <span class="nv">sample-tree</span><span class="p">)</span>
+<span class="c1">;Value: (a d a b b c a)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org2ad5157" class="outline-2">
+<h2 id="org2ad5157">Упражнение 2.68</h2>
+<div class="outline-text-2" id="text-org2ad5157">
+<p>
+Процедура encode принимает на вход сообщение и дерево и генерирует последовательность бит.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">in-list?</span> <span class="nv">symbol</span> <span class="nv">symbols</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">symbols</span><span class="p">)</span>
+      <span class="nv">false</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">symbol</span> <span class="p">(</span><span class="nb">car </span><span class="nv">symbols</span><span class="p">))</span>
+	  <span class="nv">true</span>
+	  <span class="p">(</span><span class="nf">in-list?</span> <span class="nv">symbol</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">symbols</span><span class="p">)))))</span>
+<span class="p">(</span><span class="nf">in-list?</span> <span class="ss">'A</span> <span class="o">'</span><span class="p">(</span><span class="nv">b</span> <span class="nv">c</span> <span class="nv">a</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">encode-symbol</span> <span class="nv">symbol</span> <span class="nv">tree</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">l-branch</span> <span class="p">(</span><span class="nf">left-branch</span> <span class="nv">tree</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">r-branch</span> <span class="p">(</span><span class="nf">right-branch</span> <span class="nv">tree</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">in-list?</span> <span class="nv">symbol</span> <span class="p">(</span><span class="nf">symbols</span> <span class="nv">l-branch</span><span class="p">))</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">leaf?</span> <span class="nv">l-branch</span><span class="p">)</span>
+						    <span class="p">(</span><span class="nb">cons </span><span class="ss">'0</span> <span class="p">())</span>
+						    <span class="p">(</span><span class="nb">cons </span><span class="ss">'0</span> <span class="p">(</span><span class="nf">encode-symbol</span> <span class="nv">symbol</span> <span class="nv">l-branch</span><span class="p">))))</span>
+	  <span class="p">((</span><span class="nf">in-list?</span> <span class="nv">symbol</span> <span class="p">(</span><span class="nf">symbols</span> <span class="nv">r-branch</span><span class="p">))</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">leaf?</span> <span class="nv">r-branch</span><span class="p">)</span>
+						    <span class="p">(</span><span class="nb">cons </span><span class="ss">'1</span> <span class="p">())</span>
+						    <span class="p">(</span><span class="nb">cons </span><span class="ss">'1</span> <span class="p">(</span><span class="nf">encode-symbol</span> <span class="nv">symbol</span> <span class="nv">r-branch</span><span class="p">))))</span>
+	  <span class="p">(</span><span class="nf">else</span>
+	   <span class="p">(</span><span class="nf">error</span> <span class="s">"not exist symbol -- ENCODE-SYMBOL"</span> <span class="nv">symbol</span><span class="p">)))))</span>
+<span class="p">(</span><span class="nf">encode</span> <span class="o">'</span><span class="p">(</span><span class="nv">a</span> <span class="nv">d</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">a</span><span class="p">)</span> <span class="nv">sample-tree</span><span class="p">)</span> <span class="c1">;Value: (0 1 1 0 0 1 0 1 0 1 1 1 0)</span>
+</pre></div>
+
+<p>
+Encode-symbol - процедура кодирующая один символ. Дайте определение этой процедуры. Протестируйте на результате упражнения 2.67.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6da5208" class="outline-2">
+<h2 id="org6da5208">Упражнение 2.69</h2>
+<div class="outline-text-2" id="text-org6da5208">
+<p>
+Следующая процедура генерирует дерево по Хафману из пар символ-частота.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">generate-huffman-tree</span> <span class="nv">pairs</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">successive-merge</span> <span class="p">(</span><span class="nf">make-leaf-set</span> <span class="nv">pairs</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+Make-leaf-set, процедура приведенная выше, сортирует пары. Нужно дать определение процедуры successive-merge, которая делает слияние элементов с наименьшим весом, пока не останется один элемент.
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;; вставка отсортированная по весу</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">adjoin-set</span> <span class="nv">x</span> <span class="nv">set</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">set</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span><span class="p">))</span>
+	<span class="p">((</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">weight</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">weight</span> <span class="p">(</span><span class="nb">car </span><span class="nv">set</span><span class="p">)))</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">set</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">set</span><span class="p">)</span>
+		    <span class="p">(</span><span class="nf">adjoin-set</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">set</span><span class="p">))))))</span>
+
+<span class="c1">;; получаем сортированный список листов.</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-leaf-set</span> <span class="nv">pairs</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">pairs</span><span class="p">)</span>
+      <span class="o">'</span><span class="p">()</span>
+      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">pair</span> <span class="p">(</span><span class="nb">car </span><span class="nv">pairs</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">adjoin-set</span> <span class="p">(</span><span class="nf">make-leaf</span> <span class="p">(</span><span class="nb">car </span><span class="nv">pair</span><span class="p">)</span>    <span class="c1">; symbol</span>
+			       <span class="p">(</span><span class="nb">cadr </span><span class="nv">pair</span><span class="p">))</span>  <span class="c1">; frequency</span>
+		    <span class="p">(</span><span class="nf">make-leaf-set</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">pairs</span><span class="p">))))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">successive-merge</span> <span class="nv">opairs</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">length </span><span class="nv">opairs</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">car </span><span class="nv">opairs</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">merged</span> <span class="p">(</span><span class="nf">make-code-tree</span> <span class="p">(</span><span class="nb">car </span><span class="nv">opairs</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">opairs</span><span class="p">))))</span>
+	<span class="p">(</span><span class="nb">display </span><span class="nv">merged</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">successive-merge</span> <span class="p">(</span><span class="nf">adjoin-set</span> <span class="nv">merged</span> <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">opairs</span><span class="p">)))))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">generate-huffman-tree</span> <span class="nv">pairs</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">successive-merge</span> <span class="p">(</span><span class="nf">make-leaf-set</span> <span class="nv">pairs</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">gentree</span> <span class="p">(</span><span class="nf">generate-huffman-tree</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="ss">'A</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'B</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'C</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'D</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="nv">gentree</span>
+<span class="p">(</span><span class="nf">symbols</span> <span class="nv">gentree</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">encode</span> <span class="o">'</span><span class="p">(</span><span class="nv">a</span> <span class="nv">d</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">a</span><span class="p">)</span> <span class="nv">gentree</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org1498b35" class="outline-2">
+<h2 id="org1498b35">Упражнение 2.70</h2>
+<div class="outline-text-2" id="text-org1498b35">
+<p>
+Следующий 8ми символьный алфавит с заданными частотами повторения был разработан чтобы эффективно кодировать рок лирику пятидесятых.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">A</td>
+<td class="org-right">2</td>
+<td class="org-left">NA</td>
+<td class="org-right">16</td>
+</tr>
+<tr>
+<td class="org-left">BOOM</td>
+<td class="org-right">1</td>
+<td class="org-left">SHA</td>
+<td class="org-right">3</td>
+</tr>
+<tr>
+<td class="org-left">GET</td>
+<td class="org-right">2</td>
+<td class="org-left">YIP</td>
+<td class="org-right">9</td>
+</tr>
+<tr>
+<td class="org-left">JOB</td>
+<td class="org-right">2</td>
+<td class="org-left">WAH</td>
+<td class="org-right">1</td>
+</tr>
+</tbody>
+</table>
+<p>
+Get a job
+</p>
+
+<p>
+Sha na na na na na na na na
+</p>
+
+<p>
+Get a job
+</p>
+
+<p>
+Sha na na na na na na na na
+</p>
+
+<p>
+Wah yip yip yip yip yip yip yip yip yip
+</p>
+
+<p>
+Sha boom
+</p>
+
+<p>
+Сколько бит потребуется для кодирования?
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">pairs</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="ss">'A</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'BOOM</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'GET</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'JOB</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'NA</span> <span class="mi">16</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'SHA</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'YIP</span> <span class="mi">9</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'WAH</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">lyric-tree</span> <span class="p">(</span><span class="nf">generate-huffman-tree</span> <span class="nv">pairs</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">song</span> <span class="o">'</span><span class="p">(</span><span class="nv">Get</span> <span class="nv">a</span> <span class="nv">job</span> <span class="nv">Sha</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">Get</span> <span class="nv">a</span> <span class="nv">job</span> <span class="nv">Sha</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">na</span> <span class="nv">Wah</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">yip</span> <span class="nv">Sha</span> <span class="nv">boom</span><span class="p">))</span>
+<span class="nv">song</span>
+
+<span class="p">(</span><span class="nb">length </span><span class="p">(</span><span class="nf">encode</span> <span class="nv">song</span> <span class="nv">lyric-tree</span><span class="p">))</span>
+<span class="c1">;; 84</span>
+
+<span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="p">(</span><span class="nb">length </span><span class="nv">song</span><span class="p">))</span>
+
+<span class="c1">;; 108</span>
+<span class="c1">;; 22.333%</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org587e382" class="outline-2">
+<h2 id="org587e382">Упражнение 2.71</h2>
+<div class="outline-text-2" id="text-org587e382">
+<p>
+Предположим у нас есть дерево по Хафману для алфавита из n символов, частота которых 1,2,4,..,2<sup>(n-1)</sup>. Сделайте набросок дерева для n=5 и n=10. Сколько бит требуется в таком дереве что бы закодировать наиболее часто встречающийся символ? Наименее часто встречающийся?
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;; n = 5</span>
+<span class="c1">;; 1,2,4,8,16</span>
+<span class="c1">;; (1,2, 3)</span>
+<span class="c1">;; (1,2,4 7)</span>
+<span class="c1">;; (1,2,4,8 15)</span>
+<span class="c1">;; (1,2,4,8,16 31)</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">pairs</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="ss">'A</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'B</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'C</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'D</span> <span class="mi">8</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'E</span> <span class="mi">16</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">bin-tree</span> <span class="p">(</span><span class="nf">generate-huffman-tree</span> <span class="nv">pairs</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">encode</span> <span class="o">'</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span> <span class="nv">bin-tree</span><span class="p">)</span>
+<span class="c1">;; (0 0 0 0)</span>
+
+
+<span class="c1">;; (1,2,4,8,16,32 63)</span>
+
+<span class="c1">;; n = 10</span>
+<span class="c1">;; 1,2,4,8,16</span>
+<span class="c1">;; (1,2, 3)</span>
+<span class="c1">;; (1,2,4 7)</span>
+<span class="c1">;; (1,2,4,8 15)</span>
+<span class="c1">;; (1,2,4,8,16 31)</span>
+<span class="c1">;; (1,2,4,8,16,32 63)</span>
+<span class="c1">;; (1,2,4,8,16,32,64 127)</span>
+<span class="c1">;; (1,2,4,8,16,32,64,128 255)</span>
+<span class="c1">;; (1,2,4,8,16,32,64,128,256 511)</span>
+<span class="c1">;; (1,2,4,8,16,32,64,128,256,512 1023)</span>
+
+<span class="c1">;; чтобы закодировать самый частый символ 1 бит</span>
+<span class="c1">;; чтобы закодировать самый редкий символ для n=5, </span>
+
+<span class="c1">;; 1,2,4,8,16,32,64,128,256,512</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">pairs</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="ss">'A</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'B</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'C</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'D</span> <span class="mi">8</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'E</span> <span class="mi">16</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'F</span> <span class="mi">32</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'G</span> <span class="mi">64</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'H</span> <span class="mi">128</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'I</span> <span class="mi">256</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'J</span> <span class="mi">512</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">bin-tree</span> <span class="p">(</span><span class="nf">generate-huffman-tree</span> <span class="nv">pairs</span><span class="p">))</span>
+<span class="nv">bin-tree</span>
+<span class="p">(</span><span class="nf">encode</span> <span class="o">'</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span> <span class="nv">bin-tree</span><span class="p">)</span>
+<span class="c1">;; (0 0 0 0 0 0 0 0 0)</span>
+
+
+		     <span class="p">(</span><span class="nf">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">)</span> <span class="mi">31</span>
+		     <span class="nv">/</span>           <span class="err">\</span>
+		<span class="p">(</span><span class="nf">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">)</span> <span class="mi">15</span>      <span class="nv">e</span> <span class="mi">16</span>
+		 <span class="nv">/</span>     <span class="err">\</span>
+	   <span class="p">(</span><span class="nf">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span> <span class="mi">7</span>    <span class="nv">d</span> <span class="mi">8</span>
+	     <span class="nv">/</span>    <span class="err">\</span>
+	<span class="p">(</span><span class="nf">a</span> <span class="nv">b</span><span class="p">)</span> <span class="mi">3</span>    <span class="nv">c</span> <span class="mi">4</span>
+	 <span class="nv">/</span>   <span class="err">\</span>
+      <span class="nv">a</span> <span class="mi">1</span>    <span class="nv">b</span> <span class="mi">2</span>
+<span class="c1">;; получается n-1 бит</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org364e2d4" class="outline-2">
+<h2 id="org364e2d4">Упражнение 2.72</h2>
+<div class="outline-text-2" id="text-org364e2d4">
+<p>
+Каков порядок роста для процедуры кодирования символа? Убедитесь что учли поиск вхождения символа. Ответить на этот вопрос в общем сложно. Поэтому рассмотрите частный случай когда частота символов при кодировании будет как в упражнении 2.71. И приведите порядок роста для кодирования наиболее часто встречающегося символа и наименее часто встречающегося символа.
+</p>
+
+<p>
+для самого частого символа, нам нужно всего один раз проверить что символ встретился в алфавите, то есть порядок роста будет равен порядку роста поиска элемента в отсортированном списке, у нас это n (так как бинарное дерево не используется).
+</p>
+
+<p>
+для самого редко встречающегося символа нам потребуется n -1 раз делать поиск по (n-1)/2 элементам то есть итоговый порядок роста будет n<sup>2</sup></p>
+
+<p>
+То есть общий ответ будет между n и n<sup>2</sup>.
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-224-primer-iazyk-izobrazhenii/" class="u-url">SICP 2.2.4 Пример: Язык изображений.</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha
@@ -44,9 +823,9 @@
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org6859af3" class="outline-2">
-<h2 id="org6859af3">Упражнение 2.44.</h2>
-<div class="outline-text-2" id="text-org6859af3">
+    <div id="outline-container-org7c6fd9b" class="outline-2">
+<h2 id="org7c6fd9b">Упражнение 2.44.</h2>
+<div class="outline-text-2" id="text-org7c6fd9b">
 <p>
 Определите процедуру up-split используемую в corner-split.
 </p>
@@ -63,9 +842,9 @@
 </div>
 </div>
 
-<div id="outline-container-org42bdc83" class="outline-2">
-<h2 id="org42bdc83">Упражнение 2.45.</h2>
-<div class="outline-text-2" id="text-org42bdc83">
+<div id="outline-container-orgc1f752f" class="outline-2">
+<h2 id="orgc1f752f">Упражнение 2.45.</h2>
+<div class="outline-text-2" id="text-orgc1f752f">
 <p>
 Определите процедуру обобщение up-split right-split.
 </p>
@@ -82,9 +861,9 @@
 </div>
 </div>
 
-<div id="outline-container-org7875ebc" class="outline-2">
-<h2 id="org7875ebc">Упражнение 2.46</h2>
-<div class="outline-text-2" id="text-org7875ebc">
+<div id="outline-container-org7d94fea" class="outline-2">
+<h2 id="org7d94fea">Упражнение 2.46</h2>
+<div class="outline-text-2" id="text-org7d94fea">
 <p>
 Двумерный вектор v проведенный из точки отсчета в некоторую точку может быть представлен как пара координат x и y. Реализуйте абстракцию для векторов задав конструктор make-vect и соответствующие селекторы xcor-vect, ycor-vect. Реализуйте процедуры add-vect, sub-vect и scale-vect, которые выполняют операции над вектором.
 </p>
@@ -108,9 +887,9 @@
 </div>
 </div>
 
-<div id="outline-container-org57b4585" class="outline-2">
-<h2 id="org57b4585">Упражнение 2.47</h2>
-<div class="outline-text-2" id="text-org57b4585">
+<div id="outline-container-org91bb85a" class="outline-2">
+<h2 id="org91bb85a">Упражнение 2.47</h2>
+<div class="outline-text-2" id="text-org91bb85a">
 <p>
 Здесь две возможных конструктора для фреймов:
 </p>
@@ -128,9 +907,9 @@
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">origin-frame</span> <span class="nv">frame</span><span class="p">)</span>
   <span class="p">(</span><span class="nb">car </span><span class="nv">frame</span><span class="p">))</span>
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">edge1-frame</span> <span class="nv">frame</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">card</span> <span class="nv">frame</span><span class="p">))</span>
+  <span class="p">(</span><span class="nb">cadr </span><span class="nv">frame</span><span class="p">))</span>
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">edge1-frame</span> <span class="nv">frame</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">card</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">frame</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">frame</span><span class="p">)))</span>
 
 <span class="c1">;; 2</span>
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">origin-frame</span> <span class="nv">frame</span><span class="p">)</span>
@@ -143,9 +922,9 @@
 </div>
 </div>
 
-<div id="outline-container-org4fd628a" class="outline-2">
-<h2 id="org4fd628a">Упражнение 2.48</h2>
-<div class="outline-text-2" id="text-org4fd628a">
+<div id="outline-container-org6773718" class="outline-2">
+<h2 id="org6773718">Упражнение 2.48</h2>
+<div class="outline-text-2" id="text-org6773718">
 <p>
 Сегмент направленной линии на плоскости может быть представлен в виде пары векторов: вектор идущий от начала координат до начальной точки сегмента и вектор идущий от начала координат до конечной точки сегмента. Используя векторное представление из 2.46 что бы определить представление для сегментов с конструктором make-segment и селекторами start-segment, end-segment.
 </p>
@@ -160,9 +939,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgc99297d" class="outline-2">
-<h2 id="orgc99297d">Упражнение 2.49</h2>
-<div class="outline-text-2" id="text-orgc99297d">
+<div id="outline-container-orgd1f80c5" class="outline-2">
+<h2 id="orgd1f80c5">Упражнение 2.49</h2>
+<div class="outline-text-2" id="text-orgd1f80c5">
 <p>
 Используя segments-&gt;painter определите следующие процедуры
 a. Нарисовать контур обозначенной рамки.
@@ -277,9 +1056,9 @@ d. Нарисовать волну.
 </div>
 </div>
 
-<div id="outline-container-org2b39407" class="outline-2">
-<h2 id="org2b39407">Упражнение 2.50</h2>
-<div class="outline-text-2" id="text-org2b39407">
+<div id="outline-container-orge422d16" class="outline-2">
+<h2 id="orge422d16">Упражнение 2.50</h2>
+<div class="outline-text-2" id="text-orge422d16">
 <p>
 Определите процедуру flip-horiz и трансформации которые вращают изображения против часовой стрелки на 180 и 270 градусов.
 </p>
@@ -311,9 +1090,9 @@ d. Нарисовать волну.
 </div>
 </div>
 
-<div id="outline-container-orgcf03c30" class="outline-2">
-<h2 id="orgcf03c30">Упражнение 2.51</h2>
-<div class="outline-text-2" id="text-orgcf03c30">
+<div id="outline-container-org6a92d68" class="outline-2">
+<h2 id="org6a92d68">Упражнение 2.51</h2>
+<div class="outline-text-2" id="text-org6a92d68">
 <p>
 Определите процедуру below. Как аналог beside и второй раз через beside и подходящие трасформации.
 </p>
@@ -342,9 +1121,9 @@ d. Нарисовать волну.
 </div>
 
 
-<div id="outline-container-orgd82b7bc" class="outline-2">
-<h2 id="orgd82b7bc">Упражнение 2.52</h2>
-<div class="outline-text-2" id="text-orgd82b7bc">
+<div id="outline-container-org67a1205" class="outline-2">
+<h2 id="org67a1205">Упражнение 2.52</h2>
+<div class="outline-text-2" id="text-org67a1205">
 <p>
 Внесите изменение в square-limit на разных уровнях абстракции
 а. Добавьте какие-нибудь сегменты к примитиву wave.
@@ -3162,344 +3941,6 @@ rest-of-queens - способ разместить k -1 ферзей в перв
     </p>
    </div>
   </div>
- </div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-uprazhnenie-114/" class="u-url">SICP Упражнения 1.14, 1.15, 1.16, 1.17.</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/sicp-uprazhnenie-114/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-01-11T14:54:25+03:00" itemprop="datePublished" title="2020-01-11 14:54">2020-01-11 14:54</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.14
-  </h2>
-  <div>
-   <div class="section-block">
-    <h3>
-     Изобразите дерево иллюстрирующее процесс процедуры count-charge из секции 1.22 для 11 центов.
-    </h3>
-    <div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; Example: Counting change</span>
-<span class="lineno"> 2 </span><span class="c1">;; Сколькими способами мы можем внесни изменение в сумму</span>
-<span class="lineno"> 3 </span><span class="c1">;; если у нас есть монеты 50 25 10 5 и 1 центов.</span>
-<span class="lineno"> 4 </span><span class="c1">;; Есть простое решение через рекурсивную процедуру</span>
-<span class="lineno"> 5 </span><span class="c1">;; если a = 0 1 способ внести изменение</span>
-<span class="lineno"> 6 </span><span class="c1">;; если a &lt; 0 0 способов</span>
-<span class="lineno"> 7 </span><span class="c1">;; если n = 0, 0 способов внести изменение</span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">count-change</span> <span class="nv">amount</span><span class="p">)</span>
-<span class="lineno"> 9 </span>  <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">5</span><span class="p">))</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">kinds-of-coins</span><span class="p">)</span>
-<span class="lineno">11 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">12 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span>
-<span class="lineno">13 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">14 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">4</span><span class="p">)</span> <span class="mi">25</span><span class="p">)</span>
-<span class="lineno">15 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">50</span><span class="p">)))</span>
-<span class="lineno">16 </span>
-<span class="lineno">17 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="nv">kinds-of-coins</span><span class="p">)</span>
-<span class="lineno">18 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">19 </span>        <span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">0</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">20 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span>
-<span class="lineno">21 </span>                     <span class="p">(</span><span class="nb">- </span><span class="nv">kinds-of-coins</span> <span class="mi">1</span><span class="p">))</span> <span class="c1">;; изменение берем разные монетки</span>
-<span class="lineno">22 </span>                 <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nb">- </span><span class="nv">amount</span>
-<span class="lineno">23 </span>                        <span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">kinds-of-coins</span><span class="p">))</span> <span class="c1">;; изменяем сумму на значение монетки</span>
-<span class="lineno">24 </span>                     <span class="nv">kinds-of-coins</span><span class="p">)))))</span>
-</pre>
-</div>     <div>
-      <p>
-       Иттерируя можно себе представить что получится что-то вроде.
-      </p>
-     </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span>                            <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">5</span><span class="p">)</span>
-<span class="lineno"> 2 </span>                     <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">4</span><span class="p">)</span>     <span class="p">(</span><span class="nf">cc</span> <span class="mi">-39</span> <span class="mi">5</span><span class="p">)</span>
-<span class="lineno"> 3 </span>                <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">-14</span> <span class="mi">4</span><span class="p">)</span>      <span class="mi">0</span>
-<span class="lineno"> 4 </span>           <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">3</span><span class="p">)</span> <span class="nv">|</span> <span class="mi">0</span>
-<span class="lineno"> 5 </span>      <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">6</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">-9</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno"> 6 </span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">11</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">10</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">6</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">-4</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">|</span> <span class="mi">0</span>
-<span class="lineno"> 7 </span>    <span class="mi">0</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">10</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">9</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">5</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">|</span> <span class="mi">0</span>
-<span class="lineno"> 8 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">5</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">4</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">|</span> <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span>
-<span class="lineno"> 9 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">4</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">3</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">10 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">3</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">11 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">2</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">12 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">cc</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">13 </span>          <span class="mi">0</span> <span class="nv">|</span> <span class="mi">0</span>
-</pre>
-</div>    </div>
-   </div>
-   <div class="section-block">
-    <h3>
-     Каков порядок роста (<span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>) по памяти и по количеству шагов. Где n - сумма.
-    </h3>
-    <div>
-     <div>
-      <p>
-       По количеству шагов, давайте представим что у нас есть всего одна монетка для изменений. Тогда.
-      </p>
-     </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span>        <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span>  <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nf">amount</span> <span class="nv">-</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">3 </span><span class="mi">0</span>                <span class="mi">0</span>     <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nf">amount</span> <span class="nv">-</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-</pre>
-</div>     <div>
-      <p>
-       Видим что у нас левая часть всегда вырождается в 0. А порядок роста в право это просто <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>
-      </p>
-      <p>
-       Теперь посмотрим что будет происходить с двумя монетками для изменения.
-      </p>
-     </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span>        <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nf">amount</span> <span class="nv">-</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
-</pre>
-</div>     <div>
-      <p>
-       Видим что в левой части у нас в точности то что при одной монетке. А в провой части у нас каждый раз будет создаваться новая левая для одной монетки и еще одна правая. Порядок роста у нас получится <span class="inline-formula"><img class="img-inline-formula img-formula" width="40" height="18" src="formulae/TDMg7xotZXKkYHRB35dASqEHcCEqzcosTs4gqA.png" alt="\theta(n^2)" title="\theta(n^2)"></span>.
-      </p>
-      <p>
-       И так при каждом добавлении еще одного номинала разменной монетки, порядок роста будет увеличиваться на n.
-      </p>
-      <p>
-       У нас в задаче 5 разменных монет, поэтому для нашей задачи порядок роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="40" height="18" src="formulae/fOU3P7Sr57KOt1u0RoA3w7g8.o4nZ4F8ewg70g.png" alt="\theta(n^5)" title="\theta(n^5)"></span>.
-      </p>
-      <p>
-       По памяти <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span> (порядок максимального разветвления дерева).
-      </p>
-     </div>
-    </div>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.15
-  </h2>
-  <div>
-   <div>
-    <p>
-     Синус угла (указанный в радианах) может быть вычислен используя приближение что <span class="inline-formula"><img class="img-inline-formula img-formula" width="74" height="17" src="formulae/VwTzGshSwoUNeeeAXWnwBL9X4VMacim1a14XTQ.png" alt="\sin(r) = r" title="\sin(r) = r"></span> если <span class="inline-formula"><img class="img-inline-formula img-formula" width="8" height="7" src="formulae/9PDR_uZ5xxt4l_bI_FVKMXrwFl94B6.ue5eEfg.png" alt="r" title="r"></span> малое значение. Для итеративного уменьшения угла будем использовать тригонометрическое тождество <span class="inline-formula"><img class="img-inline-formula img-formula" width="204" height="18" src="formulae/B.h1aEvWmQVlz4e7yBgWDTMA515GD0w6mJyTvg.png" alt="\sin{r} = 3\sin{r/3} - 4sin^3{r/3}" title="\sin{r} = 3\sin{r/3} - 4sin^3{r/3}"></span>.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cube</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">p</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">4</span> <span class="p">(</span><span class="nf">cube</span> <span class="nv">x</span><span class="p">))))</span>
-<span class="lineno">3 </span>
-<span class="lineno">4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sine</span> <span class="nv">angle</span><span class="p">)</span>
-<span class="lineno">5 </span>   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">abs </span><span class="nv">angle</span><span class="p">)</span> <span class="mf">0.1</span><span class="p">))</span>
-<span class="lineno">6 </span>       <span class="nv">angle</span>
-<span class="lineno">7 </span>       <span class="p">(</span><span class="nf">p</span> <span class="p">(</span><span class="nf">sine</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">angle</span> <span class="mf">3.0</span><span class="p">)))))</span>
-</pre>
-</div>   <div>
-    <div class="section-block">
-     <h3>
-      Сколько раз выполнится процедура p применительно к sin 12.15?
-     </h3>
-     <div>
-      <p>
-       Будем делить угол на 3 пока, он не станет меньше чем 0.1. 12.15/3/3/3/3/3 = 0.049, значит 5 раз.
-      </p>
-      <p>
-       А если записать в общем виде это будет <span class="inline-formula"><img class="img-inline-formula img-formula" width="73" height="16" src="formulae/WyZGa87XcDVFaBuL3zhCCfou.bf8HHwAK4huJg.png" alt="\log_3{x} + a" title="\log_3{x} + a"></span>, где а константа.
-      </p>
-     </div>
-    </div>
-    <div class="section-block">
-     <h3>
-      Каков порядок роста этой функции.
-     </h3>
-     <div>
-      <p>
-       Порядок роста по количеству итераций равен <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>. По месту так же.
-      </p>
-     </div>
-    </div>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.16
-  </h2>
-  <div>
-   <div>
-    <p>
-     Написать итеративный вариант быстрой экспоненты с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>
-    </p>
-    <p>
-     Рекурсивный вариант:
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="nb">even? </span><span class="mi">2</span><span class="p">)</span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="nb">even? </span><span class="mi">7</span><span class="p">)</span>
-<span class="lineno"> 5 </span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno"> 8 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))</span>
-<span class="lineno"> 9 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">)</span>
-</pre>
-</div>   <div>
-    <p>
-     Итеративный вариант:
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno"> 3 </span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">expt </span><span class="nv">b</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 5 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expt-iter</span> <span class="nv">a</span> <span class="nv">count</span><span class="p">)</span>
-<span class="lineno"> 6 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
-<span class="lineno"> 7 </span>          <span class="p">((</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
-<span class="lineno"> 8 </span>          <span class="p">((</span><span class="nb">&gt;= </span><span class="nv">count</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nf">expt-iter</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">count</span> <span class="mi">2</span><span class="p">)))</span>
-<span class="lineno"> 9 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">expt-iter</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">count</span> <span class="mi">2</span><span class="p">)))))</span>
-<span class="lineno">10 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
-<span class="lineno">11 </span>      <span class="p">(</span><span class="nf">expt-iter</span> <span class="mi">1</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">12 </span>      <span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="p">(</span><span class="nf">expt-iter</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
-<span class="lineno">13 </span><span class="p">(</span><span class="nb">expt </span><span class="mi">3</span> <span class="mi">150</span><span class="p">)</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.17
-  </h2>
-  <div>
-   <div>
-    <p>
-     Допустим у нас нет процедуры умножения, написать процедуру использую только сложение и предопределенные процедуры halve и double, с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">double</span> <span class="nv">x</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">double</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">halve</span> <span class="nv">x</span><span class="p">)</span>
-<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">halve</span> <span class="mi">4</span><span class="p">)</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
-<span class="lineno">10 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="nb">even? </span><span class="mi">6</span><span class="p">)</span>
-<span class="lineno">12 </span>
-<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">14 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">15 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
-<span class="lineno">16 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nf">double</span> <span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="p">(</span><span class="nf">halve</span> <span class="nv">b</span><span class="p">))))</span>
-<span class="lineno">17 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="p">(</span><span class="nf">double</span> <span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="p">(</span><span class="nf">halve</span> <span class="p">(</span><span class="nb">- </span><span class="nv">b</span> <span class="mi">1</span><span class="p">))))))))</span>
-<span class="lineno">18 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">10</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">0</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">20 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">10</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">21 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">10</span> <span class="mi">11</span><span class="p">)</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.18
-  </h2>
-  <div>
-   <div>
-    <p>
-     Используя результаты 1.16, 1.17 разработайте итеративную процедуру умножения двух чисел в терминах “удвоить, взять половину, добавить”, процедура должна выполняться с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast-iter</span> <span class="nv">asum</span> <span class="nv">bsum</span> <span class="nv">count</span><span class="p">)</span>
-<span class="lineno"> 3 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">bsum</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">asum</span><span class="p">)</span>
-<span class="lineno"> 4 </span>          <span class="p">((</span><span class="nb">= </span><span class="nv">bsum</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">asum</span><span class="p">)</span>
-<span class="lineno"> 5 </span>          <span class="p">((</span><span class="nb">even? </span><span class="nv">bsum</span><span class="p">)</span> <span class="p">(</span><span class="nf">fast-iter</span> <span class="p">(</span><span class="nf">double</span> <span class="nv">asum</span><span class="p">)</span> <span class="p">(</span><span class="nf">halve</span> <span class="nv">bsum</span><span class="p">)))</span>
-<span class="lineno"> 6 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">fast-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">asum</span> <span class="nv">asum</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">bsum</span> <span class="mi">1</span><span class="p">)))))</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno"> 8 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">b</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
-<span class="lineno"> 9 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">fast-iter</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">fast?</span> <span class="mi">16</span> <span class="mi">18</span><span class="p">)</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.19
-  </h2>
-  <div>
-   <div>
-    <p>
-     Доработать вычисление функции Фибоначи, процедура должна выполняться с порядком роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="55" height="17" src="formulae/p7Pg644Ou_yBspI.6P9dd_cyiYJtXOrDgKl4aQ.png" alt="\theta(log{n})" title="\theta(log{n})"></span>.
-    </p>
-    <p>
-     В последнем итеративном подсчете Фибоначи мы перезаписывали a &lt;- a + b и b &lt;- a, назовем это трансформацией T. Заметим что применение T n раз даст пару Fib(n + 1) и Fib(n), иными словами числа генерируются применением T^n. Теперь рассмотрим частный случай T p = 0 q = 1 в преобразовании Tpq, где Tpq преобразует пару (a, b) в a &lt;- bq + aq + ap и b &lt;- bp + aq. Покажите что если применить такую трансформацию Tpq дважды, результат будет тем же как и от единственной трансформации Tp'q' такой же формы, для которой p' и q' выраженны через p и q. Это даст нам возможность ускорить процедуру, как мы делали в fast-exp. Собрав все это вместе закончите процедуру приведенную ниже.
-    </p>
-    <p>
-     Выражаем p' и q' через p и q.
-    </p>
-    <div class="theorem-environment theorem-proposition-environment">
-     <div class="theorem-header theorem-proposition-header">
-      Утверждение.
-     </div>
-     <div class="theorem-content theorem-proposition-content">
-      <p>
-       a1 b1 a2 = b1q + a1q + a1p b2 = b1p + a1q
-      </p>
-      <p>
-       a3 = b2q + a2q + a2p b3 = b2p + a2q
-      </p>
-      <p>
-       a3 = (b1p + a1q)q + (b1q + a1q + a1p)q + (b1q + a1q + a1p)p b3 = (b1p + a1q)p + (b1q + a1q + a1p)q
-      </p>
-      <p>
-       a3 = b1q' + a1q' + a1p' (1) b3 = b1p' + a1q' (2)
-      </p>
-      <p>
-       a3 = b1pq + a1qq + b1qq + a1qq + a1pq + b1pq + a1pq + a1pp b3 = b1pp + a1pq + b1qq + a1qq + a1pq
-      </p>
-      <p>
-       a3 = b1(2pq + qq) + a1(2qq + 2pq + pp) (3) b3 = b1(pp + qq) + a1(2pq + qq) (4)
-      </p>
-      <p>
-       a3 = b1(2pq + qq) + a1(2pq + qq) + a1(qq + pp)
-      </p>
-      <p>
-       q' = 2pq + qq
-      </p>
-      <p>
-       p' = pp + qq
-      </p>
-     </div>
-    </div>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">fib-iter</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="nv">n</span><span class="p">))</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib-iter</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">p</span> <span class="nv">q</span> <span class="nv">count</span><span class="p">)</span>
-<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno"> 5 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">count</span><span class="p">)</span>
-<span class="lineno"> 6 </span>         <span class="p">(</span><span class="nf">fib-iter</span> <span class="nv">a</span>
-<span class="lineno"> 7 </span>                   <span class="nv">b</span>
-<span class="lineno"> 8 </span>                   <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">q</span><span class="p">))</span>      <span class="c1">; compute p'</span>
-<span class="lineno"> 9 </span>                   <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="nv">p</span> <span class="nv">q</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">q</span><span class="p">))</span>      <span class="c1">; compute q'</span>
-<span class="lineno">10 </span>                   <span class="p">(</span><span class="nb">/ </span><span class="nv">count</span> <span class="mi">2</span><span class="p">)))</span>
-<span class="lineno">11 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">fib-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="nv">q</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">q</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">p</span><span class="p">))</span>
-<span class="lineno">12 </span>                        <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">q</span><span class="p">))</span>
-<span class="lineno">13 </span>                        <span class="nv">p</span>
-<span class="lineno">14 </span>                        <span class="nv">q</span>
-<span class="lineno">15 </span>                        <span class="p">(</span><span class="nb">- </span><span class="nv">count</span> <span class="mi">1</span><span class="p">)))))</span>
-</pre>
-</div>  </div>
  </div>
 </div>
     </div>
