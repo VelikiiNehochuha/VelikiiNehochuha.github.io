@@ -19,15 +19,19 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-01-24T13:36:00Z</lastmod>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-01-24T13:36:00Z</lastmod>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/a_picture_language/</loc>
   <lastmod>2020-01-21T18:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/abstract_data/</loc>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/algorithms/</loc>
@@ -36,6 +40,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/android/</loc>
   <lastmod>2019-12-31T17:40:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/data-directed/</loc>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/data_abstraction/</loc>
@@ -54,6 +62,14 @@
   <lastmod>2020-01-12T15:51:00Z</lastmod>
  </url>
  <url>
+  <loc>http://velikiinehochuha.github.io/categories/generic_operations/</loc>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/generic_procedures/</loc>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
+ </url>
+ <url>
   <loc>http://velikiinehochuha.github.io/categories/hierarchical_data/</loc>
   <lastmod>2020-01-19T16:44:00Z</lastmod>
  </url>
@@ -68,6 +84,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/mathematics/</loc>
   <lastmod>2020-01-11T10:45:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/multiple_representations/</loc>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/prime_numbers/</loc>
@@ -111,7 +131,7 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-1.html</loc>
-  <lastmod>2020-01-24T13:36:00Z</lastmod>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/listings/</loc>
@@ -152,6 +172,14 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-23-simvolicheskie-dannye/</loc>
   <lastmod>2020-01-24T13:36:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/</loc>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-25-sistemy-s-obshchimi-operatsiiami/</loc>
+  <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/</loc>

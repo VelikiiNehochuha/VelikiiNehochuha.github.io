@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="rss.xml">
 <link rel="canonical" href="http://velikiinehochuha.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-23-simvolicheskie-dannye/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-25-sistemy-s-obshchimi-operatsiiami/" type="text/html">
 </head>
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
@@ -33,7 +33,405 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-23-simvolicheskie-dannye/" class="u-url">SICP 2.3 Символические данные.</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-25-sistemy-s-obshchimi-operatsiiami/" class="u-url">SICP 2.5 Системы с общими операциями.</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-25-sistemy-s-obshchimi-operatsiiami/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-25T20:11:07+03:00" itemprop="datePublished" title="2020-01-25 20:11">2020-01-25 20:11</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org017d9cc" class="outline-2">
+<h2 id="org017d9cc">Упражнение 2.</h2>
+<div class="outline-text-2" id="text-org017d9cc">
+<div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/" class="u-url">SICP 2.4 Множественные представления для абстрактных данных.</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-25T19:33:39+03:00" itemprop="datePublished" title="2020-01-25 19:33">2020-01-25 19:33</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+<img src="images/ch2-Z-G-54.gif" alt="nil"></p>
+
+
+<p>
+<img src="images/ch2-Z-G-62.gif" alt="nil"></p>
+
+
+<div id="outline-container-org3dfb9b4" class="outline-2">
+<h2 id="org3dfb9b4">Упражнение 2.73</h2>
+<div class="outline-text-2" id="text-org3dfb9b4">
+<p>
+В секции 2.3.2 описана программа символического дифференцирования.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="p">((</span><span class="nf">variable?</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+	<span class="p">((</span><span class="nf">sum?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">addend</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">augend</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+	<span class="p">((</span><span class="nf">product?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nf">make-sum</span>
+	   <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">exp</span><span class="p">)</span>
+			 <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">))</span>
+	   <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+			 <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">exp</span><span class="p">))))</span>
+	<span class="nv">&lt;more</span> <span class="nv">rules</span> <span class="nv">can</span> <span class="nv">be</span> <span class="nv">added</span> <span class="nv">here&gt;</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"unknown expression type -- DERIV"</span> <span class="nv">exp</span><span class="p">))))</span>
+</pre></div>
+
+<p>
+Мы можем переписать программу что бы она выполняла дифференцирование по типу выражения. В данном случае "type tag" - символ алгебраической операции (к примеру +).
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+	 <span class="p">((</span><span class="nf">variable?</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+	 <span class="p">(</span><span class="k">else </span><span class="p">((</span><span class="nf">get</span> <span class="ss">'deriv</span> <span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">))</span> <span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span>
+					    <span class="nv">var</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">exp</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">exp</span><span class="p">))</span>
+</pre></div>
+
+<p>
+a. Объясните что сделано выше? Почему мы не можем применить number? и same-variable? в дата ориенторованный обработчик?
+</p>
+
+<p>
+number? и same-variable? не содержат знака операции поэтому они не могут быть обработаны по типу операции.
+</p>
+
+<p>
+b. напишите процедуру для взятия производной от суммы и произведения и вспомогательный код который помещает их в таблицу.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">get</span> <span class="mi">2</span><span class="nv">d-get</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">put</span> <span class="mi">2</span><span class="nv">d-put!</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+	 <span class="p">((</span><span class="nf">variable?</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+	 <span class="p">(</span><span class="k">else </span><span class="p">((</span><span class="nf">get</span> <span class="ss">'deriv</span> <span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">))</span> <span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span>
+		<span class="nv">var</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">exp</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">exp</span><span class="p">))</span>
+
+<span class="c1">;; для произведения</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-deriv-mul-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplier</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-product</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'*</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv-mul</span> <span class="nv">operands</span> <span class="nv">var</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-sum</span>
+     <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">operands</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">operands</span><span class="p">)</span> <span class="nv">var</span><span class="p">))</span>
+     <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">operands</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">operands</span><span class="p">))))</span>
+  <span class="c1">;; interface to the rest of the system</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'deriv</span> <span class="ss">'*</span> <span class="nv">deriv-mul</span><span class="p">)</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-deriv-mul-package</span><span class="p">)</span>
+<span class="c1">;; для суммы</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-deriv-sum-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">addend</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">augend</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv-sum</span> <span class="nv">opds</span> <span class="nv">var</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">addend</span> <span class="nv">opds</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">augend</span> <span class="nv">opds</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+  <span class="c1">;; interface to the rest of the system</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'deriv</span> <span class="ss">'+</span> <span class="nv">deriv-sum</span><span class="p">)</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-deriv-sum-package</span><span class="p">)</span>
+</pre></div>
+
+<p>
+c. добавить правило диффиренцирования для экспоненты
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;; для экспоненты</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-deriv-exp-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">base</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exponent</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-product</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'*</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-exponentiation</span> <span class="nv">b1</span> <span class="nv">e2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">=number?</span> <span class="nv">e2</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nf">=number?</span> <span class="nv">e2</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">b1</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nf">=number?</span> <span class="nv">b1</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	  <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">number? </span><span class="nv">b1</span><span class="p">)</span> <span class="p">(</span><span class="nb">number? </span><span class="nv">e2</span><span class="p">))</span> <span class="p">(</span><span class="nb">expt </span><span class="nv">b1</span> <span class="nv">e2</span><span class="p">))</span>
+	  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">list </span><span class="ss">'**</span> <span class="nv">b1</span> <span class="nv">e2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv-exp</span> <span class="nv">opds</span> <span class="nv">var</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">exponent</span> <span class="nv">opds</span><span class="p">)</span>
+				<span class="p">(</span><span class="nf">make-exponentiation</span> <span class="p">(</span><span class="nf">base</span> <span class="nv">opds</span><span class="p">)</span>
+						     <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">exponent</span> <span class="nv">opds</span><span class="p">)</span> <span class="mi">-1</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">base</span> <span class="nv">opds</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+  <span class="c1">;; interface to the rest of the system</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'deriv</span> <span class="ss">'**</span> <span class="nv">deriv-exp</span><span class="p">)</span>
+  <span class="ss">'done</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">install-deriv-exp-package</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">deriv</span> <span class="o">'</span><span class="p">(</span><span class="nv">**</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span> <span class="ss">'x</span><span class="p">)</span>
+</pre></div>
+
+<p>
+d. предположим мы индексируем процедуры другим способом, то есть в процедуре производной вызывается вот такой код
+</p>
+<div class="highlight"><pre><span></span><span class="p">((</span><span class="nf">get</span> <span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">)</span> <span class="ss">'deriv</span><span class="p">)</span> <span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Какие изменения необходимо сделать в остальной системе что бы код продолжал работать?
+</p>
+
+<p>
+нам нужно изменить интерфейсную часть пакетов, то есть при выполнении put нужно поменять местами операнд и имя функции
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">put</span> <span class="ss">'**</span> <span class="ss">'deriv</span> <span class="nv">deriv-exp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org3f59c89" class="outline-2">
+<h2 id="org3f59c89">Упражнение 2.74</h2>
+<div class="outline-text-2" id="text-org3f59c89">
+<p>
+"Жадное Предприятие Inc." широко децентрализованная компания, которая имеет много подразделений. В каждом подразделении своя реализация хранения списка персонала. Нужно иметь возможность получать и искать сотрудников по всем подразделениям, определите общие методы.
+</p>
+
+<p>
+a. Дайте определение общей процедуры get-record, которая получает информацию по конкретному сотруднику из файла списка сотрудников подразделения.
+</p>
+
+<p>
+b. Дайте определение общей процедуры get-salary, которая получает зарплату сотрудника.
+</p>
+
+<p>
+c. Сделайте общую процедуру find-employee-record которая ищет по имени по всем подразделениям.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-department-1-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">TYPE</span> <span class="ss">'department1</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">allemployees</span> <span class="p">(</span><span class="nb">list </span><span class="o">'</span><span class="p">(</span><span class="nv">Каблуков</span> <span class="mf">100.0</span> <span class="s">"Достоевского 5, кв. 20"</span> <span class="mi">1</span><span class="p">)</span>
+			     <span class="o">'</span><span class="p">(</span><span class="nv">Коровин</span> <span class="mf">70.0</span> <span class="s">"Луговая 2"</span> <span class="mi">2</span><span class="p">)</span>
+			     <span class="o">'</span><span class="p">(</span><span class="nv">Тихонов</span> <span class="mf">75.0</span> <span class="s">"Лунина 13, кв. 156"</span> <span class="mi">3</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">last-name</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">car </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">salary</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">address</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">caddr </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">id</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cadddr </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-record</span> <span class="nv">employee-id</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="nv">records</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">records</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">pk</span> <span class="p">(</span><span class="nf">id</span> <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">records</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-id</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">employee-name</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="nv">records</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">records</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">name</span> <span class="p">(</span><span class="nf">last-name</span> <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">records</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-name</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="c1">;; interface</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="nv">TYPE</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">get-record</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-salary</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rec</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">salary</span> <span class="nv">rec</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'find-employee-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="nv">TYPE</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">dp1</span> <span class="p">(</span><span class="nf">install-department-1-package</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-department-2-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">TYPE</span> <span class="ss">'department2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">allemployees</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="mi">4</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'Щавелев</span> <span class="mf">105.0</span> <span class="s">"Пушкина 5, кв. 20"</span><span class="p">))</span>
+			     <span class="p">(</span><span class="nb">list </span><span class="mi">5</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'Коровин</span> <span class="mf">71.0</span> <span class="s">"Пушкина 2"</span><span class="p">))</span>
+			     <span class="p">(</span><span class="nb">list </span><span class="mi">6</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'Куравлев</span> <span class="mf">74.0</span> <span class="s">"Лунина 13, кв. 156"</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">last-name</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">salary</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">address</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">caddr </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">id</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">car </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-record</span> <span class="nv">employee-id</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="nv">records</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">records</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">pk</span> <span class="p">(</span><span class="nf">id</span> <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">records</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-id</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">employee-name</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="nv">employees</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">employees</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">name</span> <span class="p">(</span><span class="nf">last-name</span> <span class="p">(</span><span class="nb">car </span><span class="nv">employees</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">employees</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">employees</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-name</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="c1">;; interface</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="nv">TYPE</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">get-record</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-salary</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rec</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">salary</span> <span class="nv">rec</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'find-employee-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="nv">TYPE</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">dp2</span> <span class="p">(</span><span class="nf">install-department-2-package</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-record</span> <span class="nv">employee-id</span> <span class="nv">department-id</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">get</span> <span class="nv">department-id</span> <span class="ss">'get-record</span><span class="p">)</span> <span class="nv">employee-id</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="p">(</span><span class="nb">car </span><span class="nv">type-tags</span><span class="p">)</span> <span class="nv">op</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="nv">proc</span>
+	  <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">error</span>
+	    <span class="s">"No method for these types -- APPLY-GENERIC"</span>
+	    <span class="p">(</span><span class="nb">list </span><span class="nv">type-tags</span> <span class="nv">op</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-salary</span> <span class="nv">record</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'get-salary</span> <span class="nv">record</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-employee-record</span> <span class="nv">employee-name</span> <span class="nv">deps</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">name</span> <span class="nv">deps</span> <span class="nv">res</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">when</span> <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">null? </span><span class="nv">deps</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">record</span> <span class="p">((</span><span class="nf">get</span> <span class="p">(</span><span class="nb">car </span><span class="nv">deps</span><span class="p">)</span> <span class="ss">'find-employee-record</span><span class="p">)</span> <span class="nv">name</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="nb">display </span><span class="nv">record</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">eq? </span><span class="nv">record</span> <span class="nv">false</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">deps</span><span class="p">)</span> <span class="nv">res</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">deps</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">record</span> <span class="nv">res</span><span class="p">)))))</span>
+    <span class="nv">res</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">employee-name</span> <span class="nv">deps</span> <span class="o">'</span><span class="p">()))</span>
+<span class="nv">dp1</span>
+<span class="nv">dp2</span>
+<span class="p">(</span><span class="nb">equal? </span><span class="ss">'Li</span> <span class="ss">'Li</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">get</span> <span class="nv">dp2</span> <span class="ss">'find-employee-record</span><span class="p">)</span>
+<span class="p">((</span><span class="nf">get</span> <span class="nv">dp2</span> <span class="ss">'find-employee-record</span><span class="p">)</span> <span class="ss">'Li</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">find-employee-record</span> <span class="ss">'Коровин</span> <span class="p">(</span><span class="nb">list </span><span class="nv">dp1</span> <span class="nv">dp2</span><span class="p">))</span>
+</pre></div>
+
+<p>
+d. Какие изменения нужно внести если в Жадное Предприятие Inc. добавится еще одна дочерняя.
+</p>
+
+<p>
+При добавлении подразделения нужно будет задать уникальный TYPE и реализовать интерфейс.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-record</span>
+     <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="o">...</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-salary</span>
+     <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rec</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="o">...</span> <span class="nv">rec</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'find-employee-record</span>
+     <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="o">...</span> <span class="nv">x</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7e3d48a" class="outline-2">
+<h2 id="org7e3d48a">Упражнение 2.75</h2>
+<div class="outline-text-2" id="text-org7e3d48a">
+<p>
+Определите конструктор make-from-mag-ang в стиле получения сообщения (message-passing).
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-from-real-imag</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">op</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'real-part</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'imag-part</span><span class="p">)</span> <span class="nv">y</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'magnitude</span><span class="p">)</span>
+	   <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">y</span><span class="p">))))</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'angle</span><span class="p">)</span> <span class="p">(</span><span class="nb">atan </span><span class="nv">y</span> <span class="nv">x</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">else</span>
+	   <span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown op -- MAKE-FROM-REAL-IMAG"</span> <span class="nv">op</span><span class="p">))))</span>
+  <span class="nv">dispatch</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="nv">arg</span><span class="p">)</span> <span class="p">(</span><span class="nf">arg</span> <span class="nv">op</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-from-mag-ang</span> <span class="nv">m</span> <span class="nv">a</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">op</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'real-part</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">m</span> <span class="p">(</span><span class="nb">cos </span><span class="nv">a</span><span class="p">)))</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'imag-part</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">m</span> <span class="p">(</span><span class="nb">sin </span><span class="nv">a</span><span class="p">)))</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'magnitude</span><span class="p">)</span> <span class="nv">m</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'angle</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nf">else</span>
+	   <span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown op -- MAKE-FROM-MAG-ANG"</span> <span class="nv">op</span><span class="p">))))</span>
+  <span class="nv">dispatch</span><span class="p">)</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">real-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'real-part</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">imag-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'imag-part</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">magnitude </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'magnitude</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">angle </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'angle</span> <span class="nv">z</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">real-part </span><span class="p">(</span><span class="nf">make-from-real-imag</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orga87bdec" class="outline-2">
+<h2 id="orga87bdec">Упражнение 2.76</h2>
+<div class="outline-text-2" id="text-orga87bdec">
+<p>
+При эволюционировании системы с общими процедурами, могут потребоваться новые типы данных или новые операции. Для каждой из трех стратегий
+</p>
+
+<p>
+общие операции с явным выбором по типу
+дата ориентированный подход (через хеш таблицы)
+и подход получения сообщения (через dispatch в конструкторе)
+</p>
+
+<p>
+опишите изменения которые должны быть внесены для нового типа или новой операции <code>[3/3]</code>
+</p>
+
+<ul class="org-ul">
+<li class="on">
+<code>[X]</code> при явном выборе метода по типу, нужно изменить <b>все общие методы</b> добавив туда дополнительные условия обработки нового типа. если добавляется метод, то нужно реализовать <b>общий метод</b> с выбором частного метода <b>для каждого типа</b>.</li>
+
+<li class="on">
+<code>[X]</code> при использовании дата ориентированного подхода если добавляется новый метод, реализовать интерфейс для этого метода для каждого типа, если добавляется новый тип, нужно реализовать интерфейсные методы для данного типа. <b>Важно что при этом не меняется старый код.</b>
+</li>
+
+<li class="on">
+<code>[X]</code> при использовании message-passing при добавлении метода, нужно изменить конструкторы всех типов, добавив туда обработку нового метода, если добавляется новый тип, достаточно описать новый конструктор. То есть <b>при добавлении типа, старый код не меняется</b>, но <b>при добавлении метода, придется менять конструкторы в старом коде</b>.</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-23-simvolicheskie-dannye/" class="u-url">SICP 2.3 Символические данные.</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha
@@ -1182,9 +1580,9 @@ d. Нарисовать волну.
 <img src="images/ch2-Z-G-17.gif" alt="nil"></p>
 
 
-<div id="outline-container-org23e2d63" class="outline-2">
-<h2 id="org23e2d63">Упражнение 2.33</h2>
-<div class="outline-text-2" id="text-org23e2d63">
+<div id="outline-container-orgf90b00d" class="outline-2">
+<h2 id="orgf90b00d">Упражнение 2.33</h2>
+<div class="outline-text-2" id="text-orgf90b00d">
 <p>
 Заполните недостающие выражения, чтобы завершить определения некоторых основных операций над списками через накопление.
 </p>
@@ -1207,9 +1605,9 @@ d. Нарисовать волну.
 </div>
 </div>
 
-<div id="outline-container-org37a2dff" class="outline-2">
-<h2 id="org37a2dff">Упражнение 2.34</h2>
-<div class="outline-text-2" id="text-org37a2dff">
+<div id="outline-container-org697f221" class="outline-2">
+<h2 id="org697f221">Упражнение 2.34</h2>
+<div class="outline-text-2" id="text-org697f221">
 <p>
 Оценка полинома от одной переменной x в заданной точке, может быть сформулирована в терминах накопления. Мы оцениваем полином
 \(a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0x\) используя широко известный алгоритм - правило Хорнера, который структурирует вычисление как \((...(a_nx+a_{n-1})x+...+a_1)x + a_0\).
@@ -1233,9 +1631,9 @@ d. Нарисовать волну.
 </div>
 </div>
 
-<div id="outline-container-org6f235f0" class="outline-2">
-<h2 id="org6f235f0">Упражнение 2.35</h2>
-<div class="outline-text-2" id="text-org6f235f0">
+<div id="outline-container-org19f5aff" class="outline-2">
+<h2 id="org19f5aff">Упражнение 2.35</h2>
+<div class="outline-text-2" id="text-org19f5aff">
 <p>
 Переопределите count-leaves из секции 2.2.2 через накопление.
 </p>
@@ -1254,9 +1652,9 @@ d. Нарисовать волну.
 </div>
 </div>
 
-<div id="outline-container-org14dc452" class="outline-2">
-<h2 id="org14dc452">Упражнение 2.36</h2>
-<div class="outline-text-2" id="text-org14dc452">
+<div id="outline-container-orgdf87e87" class="outline-2">
+<h2 id="orgdf87e87">Упражнение 2.36</h2>
+<div class="outline-text-2" id="text-orgdf87e87">
 <p>
 Процедура accumulate-n похожа на accumulate, но принимает третий аргумент последовательность последовательностей. Предполагается что все они имеют одинаковое количество аргументов. Она применяет назначенную процедуру накопления для всех первых элементов последовательности, всех вторых и так далее. И возвращает последовательность результатов. К примеру результат (accumulate-n + 0 s), где s это ((1 2 3) (4 5 6) (7 8 9) (10 11 12)), будет равен (22 26 30). Заполните пропуски в определении процедуры.
 </p>
@@ -1277,9 +1675,9 @@ d. Нарисовать волну.
 </div>
 </div>
 
-<div id="outline-container-org0dda79f" class="outline-2">
-<h2 id="org0dda79f">Упражнение 2.37</h2>
-<div class="outline-text-2" id="text-org0dda79f">
+<div id="outline-container-org49f6012" class="outline-2">
+<h2 id="org49f6012">Упражнение 2.37</h2>
+<div class="outline-text-2" id="text-org49f6012">
 <p>
 Предположим мы представляем векторы v = (v<sub>i</sub>) как последовательность чисел и матрицы m =(m<sub>ij</sub>) как последовательность векторов (строки матрицы). К примеру матрица:
 </p>
@@ -1335,9 +1733,9 @@ C этим представлением мы можем использовать
 </div>
 </div>
 
-<div id="outline-container-orgfa00fb8" class="outline-2">
-<h2 id="orgfa00fb8">Упражнение 2.38</h2>
-<div class="outline-text-2" id="text-orgfa00fb8">
+<div id="outline-container-org3c65486" class="outline-2">
+<h2 id="org3c65486">Упражнение 2.38</h2>
+<div class="outline-text-2" id="text-org3c65486">
 <p>
 Процедура accumulate так же известна как fold-right, потому что она объединяет первый элемент последовательности с результатами объединения всех элементов справа. Также есть fold-left, которая объединяет элементы в обратном направлении.
 </p>
@@ -1363,9 +1761,9 @@ C этим представлением мы можем использовать
 </div>
 </div>
 
-<div id="outline-container-orgad7e9a9" class="outline-2">
-<h2 id="orgad7e9a9">Упражнение 2.39</h2>
-<div class="outline-text-2" id="text-orgad7e9a9">
+<div id="outline-container-orga36c62e" class="outline-2">
+<h2 id="orga36c62e">Упражнение 2.39</h2>
+<div class="outline-text-2" id="text-orga36c62e">
 <p>
 Дайте определение reverse через fold-right и fold-left.
 </p>
@@ -1381,9 +1779,9 @@ C этим представлением мы можем использовать
 </div>
 
 
-<div id="outline-container-orgda7a431" class="outline-2">
-<h2 id="orgda7a431">Упражнение 2.40</h2>
-<div class="outline-text-2" id="text-orgda7a431">
+<div id="outline-container-org3060f9c" class="outline-2">
+<h2 id="org3060f9c">Упражнение 2.40</h2>
+<div class="outline-text-2" id="text-org3060f9c">
 <p>
 Определите процедуру unique-pairs, которая принимая целое n, генерирует последовательность пар (i,j) 1&lt;=j&lt;i&lt;=n. Используя процедуру unique-pairs упростите определение prime-sum-pairs, приведенное в книге.
 </p>
@@ -1404,9 +1802,9 @@ C этим представлением мы можем использовать
 </div>
 </div>
 
-<div id="outline-container-orgfeb817f" class="outline-2">
-<h2 id="orgfeb817f">Упражнение 2.41</h2>
-<div class="outline-text-2" id="text-orgfeb817f">
+<div id="outline-container-orgf767b71" class="outline-2">
+<h2 id="orgf767b71">Упражнение 2.41</h2>
+<div class="outline-text-2" id="text-orgf767b71">
 <p>
 Напишите процедуру, чтобы найти все упорядоченные тройки различных положительных целых чисел i, j, k, меньших или равных заданному числу n, сумма которых равна заданному числу S.
 </p>
@@ -1434,9 +1832,9 @@ C этим представлением мы можем использовать
 </div>
 </div>
 
-<div id="outline-container-orgec672b8" class="outline-2">
-<h2 id="orgec672b8">Упражнение 2.42</h2>
-<div class="outline-text-2" id="text-orgec672b8">
+<div id="outline-container-org392b36a" class="outline-2">
+<h2 id="org392b36a">Упражнение 2.42</h2>
+<div class="outline-text-2" id="text-org392b36a">
 <p>
 Задача о восьми ферзях. Как разместить 8 ферзей на шахматной доске, что бы не один ферзь не бил другого. Одно из возможных решений представлено на картинке.
 </p>
@@ -1445,7 +1843,7 @@ C этим представлением мы можем использовать
 <img src="images/ch2-Z-G-23.gif" alt="nil"></p>
 
 <p>
-Один способ решения ставим первого ферзя на любую клетку доски. Остальные k-1 ферзей мы должны расставить так что бы они не шаховали друг друга. Можно сформулировать этот подход рекурсивно. Предположим мы уже сгенерировали всех возможных способов расстановки k-1 ферзей в первых k-1 столбцах доски. Для каждого из этих способов генерируем дополнительный набор позиций размещая ферзя в каждой строчке k-ой колонки. Теперь отфильтруем их оставляя только позиции в которых ферзь не атакован другими. Это даст все возможные расположения k ферзей в первых k колонках. Продолжая этот процесс мы получим решения головоломки.
+Один способ решения ставим первого ферзя на любую клетку доски. Остальные k-1 ферзей мы должны расставить так что бы они не атаковали друг друга. Можно сформулировать этот подход рекурсивно. Предположим мы уже генерировали всех возможные способы расстановки k-1 ферзей в первых k-1 столбцах доски. Для каждого из этих способов генерируем дополнительный набор позиций размещая ферзя в каждой строчке k-ой колонки. Теперь отфильтруем их оставляя только позиции в которых ферзь не атакован другими. Это даст все возможные расположения k ферзей в первых k колонках. Продолжая этот процесс мы получим решения головоломки.
 </p>
 
 <p>
@@ -1520,9 +1918,9 @@ rest-of-queens - способ разместить k -1 ферзей в перв
 </div>
 
 
-<div id="outline-container-org9383008" class="outline-2">
-<h2 id="org9383008">Упражнение 2.43</h2>
-<div class="outline-text-2" id="text-org9383008">
+<div id="outline-container-org3ed4730" class="outline-2">
+<h2 id="org3ed4730">Упражнение 2.43</h2>
+<div class="outline-text-2" id="text-org3ed4730">
 <p>
 Процедура Луиса для queens работала медленно. Выяснилось что он поменял местами отображения в flatmap.
 </p>
@@ -3347,597 +3745,6 @@ rest-of-queens - способ разместить k -1 ферзей в перв
     </p>
     <p>
      Происходит ошибка ;The object 2 is not applicable. Функция f ожидает в качестве параметра получить функцию которую можно вызвать, она его и получает и вызывает функцию f с параметром 2 (рекурсивно второй раз), и пытается выполнить функцию (2 2), на что и ругается интерпретатор, потому что 2 не процедура.
-    </p>
-   </div>
-  </div>
- </div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-uprazhneniia-125-126-127-128/" class="u-url">SICP Упражнения 1.25, 1.26, 1.27, 1.28</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/sicp-uprazhneniia-125-126-127-128/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-01-13T14:34:28+03:00" itemprop="datePublished" title="2020-01-13 14:34">2020-01-13 14:34</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.25
-  </h2>
-  <div>
-   <div>
-    <p>
-     Алиса посетовала что мы проделали много лишней работы при написании expmod. В конце концов, сказала она, мы уже знаем как посчитать экспоненту, мы могли бы просто написать:
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">base</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     Правильно ли это? Будет ли эта процедура работать так же быстро как fast-prime тест?
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; метод который используем в fast-prime?</span>
-<span class="lineno"> 2 </span><span class="c1">;; Два числа называются сопоставимыми по модулю n если оба имеют одинаковый остаток при делении на n.</span>
-<span class="lineno"> 3 </span><span class="c1">;; вызывая каждый раз reminder, числа с которыми мы работаем остаются малыми</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="c1">;; 2 7 7</span>
-<span class="lineno"> 6 </span><span class="c1">;; 2 &lt;- 2 * (2 6 7)</span>
-<span class="lineno"> 7 </span><span class="c1">;; 1 &lt;- square (2 3 7)</span>
-<span class="lineno"> 8 </span><span class="c1">;; 1 &lt;- 2 * (2 2 7)</span>
-<span class="lineno"> 9 </span><span class="c1">;; 4 &lt;- sqaure (2 1 7)</span>
-<span class="lineno">10 </span><span class="c1">;; 2 &lt;- 2 * (2 0 7)</span>
-<span class="lineno">11 </span>
-<span class="lineno">12 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">13 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">exp</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">14 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">exp</span><span class="p">)</span>
-<span class="lineno">15 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-<span class="lineno">16 </span>                    <span class="nv">m</span><span class="p">))</span>
-<span class="lineno">17 </span>        <span class="p">(</span><span class="nf">else</span>
-<span class="lineno">18 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="nv">base</span> <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">- </span><span class="nv">exp</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-<span class="lineno">19 </span>                    <span class="nv">m</span><span class="p">))))</span>
-<span class="lineno">20 </span>
-<span class="lineno">21 </span><span class="nv">expmod</span> <span class="p">(</span><span class="mi">100</span> <span class="mi">1000000007</span> <span class="mi">1000000007</span><span class="p">)</span>
-<span class="lineno">22 </span><span class="nv">reminder</span> <span class="p">(</span><span class="mi">100</span> <span class="nv">*</span> <span class="p">[</span><span class="nv">expmod</span><span class="p">(</span><span class="mi">100</span> <span class="mi">1000000006</span> <span class="mi">1000000007</span><span class="p">)])</span> <span class="mi">1000000007</span>
-<span class="lineno">23 </span><span class="c1">;; тут мы будем умножать на остаток []</span>
-<span class="lineno">24 </span><span class="p">[]</span> <span class="nv">=</span> <span class="nv">reminder</span> <span class="p">(</span><span class="nf">square</span> <span class="p">([</span><span class="nv">expmod</span> <span class="mi">100</span> <span class="mi">500000003</span> <span class="mi">1000000007</span><span class="p">]))</span> <span class="mi">1000000007</span><span class="p">)</span>
-<span class="lineno">25 </span><span class="c1">;; возводить в квадрат и перемножать мы будем остаток от деления</span>
-<span class="lineno">26 </span><span class="c1">;; мы сделаем это лагорифмическое число раз</span>
-<span class="lineno">27 </span><span class="nv">reminder</span> <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="mi">100</span> <span class="nv">*</span> <span class="nv">expmod</span><span class="p">(</span><span class="mi">100</span> <span class="mi">1000000006</span><span class="nv">/2</span> <span class="mi">1000000007</span><span class="p">))</span>
-<span class="lineno">28 </span>
-<span class="lineno">29 </span><span class="c1">;; метод Алисы</span>
-<span class="lineno">30 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">31 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">32 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))</span>
-<span class="lineno">33 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">b</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
-<span class="lineno">34 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">35 </span>  <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">base</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-<span class="lineno">36 </span><span class="c1">;; тут мы сначала вычисляем экспоненту, с числами навроде 100**1000000007</span>
-<span class="lineno">37 </span><span class="c1">;; умножение и возведение в квадрат на таких больших числах приводит к росту времени, алгоритм у нас по прежнему имеет лагорифмическую оценку по подсчету экспоненты, но порядок цифр таков, что обычное умножение требует больгих ресурсов компьютера.</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.26
-  </h2>
-  <div>
-   <div>
-    <p>
-     Луи изменил процедуру expmod как приведено ниже.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">exp</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">3 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">exp</span><span class="p">)</span>
-<span class="lineno">4 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">5 </span>                       <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-<span class="lineno">6 </span>                    <span class="nv">m</span><span class="p">))</span>
-<span class="lineno">7 </span>        <span class="p">(</span><span class="nf">else</span>
-<span class="lineno">8 </span>         <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="nv">base</span> <span class="p">(</span><span class="nf">expmod</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">- </span><span class="nv">exp</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-<span class="lineno">9 </span>                    <span class="nv">m</span><span class="p">))))</span>
-</pre>
-</div>   <div>
-    <p>
-     Его тест с fast-prime? стал работать медленнее теста prime? Записав процедуру таким образом мы изменили порядок роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="69" height="17" src="formulae/1x5T1vUP00ZqvVjCivgudKxH94n8CzR8J2yhGg.png" alt="\theta(log(n))" title="\theta(log(n))"></span> на <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="17" src="formulae/cCSlLH6spWmUZ.yEu3RFI4JpEISlQpO3e_iouA.png" alt="\theta(n)" title="\theta(n)"></span>. Поясните.
-    </p>
-    <p>
-     На каждой итерации (вернее через одну) мы сокращаем показатель экспоненты в два раза, но при этом мы увеличиваем количество операций в два раза. И таких шагов будет порядка n. То есть порядок роста данной процедуры будет <span class="inline-formula"><img class="img-inline-formula img-formula" width="125" height="17" src="formulae/l0_g5HESpbwL51Bg3kOuV1NK6d.gEU49UQiD0w.png" alt="\theta(log(2^n) = \theta(n)" title="\theta(log(2^n) = \theta(n)"></span>.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.27
-  </h2>
-  <div>
-   <div>
-    <p>
-     Продемонстрируйте что числа Кармайкла действительно проходят тест Фрема. Напишите процедуру которая принимает целое и тестуриует все числе &lt; n.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-test</span> <span class="nv">a</span><span class="p">)</span>
-<span class="lineno"> 3 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt;= </span><span class="nv">a</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">display </span><span class="s">"passed full fermat"</span><span class="p">))</span>
-<span class="lineno"> 4 </span>          <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">expmod</span> <span class="nv">a</span> <span class="nv">n</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">iter-test</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="mi">1</span><span class="p">)))</span>
-<span class="lineno"> 5 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">display </span><span class="s">"Ferma test failed"</span><span class="p">))))</span>
-<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nf">iter-test</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 7 </span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">561</span><span class="p">)</span>  <span class="c1">; passed full fermat</span>
-<span class="lineno"> 9 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">1105</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">1729</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">2465</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">2821</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
-<span class="lineno">13 </span><span class="p">(</span><span class="nf">fermat-test-all</span> <span class="mi">6601</span><span class="p">)</span> <span class="c1">; passed full fermat</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.28
-  </h2>
-  <div>
-   <div>
-    <p>
-     Один из вариантов теста Ферма, который не может быть одурачен числами Кармайкла, называется тест Миллера-Рабина (Миллер 1976; Рабин 1980). Он отталкивается от альтернативной формы Малой Теоремы Ферма, которая говорит что, если n - простое число и есть положительное целое a меньшее n, тогда <span class="inline-formula"><img class="img-inline-formula img-formula" width="124" height="18" src="formulae/h1NxGLnmrm3jF.Dr5t2Dx3FVFJTQnTF5iXXiSQ.png" alt="a^{n-1} \equiv 1 mod(n)" title="a^{n-1} \equiv 1 mod(n)"></span>.
-    </p>
-    <p>
-     Для тестирования простоты числа n, мы выбираем произвольный a &lt; n и возводим его в степень (n-1), берем модуль используя процедуру expmod.
-    </p>
-    <p>
-     Каждый раз когда мы выполняем возведение в квадрат, мы делаем дополнительную проверку на "не тривиальность квадратного корня к 1 по модулю n", то есть число не равное 1 или n-1, квадрат которого равен 1 по модулю n. Возможно доказать что если есть нетривиальный квадратный корень сопоставимый с 1 mod n, тогда n не простое. Также возможно доказать что если n нечетное число, которое не является простым, то по крайне мере для половины чисел a&lt;n, вычисление <span class="inline-formula"><img class="img-inline-formula img-formula" width="36" height="14" src="formulae/DiMGXUF1qBWcScK6PAT_f9sf89ACJHw5efZfAg.png" alt="a^{n-1}" title="a^{n-1}"></span> таким образом выявит нетривиальный квадратный корень от 1 по модулю n. (Именно из-за этого уточнения числа Кармайкла отсеиваются). Измените процедуру expmod что бы в случае обнаружения нетривиального квадратного корня она сигнализировала об ошибке.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">base</span> <span class="nv">exp</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">exp</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno"> 3 </span>        <span class="p">((</span><span class="nb">even? </span><span class="nv">exp</span><span class="p">)</span>
-<span class="lineno"> 4 </span>         <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">exp</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">m</span><span class="p">)))</span>
-<span class="lineno"> 5 </span>           <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="p">(</span><span class="nb">- </span><span class="nv">m</span> <span class="mi">1</span><span class="p">)))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-<span class="lineno"> 6 </span>                 <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">m</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno"> 7 </span>                 <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">m</span><span class="p">)))))</span>
-<span class="lineno"> 8 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">* </span><span class="nv">base</span> <span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">base</span> <span class="p">(</span><span class="nb">- </span><span class="nv">exp</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">m</span><span class="p">))</span>
-<span class="lineno"> 9 </span>                         <span class="nv">m</span><span class="p">))))</span>
-<span class="lineno">10 </span>
-<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">miller-rabin-test-all</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-test</span> <span class="nv">a</span><span class="p">)</span>
-<span class="lineno">13 </span>    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt;= </span><span class="nv">a</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">display </span><span class="s">"passed full miller-rabin test"</span><span class="p">))</span>
-<span class="lineno">14 </span>          <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">expmod-miller-rabin</span> <span class="nv">a</span> <span class="nv">n</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">iter-test</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="mi">1</span><span class="p">)))</span>
-<span class="lineno">15 </span>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">display </span><span class="s">"miller-rabin test failed"</span><span class="p">))))</span>
-<span class="lineno">16 </span>  <span class="p">(</span><span class="nf">iter-test</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno">17 </span>
-<span class="lineno">18 </span><span class="p">(</span><span class="nf">miller-rabin-test-all</span> <span class="mi">1999</span><span class="p">)</span> <span class="c1">;;  passed full miller-rabin test</span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">miller-rabin-test-all</span> <span class="mi">561</span><span class="p">)</span> <span class="c1">;;  miller-rabin test failed</span>
-</pre>
-</div>  </div>
- </div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-uprazhneniia-120-124/" class="u-url">SICP Упражнения 1.20, 1.21, 1.22, 1.23, 1.24</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/sicp-uprazhneniia-120-124/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-01-12T12:32:43+03:00" itemprop="datePublished" title="2020-01-12 12:32">2020-01-12 12:32</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.20
-  </h2>
-  <div>
-   <div>
-    <p>
-     Процесс который генерируется процедурой естественно зависит от правил интерпритатора. Как пример возьмем итеративную процецудуру нахождения наибольшего общего делителя приведенного выше. Предположим мы интерпритируем это процедуру используя "нормамальный порядок выполнения". Используя метод подстановки проиллюстрируйте процесс вычисления (gcd 206 40) и указать "reminder" операции которые реально выполняются. Сколько таких операций выполнится при "нормальном порядке" и сколько при "апликативном".
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; нормальный порядок</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="nb">gcd </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="mi">40</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="nb">gcd </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">; 6 + 1 раз</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="nb">gcd </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">; 4 + 2 раза</span>
-<span class="lineno"> 9 </span><span class="p">(</span><span class="nb">gcd </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))))</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">; 2 + 4 раза</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="nb">gcd </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))))</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">reminder</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))</span> <span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">))))</span> <span class="mi">0</span><span class="p">))</span><span class="c1">; 0; + 7 раз</span>
-<span class="lineno">13 </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="o">...</span><span class="p">)</span>
-<span class="lineno">14 </span><span class="p">(</span><span class="nb">remainder </span><span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">40</span> <span class="p">(</span><span class="nb">remainder </span><span class="mi">206</span> <span class="mi">40</span><span class="p">)))</span> <span class="c1">;; 4 раза</span>
-<span class="lineno">15 </span><span class="c1">;; 18 вычислений reminder</span>
-<span class="lineno">16 </span><span class="c1">;; при апликативной форме этих вычислений всего 4</span>
-</pre>
-</div>   <div>
-    <p>
-     Вывод: при normal-order-evaluation 18 вызовов reminder, при applicative-order-evaluation 4.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.21
-  </h2>
-  <div>
-   <div>
-    <p>
-     Используя процедуру "smallest-divisor" Найдите наиментший делитель для 199б 1999, 19999
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="nv">test-divisor</span><span class="p">)</span>
-<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">square</span> <span class="nv">test-divisor</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 5 </span>        <span class="p">((</span><span class="nf">divides?</span> <span class="nv">test-divisor</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">test-divisor</span><span class="p">)</span>
-<span class="lineno"> 6 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">test-divisor</span> <span class="mi">1</span><span class="p">)))))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">divides?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno"> 9 </span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="mi">199</span><span class="p">)</span> <span class="c1">; 199</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="mi">1999</span><span class="p">)</span> <span class="c1">; 1999</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="mi">19999</span><span class="p">)</span> <span class="c1">; 7</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.22
-  </h2>
-  <div>
-   <div>
-    <p>
-     Большинство реализаций lisp включаются примитиву runtime, которая возвращает время работы системы. Ниже написана процедура которое замеряет время теста на простоту. Используя ей, напишите процедуру search-for-primes, которая проверяет простоту последовательных нечетных целых в заданном диапазоне. Используйте её чтобы найти 3 простых &gt; 1000; &gt; 10 000; &gt; 100 000; &gt; 1 000 000. Замерьте время для проверки каждого простого числа. Так как тестирующий алгоритм имеет порядок роста <span class="inline-formula"><img class="img-inline-formula img-formula" width="47" height="18" src="formulae/Fm5mrdojcg8nfk0moVZWNPpDRW6kuON6Rr83Gg.png" alt="\theta(\sqrt{n})" title="\theta(\sqrt{n})"></span>, вы должны ожидать получить для время для 10 000 в <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="18" src="formulae/stpajtmjWkASRa_Px.gSazh7yZYs.WaF43zFUg.png" alt="\sqrt{10}" title="\sqrt{10}"></span> больше времени чем для 1 000. Посмотрите как работает это соотношение для разных диапазонов n.
-    </p>
-    <p>
-     Запись кривовата, потому что нет конструкции (let или progn как в emacs lisp, просто их еще не было в курсе). Тенденция <span class="inline-formula"><img class="img-inline-formula img-formula" width="33" height="18" src="formulae/R5RobS5u6di.UD.78_HWXVOLw_0Y2cnEpyVVEQ.png" alt="\theta{\sqrt{n}}" title="\theta{\sqrt{n}}"></span> начинает походить на оценку только с 10 000 000. До этого все данные совпадают и нет прироста.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">report-prime</span> <span class="nv">start-time</span> <span class="nv">end-time</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno"> 3 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">" *** "</span><span class="p">)</span>
-<span class="lineno"> 4 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">start-time</span><span class="p">)</span>
-<span class="lineno"> 5 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"; "</span><span class="p">)</span>
-<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">end-time</span><span class="p">)</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"; "</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nb">- </span><span class="nv">end-time</span> <span class="nv">start-time</span><span class="p">)))</span>
-<span class="lineno"> 9 </span>
-<span class="lineno">10 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">prime?</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">11 </span>  <span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)))</span>
-<span class="lineno">12 </span>
-<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-iter</span> <span class="nv">from</span> <span class="nv">number</span> <span class="nv">start-time</span><span class="p">)</span>
-<span class="lineno">14 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">= </span><span class="nv">number</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno">15 </span>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">prime?</span> <span class="nv">from</span><span class="p">)</span>
-<span class="lineno">16 </span>          <span class="p">(</span><span class="nf">report-and-continue</span> <span class="nv">from</span> <span class="nv">number</span> <span class="nv">start-time</span> <span class="p">(</span><span class="nf">runtime</span><span class="p">))</span>
-<span class="lineno">17 </span>          <span class="p">(</span><span class="nf">search-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">from</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">number</span> <span class="nv">start-time</span><span class="p">))))</span>
-<span class="lineno">18 </span>
-<span class="lineno">19 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">report-and-continue</span> <span class="nv">from</span> <span class="nv">number</span> <span class="nv">start-time</span> <span class="nv">end-time</span><span class="p">)</span>
-<span class="lineno">20 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">21 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">from</span><span class="p">)</span>
-<span class="lineno">22 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">23 </span>  <span class="p">(</span><span class="nf">report-prime</span> <span class="nv">start-time</span> <span class="nv">end-time</span><span class="p">)</span>
-<span class="lineno">24 </span>  <span class="p">(</span><span class="nf">search-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">from</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">number</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">start-time</span><span class="p">))</span>
-<span class="lineno">25 </span>
-<span class="lineno">26 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="nv">from</span> <span class="nv">number</span><span class="p">)</span>
-<span class="lineno">27 </span>  <span class="p">(</span><span class="nf">search-iter</span> <span class="nv">from</span> <span class="nv">number</span> <span class="p">(</span><span class="nf">runtime</span><span class="p">)))</span>
-<span class="lineno">28 </span>
-<span class="lineno">29 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">1000</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno">30 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">10000</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno">31 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">100000</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno">32 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">1000000</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno">33 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">10000000</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno">34 </span><span class="p">(</span><span class="nf">search-for-primes</span> <span class="mi">100000000</span> <span class="mi">3</span><span class="p">)</span>
-</pre>
-</div>   <div class="center-block">
-    <p>
-     </p>
-<div class="tabular-wrapper"><table>
-<tr>
-<td class="cell-lt" style="text-align: left;">1009 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1013 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1019 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10007 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10009 </td>
-<td class="cell-lrt" style="text-align: center;"> .00999999999999801 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10037 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100003 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100019 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100043 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1000003 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1000033 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1000037 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10000019 </td>
-<td class="cell-lrt" style="text-align: center;"> .00999999999999801 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10000079 </td>
-<td class="cell-lrt" style="text-align: center;"> .03999999999999915 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10000103 </td>
-<td class="cell-lrt" style="text-align: center;"> .05999999999999872 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100000007 </td>
-<td class="cell-lrt" style="text-align: center;"> .03999999999999915 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10000079 </td>
-<td class="cell-lrt" style="text-align: center;"> .08999999999999986 </td>
-</tr>
-<tr>
-<td class="cell-ltb" style="text-align: left;">10000103 </td>
-<td class="cell-lrtb" style="text-align: center;"> .129999999999999 </td>
-</tr>
-</table></div>
-    
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.23
-  </h2>
-  <div>
-   <div>
-    <p>
-     Процедура smallest-divisor приведенная в начале главы выполняет много ненужных проверок. После проверки деления на 2, нет смысла делить на любые другие четные. То есть значениями для проверки должны быть не 2, 3, 4, 5, 6, ..., а 2, 3, 5, 7, 9, ....
-    </p>
-    <p>
-     Сделайте это изменение реализовав процедуру next, которая вернет 3 если на вход получили 2, в ином случае вернет входное значение плюс два. Измените smallest-divisor используя (next test-divisor) (+ test-divisor 1).
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno"> 5 </span>      <span class="mi">3</span>
-<span class="lineno"> 6 </span>      <span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="nv">test-divisor</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">square</span> <span class="nv">test-divisor</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 9 </span>        <span class="p">((</span><span class="nf">divides?</span> <span class="nv">test-divisor</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">test-divisor</span><span class="p">)</span>
-<span class="lineno">10 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">test-divisor</span><span class="p">)))))</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">divides?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     Повторите тест из 1.22
-    </p>
-    <div class="center-block">
-     <p>
-      </p>
-<div class="tabular-wrapper"><table>
-<tr>
-<td class="cell-lt" style="text-align: left;">1009 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1013 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1019 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10007 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10009 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10037 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100003 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100019 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100043 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1000003 </td>
-<td class="cell-lrt" style="text-align: center;"> 0. </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1000033 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.0000000000001563e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">1000037 </td>
-<td class="cell-lrt" style="text-align: center;"> 2.0000000000003126e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10000019 </td>
-<td class="cell-lrt" style="text-align: center;"> .0 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10000079 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">10000103 </td>
-<td class="cell-lrt" style="text-align: center;"> 3.0000000000001137e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100000007 </td>
-<td class="cell-lrt" style="text-align: center;"> 1.9999999999999574e-2 </td>
-</tr>
-<tr>
-<td class="cell-lt" style="text-align: left;">100000037 </td>
-<td class="cell-lrt" style="text-align: center;"> .05000000000000071 </td>
-</tr>
-<tr>
-<td class="cell-ltb" style="text-align: left;">100000039 </td>
-<td class="cell-lrtb" style="text-align: center;"> .07000000000000028 </td>
-</tr>
-</table></div>
-     
-    </div>
-    <p>
-     Во многих случаях уменьшилось в два раза.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 1.24
-  </h2>
-  <div>
-   <div>
-    <p>
-     Измените процедуру timed-prime-test из 1.22 что бы она использовала fast-prime? (метод Ферма), протестируйте 12 чисел которые были найдены в упражнении 1.22. Сравните время проверки. Так как тест Ферма имеет порядок роста (log n), каково ожидание по времени для чисел около 1,000,000 в сравнении с числами около 1000? Подтвержают ли это ваши данные? Можете объяснить несоответствия, которые найдете?
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smallest-divisor</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno"> 5 </span>      <span class="mi">3</span>
-<span class="lineno"> 6 </span>      <span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">2</span><span class="p">)))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="nv">test-divisor</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">square</span> <span class="nv">test-divisor</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno"> 9 </span>        <span class="p">((</span><span class="nf">divides?</span> <span class="nv">test-divisor</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">test-divisor</span><span class="p">)</span>
-<span class="lineno">10 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">find-divisor</span> <span class="nv">n</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">test-divisor</span><span class="p">)))))</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">divides?</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">b</span> <span class="nv">a</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     для диапазанов &lt; 10,000,000 время проверки по исходному тесту было .0, поэтому я добавил еще один диапазон и протестировал сначала старую функцию timed-prime-test
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; 1.9999999999999574e-2</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; .05000000000000071</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; .05999999999999872</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; .07000000000000028</span>
-</pre>
-</div>   <div>
-    <p>
-     результаты выполнения теста между 1 и 2 диапазоном &lt; <span class="inline-formula"><img class="img-inline-formula img-formula" width="32" height="18" src="formulae/stpajtmjWkASRa_Px.gSazh7yZYs.WaF43zFUg.png" alt="\sqrt{10}" title="\sqrt{10}"></span> между 2 и 3 приближенно равны ему.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; 1.9999999999999574e-2</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; 2.0000000000003126e-2</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; .05000000000000071</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; .05999999999999872</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; .07000000000000028</span>
-</pre>
-</div>   <div>
-    <p>
-     после этого переписал через fast-prime, время теста зависит от количества проверок
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">; c 10 проверками</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; 0.</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; 0.</span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; .00999999999999801</span>
-<span class="lineno"> 5 </span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; 0.</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; .00999999999999801</span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; .00999999999999801</span>
-<span class="lineno"> 9 </span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; 1.0000000000001563e-2</span>
-<span class="lineno">13 </span>
-<span class="lineno">14 </span><span class="c1">; с 1000 проверками</span>
-<span class="lineno">15 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000019</span><span class="p">)</span><span class="c1">; .1999999999999993</span>
-<span class="lineno">16 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000079</span><span class="p">)</span><span class="c1">; .20000000000000284</span>
-<span class="lineno">17 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">10000103</span><span class="p">)</span><span class="c1">; .21999999999999886</span>
-<span class="lineno">18 </span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000007</span><span class="p">)</span><span class="c1">; .23000000000000043</span>
-<span class="lineno">20 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000037</span><span class="p">)</span><span class="c1">; .23999999999999844</span>
-<span class="lineno">21 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">100000039</span><span class="p">)</span><span class="c1">; .240000000000002</span>
-<span class="lineno">22 </span>
-<span class="lineno">23 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000007</span><span class="p">)</span><span class="c1">; .2699999999999996</span>
-<span class="lineno">24 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000009</span><span class="p">)</span><span class="c1">; .26000000000000156</span>
-<span class="lineno">25 </span><span class="p">(</span><span class="nf">timed-prime-test</span> <span class="mi">1000000021</span><span class="p">)</span><span class="c1">; .259999999999998</span>
-</pre>
-</div>   <div>
-    <p>
-     оба тесты похожи на линейный прирост времени.
     </p>
    </div>
   </div>

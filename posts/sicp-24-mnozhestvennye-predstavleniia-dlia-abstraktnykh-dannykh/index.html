@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html prefix="
+        og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+    " vocab="http://ogp.me/ns" lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>SICP 2.4 Множественные представления для абстрактных данных. | VelikiiNehochuha Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="../../rss.xml">
+<link rel="canonical" href="http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/">
+<!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
+<link rel="prev" href="../sicp-23-simvolicheskie-dannye/" title="SICP 2.3 Символические данные." type="text/html">
+<link rel="next" href="../sicp-25-sistemy-s-obshchimi-operatsiiami/" title="SICP 2.5 Системы с общими операциями." type="text/html">
+<meta property="og:site_name" content="VelikiiNehochuha Blog">
+<meta property="og:title" content="SICP 2.4 Множественные представления для абстрактных данных.">
+<meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/">
+<meta property="og:description" content="Упражнение 2.73
+
+
+В секции 2.3.2 описана программа символического дифференцирования.
+
+
+(define (deriv exp var)
+  (cond ((number? exp) 0)
+	((variable? exp) (if (same-variable? exp var) 1 0))
+	((sum? ex">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-01-25T19:33:39+03:00">
+<meta property="article:tag" content="abstract_data">
+<meta property="article:tag" content="data-directed">
+<meta property="article:tag" content="generic_procedures">
+<meta property="article:tag" content="multiple_representations">
+<meta property="article:tag" content="scheme">
+<meta property="article:tag" content="sicp">
+</head>
+<body>
+    <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
+    <div id="container">
+             <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+
+        <span id="blog-title">VelikiiNehochuha Blog</span>
+    </a></h1>
+
+        
+            <nav id="menu"><ul>
+<li><a href="../../archive.html">Архив</a></li>
+                <li><a href="../../categories/">Тэги</a></li>
+                <li><a href="../../rss.xml">RSS лента</a></li>
+
+    
+    
+    
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP 2.4 Множественные представления для абстрактных данных.</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-25T19:33:39+03:00" itemprop="datePublished" title="2020-01-25 19:33">2020-01-25 19:33</time></a>
+            </p>
+                    <p class="sourceline"><a href="index.org" class="sourcelink">Источник</a></p>
+
+        </div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+<img src="../../images/ch2-Z-G-54.gif" alt="nil"></p>
+
+
+<p>
+<img src="../../images/ch2-Z-G-62.gif" alt="nil"></p>
+
+
+<div id="outline-container-org3dfb9b4" class="outline-2">
+<h2 id="org3dfb9b4">Упражнение 2.73</h2>
+<div class="outline-text-2" id="text-org3dfb9b4">
+<p>
+В секции 2.3.2 описана программа символического дифференцирования.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="p">((</span><span class="nf">variable?</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+	<span class="p">((</span><span class="nf">sum?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">addend</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">augend</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+	<span class="p">((</span><span class="nf">product?</span> <span class="nv">exp</span><span class="p">)</span>
+	 <span class="p">(</span><span class="nf">make-sum</span>
+	   <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">exp</span><span class="p">)</span>
+			 <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">))</span>
+	   <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+			 <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">exp</span><span class="p">))))</span>
+	<span class="nv">&lt;more</span> <span class="nv">rules</span> <span class="nv">can</span> <span class="nv">be</span> <span class="nv">added</span> <span class="nv">here&gt;</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"unknown expression type -- DERIV"</span> <span class="nv">exp</span><span class="p">))))</span>
+</pre></div>
+
+<p>
+Мы можем переписать программу что бы она выполняла дифференцирование по типу выражения. В данном случае "type tag" - символ алгебраической операции (к примеру +).
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+	 <span class="p">((</span><span class="nf">variable?</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+	 <span class="p">(</span><span class="k">else </span><span class="p">((</span><span class="nf">get</span> <span class="ss">'deriv</span> <span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">))</span> <span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span>
+					    <span class="nv">var</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">exp</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">exp</span><span class="p">))</span>
+</pre></div>
+
+<p>
+a. Объясните что сделано выше? Почему мы не можем применить number? и same-variable? в дата ориенторованный обработчик?
+</p>
+
+<p>
+number? и same-variable? не содержат знака операции поэтому они не могут быть обработаны по типу операции.
+</p>
+
+<p>
+b. напишите процедуру для взятия производной от суммы и произведения и вспомогательный код который помещает их в таблицу.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">get</span> <span class="mi">2</span><span class="nv">d-get</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">put</span> <span class="mi">2</span><span class="nv">d-put!</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span>
+   <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">exp</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+	 <span class="p">((</span><span class="nf">variable?</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">exp</span> <span class="nv">var</span><span class="p">)</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+	 <span class="p">(</span><span class="k">else </span><span class="p">((</span><span class="nf">get</span> <span class="ss">'deriv</span> <span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">))</span> <span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span>
+		<span class="nv">var</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">exp</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">exp</span><span class="p">))</span>
+
+<span class="c1">;; для произведения</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-deriv-mul-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplier</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-product</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'*</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv-mul</span> <span class="nv">operands</span> <span class="nv">var</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-sum</span>
+     <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">operands</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">operands</span><span class="p">)</span> <span class="nv">var</span><span class="p">))</span>
+     <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">multiplier</span> <span class="nv">operands</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">multiplicand</span> <span class="nv">operands</span><span class="p">))))</span>
+  <span class="c1">;; interface to the rest of the system</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'deriv</span> <span class="ss">'*</span> <span class="nv">deriv-mul</span><span class="p">)</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-deriv-mul-package</span><span class="p">)</span>
+<span class="c1">;; для суммы</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-deriv-sum-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">addend</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">augend</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv-sum</span> <span class="nv">opds</span> <span class="nv">var</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">addend</span> <span class="nv">opds</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span> <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">augend</span> <span class="nv">opds</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+  <span class="c1">;; interface to the rest of the system</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'deriv</span> <span class="ss">'+</span> <span class="nv">deriv-sum</span><span class="p">)</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-deriv-sum-package</span><span class="p">)</span>
+</pre></div>
+
+<p>
+c. добавить правило диффиренцирования для экспоненты
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;; для экспоненты</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-deriv-exp-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">base</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exponent</span> <span class="nv">opds</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">opds</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sum</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'+</span> <span class="nv">a1</span> <span class="nv">a2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-product</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'*</span> <span class="nv">m1</span> <span class="nv">m2</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-exponentiation</span> <span class="nv">b1</span> <span class="nv">e2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">=number?</span> <span class="nv">e2</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nf">=number?</span> <span class="nv">e2</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">b1</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nf">=number?</span> <span class="nv">b1</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+	  <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">number? </span><span class="nv">b1</span><span class="p">)</span> <span class="p">(</span><span class="nb">number? </span><span class="nv">e2</span><span class="p">))</span> <span class="p">(</span><span class="nb">expt </span><span class="nv">b1</span> <span class="nv">e2</span><span class="p">))</span>
+	  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">list </span><span class="ss">'**</span> <span class="nv">b1</span> <span class="nv">e2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deriv-exp</span> <span class="nv">opds</span> <span class="nv">var</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">make-product</span> <span class="p">(</span><span class="nf">exponent</span> <span class="nv">opds</span><span class="p">)</span>
+				<span class="p">(</span><span class="nf">make-exponentiation</span> <span class="p">(</span><span class="nf">base</span> <span class="nv">opds</span><span class="p">)</span>
+						     <span class="p">(</span><span class="nf">make-sum</span> <span class="p">(</span><span class="nf">exponent</span> <span class="nv">opds</span><span class="p">)</span> <span class="mi">-1</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="nf">deriv</span> <span class="p">(</span><span class="nf">base</span> <span class="nv">opds</span><span class="p">)</span> <span class="nv">var</span><span class="p">)))</span>
+  <span class="c1">;; interface to the rest of the system</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'deriv</span> <span class="ss">'**</span> <span class="nv">deriv-exp</span><span class="p">)</span>
+  <span class="ss">'done</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">install-deriv-exp-package</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">deriv</span> <span class="o">'</span><span class="p">(</span><span class="nv">**</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span> <span class="ss">'x</span><span class="p">)</span>
+</pre></div>
+
+<p>
+d. предположим мы индексируем процедуры другим способом, то есть в процедуре производной вызывается вот такой код
+</p>
+<div class="highlight"><pre><span></span><span class="p">((</span><span class="nf">get</span> <span class="p">(</span><span class="nf">operator</span> <span class="nv">exp</span><span class="p">)</span> <span class="ss">'deriv</span><span class="p">)</span> <span class="p">(</span><span class="nf">operands</span> <span class="nv">exp</span><span class="p">)</span> <span class="nv">var</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Какие изменения необходимо сделать в остальной системе что бы код продолжал работать?
+</p>
+
+<p>
+нам нужно изменить интерфейсную часть пакетов, то есть при выполнении put нужно поменять местами операнд и имя функции
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">put</span> <span class="ss">'**</span> <span class="ss">'deriv</span> <span class="nv">deriv-exp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org3f59c89" class="outline-2">
+<h2 id="org3f59c89">Упражнение 2.74</h2>
+<div class="outline-text-2" id="text-org3f59c89">
+<p>
+"Жадное Предприятие Inc." широко децентрализованная компания, которая имеет много подразделений. В каждом подразделении своя реализация хранения списка персонала. Нужно иметь возможность получать и искать сотрудников по всем подразделениям, определите общие методы.
+</p>
+
+<p>
+a. Дайте определение общей процедуры get-record, которая получает информацию по конкретному сотруднику из файла списка сотрудников подразделения.
+</p>
+
+<p>
+b. Дайте определение общей процедуры get-salary, которая получает зарплату сотрудника.
+</p>
+
+<p>
+c. Сделайте общую процедуру find-employee-record которая ищет по имени по всем подразделениям.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-department-1-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">TYPE</span> <span class="ss">'department1</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">allemployees</span> <span class="p">(</span><span class="nb">list </span><span class="o">'</span><span class="p">(</span><span class="nv">Каблуков</span> <span class="mf">100.0</span> <span class="s">"Достоевского 5, кв. 20"</span> <span class="mi">1</span><span class="p">)</span>
+			     <span class="o">'</span><span class="p">(</span><span class="nv">Коровин</span> <span class="mf">70.0</span> <span class="s">"Луговая 2"</span> <span class="mi">2</span><span class="p">)</span>
+			     <span class="o">'</span><span class="p">(</span><span class="nv">Тихонов</span> <span class="mf">75.0</span> <span class="s">"Лунина 13, кв. 156"</span> <span class="mi">3</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">last-name</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">car </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">salary</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">address</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">caddr </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">id</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cadddr </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-record</span> <span class="nv">employee-id</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="nv">records</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">records</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">pk</span> <span class="p">(</span><span class="nf">id</span> <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">records</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-id</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">employee-name</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="nv">records</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">records</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">name</span> <span class="p">(</span><span class="nf">last-name</span> <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">records</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-name</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="c1">;; interface</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="nv">TYPE</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">get-record</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-salary</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rec</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">salary</span> <span class="nv">rec</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'find-employee-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="nv">TYPE</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">dp1</span> <span class="p">(</span><span class="nf">install-department-1-package</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-department-2-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">TYPE</span> <span class="ss">'department2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="nv">allemployees</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="mi">4</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'Щавелев</span> <span class="mf">105.0</span> <span class="s">"Пушкина 5, кв. 20"</span><span class="p">))</span>
+			     <span class="p">(</span><span class="nb">list </span><span class="mi">5</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'Коровин</span> <span class="mf">71.0</span> <span class="s">"Пушкина 2"</span><span class="p">))</span>
+			     <span class="p">(</span><span class="nb">list </span><span class="mi">6</span> <span class="p">(</span><span class="nb">list </span><span class="ss">'Куравлев</span> <span class="mf">74.0</span> <span class="s">"Лунина 13, кв. 156"</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">last-name</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">salary</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">address</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">caddr </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">record</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">id</span> <span class="nv">record</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">car </span><span class="nv">record</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-record</span> <span class="nv">employee-id</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="nv">records</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">records</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">pk</span> <span class="p">(</span><span class="nf">id</span> <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">records</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">pk</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">records</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-id</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">employee-name</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="nv">employees</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">employees</span><span class="p">)</span>
+	  <span class="nv">false</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">name</span> <span class="p">(</span><span class="nf">last-name</span> <span class="p">(</span><span class="nb">car </span><span class="nv">employees</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nb">car </span><span class="nv">employees</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">employees</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">iter-search</span> <span class="nv">employee-name</span> <span class="nv">allemployees</span><span class="p">))</span>
+  <span class="c1">;; interface</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="nv">TYPE</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">get-record</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-salary</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rec</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">salary</span> <span class="nv">rec</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'find-employee-record</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">search-by-name</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="nv">TYPE</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">dp2</span> <span class="p">(</span><span class="nf">install-department-2-package</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-record</span> <span class="nv">employee-id</span> <span class="nv">department-id</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">get</span> <span class="nv">department-id</span> <span class="ss">'get-record</span><span class="p">)</span> <span class="nv">employee-id</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="p">(</span><span class="nb">car </span><span class="nv">type-tags</span><span class="p">)</span> <span class="nv">op</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="nv">proc</span>
+	  <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">error</span>
+	    <span class="s">"No method for these types -- APPLY-GENERIC"</span>
+	    <span class="p">(</span><span class="nb">list </span><span class="nv">type-tags</span> <span class="nv">op</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-salary</span> <span class="nv">record</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'get-salary</span> <span class="nv">record</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-employee-record</span> <span class="nv">employee-name</span> <span class="nv">deps</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">name</span> <span class="nv">deps</span> <span class="nv">res</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">when</span> <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">null? </span><span class="nv">deps</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">record</span> <span class="p">((</span><span class="nf">get</span> <span class="p">(</span><span class="nb">car </span><span class="nv">deps</span><span class="p">)</span> <span class="ss">'find-employee-record</span><span class="p">)</span> <span class="nv">name</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="nb">display </span><span class="nv">record</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">eq? </span><span class="nv">record</span> <span class="nv">false</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">deps</span><span class="p">)</span> <span class="nv">res</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">name</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">deps</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">record</span> <span class="nv">res</span><span class="p">)))))</span>
+    <span class="nv">res</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">iter-department-search</span> <span class="nv">employee-name</span> <span class="nv">deps</span> <span class="o">'</span><span class="p">()))</span>
+<span class="nv">dp1</span>
+<span class="nv">dp2</span>
+<span class="p">(</span><span class="nb">equal? </span><span class="ss">'Li</span> <span class="ss">'Li</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">get</span> <span class="nv">dp2</span> <span class="ss">'find-employee-record</span><span class="p">)</span>
+<span class="p">((</span><span class="nf">get</span> <span class="nv">dp2</span> <span class="ss">'find-employee-record</span><span class="p">)</span> <span class="ss">'Li</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">find-employee-record</span> <span class="ss">'Коровин</span> <span class="p">(</span><span class="nb">list </span><span class="nv">dp1</span> <span class="nv">dp2</span><span class="p">))</span>
+</pre></div>
+
+<p>
+d. Какие изменения нужно внести если в Жадное Предприятие Inc. добавится еще одна дочерняя.
+</p>
+
+<p>
+При добавлении подразделения нужно будет задать уникальный TYPE и реализовать интерфейс.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-record</span>
+     <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="o">...</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'get-salary</span>
+     <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rec</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="o">...</span> <span class="nv">rec</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="nv">TYPE</span> <span class="ss">'find-employee-record</span>
+     <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="o">...</span> <span class="nv">x</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7e3d48a" class="outline-2">
+<h2 id="org7e3d48a">Упражнение 2.75</h2>
+<div class="outline-text-2" id="text-org7e3d48a">
+<p>
+Определите конструктор make-from-mag-ang в стиле получения сообщения (message-passing).
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-from-real-imag</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">op</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'real-part</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'imag-part</span><span class="p">)</span> <span class="nv">y</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'magnitude</span><span class="p">)</span>
+	   <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">y</span><span class="p">))))</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'angle</span><span class="p">)</span> <span class="p">(</span><span class="nb">atan </span><span class="nv">y</span> <span class="nv">x</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">else</span>
+	   <span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown op -- MAKE-FROM-REAL-IMAG"</span> <span class="nv">op</span><span class="p">))))</span>
+  <span class="nv">dispatch</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="nv">arg</span><span class="p">)</span> <span class="p">(</span><span class="nf">arg</span> <span class="nv">op</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-from-mag-ang</span> <span class="nv">m</span> <span class="nv">a</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">op</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'real-part</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">m</span> <span class="p">(</span><span class="nb">cos </span><span class="nv">a</span><span class="p">)))</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'imag-part</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">m</span> <span class="p">(</span><span class="nb">sin </span><span class="nv">a</span><span class="p">)))</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'magnitude</span><span class="p">)</span> <span class="nv">m</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">op</span> <span class="ss">'angle</span><span class="p">)</span> <span class="nv">a</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nf">else</span>
+	   <span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown op -- MAKE-FROM-MAG-ANG"</span> <span class="nv">op</span><span class="p">))))</span>
+  <span class="nv">dispatch</span><span class="p">)</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">real-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'real-part</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">imag-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'imag-part</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">magnitude </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'magnitude</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">angle </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'angle</span> <span class="nv">z</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">real-part </span><span class="p">(</span><span class="nf">make-from-real-imag</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orga87bdec" class="outline-2">
+<h2 id="orga87bdec">Упражнение 2.76</h2>
+<div class="outline-text-2" id="text-orga87bdec">
+<p>
+При эволюционировании системы с общими процедурами, могут потребоваться новые типы данных или новые операции. Для каждой из трех стратегий
+</p>
+
+<p>
+общие операции с явным выбором по типу
+дата ориентированный подход (через хеш таблицы)
+и подход получения сообщения (через dispatch в конструкторе)
+</p>
+
+<p>
+опишите изменения которые должны быть внесены для нового типа или новой операции <code>[3/3]</code>
+</p>
+
+<ul class="org-ul">
+<li class="on">
+<code>[X]</code> при явном выборе метода по типу, нужно изменить <b>все общие методы</b> добавив туда дополнительные условия обработки нового типа. если добавляется метод, то нужно реализовать <b>общий метод</b> с выбором частного метода <b>для каждого типа</b>.</li>
+
+<li class="on">
+<code>[X]</code> при использовании дата ориентированного подхода если добавляется новый метод, реализовать интерфейс для этого метода для каждого типа, если добавляется новый тип, нужно реализовать интерфейсные методы для данного типа. <b>Важно что при этом не меняется старый код.</b>
+</li>
+
+<li class="on">
+<code>[X]</code> при использовании message-passing при добавлении метода, нужно изменить конструкторы всех типов, добавив туда обработку нового метода, если добавляется новый тип, достаточно описать новый конструктор. То есть <b>при добавлении типа, старый код не меняется</b>, но <b>при добавлении метода, придется менять конструкторы в старом коде</b>.</li>
+</ul>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/abstract_data/" rel="tag">abstract_data</a></li>
+            <li><a class="tag p-category" href="../../categories/data-directed/" rel="tag">data-directed</a></li>
+            <li><a class="tag p-category" href="../../categories/generic_procedures/" rel="tag">generic_procedures</a></li>
+            <li><a class="tag p-category" href="../../categories/multiple_representations/" rel="tag">multiple_representations</a></li>
+            <li><a class="tag p-category" href="../../categories/scheme/" rel="tag">scheme</a></li>
+            <li><a class="tag p-category" href="../../categories/sicp/" rel="tag">sicp</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../sicp-23-simvolicheskie-dannye/" rel="prev" title="SICP 2.3 Символические данные.">Предыдущая запись</a>
+            </li>
+            <li class="next">
+                <a href="../sicp-25-sistemy-s-obshchimi-operatsiiami/" rel="next" title="SICP 2.5 Системы с общими операциями.">Следующая запись</a>
+            </li>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+                <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

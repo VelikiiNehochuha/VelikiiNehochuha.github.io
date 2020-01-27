@@ -1,0 +1,18 @@
+#+BEGIN_COMMENT
+.. title: SICP 2.5 Системы с общими операциями.
+.. slug: sicp-25-sistemy-s-obshchimi-operatsiiami
+.. date: 2020-01-25 20:11:07 UTC+03:00
+.. tags: sicp, scheme, generic_operations
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* Упражнение 2.
+
+#+BEGIN_SRC scheme
+#+END_SRC
+
