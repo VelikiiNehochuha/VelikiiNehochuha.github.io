@@ -11,7 +11,7 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/abstract_data.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-01-27T12:04:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/algorithms.xml</loc>
@@ -22,8 +22,12 @@
   <lastmod>2020-01-11T22:05:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/coercion.xml</loc>
+  <lastmod>2020-02-01T22:22:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/data-directed.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-01-27T12:04:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/data_abstraction.xml</loc>
@@ -43,11 +47,11 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/generic_operations.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-02-01T22:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/generic_procedures.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-01-27T12:04:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/hierarchical_data.xml</loc>
@@ -67,7 +71,7 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/multiple_representations.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-01-27T12:04:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/prime_numbers.xml</loc>
@@ -83,15 +87,15 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-02-01T22:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sequences_as_conventional_interfaces.xml</loc>
-  <lastmod>2020-01-21T18:18:00Z</lastmod>
+  <lastmod>2020-01-27T12:04:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-02-01T22:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
@@ -111,10 +115,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-02-01T22:22:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-02-01T22:22:00Z</lastmod>
  </sitemap>
 </sitemapindex>

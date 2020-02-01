@@ -44,10 +44,1166 @@
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org017d9cc" class="outline-2">
-<h2 id="org017d9cc">Упражнение 2.</h2>
-<div class="outline-text-2" id="text-org017d9cc">
-<div class="highlight"><pre><span></span>
+    <p>
+Системы с общими операциями не только для разных представлений, но и для разного числа аргументов.
+</p>
+
+<div id="outline-container-org3d2b23d" class="outline-2">
+<h2 id="org3d2b23d">Упражнение 2.77</h2>
+<div class="outline-text-2" id="text-org3d2b23d">
+<p>
+Луис Разумный пытается выполнить процедуру (magnitude z) где z объект комплексного числа как на изображении.
+</p>
+
+<p>
+<img src="images/ch2-Z-G-65.gif" alt="nil"></p>
+
+<p>
+К его удивлению вместо числа, он получает ошибку ;No method for these types – APPLY-GENERIC (magnitude (complex)). Он показывает результат Алисе. Она говорит что пакет custom, не имеет селекторов magnitude, .. и предлагает добавить их в пакет.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">put</span> <span class="ss">'real-part</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span> <span class="nv">real-part</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'imag-part</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span> <span class="nv">imag-part</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'magnitude</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span> <span class="nv">magnitude</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'angle</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span> <span class="nv">angle</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">magnitude </span><span class="p">(</span><span class="nf">make-complex-from-mag-ang</span> <span class="mi">10</span> <span class="mf">0.5</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Объясните почему это будет работать? Сколько раз вызывается apply-generic? Какая процедура выполняется в каждом случае?
+</p>
+
+<p>
+apply-generic вызывается два раза, на первом этапе происходит отображение на процедуру magnitude только с другим тегом, а во втором случае происходит отображение процедуру на внутреннюю процедуру поката polar.
+</p>
+
+<p>
+[Entering #[compound-procedure 88 magnitude]
+    Args: (complex polar 10 . .5)]
+[Entering #[compound-procedure 88 magnitude]
+    Args: (polar 10 . .5)]
+[10
+      &lt;== #[compound-procedure 88 magnitude]
+    Args: (polar 10 . .5)]
+[10
+      &lt;== #[compound-procedure 88 magnitude]
+    Args: (complex polar 10 . .5)]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org48cfd39" class="outline-2">
+<h2 id="org48cfd39">Упражнение 2.78</h2>
+<div class="outline-text-2" id="text-org48cfd39">
+<p>
+Внутренние процедуры scheme-number по существу просто вызывают процедуры +/-/.. Не возможно использовать примитивы языка напрямую, потому что наша система тип-тег требует что бы каждый объект имел тег, в тоже время все реализации Lisp имеют внутренню систему типов. Примитивы symbol? number? определяют являются ли объекты примитивными типами. Измените определение type-tag, contents и attach-tag, что бы наша система получила преимущество использования внутренних типов Scheme. То есть функции должны работать по прежнему, но для операции над простыми числами не требуется дополнительный конструктор, который возвращает пару тип значение.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-scheme-number-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span> <span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'sub</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span> <span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'mul</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span> <span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'div</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span> <span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-scheme-number-package</span><span class="p">)</span> <span class="c1">;; установка пакета</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">attach-tag</span> <span class="nv">type-tag</span> <span class="nv">contents</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">number? </span><span class="nv">contents</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">cons </span><span class="ss">'scheme-number</span> <span class="nv">contents</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">cons </span><span class="nv">type-tag</span> <span class="nv">contents</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">type-tag</span> <span class="nv">datum</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">datum</span><span class="p">)</span> <span class="ss">'scheme-number</span><span class="p">)</span>
+	<span class="p">((</span><span class="nb">pair? </span><span class="nv">datum</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">datum</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Bad tagged datum -- TYPE-TAG"</span> <span class="nv">datum</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">contents</span> <span class="nv">datum</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">number? </span><span class="nv">datum</span><span class="p">)</span> <span class="nv">datum</span><span class="p">)</span>
+	<span class="p">((</span><span class="nb">pair? </span><span class="nv">datum</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">datum</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Bad tagged datum -- CONTENTS"</span> <span class="nv">datum</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nf">add</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">;; 3</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org7b91fc1" class="outline-2">
+<h2 id="org7b91fc1">Упражнение 2.79, 2.80</h2>
+<div class="outline-text-2" id="text-org7b91fc1">
+<p>
+Определите общую процедуру equ? которая проверяет эквивалентность двух чисел. Процедура должна работать с обычными, рациональными и комплексными числами.
+</p>
+
+<p>
+Определите общую процедуру =zero?
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;; в интерфейсах пакетов</span>
+<span class="c1">;; для обычных</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'equ?</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span> <span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="c1">;; для комплексных</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'equ?</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span> <span class="nv">complex</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">real-part </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">real-part </span><span class="nv">y</span><span class="p">))</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">imag-part </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">imag-part </span><span class="nv">y</span><span class="p">)))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">magnitude </span><span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="c1">;; для рациональных</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'equ?</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span> <span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">))</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">)))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="c1">;; общее определение</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">equ?</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'equ?</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">=zero?</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'=zero?</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">=zero?</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">=zero?</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">equ?</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">equ?</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">make-complex-from-mag-ang</span> <span class="mi">10</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">equ?</span> <span class="p">(</span><span class="nf">make-complex-from-mag-ang</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">equ?</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">equ?</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="mi">2</span> <span class="mi">6</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="mi">1</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orge1b2234" class="outline-2">
+<h2 id="orge1b2234">Упражнение 2.81</h2>
+<div class="outline-text-2" id="text-orge1b2234">
+<p>
+Луис Разумный заметил что apply-generic может приводить аргументы, даже если они одного типа. Поэтому, он рассудил, что мы должны поместить процедуры приведения одинаковых типов в таблицу приведения.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">scheme-number-&gt;scheme-number</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">complex-&gt;complex</span> <span class="nv">z</span><span class="p">)</span> <span class="nv">z</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">put-coercion</span> <span class="ss">'scheme-number</span> <span class="ss">'scheme-number</span>
+	      <span class="nv">scheme-number-&gt;scheme-number</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">put-coercion</span> <span class="ss">'complex</span> <span class="ss">'complex</span> <span class="nv">complex-&gt;complex</span><span class="p">)</span>
+</pre></div>
+
+<p>
+a. С установленными процедурами Луиса, что произойдет если вызвать apply-generic с двумя аргументами типа scheme-number или двумя аргументами типа complex для операции которой нет в таблице этих типов? к примеру зададим общую процедуру экспоненты:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">exp </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'exp</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+
+<span class="c1">;; following added to Scheme-number package</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'exp</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span> <span class="nv">scheme-number</span><span class="p">)</span>
+     <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nb">expt </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span> <span class="c1">; using primitive expt</span>
+</pre></div>
+
+<p>
+и вызовем её для комплексных чисел.
+</p>
+
+<p>
+произойдет рекурсивный вызов apply-generic.
+</p>
+
+<p>
+b. Прав ли Луис что дописал эти преобразования типов?
+Код Луиса лишний, apply-generic и так работает.
+</p>
+
+<p>
+с. Измените apply-generic чтобы он не пытался искать в таблице приведения типов, если типы аргументов одинаковые.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="nv">proc</span>
+	  <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">length </span><span class="nv">args</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+	      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">type-tags</span><span class="p">))</span>
+		    <span class="p">(</span><span class="nf">type2</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">type-tags</span><span class="p">))</span>
+		    <span class="p">(</span><span class="nf">a1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">args</span><span class="p">))</span>
+		    <span class="p">(</span><span class="nf">a2</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">args</span><span class="p">)))</span>
+		<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">type1</span> <span class="nv">type2</span><span class="p">)</span>
+		    <span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span>
+			   <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))</span>
+		    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">t1-&gt;t2</span> <span class="p">(</span><span class="nf">get-coercion</span> <span class="nv">type1</span> <span class="nv">type2</span><span class="p">))</span>
+			  <span class="p">(</span><span class="nf">t2-&gt;t1</span> <span class="p">(</span><span class="nf">get-coercion</span> <span class="nv">type2</span> <span class="nv">type1</span><span class="p">)))</span>
+		      <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="nf">t1-&gt;t2</span>
+			     <span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="p">(</span><span class="nf">t1-&gt;t2</span> <span class="nv">a1</span><span class="p">)</span> <span class="nv">a2</span><span class="p">))</span>
+			    <span class="p">(</span><span class="nf">t2-&gt;t1</span>
+			     <span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="nv">a1</span> <span class="p">(</span><span class="nf">t2-&gt;t1</span> <span class="nv">a2</span><span class="p">)))</span>
+			    <span class="p">(</span><span class="nf">else</span>
+			     <span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span>
+				    <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))))))</span>
+		<span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span>
+		       <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))))))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org36fb671" class="outline-2">
+<h2 id="org36fb671">Упражнение 2.82</h2>
+<div class="outline-text-2" id="text-org36fb671">
+<p>
+Покажите как обобщить apply-generic для обработки приведения типов множественных аргументов. Одна из стратегий, попытка привести все аргументы к типу первого аргумента, затем к типу второго и так далее.
+Дайте пример когда такая стратегия не работает (более того она может не сработать и для двух аргументов).
+</p>
+
+<p>
+Если у нас есть три типа T1, T2, T3 и задана операция для T1, T2, T2 в таблице операций, то мы не найдем эту операцию, потому что при полном приведении типов сможем получить только T1 T2 T3, T1 T1 T1, T2 T2 T2, T3 T3 T3.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">map-args</span> <span class="nv">args</span> <span class="nv">type-tags</span> <span class="nv">cdr-type-tags</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">try-coercion</span> <span class="nv">args</span> <span class="nv">type-list</span> <span class="nv">target-type</span> <span class="nv">res</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">type-list</span><span class="p">)</span>
+	<span class="nv">res</span>
+	<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="p">(</span><span class="nb">car </span><span class="nv">type-list</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)</span>
+	    <span class="p">(</span><span class="nf">try-coercion</span>
+	     <span class="p">(</span><span class="nb">cdr </span><span class="nv">args</span><span class="p">)</span>
+	     <span class="p">(</span><span class="nb">cdr </span><span class="nv">type-list</span><span class="p">)</span>
+	     <span class="nv">target-type</span>
+	     <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">args</span><span class="p">)</span> <span class="nv">res</span><span class="p">))</span>
+	    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">t2-&gt;t1</span> <span class="p">(</span><span class="nf">get-coercion</span> <span class="p">(</span><span class="nb">car </span><span class="nv">type-list</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">t2-&gt;t1</span><span class="p">)</span>
+		  <span class="nv">false</span>
+		  <span class="p">(</span><span class="nf">try-coercion</span>
+		   <span class="p">(</span><span class="nb">cdr </span><span class="nv">args</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nb">cdr </span><span class="nv">type-list</span><span class="p">)</span>
+		   <span class="nv">target-type</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">t2-&gt;t1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">args</span><span class="p">))</span> <span class="nv">res</span><span class="p">)))))))</span>
+  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">cdr-type-tags</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">else</span>
+	 <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-args</span> <span class="p">(</span><span class="nf">try-coercion</span> <span class="nv">args</span> <span class="nv">type-tags</span> <span class="p">(</span><span class="nb">car </span><span class="nv">cdr-type-tags</span><span class="p">)</span> <span class="o">'</span><span class="p">())))</span>
+	   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">mapped-args</span><span class="p">)</span>
+	       <span class="p">(</span><span class="nf">map-args</span> <span class="nv">args</span> <span class="nv">type-tags</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">cdr-type-tags</span><span class="p">))</span>
+	       <span class="nv">mapped-args</span><span class="p">)))))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">proc</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-args</span> <span class="p">(</span><span class="nf">map-args</span> <span class="nv">args</span> <span class="nv">type-tags</span> <span class="nv">type-tags</span><span class="p">)))</span>
+	    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">mapped-args</span><span class="p">)</span>
+		<span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span> <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))</span>
+		<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">mapped-args</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">mapped-type-tags</span><span class="p">)))</span>
+		    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">proc</span><span class="p">)</span>
+			<span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span> <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))</span>
+			<span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">mapped-args</span><span class="p">)))))))</span>
+	  <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
+	  <span class="p">))))</span>
+
+<span class="p">(</span><span class="nf">get</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span> <span class="nv">complex</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'add</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">add</span> <span class="mi">1</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgcf942c2" class="outline-2">
+<h2 id="orgcf942c2">Упражнение 2.83</h2>
+<div class="outline-text-2" id="text-orgcf942c2">
+<p>
+Предположим вы разрабатываете систему для работы с башней типов как на картинке
+</p>
+
+<p>
+<img src="images/ch2-Z-G-66.gif" alt="nil"></p>
+
+<p>
+Для каждого типа (за исключением комплексного), напишите процедуру которая поднимает тип на один уровень. Покажите как установить общую операцию raise,которая будет работать для всех типов, кроме комплексного.
+</p>
+
+<p>
+если мы добавим метод raise в пакеты для scheme-number, rational, complex, тогда мы потеряем возможность разрабатывать пакеты отдельно, поэтому лучше реализовать метод через отдельную функцию.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-raise-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rational</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">get</span> <span class="ss">'make</span> <span class="ss">'rational</span><span class="p">)</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">get</span> <span class="ss">'make-from-real-imag</span> <span class="ss">'complex</span><span class="p">)</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-real</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">get</span> <span class="ss">'make</span> <span class="ss">'scheme-real</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="c1">;; interface</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-real</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-real</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="nv">x</span> <span class="mi">0</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"complex can't raise"</span><span class="p">)))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-raise-package</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">raise</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'raise</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">raise</span> <span class="p">(</span><span class="nf">raise</span> <span class="p">(</span><span class="nf">raise</span> <span class="p">(</span><span class="nf">make-number</span> <span class="mi">1</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org625b917" class="outline-2">
+<h2 id="org625b917">Упражнение 2.84</h2>
+<div class="outline-text-2" id="text-org625b917">
+<p>
+Используя процедуру raise из задачи 2.83 переделайте процедуру apply-generic, чтобы она приводила аргументы методом повышения типов.
+Вам нужно придумать способ определить какой из двух типов выше в иерархии.
+</p>
+<div class="highlight"><pre><span></span><span class="c1">;; табличка с сравнением типов</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">*op-compare-types-table*</span> <span class="p">(</span><span class="nf">make-hash-table</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">put-type-value</span> <span class="nv">type</span> <span class="nv">value</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">hash-table/put!</span> <span class="nv">*op-compare-types-table*</span> <span class="p">(</span><span class="nb">list </span><span class="nv">type</span><span class="p">)</span> <span class="nv">value</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-type-value</span> <span class="nv">type</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">hash-table/get</span> <span class="nv">*op-compare-types-table*</span> <span class="p">(</span><span class="nb">list </span><span class="nv">type</span><span class="p">)</span> <span class="no">#f</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-compare-types-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">put-type-value</span> <span class="ss">'scheme-number</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">put-type-value</span> <span class="ss">'rational</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">put-type-value</span> <span class="ss">'scheme-real</span> <span class="mi">10</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">put-type-value</span> <span class="ss">'complex</span> <span class="mi">15</span><span class="p">)</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-compare-types-package</span><span class="p">)</span>
+
+<span class="c1">;; процедура сравнения типов</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">type1&gt;type2</span> <span class="nv">type1</span> <span class="nv">type2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">value1</span> <span class="p">(</span><span class="nf">get-type-value</span> <span class="nv">type1</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">value2</span> <span class="p">(</span><span class="nf">get-type-value</span> <span class="nv">type2</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nb">&gt; </span><span class="nv">value1</span> <span class="nv">value2</span><span class="p">)))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">map-args</span> <span class="nv">args</span> <span class="nv">type-tags</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">find-max-value-type</span> <span class="nv">types</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter-types</span> <span class="nv">types</span> <span class="nv">value</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">types</span><span class="p">)</span>
+	  <span class="nv">value</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">type1&gt;type2</span> <span class="p">(</span><span class="nb">car </span><span class="nv">types</span><span class="p">)</span> <span class="nv">value</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">iter-types</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">types</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">types</span><span class="p">))</span>
+	      <span class="p">(</span><span class="nf">iter-types</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">types</span><span class="p">)</span> <span class="nv">value</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nf">iter-types</span> <span class="nv">types</span> <span class="p">(</span><span class="nb">car </span><span class="nv">types</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">raise-until-type</span> <span class="nv">arg</span> <span class="nv">target-type</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="p">(</span><span class="nf">type-tag</span> <span class="nv">arg</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)</span>
+	<span class="nv">arg</span>
+	<span class="p">(</span><span class="nf">raise-until-type</span> <span class="p">(</span><span class="nf">raise</span> <span class="nv">arg</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">try-coercion</span> <span class="nv">args</span> <span class="nv">type-list</span> <span class="nv">target-type</span> <span class="nv">res</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">args</span><span class="p">)</span>
+	<span class="nv">res</span>
+	<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="p">(</span><span class="nb">car </span><span class="nv">type-list</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)</span>
+	    <span class="p">(</span><span class="nf">try-coercion</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">args</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">type-list</span><span class="p">)</span> <span class="nv">target-type</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">args</span><span class="p">)</span> <span class="nv">res</span><span class="p">))</span>
+	    <span class="p">(</span><span class="nf">try-coercion</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">args</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">type-list</span><span class="p">)</span> <span class="nv">target-type</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">raise-until-type</span> <span class="p">(</span><span class="nb">car </span><span class="nv">args</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)</span> <span class="nv">res</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">target-type</span> <span class="p">(</span><span class="nf">find-max-value-type</span> <span class="nv">type-tags</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-args</span> <span class="p">(</span><span class="nf">try-coercion</span> <span class="nv">args</span> <span class="nv">type-tags</span> <span class="nv">target-type</span> <span class="o">'</span><span class="p">())))</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">mapped-args</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nf">error</span> <span class="s">"No coercion for these types"</span><span class="p">)</span>
+	  <span class="nv">mapped-args</span><span class="p">))))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">proc</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-args</span> <span class="p">(</span><span class="nf">map-args</span> <span class="nv">args</span> <span class="nv">type-tags</span><span class="p">)))</span>
+	    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">mapped-args</span><span class="p">)</span>
+		<span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span> <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))</span>
+		<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">mapped-args</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">mapped-type-tags</span><span class="p">)))</span>
+		    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">proc</span><span class="p">)</span>
+			<span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span> <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))</span>
+			<span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">mapped-args</span><span class="p">)))))))</span>
+	  <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
+	  <span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgef58eb3" class="outline-2">
+<h2 id="orgef58eb3">Упражнение 2.85</h2>
+<div class="outline-text-2" id="text-orgef58eb3">
+<p>
+В разделе упоминалась процедура "упрощение" объекта, понижение типа насколько возможно. Составьте процедуру drop для башни типов. К примеру комплексное 1.5 + 0i может быть сведено к типу real 1.5. И используя drop перепишите apply-generic процедуру что бы "упростить" результат.
+</p>
+
+<p>
+процедура drop:
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-coercion-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rational</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">get</span> <span class="ss">'make</span> <span class="ss">'rational</span><span class="p">)</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">get</span> <span class="ss">'make-from-real-imag</span> <span class="ss">'complex</span><span class="p">)</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-real</span> <span class="nv">x</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">get</span> <span class="ss">'make</span> <span class="ss">'scheme-real</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="c1">;; interface</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-number</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-real</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-real</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="nv">x</span> <span class="mi">0</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"complex can't raise"</span><span class="p">)))</span>
+  <span class="c1">;; project</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'project</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-number</span> <span class="p">(</span><span class="nb">round </span><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">))))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'project</span> <span class="o">'</span><span class="p">(</span><span class="nv">scheme-real</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-number</span> <span class="p">(</span><span class="nb">round </span><span class="nv">x</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'project</span> <span class="o">'</span><span class="p">(</span><span class="nv">complex</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-real</span> <span class="p">(</span><span class="nb">real-part </span><span class="nv">x</span><span class="p">))))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">install-coercion-package</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="nv">proc</span>
+	  <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">error</span>
+	    <span class="s">"No method for these types -- APPLY-GENERIC"</span>
+	    <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">real-part </span><span class="nv">z</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'real-part</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">imag-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'imag-part</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">magnitude </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'magnitude</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">angle </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'angle</span> <span class="nv">z</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">raise</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'raise</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">project</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'project</span> <span class="nv">x</span><span class="p">))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">drop</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">raise-until-type</span> <span class="nv">arg</span> <span class="nv">target-type</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="p">(</span><span class="nf">type-tag</span> <span class="nv">arg</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)</span>
+	<span class="nv">arg</span>
+	<span class="p">(</span><span class="nf">raise-until-type</span> <span class="p">(</span><span class="nf">raise</span> <span class="nv">arg</span><span class="p">)</span> <span class="nv">target-type</span><span class="p">)))</span>
+
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">pproc</span> <span class="p">(</span><span class="nf">get</span> <span class="ss">'project</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">pproc</span><span class="p">)</span>
+	<span class="nv">x</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">p</span> <span class="p">(</span><span class="nf">project</span> <span class="nv">x</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">equ?</span> <span class="p">(</span><span class="nf">raise-until-type</span> <span class="nv">p</span> <span class="p">(</span><span class="nf">type-tag</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">x</span><span class="p">)</span>
+	      <span class="nv">p</span>
+	      <span class="nv">x</span><span class="p">)))))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">drop-max</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-before</span> <span class="p">(</span><span class="nf">type-tag</span> <span class="nv">x</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">new-value</span> <span class="p">(</span><span class="nf">drop</span> <span class="nv">x</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="nv">type-before</span> <span class="p">(</span><span class="nf">type-tag</span> <span class="nv">new-value</span><span class="p">))</span>
+	<span class="nv">x</span>
+	<span class="p">(</span><span class="nf">drop-max</span> <span class="nv">new-value</span><span class="p">))))</span>
+</pre></div>
+
+<p>
+нам не всегда нужно делать упрощение типов, поэтому оставим старую процедуру apply-generic для всех старых операций, а для операций add, mul, div, sub введем новую процедуру apply-generic-simplified, которая будет упрощать полученный результат.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic-simplified</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">simplified-result</span> <span class="nv">res</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">boolean? </span><span class="nv">res</span><span class="p">)</span> <span class="nv">res</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">drop-max</span> <span class="nv">res</span><span class="p">))))</span>
+
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">proc</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-args</span> <span class="p">(</span><span class="nf">map-args</span> <span class="nv">args</span> <span class="nv">type-tags</span><span class="p">)))</span>
+	    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">mapped-args</span><span class="p">)</span>
+		<span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span> <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))</span>
+		<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapped-type-tags</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">mapped-args</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">mapped-type-tags</span><span class="p">)))</span>
+		    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="nv">proc</span><span class="p">)</span>
+			<span class="p">(</span><span class="nf">error</span> <span class="s">"No method for these types"</span> <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">))</span>
+			<span class="p">(</span><span class="nf">simplified-result</span> <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">mapped-args</span><span class="p">))))))))</span>
+	  <span class="p">(</span><span class="nf">simplified-result</span> <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">)))</span>
+	  <span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic-simplified</span> <span class="ss">'add</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic-simplified</span> <span class="ss">'sub</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic-simplified</span> <span class="ss">'mul</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">div</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic-simplified</span> <span class="ss">'div</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="mi">1</span> <span class="mi">-1</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">;; ;Value: (scheme-number . 2)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgb60dc01" class="outline-2">
+<h2 id="orgb60dc01">Упражнение 2.86</h2>
+<div class="outline-text-2" id="text-orgb60dc01">
+<p>
+Предположим мы хотим работать с комплексными числами, где реальная и мнимая часть могут быть представлены как обычными так и рациональными числами. Опишите и реализуйте изменения которые необходимы для этого. Вам потребуется реализовать операции sin, cos как общие операции над обычными и рациональными числами.
+</p>
+
+<p>
+для этого операции +/-/*///sin/cos в пакете с комплексными нужно заменить на общие операции.
+</p>
+
+<p>
+операции sin, cos, sqrt, atan чаще всего это реальный числа, поэтому напишем для них общую операцию которая будет приводить их аргумент к реальному типу данных, а затем выполнять операцию, таким образом нам не нужно будет вносить изменения во все пакеты, а только заменить эти операции в пакете для полярной и декартовой системы хранения комплексных чисел.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">operation-with-raise-to-real</span> <span class="nv">op</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="ss">'scheme-real</span> <span class="nv">z</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">equal? </span><span class="p">(</span><span class="nf">type-tag</span> <span class="nv">x</span><span class="p">)</span> <span class="ss">'rational</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">operation-with-raise-to-real</span> <span class="nv">op</span> <span class="p">(</span><span class="nf">raise</span> <span class="nv">x</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">op</span> <span class="p">(</span><span class="nf">contents</span> <span class="nv">x</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">gsqrt</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">operation-with-raise-to-real</span> <span class="nv">sqrt</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cosine</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">operation-with-raise-to-real</span> <span class="nv">cos</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sine</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">operation-with-raise-to-real</span> <span class="nv">sin</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">atangens</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">operation-with-raise-to-real</span> <span class="nv">atan</span> <span class="nv">x</span><span class="p">))</span>
+
+<span class="c1">;; в пакетах complex, polar, rectangular заменяем +-sin и так далее на общие операции</span>
+<span class="c1">;; (define (install-rectangular-package)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">magnitude </span><span class="nv">z</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">gsqrt</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nb">real-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nb">real-part </span><span class="nv">z</span><span class="p">))</span>
+		      <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nb">imag-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nb">imag-part </span><span class="nv">z</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">angle </span><span class="nv">z</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">atangens</span> <span class="p">(</span><span class="nf">div</span> <span class="p">(</span><span class="nb">imag-part </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nb">real-part </span><span class="nv">z</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-from-mag-ang</span> <span class="nv">r</span> <span class="nv">a</span><span class="p">)</span> 
+    <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">mul</span> <span class="nv">r</span> <span class="p">(</span><span class="nf">sine</span> <span class="nv">a</span><span class="p">))</span> <span class="p">(</span><span class="nf">mul</span> <span class="nv">r</span> <span class="p">(</span><span class="nf">sine</span> <span class="nv">a</span><span class="p">))))</span>
+
+<span class="c1">;;  (define (install-polar-package)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">real-part </span><span class="nv">z</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nb">magnitude </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">cosine</span> <span class="p">(</span><span class="nb">angle </span><span class="nv">z</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">imag-part </span><span class="nv">z</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nb">magnitude </span><span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">sine</span> <span class="p">(</span><span class="nb">angle </span><span class="nv">z</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-from-real-imag</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> 
+    <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">gsqrt</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">mul</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">mul</span> <span class="nv">y</span> <span class="nv">y</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="nb">atan </span><span class="p">(</span><span class="nf">div</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="c1">;; (install-polar-package)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">complex1</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">complex2</span> <span class="p">(</span><span class="nf">make-complex-from-real-imag</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">complex1</span> <span class="nv">complex2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">mul</span> <span class="nv">complex1</span> <span class="nv">complex2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf43679a" class="outline-2">
+<h2 id="orgf43679a">Упражнение 2.87</h2>
+<div class="outline-text-2" id="text-orgf43679a">
+<p>
+Добавьте =zero? для полиномов. 
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">all-zero?</span> <span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">true</span><span class="p">)</span>
+	  <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">coeff</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">)))</span> <span class="p">(</span><span class="nf">all-zero?</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)))</span> <span class="nv">true</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">all-zero?</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">x</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">pol1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">pol2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">pol1</span> <span class="nv">pol2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">mul</span> <span class="nv">pol1</span> <span class="nv">pol2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7a7de18" class="outline-2">
+<h2 id="org7a7de18">Упражнение 2.88</h2>
+<div class="outline-text-2" id="text-org7a7de18">
+<p>
+Добавить в систему вычитание полиномов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">negation-term-list</span> <span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display </span><span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span>
+	<span class="nv">L1</span>
+	<span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">make-term</span> <span class="p">(</span><span class="nf">order</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))</span> <span class="p">(</span><span class="nf">negation</span> <span class="p">(</span><span class="nf">coeff</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))))</span> <span class="p">(</span><span class="nf">negation-term-list</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'sub</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span> <span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p1</span> <span class="nv">p2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">add-poly</span> <span class="nv">p1</span> <span class="p">(</span><span class="nf">contents</span> <span class="p">(</span><span class="nf">negation</span> <span class="p">(</span><span class="nf">tag</span> <span class="nv">p2</span><span class="p">)))))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'negation</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">make-poly</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">negation-term-list</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">negation</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'negation</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'sub</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">pol1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">pol2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">pol1</span> <span class="nv">pol2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">pol1</span> <span class="p">(</span><span class="nf">negation</span> <span class="nv">pol2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">sub</span> <span class="nv">pol1</span> <span class="nv">pol2</span><span class="p">)</span>
+<span class="c1">;; Value (polinomial x)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org364830b" class="outline-2">
+<h2 id="org364830b">Упражнение 2.89</h2>
+<div class="outline-text-2" id="text-org364830b">
+<p>
+Определите процедуру которая определяет представление term-list для компактных полиномов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-polynomial-dense-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="ss">'dense</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span> <span class="o">'</span><span class="p">())</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">first-term</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">term-list</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">term-list</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">null? </span><span class="nv">term-list</span><span class="p">))</span>
+  <span class="c1">;; (define (make-term order coeff) (list order coeff))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">first-coeff</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">term-list</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">first-order</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">length </span><span class="nv">term-list</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">negation-term-list</span> <span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span>
+	<span class="nv">L1</span>
+	<span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">negation</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))</span> <span class="p">(</span><span class="nf">negation-term-list</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display </span><span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">L2</span><span class="p">)</span>
+	    <span class="p">((</span><span class="nf">empty-termlist?</span> <span class="nv">L2</span><span class="p">)</span> <span class="nv">L1</span><span class="p">)</span>
+	    <span class="p">(</span><span class="nf">else</span>
+	     <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">)</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L2</span><span class="p">))</span> <span class="p">(</span><span class="nf">sum-terms</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L2</span><span class="p">))))))</span>
+    <span class="p">(</span><span class="nb">reverse </span><span class="p">(</span><span class="nf">sum-terms</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">L1</span><span class="p">)</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">L2</span><span class="p">))))</span>
+
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">add-terms</span> <span class="p">(</span><span class="nf">mul-term-by-all-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">mul-terms</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">L2</span><span class="p">))))</span>
+
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-term-by-all-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-coeff</span> <span class="nv">L</span> <span class="nv">constant</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">first-term</span> <span class="nv">L</span><span class="p">)</span> <span class="nv">constant</span><span class="p">)</span> <span class="p">(</span><span class="nf">mul-coeff</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L</span><span class="p">)</span> <span class="nv">constant</span><span class="p">))))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">create-n-zeroes</span> <span class="nv">n</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nb">cons </span><span class="mi">0</span> <span class="p">(</span><span class="nf">create-n-zeroes</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))</span>
+	  <span class="o">'</span><span class="p">()))</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L2</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">coeff</span> <span class="p">(</span><span class="nf">first-coeff</span> <span class="nv">L1</span><span class="p">))</span>
+	      <span class="p">(</span><span class="nf">order</span> <span class="p">(</span><span class="nf">first-order</span> <span class="nv">L1</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nf">mul-coeff</span> <span class="nv">L2</span> <span class="nv">coeff</span><span class="p">)</span> <span class="p">(</span><span class="nf">create-n-zeroes</span> <span class="nv">order</span><span class="p">)))))</span>
+
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">all-zero?</span> <span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">true</span><span class="p">)</span>
+	  <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))</span> <span class="p">(</span><span class="nf">all-zero?</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)))</span> <span class="nv">true</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">else </span><span class="nv">false</span><span class="p">)))</span>
+
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'negation</span> <span class="o">'</span><span class="p">(</span><span class="nv">dense</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">negation-term-list</span> <span class="nv">p</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'make</span> <span class="ss">'dense</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="nv">terms</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">dense</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms</span><span class="p">)</span> <span class="p">(</span><span class="nf">all-zero?</span> <span class="nv">terms</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">dense</span> <span class="nv">dense</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms1</span> <span class="nv">terms2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">add-terms</span> <span class="nv">terms1</span> <span class="nv">terms2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'mul</span> <span class="o">'</span><span class="p">(</span><span class="nv">dense</span> <span class="nv">dense</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms1</span> <span class="nv">terms2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">mul-terms</span> <span class="nv">terms1</span> <span class="nv">terms2</span><span class="p">))))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-polynomial-dense-package</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-dense-terms</span> <span class="nv">terms</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">get</span> <span class="ss">'make</span> <span class="ss">'dense</span><span class="p">)</span> <span class="nv">terms</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">dense-terms</span> <span class="p">(</span><span class="nf">make-dense-terms</span> <span class="o">'</span><span class="p">(</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="nv">dense-terms</span>
+<span class="p">((</span><span class="nf">get</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">dense</span> <span class="nv">dense</span><span class="p">))</span> <span class="o">'</span><span class="p">(</span><span class="mi">3</span> <span class="mi">0</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="o">'</span><span class="p">(</span><span class="mi">3</span> <span class="mi">0</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">dense-terms</span> <span class="nv">dense-terms</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">mul</span> <span class="nv">dense-terms</span> <span class="nv">dense-terms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgfdc03bf" class="outline-2">
+<h2 id="orgfdc03bf">Упражнение 2.90</h2>
+<div class="outline-text-2" id="text-orgfdc03bf">
+<p>
+Предположим бы хотим иметь два представления для компактных и разбросанных полиномов. Нам нужно разрешить два представления для полиномов. Перепишите модуль для полиномов что бы он работал с двумя представлениями.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-polynomial-sparse-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="ss">'sparse</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span> <span class="o">'</span><span class="p">())</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">first-term</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">term-list</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">term-list</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">term-list</span><span class="p">)</span> <span class="p">(</span><span class="nb">null? </span><span class="nv">term-list</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-term</span> <span class="nv">order</span> <span class="nv">coeff</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">order</span> <span class="nv">coeff</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">order</span> <span class="nv">term</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">term</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">coeff</span> <span class="nv">term</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">term</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">negation-term-list</span> <span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span>
+	<span class="nv">L1</span>
+	<span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">make-term</span> <span class="p">(</span><span class="nf">order</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))</span> <span class="p">(</span><span class="nf">negation</span> <span class="p">(</span><span class="nf">coeff</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))))</span> <span class="p">(</span><span class="nf">negation-term-list</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)))))</span>
+
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">adjoin-term</span> <span class="nv">term</span> <span class="nv">term-list</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">term</span><span class="p">))</span>
+	<span class="nv">term-list</span>
+	<span class="p">(</span><span class="nb">cons </span><span class="nv">term</span> <span class="nv">term-list</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">L2</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nf">empty-termlist?</span> <span class="nv">L2</span><span class="p">)</span> <span class="nv">L1</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nf">else</span>
+	   <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">t1</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))</span> <span class="p">(</span><span class="nf">t2</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L2</span><span class="p">)))</span>
+	     <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">order</span> <span class="nv">t1</span><span class="p">)</span> <span class="p">(</span><span class="nf">order</span> <span class="nv">t2</span><span class="p">))</span>
+		    <span class="p">(</span><span class="nf">adjoin-term</span>
+		     <span class="nv">t1</span> <span class="p">(</span><span class="nf">add-terms</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">L2</span><span class="p">)))</span>
+		   <span class="p">((</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">order</span> <span class="nv">t1</span><span class="p">)</span> <span class="p">(</span><span class="nf">order</span> <span class="nv">t2</span><span class="p">))</span>
+		    <span class="p">(</span><span class="nf">adjoin-term</span>
+		     <span class="nv">t2</span> <span class="p">(</span><span class="nf">add-terms</span> <span class="nv">L1</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L2</span><span class="p">))))</span>
+		   <span class="p">(</span><span class="nf">else</span>
+		    <span class="p">(</span><span class="nf">adjoin-term</span>
+		     <span class="p">(</span><span class="nf">make-term</span> <span class="p">(</span><span class="nf">order</span> <span class="nv">t1</span><span class="p">)</span>
+				<span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">t1</span><span class="p">)</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">t2</span><span class="p">)))</span>
+		     <span class="p">(</span><span class="nf">add-terms</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)</span>
+				<span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L2</span><span class="p">)))))))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">add-terms</span> <span class="p">(</span><span class="nf">mul-term-by-all-terms</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">L2</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">mul-terms</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">L2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-term-by-all-terms</span> <span class="nv">t1</span> <span class="nv">L</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">t2</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="nf">adjoin-term</span>
+	   <span class="p">(</span><span class="nf">make-term</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">order</span> <span class="nv">t1</span><span class="p">)</span> <span class="p">(</span><span class="nf">order</span> <span class="nv">t2</span><span class="p">))</span>
+		      <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">t1</span><span class="p">)</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">t2</span><span class="p">)))</span>
+	   <span class="p">(</span><span class="nf">mul-term-by-all-terms</span> <span class="nv">t1</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L</span><span class="p">))))))</span>
+
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">all-zero?</span> <span class="nv">L1</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span> <span class="nv">true</span><span class="p">)</span>
+	  <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">coeff</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">)))</span> <span class="p">(</span><span class="nf">all-zero?</span> <span class="p">(</span><span class="nf">rest-terms</span> <span class="nv">L1</span><span class="p">)))</span> <span class="nv">true</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">else </span><span class="nv">false</span><span class="p">)))</span>
+
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'negation</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparse</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">negation-term-list</span> <span class="nv">p</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'make</span> <span class="ss">'sparse</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="nv">terms</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparse</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms</span><span class="p">)</span> <span class="p">(</span><span class="nf">all-zero?</span> <span class="nv">terms</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparse</span> <span class="nv">sparse</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms1</span> <span class="nv">terms2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">add-terms</span> <span class="nv">terms1</span> <span class="nv">terms2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'mul</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparse</span> <span class="nv">sparse</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms1</span> <span class="nv">terms2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">mul-terms</span> <span class="nv">terms1</span> <span class="nv">terms2</span><span class="p">))))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">install-polynomial-sparse-package</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'add-terms</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparce</span> <span class="nv">sparce</span><span class="p">)</span> <span class="nv">false</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'add</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'mul</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-sparce-terms</span> <span class="nv">terms</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">get</span> <span class="ss">'make</span> <span class="ss">'sparse</span><span class="p">)</span> <span class="nv">terms</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">sparce-terms</span> <span class="p">(</span><span class="nf">make-sparce-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="nv">sparce-terms</span>
+<span class="p">((</span><span class="nf">get</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparse</span> <span class="nv">sparse</span><span class="p">))</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">))</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">sparce-terms</span> <span class="nv">sparce-terms</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">mul</span> <span class="nv">sparce-terms</span> <span class="nv">sparce-terms</span><span class="p">)</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-polynomial-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="c1">;; representation of poly</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-poly</span> <span class="nv">variable</span> <span class="nv">term-list</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cons </span><span class="nv">variable</span> <span class="nv">term-list</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">variable</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">p</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">term-list</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">p</span><span class="p">))</span>
+  <span class="c1">;; &lt;procedures same-variable? and variable? from section 2.3.2&gt;</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">variable?</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">symbol? </span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="nv">v1</span> <span class="nv">v2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nf">variable?</span> <span class="nv">v1</span><span class="p">)</span> <span class="p">(</span><span class="nf">variable?</span> <span class="nv">v2</span><span class="p">)</span> <span class="p">(</span><span class="nb">eq? </span><span class="nv">v1</span> <span class="nv">v2</span><span class="p">)))</span>
+  <span class="c1">;; representation of terms and term lists</span>
+  <span class="c1">;; ((100 1) (2 2) (0 1)) = x^100 + 2x^2 + 1</span>
+
+  <span class="c1">;; procedurs on poly</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">term-list</span> <span class="nv">p1</span><span class="p">))</span>
+
+    <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">term-list</span> <span class="nv">p2</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p2</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">make-poly</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p1</span><span class="p">)</span>
+			<span class="p">(</span><span class="nf">term-list</span> <span class="nv">p2</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">error</span> <span class="s">"Polys not in same var -- ADD-POLY"</span>
+	       <span class="p">(</span><span class="nb">list </span><span class="nv">p1</span> <span class="nv">p2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p2</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">make-poly</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p1</span><span class="p">)</span>
+			<span class="p">(</span><span class="nf">term-list</span> <span class="nv">p2</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">error</span> <span class="s">"Polys not in same var -- MUL-POLY"</span>
+	       <span class="p">(</span><span class="nb">list </span><span class="nv">p1</span> <span class="nv">p2</span><span class="p">))))</span>
+
+  <span class="c1">;; interface to rest of the system</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="ss">'polynomial</span> <span class="nv">p</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span> <span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p1</span> <span class="nv">p2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">add-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'sub</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span> <span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p1</span> <span class="nv">p2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">add-poly</span> <span class="nv">p1</span> <span class="p">(</span><span class="nf">contents</span> <span class="p">(</span><span class="nf">negation</span> <span class="p">(</span><span class="nf">tag</span> <span class="nv">p2</span><span class="p">)))))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'mul</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span> <span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p1</span> <span class="nv">p2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">mul-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'make</span> <span class="ss">'polynomial</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">var</span> <span class="nv">terms</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">make-poly</span> <span class="nv">var</span> <span class="nv">terms</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'negation</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">make-poly</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">negation</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p</span><span class="p">))))))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">install-polynomial-package</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">pol1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">pol2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="nf">negation</span> <span class="nv">pol2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">pol1</span> <span class="nv">pol2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">pol1</span> <span class="p">(</span><span class="nf">negation</span> <span class="nv">pol2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">sub</span> <span class="nv">pol1</span> <span class="nv">pol2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">mul</span> <span class="nv">pol1</span> <span class="nv">pol2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orge3eaf8d" class="outline-2">
+<h2 id="orge3eaf8d">Упражнение 2.91</h2>
+<div class="outline-text-2" id="text-orge3eaf8d">
+<p>
+Допишите функцию деления полиномов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">add-terms</span> <span class="nv">L1</span> <span class="p">(</span><span class="nf">negation-term-list</span> <span class="nv">L2</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">div-terms</span> <span class="nv">L1</span> <span class="nv">L2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">L1</span><span class="p">)</span>
+	<span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span> <span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">))</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">t1</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L1</span><span class="p">))</span>
+	      <span class="p">(</span><span class="nf">t2</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">L2</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">order</span> <span class="nv">t2</span><span class="p">)</span> <span class="p">(</span><span class="nf">order</span> <span class="nv">t1</span><span class="p">))</span>
+	      <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">the-empty-termlist</span><span class="p">)</span> <span class="nv">L1</span><span class="p">)</span>
+	      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">new-c</span> <span class="p">(</span><span class="nf">div</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">t1</span><span class="p">)</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">t2</span><span class="p">)))</span>
+		    <span class="p">(</span><span class="nf">new-o</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">order</span> <span class="nv">t1</span><span class="p">)</span> <span class="p">(</span><span class="nf">order</span> <span class="nv">t2</span><span class="p">))))</span>
+		<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">rest-of-result</span>
+		       <span class="p">(</span><span class="nf">sub-terms</span> <span class="nv">L1</span> <span class="p">(</span><span class="nf">mul-terms</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">make-term</span> <span class="nv">new-o</span> <span class="nv">new-c</span><span class="p">))</span> <span class="nv">L2</span><span class="p">))))</span>
+
+		  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">result</span> <span class="p">(</span><span class="nf">div-terms</span> <span class="nv">rest-of-result</span> <span class="nv">L2</span><span class="p">)))</span>
+		    <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">add-terms</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">make-term</span> <span class="nv">new-o</span> <span class="nv">new-c</span><span class="p">))</span> <span class="p">(</span><span class="nb">car </span><span class="nv">result</span><span class="p">))</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">result</span><span class="p">)))))))))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orga325370" class="outline-2">
+<h2 id="orga325370">Упражнение 2.92</h2>
+<div class="outline-text-2" id="text-orga325370">
+<p>
+Задав приоритет переменным, дополните пакет работы с полиномами так чтобы сумма и умножение для полиномов работало для полиномов разных переменных.
+</p>
+
+<p>
+Нужно научиться приводить полином по x к полиному по y. Тогда мы сможем сложить полином по x c полиномом по y, приведя их к одной переменной.
+</p>
+
+<p>
+например вот такой полином, будет очевидно равен сумме полиномов, то есть достаточно научиться приводить первую часть, а потом взять сумму от этого.
+x<sup>2</sup> (3y<sup>2</sup> + 2) + x (y<sup>3</sup> + 2y<sup>2</sup> + 3)
+смотрим
+x<sup>2</sup> (3y<sup>2</sup> + 2) + …
+x<sup>2</sup> 3y<sup>2</sup> + x<sup>2</sup> 2
+y<sup>2</sup> (x<sup>2</sup>)3 + y<sup>0</sup>(x<sup>2</sup>)2
+</p>
+
+<p>
+'y (2 (p (2 3)) (0 (p (2 2))
+такой полином можем привести к полиному по y, все порядки y остаются прежними, а коэффициенты, это полином, по x<sup>2</sup> умноженный на прежний коэффициенты y.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-coercion-polynomial-package</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="ss">'polynomial</span> <span class="nv">p</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">term-list</span> <span class="nv">pol</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">pol</span><span class="p">)))</span>
+    <span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">order</span> <span class="nv">term</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">term</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">coeff</span> <span class="nv">term</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">term</span><span class="p">))</span>
+
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">switch-variable</span> <span class="nv">pol</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">switch-single-term</span> <span class="nv">single</span><span class="p">)</span>
+      <span class="c1">;; term here y and polinom x</span>
+      <span class="p">(</span>
+       <span class="nv">make-polynomial</span>
+       <span class="ss">'x</span>
+       <span class="p">(</span><span class="nf">make-sparse-terms</span>
+	<span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">term</span><span class="p">)</span>
+	       <span class="p">(</span><span class="nf">list</span>
+		<span class="p">(</span><span class="nf">order</span> <span class="nv">term</span><span class="p">)</span>
+		<span class="p">(</span><span class="nf">make-polynomial</span>
+		 <span class="ss">'y</span>
+		 <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">car </span><span class="nv">single</span><span class="p">)</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">term</span><span class="p">))))</span>
+		 <span class="p">)))</span>
+	     <span class="p">(</span><span class="nb">cadr </span><span class="nv">single</span><span class="p">)))))</span>
+
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum-list</span> <span class="nv">l</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">length </span><span class="nv">l</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nb">car </span><span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">l</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nb">car </span><span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nf">sum-list</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">l</span><span class="p">)))))</span>
+
+    <span class="c1">;; пусть пока везде полиномы, в общем виде надо добавить условие</span>
+    <span class="c1">;; приведения числа к полиному.</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mapterms</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">term</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">term</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">term-list</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">term</span><span class="p">)))))</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">pol</span><span class="p">))))</span>
+      <span class="p">(</span><span class="nf">sum-list</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">item</span><span class="p">)</span> <span class="p">(</span><span class="nf">switch-single-term</span> <span class="nv">item</span><span class="p">))</span> <span class="nv">mapterms</span><span class="p">))</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+  <span class="c1">;; interface</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'raise</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">pol</span><span class="p">)</span> <span class="p">(</span><span class="nf">switch-variable</span> <span class="p">(</span><span class="nf">tag</span> <span class="nv">pol</span><span class="p">))))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-coercion-polynomial-package</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">pol2variable</span> <span class="p">(</span><span class="nf">make-polynomial</span>
+		      <span class="ss">'y</span>
+		      <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="mi">2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))))</span>
+					       <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">3</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">2</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">3</span><span class="p">)))))</span>
+					       <span class="p">(</span><span class="nb">list </span><span class="mi">0</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">0</span> <span class="mi">5</span><span class="p">)))))))))</span>
+
+<span class="nv">pol2variable</span>
+<span class="p">(</span><span class="nf">raise</span> <span class="nv">pol2variable</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">pol1</span> <span class="p">(</span>
+	      <span class="nv">make-polynomial</span>
+	      <span class="ss">'x</span>
+	      <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="mi">2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'y</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))))</span>
+				       <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'y</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))))</span>
+				       <span class="p">(</span><span class="nb">list </span><span class="mi">0</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'y</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))))))))</span>
+<span class="nv">pol1</span>
+<span class="p">(</span><span class="nf">add</span> <span class="nv">pol1</span> <span class="p">(</span><span class="nf">raise</span> <span class="nv">pol2variable</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org4e64d32" class="outline-2">
+<h2 id="org4e64d32">Упражнение 2.93, 2.94</h2>
+<div class="outline-text-2" id="text-org4e64d32">
+<p>
+Измените пакет для рациональных чисел чтобы он мог работать с полиномами. Протестируйте ваш пакет, вызвав make-rational над полиномами.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">install-rational-polynomial-package</span><span class="p">)</span>
+  <span class="c1">;; internal procedures</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rat</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cons </span><span class="nv">n</span> <span class="nv">d</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))</span>
+		 <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nf">sub</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))</span>
+		 <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))</span>
+	      <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">))</span>
+	      <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">div-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))</span>
+	      <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">))))</span>
+  <span class="c1">;; interface to rest of the system</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="ss">'rational</span> <span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">real-tag</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">attach-tag</span> <span class="ss">'scheme-real</span> <span class="nv">x</span><span class="p">))</span>
+
+
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'add</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span> <span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">add-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'sub</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span> <span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">sub-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'mul</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span> <span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">mul-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'div</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span> <span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">div-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))))</span>
+
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'make</span> <span class="ss">'rational</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">n</span> <span class="nv">d</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">make-rat</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">put</span> <span class="ss">'=zero?</span> <span class="o">'</span><span class="p">(</span><span class="nv">rational</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">=zero?</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">))))</span>
+  <span class="ss">'done</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">install-rational-polynomial-package</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rational</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">get</span> <span class="ss">'make</span> <span class="ss">'rational</span><span class="p">)</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Теперь сложите rf с самим собой. Вы увидите что процедура добавления не сокращает деление до наименьших чисел. Напишите поиск наибольшего общего делителя для полиномов используя remainder-terms из упражнения 2.91.
+</p>
+
+<p>
+Напишите процедуру нахождения НОД для полиномов и протестируйте результат.
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;; в пакете записи полиномов</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">remainder-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">div-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
+    <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nf">div-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">gcd-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">b</span><span class="p">)</span>
+	<span class="nv">a</span>
+	<span class="p">(</span><span class="nf">gcd-terms</span> <span class="nv">b</span> <span class="p">(</span><span class="nf">remainder-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'gcd-terms</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparse</span> <span class="nv">sparse</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms1</span> <span class="nv">terms2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">gcd-terms</span> <span class="nv">terms1</span> <span class="nv">terms2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">gcd-terms</span> <span class="nv">term1</span> <span class="nv">term2</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'gcd-terms</span> <span class="nv">term1</span> <span class="nv">term2</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">gcd-terms</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">4</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span> <span class="mi">-1</span><span class="p">)</span> <span class="p">(</span><span class="mi">2</span> <span class="mi">-2</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span><span class="p">)))</span>
+	   <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">3</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">-1</span><span class="p">)))</span>
+	   <span class="p">)</span>
+<span class="c1">;;Value: (sparse (2 -1) (1 1))</span>
+
+<span class="c1">;; в пакете для полиномов</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">gcd-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p2</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">make-poly</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span>
+		   <span class="p">(</span><span class="nf">gcd-terms</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p1</span><span class="p">)</span>
+			      <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p2</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">error</span> <span class="s">"Polys not in same var -- GCD-POLY"</span>
+	       <span class="p">(</span><span class="nb">list </span><span class="nv">p1</span> <span class="nv">p2</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'greatest-common-divisor</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span> <span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p1</span> <span class="nv">p2</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">gcd-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">greatest-common-divisor</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'greatest-common-divisor</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">terms1</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">4</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span> <span class="mi">-1</span><span class="p">)</span> <span class="p">(</span><span class="mi">2</span> <span class="mi">-2</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">terms2</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">3</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">-1</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">p1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="nv">terms1</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">p2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="nv">terms2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">greatest-common-divisor</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">)</span>
+<span class="c1">;Value: (polynomial x sparse (2 -1) (1 1))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org00cb686" class="outline-2">
+<h2 id="org00cb686">Упражнение 2.95, 2.96, 2.97</h2>
+<div class="outline-text-2" id="text-org00cb686">
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">terms1</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">-2</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">p1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="nv">terms1</span><span class="p">))</span>
+<span class="nv">p1</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">terms2</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">11</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">7</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">p2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="nv">terms2</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">terms3</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">1</span> <span class="mi">13</span><span class="p">)</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">5</span><span class="p">))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">p3</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="nv">terms3</span><span class="p">))</span>
+<span class="nv">p2</span>
+<span class="nv">p3</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">q1</span> <span class="p">(</span><span class="nf">mul</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">))</span>
+<span class="nv">q1</span>
+<span class="c1">;Value: (polynomial x sparse (4 11) (3 -22) (2 18) (1 -14) (0 7))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">q2</span> <span class="p">(</span><span class="nf">mul</span> <span class="nv">p1</span> <span class="nv">p3</span><span class="p">))</span>
+<span class="nv">q2</span>
+<span class="c1">;Value: (polynomial x sparse (3 13) (2 -21) (1 3) (0 5))</span>
+<span class="p">(</span><span class="nf">greatest-common-divisor</span> <span class="nv">q1</span> <span class="nv">q2</span><span class="p">)</span>
+<span class="c1">;Value: (polynomial x sparse (2 1458/169) (1 -2916/169) (0 1458/169))</span>
+</pre></div>
+
+<p>
+a. определите процедуру псевдоделения
+b. измените результирующий НОД что бы исправить коэффициенты.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multiple-coeffs</span> <span class="nv">q</span> <span class="nv">integer-factor</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">order</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">coeff</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">integer-factor</span><span class="p">)))</span> <span class="nv">q</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">integerizing-factor</span> <span class="nv">p</span> <span class="nv">q</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">c</span> <span class="p">(</span><span class="nf">coeff</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">q</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">o1</span> <span class="p">(</span><span class="nf">order</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">p</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">o2</span> <span class="p">(</span><span class="nf">order</span> <span class="p">(</span><span class="nf">first-term</span> <span class="nv">q</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nb">expt </span><span class="nv">c</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">o1</span> <span class="p">(</span><span class="nb">- </span><span class="nv">o2</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">remainder-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nf">div-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">pseudoremainder-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">ma</span> <span class="p">(</span><span class="nf">multiple-coeffs</span> <span class="nv">a</span> <span class="p">(</span><span class="nf">integerizing-factor</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nf">div-terms</span> <span class="nv">ma</span> <span class="nv">b</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">reduce-gcd-terms-coeff</span> <span class="nv">terms</span><span class="p">)</span>
+
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">gcd-integer-list</span> <span class="nv">l</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">length </span><span class="nv">l</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+	<span class="p">(</span><span class="nb">car </span><span class="nv">l</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">gcd-integer-list</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">gcd </span><span class="p">(</span><span class="nb">car </span><span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">l</span><span class="p">))</span> <span class="p">(</span><span class="nb">cddr </span><span class="nv">l</span><span class="p">)))))</span>
+
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">l</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">coeff</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">terms</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nf">multiple-coeffs</span> <span class="nv">terms</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">1</span> <span class="p">(</span><span class="nf">gcd-integer-list</span> <span class="nv">l</span><span class="p">))))</span>
+  <span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">gcd-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-termlist?</span> <span class="nv">b</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">reduce-gcd-terms-coeff</span> <span class="nv">a</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">gcd-terms</span> <span class="nv">b</span> <span class="p">(</span><span class="nf">pseudoremainder-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span>
+</pre></div>
+
+<p>
+c. определите процедуру reduce для полиномов
+</p>
+
+<div class="highlight"><pre><span></span><span class="c1">;; в пакете рациональных полиномов</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rat</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">red</span> <span class="p">(</span><span class="nf">reduce</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">red</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">red</span><span class="p">))))</span>
+<span class="c1">;; для списков коэффициентов</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">reduce-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">gcd-ab</span> <span class="p">(</span><span class="nf">gcd-terms</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nf">div-terms</span> <span class="nv">a</span> <span class="nv">gcd-ab</span><span class="p">)))</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nf">div-terms</span> <span class="nv">b</span> <span class="nv">gcd-ab</span><span class="p">))))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'reduce</span> <span class="o">'</span><span class="p">(</span><span class="nv">sparse</span> <span class="nv">sparse</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms1</span> <span class="nv">terms2</span><span class="p">)</span> <span class="p">(</span><span class="nf">reduce-terms</span> <span class="nv">terms1</span> <span class="nv">terms2</span><span class="p">)))</span>
+<span class="c1">;; для полиномов</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">reduce-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same-variable?</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p2</span><span class="p">))</span>
+	<span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">terms</span><span class="p">)</span> <span class="p">(</span><span class="nf">tag</span> <span class="p">(</span><span class="nf">make-poly</span> <span class="p">(</span><span class="nf">variable</span> <span class="nv">p1</span><span class="p">)</span> <span class="nv">terms</span><span class="p">)))</span>
+	     <span class="p">(</span><span class="nf">reduce</span> <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p1</span><span class="p">)</span>
+		     <span class="p">(</span><span class="nf">term-list</span> <span class="nv">p2</span><span class="p">)))</span>
+	<span class="p">(</span><span class="nf">error</span> <span class="s">"Polys not in same var -- REDUCE-POLY"</span>
+	       <span class="p">(</span><span class="nb">list </span><span class="nv">p1</span> <span class="nv">p2</span><span class="p">))))</span>
+<span class="p">(</span><span class="nf">put</span> <span class="ss">'reduce</span> <span class="o">'</span><span class="p">(</span><span class="nv">polynomial</span> <span class="nv">polynomial</span><span class="p">)</span>
+       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p1</span> <span class="nv">p2</span><span class="p">)</span> <span class="p">(</span><span class="nf">reduce-poly</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">reduce</span> <span class="nv">term1</span> <span class="nv">term2</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">'reduce</span> <span class="nv">term1</span> <span class="nv">term2</span><span class="p">))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="nv">p1</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">0</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">p2</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">3</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">0</span> <span class="mi">-1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">p3</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">p4</span> <span class="p">(</span><span class="nf">make-polynomial</span> <span class="ss">'x</span> <span class="p">(</span><span class="nf">make-sparse-terms</span> <span class="o">'</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">0</span> <span class="mi">-1</span><span class="p">)))))</span>
+<span class="nv">p1</span>
+<span class="nv">p2</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">rf1</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="nv">p1</span> <span class="nv">p2</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">rf2</span> <span class="p">(</span><span class="nf">make-rational</span> <span class="nv">p3</span> <span class="nv">p4</span><span class="p">))</span>
+<span class="nv">rf2</span>
+
+<span class="nv">rf1</span>
+
+<span class="p">(</span><span class="nf">add</span> <span class="nv">rf1</span> <span class="nv">rf2</span><span class="p">)</span>
+<span class="c1">;Value: (rational (polynomial x sparse (3 144) (2 56) (1 90) (0 34)) polynomial x sparse (4 11) (2 -4) (0 -7))</span>
 </pre></div>
 </div>
 </div>
