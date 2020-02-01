@@ -2,7 +2,7 @@
 .. title: SICP 2.5 Системы с общими операциями.
 .. slug: sicp-25-sistemy-s-obshchimi-operatsiiami
 .. date: 2020-01-25 20:11:07 UTC+03:00
-.. tags: sicp, scheme, generic_operations
+.. tags: sicp, scheme, generic_operations, coercion
 .. category: 
 .. link: 
 .. description: 
@@ -10,9 +10,1059 @@
 
 #+END_COMMENT
 
+[[img-url/images/ch2-Z-G-64.gif]]
 
-* Упражнение 2.
+Системы с общими операциями не только для разных представлений, но и для разного числа аргументов.
+
+* Упражнение 2.77
+
+Луис Разумный пытается выполнить процедуру (magnitude z) где z объект комплексного числа как на изображении.
+
+[[img-url:/images/ch2-Z-G-65.gif]]
+
+К его удивлению вместо числа, он получает ошибку ;No method for these types -- APPLY-GENERIC (magnitude (complex)). Он показывает результат Алисе. Она говорит что пакет custom, не имеет селекторов magnitude, .. и предлагает добавить их в пакет.
 
 #+BEGIN_SRC scheme
+(put 'real-part '(complex) real-part)
+(put 'imag-part '(complex) imag-part)
+(put 'magnitude '(complex) magnitude)
+(put 'angle '(complex) angle)
+
+(magnitude (make-complex-from-mag-ang 10 0.5))
 #+END_SRC
+
+Объясните почему это будет работать? Сколько раз вызывается apply-generic? Какая процедура выполняется в каждом случае?
+
+apply-generic вызывается два раза, на первом этапе происходит отображение на процедуру magnitude только с другим тегом, а во втором случае происходит отображение процедуру на внутреннюю процедуру поката polar.
+
+[Entering #[compound-procedure 88 magnitude]
+    Args: (complex polar 10 . .5)]
+[Entering #[compound-procedure 88 magnitude]
+    Args: (polar 10 . .5)]
+[10
+      <== #[compound-procedure 88 magnitude]
+    Args: (polar 10 . .5)]
+[10
+      <== #[compound-procedure 88 magnitude]
+    Args: (complex polar 10 . .5)]
+
+* Упражнение 2.78
+
+Внутренние процедуры scheme-number по существу просто вызывают процедуры +/-/.. Не возможно использовать примитивы языка напрямую, потому что наша система тип-тег требует что бы каждый объект имел тег, в тоже время все реализации Lisp имеют внутренню систему типов. Примитивы symbol? number? определяют являются ли объекты примитивными типами. Измените определение type-tag, contents и attach-tag, что бы наша система получила преимущество использования внутренних типов Scheme. То есть функции должны работать по прежнему, но для операции над простыми числами не требуется дополнительный конструктор, который возвращает пару тип значение.
+
+#+BEGIN_SRC scheme
+(define (install-scheme-number-package)
+  (put 'add '(scheme-number scheme-number)
+       (lambda (x y) (+ x y)))
+  (put 'sub '(scheme-number scheme-number)
+       (lambda (x y) (- x y)))
+  (put 'mul '(scheme-number scheme-number)
+       (lambda (x y) (* x y)))
+  (put 'div '(scheme-number scheme-number)
+       (lambda (x y) (/ x y)))
+  'done)
+(install-scheme-number-package) ;; установка пакета
+
+(define (attach-tag type-tag contents)
+  (if (number? contents)
+      (cons 'scheme-number contents)
+      (cons type-tag contents)))
+(define (type-tag datum)
+  (cond ((number? datum) 'scheme-number)
+        ((pair? datum) (car datum))
+        (else (error "Bad tagged datum -- TYPE-TAG" datum))))
+(define (contents datum)
+  (cond ((number? datum) datum)
+        ((pair? datum) (cdr datum))
+        (else (error "Bad tagged datum -- CONTENTS" datum))))
+
+(add 1 2) ;; 3
+#+END_SRC
+
+
+* Упражнение 2.79, 2.80
+
+Определите общую процедуру equ? которая проверяет эквивалентность двух чисел. Процедура должна работать с обычными, рациональными и комплексными числами.
+
+Определите общую процедуру =zero?
+
+#+BEGIN_SRC scheme
+;; в интерфейсах пакетов
+;; для обычных
+(put 'equ? '(scheme-number scheme-number)
+       (lambda (x y) (= x y)))
+(put '=zero? '(scheme-number)
+       (lambda (x) (= x 0)))
+;; для комплексных
+(put 'equ? '(complex complex)
+       (lambda (x y) (and (= (real-part x) (real-part y)) (= (imag-part x) (imag-part y)))))
+(put '=zero? '(complex)
+       (lambda (x) (= (magnitude x) 0)))
+;; для рациональных
+(put 'equ? '(rational rational)
+       (lambda (x y) (and (= (numer x) (numer y)) (= (denom x) (denom y)))))
+(put '=zero? '(rational)
+       (lambda (x) (= (numer x) 0)))
+;; общее определение
+(define (equ? x y) (apply-generic 'equ? x y))
+(define (=zero? x) (apply-generic '=zero? x))
+(=zero? 1)
+(=zero? 0)
+(equ? 1 2)
+(equ? 1 1)
+(=zero? (make-complex-from-mag-ang 10 1))
+(equ? (make-complex-from-mag-ang 0 1) (make-complex-from-real-imag 0 0))
+(equ? (make-complex-from-real-imag 1 1) (make-complex-from-real-imag 1 1))
+(equ? (make-rational 2 6) (make-rational 1 3))
+(=zero? (make-rational 0 6))
+#+END_SRC
+
+
+* Упражнение 2.81
+
+Луис Разумный заметил что apply-generic может приводить аргументы, даже если они одного типа. Поэтому, он рассудил, что мы должны поместить процедуры приведения одинаковых типов в таблицу приведения.
+
+#+BEGIN_SRC scheme
+(define (scheme-number->scheme-number n) n)
+(define (complex->complex z) z)
+(put-coercion 'scheme-number 'scheme-number
+              scheme-number->scheme-number)
+(put-coercion 'complex 'complex complex->complex)
+#+END_SRC
+
+a. С установленными процедурами Луиса, что произойдет если вызвать apply-generic с двумя аргументами типа scheme-number или двумя аргументами типа complex для операции которой нет в таблице этих типов? к примеру зададим общую процедуру экспоненты:
+
+#+BEGIN_SRC scheme
+(define (exp x y) (apply-generic 'exp x y))
+
+;; following added to Scheme-number package
+(put 'exp '(scheme-number scheme-number)
+     (lambda (x y) (tag (expt x y)))) ; using primitive expt
+#+END_SRC
+
+и вызовем её для комплексных чисел.
+
+произойдет рекурсивный вызов apply-generic.
+
+b. Прав ли Луис что дописал эти преобразования типов?
+Код Луиса лишний, apply-generic и так работает.
+
+с. Измените apply-generic чтобы он не пытался искать в таблице приведения типов, если типы аргументов одинаковые.
+
+#+BEGIN_SRC scheme
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+          (apply proc (map contents args))
+          (if (= (length args) 2)
+              (let ((type1 (car type-tags))
+                    (type2 (cadr type-tags))
+                    (a1 (car args))
+                    (a2 (cadr args)))
+                (if (equal? type1 type2)
+                    (error "No method for these types"
+                           (list op type-tags))
+                    (let ((t1->t2 (get-coercion type1 type2))
+                          (t2->t1 (get-coercion type2 type1)))
+                      (cond (t1->t2
+                             (apply-generic op (t1->t2 a1) a2))
+                            (t2->t1
+                             (apply-generic op a1 (t2->t1 a2)))
+                            (else
+                             (error "No method for these types"
+                                    (list op type-tags)))))))
+                (error "No method for these types"
+                       (list op type-tags)))))))
+#+END_SRC
+
+
+* Упражнение 2.82
+
+Покажите как обобщить apply-generic для обработки приведения типов множественных аргументов. Одна из стратегий, попытка привести все аргументы к типу первого аргумента, затем к типу второго и так далее.
+Дайте пример когда такая стратегия не работает (более того она может не сработать и для двух аргументов).
+
+Если у нас есть три типа T1, T2, T3 и задана операция для T1, T2, T2 в таблице операций, то мы не найдем эту операцию, потому что при полном приведении типов сможем получить только T1 T2 T3, T1 T1 T1, T2 T2 T2, T3 T3 T3.
+
+#+BEGIN_SRC scheme
+(define (map-args args type-tags cdr-type-tags)
+  (define (try-coercion args type-list target-type res)
+    (if (null? type-list)
+        res
+        (if (equal? (car type-list) target-type)
+            (try-coercion
+             (cdr args)
+             (cdr type-list)
+             target-type
+             (cons (car args) res))
+            (let ((t2->t1 (get-coercion (car type-list) target-type)))
+              (if (not t2->t1)
+                  false
+                  (try-coercion
+                   (cdr args)
+                   (cdr type-list)
+                   target-type (cons (t2->t1 (car args)) res)))))))
+  (cond ((null? cdr-type-tags) (error "No method for these types"))
+        (else
+         (let ((mapped-args (try-coercion args type-tags (car cdr-type-tags) '())))
+           (if (not mapped-args)
+               (map-args args type-tags (cdr cdr-type-tags))
+               mapped-args)))))
+
+
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if (not proc)
+          (let ((mapped-args (map-args args type-tags type-tags)))
+            (if (not mapped-args)
+                (error "No method for these types" (list op type-tags))
+                (let ((mapped-type-tags (map type-tag mapped-args)))
+                  (let ((proc (get op mapped-type-tags)))
+                    (if (not proc)
+                        (error "No method for these types" (list op type-tags))
+                        (apply proc (map contents mapped-args)))))))
+          (apply proc (map contents args))
+          ))))
+
+(get 'add '(complex complex))
+(define (add x y) (apply-generic 'add x y))
+(add 1 (make-complex-from-real-imag 1 1))
+#+END_SRC
+
+* Упражнение 2.83
+
+Предположим вы разрабатываете систему для работы с башней типов как на картинке
+
+[[img-url:/images/ch2-Z-G-66.gif]]
+
+Для каждого типа (за исключением комплексного), напишите процедуру которая поднимает тип на один уровень. Покажите как установить общую операцию raise,которая будет работать для всех типов, кроме комплексного.
+
+если мы добавим метод raise в пакеты для scheme-number, rational, complex, тогда мы потеряем возможность разрабатывать пакеты отдельно, поэтому лучше реализовать метод через отдельную функцию.
+
+#+BEGIN_SRC scheme
+(define (install-raise-package)
+  (define (numer x) (car x))
+  (define (denom x) (cdr x))
+  (define (make-rational n d)
+    ((get 'make 'rational) n d))
+  (define (make-complex-from-real-imag x y)
+    ((get 'make-from-real-imag 'complex) x y))
+  (define (make-real x)
+    ((get 'make 'scheme-real) x))
+  ;; interface
+  (put 'raise '(scheme-number)
+       (lambda (x) (make-rational x 1)))
+  (put 'raise '(rational)
+       (lambda (x) (make-real (/ (numer x) (denom x)))))
+  (put 'raise '(scheme-real)
+       (lambda (x) (make-complex-from-real-imag x 0)))
+  (put 'raise '(complex)
+       (lambda (x) (error "complex can't raise")))
+  'done)
+(install-raise-package)
+(define (raise x)
+    (apply-generic 'raise x))
+(raise (raise (raise (make-number 1))))
+#+END_SRC
+
+* Упражнение 2.84
+
+Используя процедуру raise из задачи 2.83 переделайте процедуру apply-generic, чтобы она приводила аргументы методом повышения типов.
+Вам нужно придумать способ определить какой из двух типов выше в иерархии.
+#+BEGIN_SRC scheme
+;; табличка с сравнением типов
+(define *op-compare-types-table* (make-hash-table))
+(define (put-type-value type value)
+  (hash-table/put! *op-compare-types-table* (list type) value))
+(define (get-type-value type)
+  (hash-table/get *op-compare-types-table* (list type) #f))
+(define (install-compare-types-package)
+  (put-type-value 'scheme-number 1)
+  (put-type-value 'rational 5)
+  (put-type-value 'scheme-real 10)
+  (put-type-value 'complex 15)
+  'done)
+(install-compare-types-package)
+
+;; процедура сравнения типов
+(define (type1>type2 type1 type2)
+  (let ((value1 (get-type-value type1))
+        (value2 (get-type-value type2)))
+    (> value1 value2)))
+
+
+(define (map-args args type-tags)
+  (define (find-max-value-type types)
+    (define (iter-types types value)
+      (if (null? types)
+          value
+          (if (type1>type2 (car types) value)
+              (iter-types (cdr types) (car types))
+              (iter-types (cdr types) value))))
+    (iter-types types (car types)))
+  (define (raise-until-type arg target-type)
+    (if (equal? (type-tag arg) target-type)
+        arg
+        (raise-until-type (raise arg) target-type)))
+  (define (try-coercion args type-list target-type res)
+    (if (null? args)
+        res
+        (if (equal? (car type-list) target-type)
+            (try-coercion (cdr args) (cdr type-list) target-type (cons (car args) res))
+            (try-coercion (cdr args) (cdr type-list) target-type (cons (raise-until-type (car args) target-type) res)))))
+  (let ((target-type (find-max-value-type type-tags)))
+    (let ((mapped-args (try-coercion args type-tags target-type '())))
+      (if (not mapped-args)
+          (error "No coercion for these types")
+          mapped-args))))
+
+
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if (not proc)
+          (let ((mapped-args (map-args args type-tags)))
+            (if (not mapped-args)
+                (error "No method for these types" (list op type-tags))
+                (let ((mapped-type-tags (map type-tag mapped-args)))
+                  (let ((proc (get op mapped-type-tags)))
+                    (if (not proc)
+                        (error "No method for these types" (list op type-tags))
+                        (apply proc (map contents mapped-args)))))))
+          (apply proc (map contents args))
+          ))))
+#+END_SRC
+
+* Упражнение 2.85
+
+В разделе упоминалась процедура "упрощение" объекта, понижение типа насколько возможно. Составьте процедуру drop для башни типов. К примеру комплексное 1.5 + 0i может быть сведено к типу real 1.5. И используя drop перепишите apply-generic процедуру что бы "упростить" результат.
+
+процедура drop:
+#+BEGIN_SRC scheme
+(define (install-coercion-package)
+  (define (numer x) (car x))
+  (define (denom x) (cdr x))
+  (define (make-rational n d)
+    ((get 'make 'rational) n d))
+  (define (make-complex-from-real-imag x y)
+    ((get 'make-from-real-imag 'complex) x y))
+  (define (make-real x)
+    ((get 'make 'scheme-real) x))
+  ;; interface
+  (put 'raise '(scheme-number)
+       (lambda (x) (make-rational x 1)))
+  (put 'raise '(rational)
+       (lambda (x) (make-real (/ (numer x) (denom x)))))
+  (put 'raise '(scheme-real)
+       (lambda (x) (make-complex-from-real-imag x 0)))
+  (put 'raise '(complex)
+       (lambda (x) (error "complex can't raise")))
+  ;; project
+  (put 'project '(rational)
+       (lambda (x) (make-number (round (/ (numer x) (denom x))))))
+  (put 'project '(scheme-real)
+       (lambda (x) (make-number (round x))))
+  (put 'project '(complex)
+       (lambda (x) (make-real (real-part x))))
+  'done)
+
+(install-coercion-package)
+
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+          (apply proc (map contents args))
+          (error
+            "No method for these types -- APPLY-GENERIC"
+            (list op type-tags))))))
+(define (real-part z)
+  (apply-generic 'real-part z))
+(define (imag-part z) (apply-generic 'imag-part z))
+(define (magnitude z) (apply-generic 'magnitude z))
+(define (angle z) (apply-generic 'angle z))
+(define (raise x)
+  (apply-generic 'raise x))
+(define (project x)
+  (apply-generic 'project x))
+
+
+(define (drop x)
+  (define (raise-until-type arg target-type)
+    (if (equal? (type-tag arg) target-type)
+        arg
+        (raise-until-type (raise arg) target-type)))
+
+  (let ((pproc (get 'project (map type-tag (list x)))))
+    (if (not pproc)
+        x
+        (let ((p (project x)))
+          (if (equ? (raise-until-type p (type-tag x)) x)
+              p
+              x)))))
+(define (drop-max x)
+  (let ((type-before (type-tag x))
+        (new-value (drop x)))
+    (if (equal? type-before (type-tag new-value))
+        x
+        (drop-max new-value))))
+#+END_SRC
+
+нам не всегда нужно делать упрощение типов, поэтому оставим старую процедуру apply-generic для всех старых операций, а для операций add, mul, div, sub введем новую процедуру apply-generic-simplified, которая будет упрощать полученный результат.
+
+#+BEGIN_SRC scheme
+(define (apply-generic-simplified op . args)
+  (define (simplified-result res)
+    (cond ((boolean? res) res)
+          (else (drop-max res))))
+
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if (not proc)
+          (let ((mapped-args (map-args args type-tags)))
+            (if (not mapped-args)
+                (error "No method for these types" (list op type-tags))
+                (let ((mapped-type-tags (map type-tag mapped-args)))
+                  (let ((proc (get op mapped-type-tags)))
+                    (if (not proc)
+                        (error "No method for these types" (list op type-tags))
+                        (simplified-result (apply proc (map contents mapped-args))))))))
+          (simplified-result (apply proc (map contents args)))
+          ))))
+
+(define (add x y) (apply-generic-simplified 'add x y))
+(define (sub x y) (apply-generic-simplified 'sub x y))
+(define (mul x y) (apply-generic-simplified 'mul x y))
+(define (div x y) (apply-generic-simplified 'div x y))
+
+(add (make-complex-from-real-imag 1 -1) (make-complex-from-real-imag 1 1))
+;; ;Value: (scheme-number . 2)
+#+END_SRC
+
+* Упражнение 2.86
+
+Предположим мы хотим работать с комплексными числами, где реальная и мнимая часть могут быть представлены как обычными так и рациональными числами. Опишите и реализуйте изменения которые необходимы для этого. Вам потребуется реализовать операции sin, cos как общие операции над обычными и рациональными числами.
+
+для этого операции +/-/*///sin/cos в пакете с комплексными нужно заменить на общие операции.
+
+операции sin, cos, sqrt, atan чаще всего это реальный числа, поэтому напишем для них общую операцию которая будет приводить их аргумент к реальному типу данных, а затем выполнять операцию, таким образом нам не нужно будет вносить изменения во все пакеты, а только заменить эти операции в пакете для полярной и декартовой системы хранения комплексных чисел.
+
+#+BEGIN_SRC scheme
+(define (operation-with-raise-to-real op x)
+  (define (tag z) (attach-tag 'scheme-real z))
+  (if (equal? (type-tag x) 'rational)
+      (operation-with-raise-to-real op (raise x))
+      (tag (op (contents x)))))
+
+(define (gsqrt x)
+  (operation-with-raise-to-real sqrt x))
+
+(define (cosine x)
+  (operation-with-raise-to-real cos x))
+
+(define (sine x)
+  (operation-with-raise-to-real sin x))
+
+(define (atangens x)
+  (operation-with-raise-to-real atan x))
+
+;; в пакетах complex, polar, rectangular заменяем +-sin и так далее на общие операции
+;; (define (install-rectangular-package)
+  (define (magnitude z)
+    (gsqrt (add (mul (real-part z) (real-part z))
+                      (mul (imag-part z) (imag-part z)))))
+  (define (angle z)
+    (atangens (div (imag-part z) (real-part z))))
+  (define (make-from-mag-ang r a) 
+    (cons (mul r (sine a)) (mul r (sine a))))
+
+;;  (define (install-polar-package)
+  (define (real-part z)
+    (mul (magnitude z) (cosine (angle z))))
+  (define (imag-part z)
+    (mul (magnitude z) (sine (angle z))))
+  (define (make-from-real-imag x y) 
+    (cons (gsqrt (add (mul x x) (mul y y)))
+          (atan (div y x))))
+;; (install-polar-package)
+
+(define complex1 (make-complex-from-real-imag (make-rational 1 2) (make-rational 3 4)))
+(define complex2 (make-complex-from-real-imag (make-rational 1 2) (make-rational 3 4)))
+(add complex1 complex2)
+(mul complex1 complex2)
+#+END_SRC
+
+
+* Упражнение 2.87
+
+Добавьте =zero? для полиномов. 
+
+#+BEGIN_SRC scheme
+(define (all-zero? L1)
+    (cond ((empty-termlist? L1) true)
+          ((and (=zero? (coeff (first-term L1))) (all-zero? (rest-terms L1))) true)))
+(put '=zero? '(polynomial)
+       (lambda (x) (all-zero? (term-list x))))
+
+(define pol1 (make-polynomial 'x '((2 1) (1 1) (0 1))))
+(define pol2 (make-polynomial 'x '((2 1) (1 1) (0 1))))
+(add pol1 pol2)
+(mul pol1 pol2)
+#+END_SRC
+
+* Упражнение 2.88
+
+Добавить в систему вычитание полиномов.
+
+#+BEGIN_SRC scheme
+(define (negation-term-list L1)
+    (display L1)
+    (if (empty-termlist? L1)
+        L1
+        (cons (make-term (order (first-term L1)) (negation (coeff (first-term L1)))) (negation-term-list (rest-terms L1)))))
+(put 'sub '(polynomial polynomial)
+       (lambda (p1 p2) (tag (add-poly p1 (contents (negation (tag p2)))))))
+(put 'negation '(polynomial)
+       (lambda (p) (tag (make-poly (variable p) (negation-term-list (term-list p))))))
+
+(define (negation x) (apply-generic 'negation x))
+(define (sub x y) (apply-generic 'sub x y))
+
+(define pol1 (make-polynomial 'x '((2 1) (1 1) (0 1))))
+(define pol2 (make-polynomial 'x '((2 1) (1 1) (0 1))))
+(add pol1 pol2)
+(add pol1 (negation pol2))
+(sub pol1 pol2)
+;; Value (polinomial x)
+#+END_SRC
+
+
+* Упражнение 2.89
+
+Определите процедуру которая определяет представление term-list для компактных полиномов.
+
+#+BEGIN_SRC scheme
+(define (install-polynomial-dense-package)
+  (define (tag x) (attach-tag 'dense x))
+  (define (the-empty-termlist) '())
+  (define (first-term term-list) (car term-list))
+  (define (rest-terms term-list) (cdr term-list))
+  (define (empty-termlist? term-list) (null? term-list))
+  ;; (define (make-term order coeff) (list order coeff))
+  (define (first-coeff term-list) (car term-list))
+  (define (first-order term-list) (- (length term-list) 1))
+  (define (negation-term-list L1)
+    (if (empty-termlist? L1)
+        L1
+        (cons (negation (first-term L1)) (negation-term-list (rest-terms L1)))))
+  (define (add-terms L1 L2)
+    (display L1)
+    (define (sum-terms L1 L2)
+      (cond ((empty-termlist? L1) L2)
+            ((empty-termlist? L2) L1)
+            (else
+             (cons (+ (first-term L1) (first-term L2)) (sum-terms (rest-terms L1) (rest-terms L2))))))
+    (reverse (sum-terms (reverse L1) (reverse L2))))
+
+  (define (mul-terms L1 L2)
+    (if (empty-termlist? L1)
+        (the-empty-termlist)
+        (add-terms (mul-term-by-all-terms L1 L2)
+                   (mul-terms (rest-terms L1) L2))))
+
+  (define (mul-term-by-all-terms L1 L2)
+    (define (mul-coeff L constant)
+      (if (empty-termlist? L)
+          (the-empty-termlist)
+          (cons (* (first-term L) constant) (mul-coeff (rest-terms L) constant))))
+    (define (create-n-zeroes n)
+      (if (> n 0)
+          (cons 0 (create-n-zeroes (- n 1)))
+          '()))
+    (if (empty-termlist? L2)
+        (the-empty-termlist)
+        (let ((coeff (first-coeff L1))
+              (order (first-order L1)))
+          (append (mul-coeff L2 coeff) (create-n-zeroes order)))))
+
+  (define (all-zero? L1)
+    (cond ((empty-termlist? L1) true)
+          ((and (=zero? (first-term L1)) (all-zero? (rest-terms L1))) true)
+          (else false)))
+
+  (put 'negation '(dense)
+       (lambda (p) (tag (negation-term-list p))))
+  (put 'make 'dense
+       (lambda (terms) (tag terms)))
+  (put '=zero? '(dense)
+       (lambda (terms) (all-zero? terms)))
+  (put 'add '(dense dense)
+       (lambda (terms1 terms2) (tag (add-terms terms1 terms2))))
+  (put 'mul '(dense dense)
+       (lambda (terms1 terms2) (tag (mul-terms terms1 terms2))))
+  'done)
+(install-polynomial-dense-package)
+(define (make-dense-terms terms)
+  ((get 'make 'dense) terms))
+(define dense-terms (make-dense-terms '(1 1 1)))
+dense-terms
+((get 'add '(dense dense)) '(3 0 2 1) '(3 0 2 1))
+(add dense-terms dense-terms)
+(mul dense-terms dense-terms)
+#+END_SRC
+
+* Упражнение 2.90
+
+Предположим бы хотим иметь два представления для компактных и разбросанных полиномов. Нам нужно разрешить два представления для полиномов. Перепишите модуль для полиномов что бы он работал с двумя представлениями.
+
+#+BEGIN_SRC scheme
+(define (install-polynomial-sparse-package)
+  (define (tag x) (attach-tag 'sparse x))
+  (define (the-empty-termlist) '())
+  (define (first-term term-list) (car term-list))
+  (define (rest-terms term-list) (cdr term-list))
+  (define (empty-termlist? term-list) (null? term-list))
+  (define (make-term order coeff) (list order coeff))
+  (define (order term) (car term))
+  (define (coeff term) (cadr term))
+  (define (negation-term-list L1)
+    (if (empty-termlist? L1)
+        L1
+        (cons (make-term (order (first-term L1)) (negation (coeff (first-term L1)))) (negation-term-list (rest-terms L1)))))
+
+  (define (adjoin-term term term-list)
+    (if (=zero? (coeff term))
+        term-list
+        (cons term term-list)))
+  (define (add-terms L1 L2)
+    (cond ((empty-termlist? L1) L2)
+          ((empty-termlist? L2) L1)
+          (else
+           (let ((t1 (first-term L1)) (t2 (first-term L2)))
+             (cond ((> (order t1) (order t2))
+                    (adjoin-term
+                     t1 (add-terms (rest-terms L1) L2)))
+                   ((< (order t1) (order t2))
+                    (adjoin-term
+                     t2 (add-terms L1 (rest-terms L2))))
+                   (else
+                    (adjoin-term
+                     (make-term (order t1)
+                                (add (coeff t1) (coeff t2)))
+                     (add-terms (rest-terms L1)
+                                (rest-terms L2)))))))))
+  (define (mul-terms L1 L2)
+    (if (empty-termlist? L1)
+        (the-empty-termlist)
+        (add-terms (mul-term-by-all-terms (first-term L1) L2)
+                   (mul-terms (rest-terms L1) L2))))
+  (define (mul-term-by-all-terms t1 L)
+    (if (empty-termlist? L)
+        (the-empty-termlist)
+        (let ((t2 (first-term L)))
+          (adjoin-term
+           (make-term (+ (order t1) (order t2))
+                      (mul (coeff t1) (coeff t2)))
+           (mul-term-by-all-terms t1 (rest-terms L))))))
+
+  (define (all-zero? L1)
+    (cond ((empty-termlist? L1) true)
+          ((and (=zero? (coeff (first-term L1))) (all-zero? (rest-terms L1))) true)
+          (else false)))
+
+  (put 'negation '(sparse)
+       (lambda (p) (tag (negation-term-list p))))
+  (put 'make 'sparse
+       (lambda (terms) (tag terms)))
+  (put '=zero? '(sparse)
+       (lambda (terms) (all-zero? terms)))
+  (put 'add '(sparse sparse)
+       (lambda (terms1 terms2) (tag (add-terms terms1 terms2))))
+  (put 'mul '(sparse sparse)
+       (lambda (terms1 terms2) (tag (mul-terms terms1 terms2))))
+  'done)
+
+(install-polynomial-sparse-package)
+(put 'add-terms '(sparce sparce) false)
+(define (add x y) (apply-generic 'add x y))
+(define (mul x y) (apply-generic 'mul x y))
+
+(define (make-sparce-terms terms)
+  ((get 'make 'sparse) terms))
+
+(define sparce-terms (make-sparce-terms '((2 1) (1 1) (0 1))))
+sparce-terms
+((get 'add '(sparse sparse)) '((2 1) (1 1) (0 1)) '((2 1) (1 1) (0 1)))
+(add sparce-terms sparce-terms)
+(mul sparce-terms sparce-terms)
+
+
+(define (install-polynomial-package)
+  ;; internal procedures
+  ;; representation of poly
+  (define (make-poly variable term-list)
+    (cons variable term-list))
+  (define (variable p) (car p))
+  (define (term-list p) (cdr p))
+  ;; <procedures same-variable? and variable? from section 2.3.2>
+  (define (variable? x) (symbol? x))
+  (define (same-variable? v1 v2)
+    (and (variable? v1) (variable? v2) (eq? v1 v2)))
+  ;; representation of terms and term lists
+  ;; ((100 1) (2 2) (0 1)) = x^100 + 2x^2 + 1
+
+  ;; procedurs on poly
+  (define (add-poly p1 p2)
+    (display (term-list p1))
+
+    (display (term-list p2))
+    (if (same-variable? (variable p1) (variable p2))
+        (make-poly (variable p1)
+                   (add (term-list p1)
+                        (term-list p2)))
+        (error "Polys not in same var -- ADD-POLY"
+               (list p1 p2))))
+  (define (mul-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+        (make-poly (variable p1)
+                   (mul (term-list p1)
+                        (term-list p2)))
+        (error "Polys not in same var -- MUL-POLY"
+               (list p1 p2))))
+
+  ;; interface to rest of the system
+  (define (tag p) (attach-tag 'polynomial p))
+  (put 'add '(polynomial polynomial)
+       (lambda (p1 p2) (tag (add-poly p1 p2))))
+  (put 'sub '(polynomial polynomial)
+       (lambda (p1 p2) (tag (add-poly p1 (contents (negation (tag p2)))))))
+  (put 'mul '(polynomial polynomial)
+       (lambda (p1 p2) (tag (mul-poly p1 p2))))
+  (put 'make 'polynomial
+       (lambda (var terms) (tag (make-poly var terms))))
+  (put '=zero? '(polynomial)
+       (lambda (x) (=zero? (term-list x))))
+  (put 'negation '(polynomial)
+       (lambda (p) (tag (make-poly (variable p) (negation (term-list p))))))
+  'done)
+
+(install-polynomial-package)
+
+(define pol1 (make-polynomial 'x (make-sparse-terms '((2 1) (1 1) (0 1)))))
+(define pol2 (make-polynomial 'x (make-sparse-terms '((2 1) (1 1) (0 1)))))
+
+(negation pol2)
+(add pol1 pol2)
+(add pol1 (negation pol2))
+(sub pol1 pol2)
+(mul pol1 pol2)
+#+END_SRC
+
+
+* Упражнение 2.91
+
+Допишите функцию деления полиномов.
+
+#+BEGIN_SRC scheme
+(define (sub-terms L1 L2)
+    (add-terms L1 (negation-term-list L2)))
+(define (div-terms L1 L2)
+    (if (empty-termlist? L1)
+        (list (the-empty-termlist) (the-empty-termlist))
+        (let ((t1 (first-term L1))
+              (t2 (first-term L2)))
+          (if (> (order t2) (order t1))
+              (list (the-empty-termlist) L1)
+              (let ((new-c (div (coeff t1) (coeff t2)))
+                    (new-o (- (order t1) (order t2))))
+                (let ((rest-of-result
+                       (sub-terms L1 (mul-terms (list (make-term new-o new-c)) L2))))
+
+                  (let ((result (div-terms rest-of-result L2)))
+                    (list (add-terms (list (make-term new-o new-c)) (car result)) (cdr result)))))))))
+#+END_SRC
+
+
+* Упражнение 2.92
+
+Задав приоритет переменным, дополните пакет работы с полиномами так чтобы сумма и умножение для полиномов работало для полиномов разных переменных.
+
+Нужно научиться приводить полином по x к полиному по y. Тогда мы сможем сложить полином по x c полиномом по y, приведя их к одной переменной.
+
+например вот такой полином, будет очевидно равен сумме полиномов, то есть достаточно научиться приводить первую часть, а потом взять сумму от этого.
+x^2 (3y^2 + 2) + x (y^3 + 2y^2 + 3)
+смотрим
+x^2 (3y^2 + 2) + ...
+x^2 3y^2 + x^2 2
+y^2 (x^2)3 + y^0(x^2)2
+
+'y (2 (p (2 3)) (0 (p (2 2))
+такой полином можем привести к полиному по y, все порядки y остаются прежними, а коэффициенты, это полином, по x^2 умноженный на прежний коэффициенты y.
+
+
+#+BEGIN_SRC scheme
+(define (install-coercion-polynomial-package)
+  (define (tag p) (attach-tag 'polynomial p))
+  (define (term-list pol)
+    (cdr (cdr (cdr pol)))
+    )
+  (define (order term) (car term))
+  (define (coeff term) (cadr term))
+
+  (define (switch-variable pol)
+    (define (switch-single-term single)
+      ;; term here y and polinom x
+      (
+       make-polynomial
+       'x
+       (make-sparse-terms
+        (map (lambda (term)
+               (list
+                (order term)
+                (make-polynomial
+                 'y
+                 (make-sparse-terms (list (list (car single) (coeff term))))
+                 )))
+             (cadr single)))))
+
+    (define (sum-list l)
+      (if (= (length l) 2)
+          (add (car l) (cadr l))
+          (add (car l) (sum-list (cdr l)))))
+
+    ;; пусть пока везде полиномы, в общем виде надо добавить условие
+    ;; приведения числа к полиному.
+    (let ((mapterms (map (lambda (term) (cons (car term) (list (term-list (cadr term))))) (term-list pol))))
+      (sum-list (map (lambda (item) (switch-single-term item)) mapterms))
+      )
+    )
+  ;; interface
+  (put 'raise '(polynomial)
+       (lambda (pol) (switch-variable (tag pol))))
+  'done)
+(install-coercion-polynomial-package)
+
+(define pol2variable (make-polynomial
+                      'y
+                      (make-sparse-terms (list (list 2 (make-polynomial 'x (make-sparse-terms '((2 1) (0 1)))))
+                                               (list 1 (make-polynomial 'x (make-sparse-terms '((3 1) (2 2) (0 3)))))
+                                               (list 0 (make-polynomial 'x (make-sparse-terms '((0 5)))))))))
+
+pol2variable
+(raise pol2variable)
+
+(define pol1 (
+              make-polynomial
+              'x
+              (make-sparse-terms (list (list 2 (make-polynomial 'y (make-sparse-terms '((2 1) (0 1)))))
+                                       (list 1 (make-polynomial 'y (make-sparse-terms '((0 1)))))
+                                       (list 0 (make-polynomial 'y (make-sparse-terms '((0 1)))))))))
+pol1
+(add pol1 (raise pol2variable))
+#+END_SRC
+
+* Упражнение 2.93, 2.94
+
+Измените пакет для рациональных чисел чтобы он мог работать с полиномами. Протестируйте ваш пакет, вызвав make-rational над полиномами.
+
+#+BEGIN_SRC scheme
+(define (install-rational-polynomial-package)
+  ;; internal procedures
+  (define (numer x) (car x))
+  (define (denom x) (cdr x))
+  (define (make-rat n d)
+    (cons n d))
+  (define (add-rat x y)
+    (make-rat (add (mul (numer x) (denom y))
+                 (mul (numer y) (denom x)))
+              (mul (denom x) (denom y))))
+  (define (sub-rat x y)
+    (make-rat (sub (mul (numer x) (denom y))
+                 (mul (numer y) (denom x)))
+              (mul (denom x) (denom y))))
+  (define (mul-rat x y)
+    (make-rat (mul (numer x) (numer y))
+              (mul (denom x) (denom y))))
+  (define (div-rat x y)
+    (make-rat (mul (numer x) (denom y))
+              (mul (denom x) (numer y))))
+  ;; interface to rest of the system
+  (define (tag x) (attach-tag 'rational x))
+  (define (real-tag x) (attach-tag 'scheme-real x))
+
+
+  (put 'add '(rational rational)
+       (lambda (x y) (tag (add-rat x y))))
+  (put 'sub '(rational rational)
+       (lambda (x y) (tag (sub-rat x y))))
+  (put 'mul '(rational rational)
+       (lambda (x y) (tag (mul-rat x y))))
+  (put 'div '(rational rational)
+       (lambda (x y) (tag (div-rat x y))))
+
+  (put 'make 'rational
+       (lambda (n d) (tag (make-rat n d))))
+  (put '=zero? '(rational)
+       (lambda (x) (=zero? (numer x))))
+  'done)
+(install-rational-polynomial-package)
+(define (make-rational n d)
+  ((get 'make 'rational) n d))
+
+#+END_SRC
+
+Теперь сложите rf с самим собой. Вы увидите что процедура добавления не сокращает деление до наименьших чисел. Напишите поиск наибольшего общего делителя для полиномов используя remainder-terms из упражнения 2.91.
+
+Напишите процедуру нахождения НОД для полиномов и протестируйте результат.
+
+#+BEGIN_SRC scheme
+;; в пакете записи полиномов
+(define (remainder-terms a b)
+    (display (div-terms a b))
+    (newline)
+    (cadr (div-terms a b)))
+
+(define (gcd-terms a b)
+    (if (empty-termlist? b)
+        a
+        (gcd-terms b (remainder-terms a b))))
+(put 'gcd-terms '(sparse sparse)
+       (lambda (terms1 terms2) (tag (gcd-terms terms1 terms2))))
+
+(define (gcd-terms term1 term2)
+  (apply-generic 'gcd-terms term1 term2))
+
+(gcd-terms (make-sparse-terms '((4 1) (3 -1) (2 -2) (1 2)))
+           (make-sparse-terms '((3 1) (1 -1)))
+           )
+;;Value: (sparse (2 -1) (1 1))
+
+;; в пакете для полиномов
+(define (gcd-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+        (make-poly (variable p1)
+                   (gcd-terms (term-list p1)
+                              (term-list p2)))
+        (error "Polys not in same var -- GCD-POLY"
+               (list p1 p2))))
+(put 'greatest-common-divisor '(polynomial polynomial)
+       (lambda (p1 p2) (tag (gcd-poly p1 p2))))
+
+(define (greatest-common-divisor p1 p2)
+  (apply-generic 'greatest-common-divisor p1 p2))
+
+(define terms1 (make-sparse-terms '((4 1) (3 -1) (2 -2) (1 2))))
+(define terms2 (make-sparse-terms '((3 1) (1 -1))))
+
+(define p1 (make-polynomial 'x terms1))
+(define p2 (make-polynomial 'x terms2))
+(greatest-common-divisor p1 p2)
+;Value: (polynomial x sparse (2 -1) (1 1))
+#+END_SRC
+
+
+* Упражнение 2.95, 2.96, 2.97
+
+#+BEGIN_SRC scheme
+(define terms1 (make-sparse-terms '((2 1) (1 -2) (0 1))))
+(define p1 (make-polynomial 'x terms1))
+p1
+(define terms2 (make-sparse-terms '((2 11) (0 7))))
+(define p2 (make-polynomial 'x terms2))
+(define terms3 (make-sparse-terms '((1 13) (0 5))))
+(define p3 (make-polynomial 'x terms3))
+p2
+p3
+(define q1 (mul p1 p2))
+q1
+;Value: (polynomial x sparse (4 11) (3 -22) (2 18) (1 -14) (0 7))
+(define q2 (mul p1 p3))
+q2
+;Value: (polynomial x sparse (3 13) (2 -21) (1 3) (0 5))
+(greatest-common-divisor q1 q2)
+;Value: (polynomial x sparse (2 1458/169) (1 -2916/169) (0 1458/169))
+#+END_SRC
+
+a. определите процедуру псевдоделения
+b. измените результирующий НОД что бы исправить коэффициенты.
+
+#+BEGIN_SRC scheme
+  (define (multiple-coeffs q integer-factor)
+    (map (lambda (x) (list (order x) (* (coeff x) integer-factor))) q))
+
+  (define (integerizing-factor p q)
+    (let ((c (coeff (first-term q)))
+          (o1 (order (first-term p)))
+          (o2 (order (first-term q))))
+      (expt c (+ 1 o1 (- o2)))))
+
+  (define (remainder-terms a b)
+    (cadr (div-terms a b)))
+
+  (define (pseudoremainder-terms a b)
+    (let ((ma (multiple-coeffs a (integerizing-factor a b))))
+      (cadr (div-terms ma b))))
+
+  (define (reduce-gcd-terms-coeff terms)
+
+    (define (gcd-integer-list l)
+      (if (< (length l) 2)
+          (car l)
+          (gcd-integer-list (cons (gcd (car l) (cadr l)) (cddr l)))))
+
+    (let ((l (map (lambda (x) (coeff x)) terms)))
+      (multiple-coeffs terms (/ 1 (gcd-integer-list l))))
+    )
+
+  (define (gcd-terms a b)
+    (if (empty-termlist? b)
+        (reduce-gcd-terms-coeff a)
+        (gcd-terms b (pseudoremainder-terms a b))))
+#+END_SRC
+
+c. определите процедуру reduce для полиномов
+
+#+BEGIN_SRC scheme
+;; в пакете рациональных полиномов
+(define (make-rat n d)
+    (let ((red (reduce n d)))
+      (cons (car red) (cadr red))))
+;; для списков коэффициентов
+(define (reduce-terms a b)
+    (let ((gcd-ab (gcd-terms a b)))
+      (list (tag (car (div-terms a gcd-ab))) (tag (car (div-terms b gcd-ab))))))
+(put 'reduce '(sparse sparse)
+       (lambda (terms1 terms2) (reduce-terms terms1 terms2)))
+;; для полиномов
+(define (reduce-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+        (map (lambda (terms) (tag (make-poly (variable p1) terms)))
+             (reduce (term-list p1)
+                     (term-list p2)))
+        (error "Polys not in same var -- REDUCE-POLY"
+               (list p1 p2))))
+(put 'reduce '(polynomial polynomial)
+       (lambda (p1 p2) (reduce-poly p1 p2)))
+
+(define (reduce term1 term2)
+  (apply-generic 'reduce term1 term2))
+
+
+(define p1 (make-polynomial 'x (make-sparse-terms '((1 1)(0 1)))))
+(define p2 (make-polynomial 'x (make-sparse-terms '((3 1)(0 -1)))))
+(define p3 (make-polynomial 'x (make-sparse-terms '((1 1)))))
+(define p4 (make-polynomial 'x (make-sparse-terms '((2 1)(0 -1)))))
+p1
+p2
+(define rf1 (make-rational p1 p2))
+(define rf2 (make-rational p3 p4))
+rf2
+
+rf1
+
+(add rf1 rf2)
+;Value: (rational (polynomial x sparse (3 144) (2 56) (1 90) (0 34)) polynomial x sparse (4 11) (2 -4) (0 -7))
+#+END_SRC
+
 
