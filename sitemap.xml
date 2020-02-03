@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://velikiinehochuha.github.io/</loc>
-  <lastmod>2020-01-14T12:36:00Z</lastmod>
+  <lastmod>2020-02-03T18:43:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/2019/</loc>
@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-02-03T18:43:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-02-01T22:22:00Z</lastmod>
+  <lastmod>2020-02-03T18:43:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/a_picture_language/</loc>
@@ -86,6 +86,10 @@
   <lastmod>2020-01-08T12:10:00Z</lastmod>
  </url>
  <url>
+  <loc>http://velikiinehochuha.github.io/categories/local_state/</loc>
+  <lastmod>2020-02-03T18:43:00Z</lastmod>
+ </url>
+ <url>
   <loc>http://velikiinehochuha.github.io/categories/mathematics/</loc>
   <lastmod>2020-01-11T10:45:00Z</lastmod>
  </url>
@@ -135,7 +139,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-1.html</loc>
-  <lastmod>2020-01-25T17:30:00Z</lastmod>
+  <lastmod>2020-02-03T18:43:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/index-2.html</loc>
+  <lastmod>2020-02-03T18:43:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/listings/</loc>
@@ -184,6 +192,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-25-sistemy-s-obshchimi-operatsiiami/</loc>
   <lastmod>2020-01-25T17:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-31-naznacheniia-i-lokalnoye-sostoianiia/</loc>
+  <lastmod>2020-02-03T18:43:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/</loc>

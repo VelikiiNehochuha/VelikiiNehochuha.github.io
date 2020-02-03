@@ -1,0 +1,291 @@
+#+BEGIN_COMMENT
+.. title: SICP 3.1 Назначения и локальноые состояния.
+.. slug: sicp-31-naznacheniia-i-lokalnoye-sostoianiia
+.. date: 2020-02-02 11:46:58 UTC+03:00
+.. tags: sicp, scheme, local_state
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* Упражнение 3.1
+
+определите сумматор
+
+#+BEGIN_SRC scheme
+(define A (make-accumulator 5))
+(A 10)
+15
+(A 10)
+25
+#+END_SRC
+
+#+BEGIN_SRC scheme
+(define (make-accumulator sum)
+  (lambda (x) (begin
+           (set! sum (+ sum x))
+           sum
+           )))
+#+END_SRC
+
+* Упражнение 3.2
+
+в программах для тестирования важно уметь считать количество вызовов функции. Напишите процедуру, которая считает количество вызовов например функции sqrt.
+
+#+BEGIN_SRC scheme
+(define s (make-monitored sqrt))
+
+(s 100)
+10
+
+(s 'how-many-calls?)
+1
+#+END_SRC
+
+#+BEGIN_SRC scheme
+(define (make-monitor f)
+  (define how-many-call? 0)
+  (define (incretement)
+    (begin
+      (set! how-many-call? (+ how-many-call? 1))
+      f))
+  (define (dispatch m)
+    (cond ((eq? m 'how-many-call?) how-many-call?)
+          (else ((incretement) m))))
+  dispatch)
+
+(define s (make-monitor sqrt))
+(s 100)
+(s 'how-many-call?)
+#+END_SRC
+
+
+* Упражнение 3.3
+
+Измените процедуру make-account, чтобы она принимала пароль в конструкторе. И пощволяла списание только при передаче его в параметре.
+
+#+BEGIN_SRC scheme
+(define acc (make-account 100 'secret-password))
+((acc 'secret-password 'withdraw) 40)
+60
+
+((acc 'some-other-password 'deposit) 50)
+"Incorrect password"
+#+END_SRC
+
+#+BEGIN_SRC scheme
+(define (make-account balance password)
+  (define (withdraw amount)
+    (if (>= balance amount)
+        (begin (set! balance (- balance amount))
+               balance)
+        "Insufficient funds"))
+  (define (deposit amount)
+    (set! balance (+ balance amount))
+    balance)
+
+  (define (permission-denied . m)
+    (display "Incorrect password"))
+
+  (define (dispatch pass func)
+    (cond ((not (eq? pass password)) permission-denied)
+          ((eq? func 'withdraw) withdraw)
+          ((eq? func 'deposit) deposit)
+          (else (error "Unknown request -- MAKE-ACCOUNT"
+                       func))))
+  dispatch)
+
+(define acc (make-account 100 'secret-password))
+acc
+((acc 'secret-password 'withdraw) 40)
+((acc 'some-other-password 'deposit) 50)
+#+END_SRC
+
+* Упражнение 3.4
+
+Измените процедуру make-account, что бы при 7 вызовах с неверным паролем возвращалась процедура call-the-cops.
+
+#+BEGIN_SRC scheme
+(define (make-account balance password)
+  (define (withdraw amount)
+    (if (>= balance amount)
+        (begin (set! balance (- balance amount))
+               balance)
+        "Insufficient funds"))
+  (define (deposit amount)
+    (set! balance (+ balance amount))
+    balance)
+
+  (define (permission-denied . m)
+    (display "Incorrect password"))
+
+
+  (define monitor-error-password (make-monitor permission-denied))
+  (define (call-limit?)
+    (when (= (monitor-error-password 'how-many-call?) 2)
+        (display "Viu viu viu viu..")))
+
+  (define (dispatch pass func)
+    (cond ((not (eq? pass password)) (begin
+                                       (call-limit?)
+                                       monitor-error-password))
+          ((eq? func 'withdraw) withdraw)
+          ((eq? func 'deposit) deposit)
+          (else (error "Unknown request -- MAKE-ACCOUNT"
+                       func))))
+  dispatch)
+
+(define acc (make-account 100 'secret-password))
+acc
+((acc 'secret-password 'withdraw) 40)
+((acc 'some-other-password 'deposit) 50)
+#+END_SRC
+
+* Упражнение 3.5
+
+Реализуйте интегрирование методом Монте-Карло в виде процедуры estimateintegral, которая в качестве аргументов принимает предикат P, верхнюю и нижнюю границы прямоугольника x1, x2, y1 и y2, а также число проверок, которые мы должны осуществить, чтобы оценить отношение площадей. Ваша процедура должна использовать ту же самую процедуру monte-carlo, которая выше использовалась для оценки значения π. Оцените π при помощи estimate-integral.
+
+
+#+BEGIN_SRC scheme
+;; окружность
+(define (predicate x y)
+  (<= (+ (square (- x 5)) (square (- y 7))) (square 3)))
+
+;; x от 2 до 8
+;; y от 4 до 10
+(define (random-in-range low high)
+  (let ((range (- high low)))
+    (+ low (random range))))
+
+(define (estimateintegral P min-x max-x min-y max-y trials)
+  (define (test)
+    (P
+     (random-in-range min-x max-x)
+     (random-in-range min-y max-y)))
+
+  (* (monte-carlo trials test) (* (- max-x min-x) (- max-y min-y))))
+
+(estimateintegral predicate 2 8 4 10 100000)
+#+END_SRC
+
+результат получился равен 26.97948, π = 2.99. Что бы получить лучшие значения нужно брать сетку с меньшим интервалом. Или например оценивать на окружности с большим радиусом.
+
+#+BEGIN_SRC scheme
+(define (predicate x y)
+  (<= (+ (square (- x 25)) (square (- y 25))) (square 25)))
+(estimateintegral predicate 0 50 0 50 100000)
+;; 113/4
+;; 3.1388
+#+END_SRC
+
+
+* Упражнение 3.6
+
+Полезно иметь возможность сбросить генератор случайных чисел, чтобы получить последовательность, которая начинается с некоторого числа. Постройте новую процедуру rand, которая вызывается с аргументом. Этот аргумент должен быть либо символом generate, либо символом reset. Процедура работает так: (rand 'generate) порождает новое случайное число; ((rand 'reset) (новое-значение)) сбрасывает внутреннюю переменную состояния в указанное новое значение. Таким образом, сбрасывая значения, можно получать повторяющиеся последовательности. Эта возможность очень полезна при тестировании и отладке программ, использующих случайные числа.
+
+
+#+BEGIN_SRC scheme
+(define rand
+  (let ((random-init 2))
+    (define (rand-update)
+      (cond ((= random-init 0) 7)
+            ((= random-init 2) 5)
+            ((= random-init 5) 8)
+            ((= random-init 8) 3)
+            ((= random-init 3) 9)
+            ((= random-init 9) 1)
+            ((= random-init 1) 4)
+            ((= random-init 4) 6)
+            ((= random-init 6) 0)
+            ((= random-init 7) 2)
+            ))
+
+    (define (generate)
+      (set! random-init (rand-update))
+      random-init)
+
+    (lambda (m)
+      (cond ((eq? m 'reset) (lambda (x)
+                              (begin (set! random-init x)
+                                     x)))
+            ((eq? m 'generate) (generate))))
+    ))
+
+((rand 'reset) 8)
+(rand 'generate)
+#+END_SRC
+
+
+* Упражнение 3.7
+
+Нужно написать процедуру связанного аккаунта, что бы как новый так и старый пользователи могли с ним работать.
+
+#+BEGIN_SRC scheme
+(define peter-acc (make-account 100 'secret))
+peter-acc
+((peter-acc 'secret 'withdraw) 10)
+((peter-acc 'some-other-password 'deposit) 50)
+((peter-acc 'secret 'deposit) 50)
+
+
+(define (make-joint account acc-pass new-pass)
+  (display ((account acc-pass 'withdraw) 0))
+  (when (equal? ((account acc-pass 'withdraw) 0) "Incorrect password")
+    (error "Incorrect password"))
+
+  (define (permission-denied . m)
+    "Incorrect password")
+  (define monitor-error-password (make-monitor permission-denied))
+  (define (call-limit?)
+    (when (= (monitor-error-password 'how-many-call?) 7)
+        (display "Viu viu viu viu..")))
+
+  (define (withdraw amount)
+    ((account acc-pass 'withdraw) amount))
+
+  (define (deposit amount)
+    ((account acc-pass 'deposit) amount))
+
+  (define (dispatch pass func)
+    (cond ((not (eq? pass new-pass)) (begin
+                                       (call-limit?)
+                                       monitor-error-password))
+          ((eq? func 'withdraw) withdraw)
+          ((eq? func 'deposit) deposit)
+          (else (error "Unknown request -- MAKE-ACCOUNT"
+                       func))))
+  dispatch
+  )
+
+
+(define paul-acc
+  (make-joint peter-acc 'secret 'open-sesam))
+((paul-acc 'open-sesam 'withdraw) 10)
+#+END_SRC
+
+
+* Упражнение 3.8
+
+Определите простую процедуру f, чтобы вычисление (+ (f 0) (f 1)) возвращало 0, если аргументы + вычисляются слева направо, и 1, если они вычисляются справа налево.
+
+#+BEGIN_SRC scheme
+(define f (let ((y 0))
+            (lambda (x) (if (= x 0)
+                       (begin (set! y 1) x)
+                       (- x y)))))
+
+;; слева направо, сумма 0
+(f 0) ;; 0
+(f 1) ;; 0
+
+;; справа налево 1
+(f 1) ;; 1
+(f 0) ;; 0
+
+
+(+ (f 0) (f 1))
+#+END_SRC
+
+справа налево
