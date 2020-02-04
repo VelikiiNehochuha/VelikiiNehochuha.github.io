@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-02-03T18:43:00Z</lastmod>
+  <lastmod>2020-02-04T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-02-04T09:47:00Z</lastmod>
+  <lastmod>2020-02-04T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/a_picture_language/</loc>
@@ -60,6 +60,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/emacs/</loc>
   <lastmod>2019-12-31T17:40:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/environment_model/</loc>
+  <lastmod>2020-02-04T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/eslint/</loc>
@@ -147,7 +151,7 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-2.html</loc>
-  <lastmod>2020-02-03T18:43:00Z</lastmod>
+  <lastmod>2020-02-04T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/listings/</loc>
@@ -200,6 +204,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-31-naznacheniia-i-lokalnoye-sostoianiia/</loc>
   <lastmod>2020-02-03T18:43:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</loc>
+  <lastmod>2020-02-04T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/</loc>

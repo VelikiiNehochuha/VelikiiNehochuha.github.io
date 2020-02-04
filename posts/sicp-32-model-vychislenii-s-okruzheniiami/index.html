@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html prefix="
+        og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+    " vocab="http://ogp.me/ns" lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>SICP 3.2 Модель вычислений с окружениями | VelikiiNehochuha Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="../../rss.xml">
+<link rel="canonical" href="http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/">
+<!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
+<link rel="prev" href="../sicp-31-naznacheniia-i-lokalnoye-sostoianiia/" title="SICP 3.1 Назначения и локальноые состояния." type="text/html">
+<meta property="og:site_name" content="VelikiiNehochuha Blog">
+<meta property="og:title" content="SICP 3.2 Модель вычислений с окружениями">
+<meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/">
+<meta property="og:description" content="Упражнение 3.9
+
+
+Покажите структуру окружений для вычисления факториала.
+
+(define (factorial n)
+  (if (= n 1)
+      1
+      (* n (factorial (- n 1)))))
+
+(factorial 6)
+
+
+
+определение процедуры в глобал">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-02-04T12:50:12+03:00">
+<meta property="article:tag" content="environment_model">
+<meta property="article:tag" content="scheme">
+<meta property="article:tag" content="sicp">
+</head>
+<body>
+    <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
+    <div id="container">
+             <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+
+        <span id="blog-title">VelikiiNehochuha Blog</span>
+    </a></h1>
+
+        
+            <nav id="menu"><ul>
+<li><a href="../../archive.html">Архив</a></li>
+                <li><a href="../../categories/">Тэги</a></li>
+                <li><a href="../../rss.xml">RSS лента</a></li>
+
+    
+    
+    
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP 3.2 Модель вычислений с окружениями</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-02-04T12:50:12+03:00" itemprop="datePublished" title="2020-02-04 12:50">2020-02-04 12:50</time></a>
+            </p>
+                    <p class="sourceline"><a href="index.org" class="sourcelink">Источник</a></p>
+
+        </div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgd02c925" class="outline-2">
+<h2 id="orgd02c925">Упражнение 3.9</h2>
+<div class="outline-text-2" id="text-orgd02c925">
+<p>
+Покажите структуру окружений для вычисления факториала.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="mi">1</span>
+      <span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="nf">factorial</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+
+<p>
+определение процедуры в глобальной области. создается окружение где n=6, оно ссылается на глобальную область.
+</p>
+
+<p>
+(* 6 (factorial 5))
+</p>
+
+<p>
+E1(n=6) E2(n=5) E3(n=4) E4(n=3) E5(n=2) E6(n=1), все ссылаются на глобальную область видимости.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">fact-iter</span> <span class="mi">1</span> <span class="mi">1</span> <span class="nv">n</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fact-iter</span> <span class="nv">product</span> <span class="nv">counter</span> <span class="nv">max-count</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">max-count</span><span class="p">)</span>
+      <span class="nv">product</span>
+      <span class="p">(</span><span class="nf">fact-iter</span> <span class="p">(</span><span class="nb">* </span><span class="nv">counter</span> <span class="nv">product</span><span class="p">)</span>
+		 <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span>
+		 <span class="nv">max-count</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+E1 - n: 6               -&gt; G
+   (fact-iter 1 1 6)
+</p>
+
+<p>
+E2 - product: 1         -&gt; G
+</p>
+<ul class="org-ul">
+<li>counter: 1</li>
+<li>max-count: 6</li>
+</ul>
+<p>
+(fact-iter 1 2 6)
+</p>
+
+<p>
+E3 - product 1          -&gt; G
+</p>
+<ul class="org-ul">
+<li>counter 2</li>
+<li>max-count 6</li>
+</ul>
+<p>
+   (fact-iter 1 2 6)
+…
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org831495e" class="outline-2">
+<h2 id="org831495e">Упражнение 3.10</h2>
+<div class="outline-text-2" id="text-org831495e">
+<p>
+Проиллюстрируйте структуры окружений для следующей процедуры и вызовов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-withdraw</span> <span class="nv">initial-amount</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">balance</span> <span class="nv">initial-amount</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">amount</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+		 <span class="nv">balance</span><span class="p">)</span>
+	  <span class="s">"Insufficient funds"</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">W1</span> <span class="p">(</span><span class="nf">make-withdraw</span> <span class="mi">100</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">W1</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">W2</span> <span class="p">(</span><span class="nf">make-withdraw</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+
+<p>
+учтите что let это синтаксический сахар над lambda, то есть следующие записи эквивалентны
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">&lt;var&gt;</span> <span class="nv">&lt;exp&gt;</span><span class="p">))</span> <span class="nv">&lt;body&gt;</span><span class="p">)</span>
+<span class="p">((</span><span class="k">lambda </span><span class="p">(</span><span class="nf">&lt;var&gt;</span><span class="p">)</span> <span class="nv">&lt;body&gt;</span><span class="p">)</span> <span class="nv">&lt;exp&gt;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-withdraw</span> <span class="nv">initial-amount</span><span class="p">)</span>
+  <span class="p">((</span><span class="k">lambda </span><span class="p">(</span><span class="nf">balance</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">amount</span><span class="p">)</span> <span class="o">...</span><span class="p">))</span> <span class="nv">initial-amount</span><span class="p">))</span>
+</pre></div>
+
+<p>
+<img src="../../images/3.10.png" alt="nil"></p>
+
+<p>
+(W1 50)
+</p>
+
+<p>
+Set! повлияет на E2, initial-mount останется неизменным в первом окружении.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org4792190" class="outline-2">
+<h2 id="org4792190">Упражнение 3.11</h2>
+<div class="outline-text-2" id="text-org4792190">
+<p>
+Проиллюстрируйте структуру окружений для следующей процедуры и вызовов
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-account</span> <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">withdraw</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+	       <span class="nv">balance</span><span class="p">)</span>
+	<span class="s">"Insufficient funds"</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+    <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">m</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="nv">withdraw</span><span class="p">)</span>
+	  <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">deposit</span><span class="p">)</span>
+	  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown request -- MAKE-ACCOUNT"</span>
+		       <span class="nv">m</span><span class="p">))))</span>
+  <span class="nv">dispatch</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">acc</span> <span class="p">(</span><span class="nf">make-account</span> <span class="mi">50</span><span class="p">))</span>
+<span class="p">((</span><span class="nf">acc</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="mi">40</span><span class="p">)</span>
+<span class="p">((</span><span class="nf">acc</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="mi">60</span><span class="p">)</span>
+</pre></div>
+
+<p>
+<img src="../../images/3.11.png" alt="nil"></p>
+
+<p>
+Где хранится внутреннее состояние acc? 
+Состояние хранится в окружении E1.
+</p>
+
+<p>
+Предположим, что мы определяем еще один счет.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">acc2</span> <span class="p">(</span><span class="nf">make-account</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+<p>
+Каким образом удается не смешивать внутренние состояния двух счетов?
+На каждый счет создаются отдельные окружения, никак не пересекающиеся.
+</p>
+
+<p>
+Какие части структуры окружений общие у acc и acc2?
+Только глобальная область видимости, то есть определение make-account.
+</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/environment_model/" rel="tag">environment_model</a></li>
+            <li><a class="tag p-category" href="../../categories/scheme/" rel="tag">scheme</a></li>
+            <li><a class="tag p-category" href="../../categories/sicp/" rel="tag">sicp</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../sicp-31-naznacheniia-i-lokalnoye-sostoianiia/" rel="prev" title="SICP 3.1 Назначения и локальноые состояния.">Предыдущая запись</a>
+            </li>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+                <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>
