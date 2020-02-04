@@ -2,7 +2,7 @@
 .. title: SICP 3.1 Назначения и локальноые состояния.
 .. slug: sicp-31-naznacheniia-i-lokalnoye-sostoianiia
 .. date: 2020-02-02 11:46:58 UTC+03:00
-.. tags: sicp, scheme, local_state
+.. tags: sicp, scheme, assignment, local_state
 .. category: 
 .. link: 
 .. description: 
