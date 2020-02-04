@@ -1,0 +1,135 @@
+#+BEGIN_COMMENT
+.. title: SICP 3.2 Модель вычислений с окружениями
+.. slug: sicp-32-model-vychislenii-s-okruzheniiami
+.. date: 2020-02-04 12:50:12 UTC+03:00
+.. tags: sicp, scheme, environment_model
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* Упражнение 3.9
+
+Покажите структуру окружений для вычисления факториала.
+#+BEGIN_SRC scheme
+(define (factorial n)
+  (if (= n 1)
+      1
+      (* n (factorial (- n 1)))))
+
+(factorial 6)
+#+END_SRC
+
+определение процедуры в глобальной области. создается окружение где n=6, оно ссылается на глобальную область.
+
+(* 6 (factorial 5))
+
+E1(n=6) E2(n=5) E3(n=4) E4(n=3) E5(n=2) E6(n=1), все ссылаются на глобальную область видимости.
+
+
+#+BEGIN_SRC scheme
+(define (factorial n)
+  (fact-iter 1 1 n))
+(define (fact-iter product counter max-count)
+  (if (> counter max-count)
+      product
+      (fact-iter (* counter product)
+                 (+ counter 1)
+                 max-count)))
+#+END_SRC
+
+E1 - n: 6               -> G
+   (fact-iter 1 1 6)
+
+E2 - product: 1         -> G
+   - counter: 1
+   - max-count: 6
+   (fact-iter 1 2 6)
+
+E3 - product 1          -> G
+   - counter 2
+   - max-count 6
+   (fact-iter 1 2 6)
+...
+
+
+* Упражнение 3.10
+
+Проиллюстрируйте структуры окружений для следующей процедуры и вызовов.
+
+#+BEGIN_SRC scheme
+(define (make-withdraw initial-amount)
+  (let ((balance initial-amount))
+    (lambda (amount)
+      (if (>= balance amount)
+          (begin (set! balance (- balance amount))
+                 balance)
+          "Insufficient funds"))))
+
+(define W1 (make-withdraw 100))
+
+(W1 50)
+
+(define W2 (make-withdraw 100))
+#+END_SRC
+
+учтите что let это синтаксический сахар над lambda, то есть следующие записи эквивалентны
+#+BEGIN_SRC scheme
+(let ((<var> <exp>)) <body>)
+((lambda (<var>) <body>) <exp>)
+
+(define (make-withdraw initial-amount)
+  ((lambda (balance) (lambda (amount) ...)) initial-amount))
+#+END_SRC
+
+[[img-url:/images/3.10.png]]
+
+(W1 50)
+
+Set! повлияет на E2, initial-mount останется неизменным в первом окружении.
+
+
+* Упражнение 3.11
+
+Проиллюстрируйте структуру окружений для следующей процедуры и вызовов
+
+#+BEGIN_SRC scheme
+(define (make-account balance)
+  (define (withdraw amount)
+    (if (>= balance amount)
+        (begin (set! balance (- balance amount))
+               balance)
+        "Insufficient funds"))
+  (define (deposit amount)
+    (set! balance (+ balance amount))
+    balance)
+  (define (dispatch m)
+    (cond ((eq? m 'withdraw) withdraw)
+          ((eq? m 'deposit) deposit)
+          (else (error "Unknown request -- MAKE-ACCOUNT"
+                       m))))
+  dispatch)
+
+(define acc (make-account 50))
+((acc 'deposit) 40)
+((acc 'withdraw) 60)
+#+END_SRC
+
+[[img-url:/images/3.11.png]]
+
+Где хранится внутреннее состояние acc? 
+Состояние хранится в окружении E1.
+
+Предположим, что мы определяем еще один счет.
+#+BEGIN_SRC scheme
+(define acc2 (make-account 100))
+#+END_SRC
+Каким образом удается не смешивать внутренние состояния двух счетов?
+На каждый счет создаются отдельные окружения, никак не пересекающиеся.
+
+Какие части структуры окружений общие у acc и acc2?
+Только глобальная область видимости, то есть определение make-account.
+
