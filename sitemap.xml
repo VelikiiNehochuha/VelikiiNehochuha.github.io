@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-02-04T17:58:00Z</lastmod>
+  <lastmod>2020-02-05T12:42:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-02-04T17:58:00Z</lastmod>
+  <lastmod>2020-02-05T12:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/a_picture_language/</loc>
@@ -106,6 +106,10 @@
   <lastmod>2020-01-25T17:30:00Z</lastmod>
  </url>
  <url>
+  <loc>http://velikiinehochuha.github.io/categories/mutable_data/</loc>
+  <lastmod>2020-02-05T12:44:00Z</lastmod>
+ </url>
+ <url>
   <loc>http://velikiinehochuha.github.io/categories/prime_numbers/</loc>
   <lastmod>2020-01-12T23:44:00Z</lastmod>
  </url>
@@ -151,7 +155,7 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-2.html</loc>
-  <lastmod>2020-02-04T17:58:00Z</lastmod>
+  <lastmod>2020-02-05T12:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/listings/</loc>
@@ -208,6 +212,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</loc>
   <lastmod>2020-02-04T17:58:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</loc>
+  <lastmod>2020-02-05T12:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/</loc>

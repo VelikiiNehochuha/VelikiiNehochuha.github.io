@@ -1,5 +1,1118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Tue, 04 Feb 2020 19:58:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.2 Модель вычислений с окружениями</title><link>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgd02c925" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Feb 2020 09:56:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.3 Моделирование с изменяемыми данными.</title><link>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgf182db6" class="outline-2"&gt;
+&lt;h2 id="orgf182db6"&gt;Упражнение 3.12&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf182db6"&gt;
+&lt;p&gt;
+Следующая процедура добавления элементов в список была приведена в главе 2.2.1
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;append &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nv"&gt;y&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;append &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Процедура append! похожа, но применяет mutator вместо конструктора.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;append!&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;last-pair&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;last-pair&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="nv"&gt;x&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;last-pair&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Рассмотрим следующие команды
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'c&lt;/span&gt; &lt;span class="ss"&gt;'d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;append &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nv"&gt;z&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt; &lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;&amp;lt;response&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;w&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;append!&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nv"&gt;w&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt; &lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;&amp;lt;response&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Какие значения в пропущенных &amp;lt;response&amp;gt;. Нарисуйте структуру box-and-pointer что бы пояснить ответ.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;;; в первом случае&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; ссылка на x убирается формируется новый список, к которому добавляем y&lt;/span&gt;
+&lt;span class="c1"&gt;;; во втором случае&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt; &lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;;; x и w псевдонимы, к которым в конце добавляется y.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.12.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgfa76f23" class="outline-2"&gt;
+&lt;h2 id="orgfa76f23"&gt;Упражнение 3.13&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfa76f23"&gt;
+&lt;p&gt;
+Рассмотрим следующую процедуру make-cycle, которая использует last-pair описанную ранее.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-cycle&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;last-pair&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Нарисуйте box-and-pointer диаграмму, которая показывает структуру объекта z, полученного следующим образом
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-cycle&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt; &lt;span class="ss"&gt;'c&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.13.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Что произойдет если выполнить (last-pair z)?
+&lt;/p&gt;
+
+&lt;p&gt;
+Произойдет бесконечный поиск последнего элемента в цикле.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge75d16f" class="outline-2"&gt;
+&lt;h2 id="orge75d16f"&gt;Упражнение 3.14&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge75d16f"&gt;
+&lt;p&gt;
+Следующая процедура часто применяется, несмотря на запутанность.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mystery&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;loop&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="nv"&gt;y&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;temp&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;loop&lt;/span&gt; &lt;span class="nv"&gt;temp&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;loop&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Объясните что mastery делает. Допустим v это список
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;v&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt; &lt;span class="ss"&gt;'c&lt;/span&gt; &lt;span class="ss"&gt;'d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;w&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mystery&lt;/span&gt; &lt;span class="nv"&gt;v&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Нарисуйте диаграмму для v и для w после выполнения w. Что будет выведено для v и w?
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.14.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+v будет ссылаться на список с единственным значением a. А w будет содержать перевернутый список значений v.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0f814e4" class="outline-2"&gt;
+&lt;h2 id="org0f814e4"&gt;Упражнение 3.15&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0f814e4"&gt;
+&lt;p&gt;
+Нарисуйте диаграмму для структур после применения set-to-wow!
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-to-wow!&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-car! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ss"&gt;'wow&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-to-wow!&lt;/span&gt; &lt;span class="nv"&gt;z1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-to-wow!&lt;/span&gt; &lt;span class="nv"&gt;z2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.15.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org811a950" class="outline-2"&gt;
+&lt;h2 id="org811a950"&gt;Упражнение 3.16&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org811a950"&gt;
+&lt;p&gt;
+Бен решил написать процедуру которая подсчитывает количество пар в любом списке. "Это просто. Количество пар, это количество в car плюс количество в cdr плюс один, что бы учесть текущую пару."
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-pairs&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="mi"&gt;0&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-pairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-pairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	 &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Покажите, что эта процедура ошибочна. В частности, приведите примеры  структур ровно из трех пар, для которых процедура вернет 3; вернет 4; вернет 7; вообще никогда не завершится.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; 3&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="mi"&gt;99999&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; 4&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; 7&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; Inf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgeaf58ee" class="outline-2"&gt;
+&lt;h2 id="orgeaf58ee"&gt;Упражнение 3.17&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgeaf58ee"&gt;
+&lt;p&gt;
+Напишите правильную версию процедуры count-pairs из упражнения 3.16, которая возвращает число различных пар в любой структуре. (Подсказка: просматривайте структуру, поддерживая при этом вспомогательную структуру, следящую за тем, какие пары уже были посчитаны.)
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt; &lt;span class="nv"&gt;item&lt;/span&gt; &lt;span class="nv"&gt;positions&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;positions&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nv"&gt;false&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;equal? &lt;/span&gt;&lt;span class="nv"&gt;item&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;positions&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt; &lt;span class="nv"&gt;item&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;positions&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;checked&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;checked&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="mi"&gt;0&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;checked&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;checked&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;equal? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;checked&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;checked&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;checked&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="mi"&gt;99999&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-uniq-pairs&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfa02144" class="outline-2"&gt;
+&lt;h2 id="orgfa02144"&gt;Упражнение 3.18, 3.19&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfa02144"&gt;
+&lt;p&gt;
+Напишите процедуру, которая рассматривает список и определяет, содержится ли в нем цикл, то есть, не войдет ли программа, которая попытается добраться до конца списка, продвигаясь по полям cdr, в бесконечный цикл. Такие списки порождались в упражнении 3.13.
+&lt;/p&gt;
+
+&lt;p&gt;
+Переделайте упражнение 3.18, используя фиксированное количество памяти. (Тут нужна достаточно хитрая идея.)
+&lt;/p&gt;
+
+
+&lt;p&gt;
+Еще есть широко известные алгоритмы поиска повторов в последовательностях.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;floyed&lt;/span&gt; &lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="c1"&gt;;; кролик бежит в два раза быстрее черепахи&lt;/span&gt;
+  &lt;span class="c1"&gt;;; если цикл есть то он обагнав его на круг встретятся в некоторой точке&lt;/span&gt;
+  &lt;span class="c1"&gt;;; запоминаем позицию кролика&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;same-point?&lt;/span&gt; &lt;span class="nv"&gt;tl&lt;/span&gt; &lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="nv"&gt;hl&lt;/span&gt;
+	  &lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;same-point?&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+  &lt;span class="c1"&gt;;; далее бегут с равной минимальной скоростью&lt;/span&gt;
+  &lt;span class="c1"&gt;;; кролик начинает с позиции предведущей встречи, а черепаха сначала&lt;/span&gt;
+  &lt;span class="c1"&gt;;; они встретятся равно в начале цикла. потому что иначе получим&lt;/span&gt;
+  &lt;span class="c1"&gt;;; противоречие что цикл есть.&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;start-repeat?&lt;/span&gt; &lt;span class="nv"&gt;tl&lt;/span&gt; &lt;span class="nv"&gt;hl&lt;/span&gt; &lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt; &lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;start-repeat?&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+  &lt;span class="c1"&gt;;; далее просто находим период, черепаха стоит, а кролик бежит пока позиции вновь не совпадут.&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;period?&lt;/span&gt; &lt;span class="nv"&gt;tl&lt;/span&gt; &lt;span class="nv"&gt;hl&lt;/span&gt; &lt;span class="nv"&gt;period&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="nv"&gt;period&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;period?&lt;/span&gt; &lt;span class="nv"&gt;tl&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;period&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;hl&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;same-point?&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;start-repeat&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;start-repeat?&lt;/span&gt; &lt;span class="nv"&gt;l&lt;/span&gt; &lt;span class="nv"&gt;hl&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;start-repeat&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;start-repeat&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;period&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;period?&lt;/span&gt; &lt;span class="nv"&gt;tl&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt; &lt;span class="nv"&gt;period&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-cycle2&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;last-pair&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+  &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-cycle&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt; &lt;span class="ss"&gt;'c&lt;/span&gt; &lt;span class="ss"&gt;'d&lt;/span&gt; &lt;span class="ss"&gt;'e&lt;/span&gt; &lt;span class="ss"&gt;'f&lt;/span&gt; &lt;span class="ss"&gt;'g&lt;/span&gt; &lt;span class="ss"&gt;'h&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="c1"&gt;;Value: (a b . #0=(c d e f . #0#))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;floyed&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;;Value (2 . 4)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Порядок роста по месту 1.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgae49f6f" class="outline-2"&gt;
+&lt;h2 id="orgae49f6f"&gt;Упражнение 3.20&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgae49f6f"&gt;
+&lt;p&gt;
+Нарисуйте диаграммы окружений, изображающие выполнение  последовательности выражений с помощью вышеприведенной процедурной реализации пар.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-x!&lt;/span&gt; &lt;span class="nv"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;v&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-y!&lt;/span&gt; &lt;span class="nv"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;v&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'car&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'cdr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'set-car!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;set-x!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'set-cdr!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;set-y!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Неопределенная операция -- CONS"&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+  &lt;span class="nv"&gt;dispatch&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="ss"&gt;'car&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="ss"&gt;'cdr&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-car! &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="nv"&gt;new-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="ss"&gt;'set-car!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;new-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="nv"&gt;new-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="ss"&gt;'set-cdr!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;new-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-car! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; 17&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.20.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3df06f8" class="outline-2"&gt;
+&lt;h2 id="org3df06f8"&gt;Упражнение 3.21&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3df06f8"&gt;
+&lt;p&gt;
+при добавлении элемента, ссылка на новый элемент сохраняется в два места, поэтому при распечатке выводится не только список элементов, но и вторая ссылка.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-queue&lt;/span&gt; &lt;span class="nv"&gt;queue&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;queue&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org89823d3" class="outline-2"&gt;
+&lt;h2 id="org89823d3"&gt;Упражнение 3.22&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org89823d3"&gt;
+&lt;p&gt;
+Вместо того, чтобы представлять очередь как пару указателей, можно построить ее в виде процедуры с внутренним состоянием. Это состояние будет включать указатели на начало и конец обыкновенного списка. Таким образом, make-queue будет иметь вид
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-queue&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;front-ptr&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rear-ptr&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;определения&lt;/span&gt; &lt;span class="nv"&gt;внутренних&lt;/span&gt; &lt;span class="nv"&gt;процедур&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;dispatch&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Закончите определение make-queue и реализуйте операции над очередями с помощью этого представления.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-queue&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;front-ptr&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rear-ptr&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;front-queue&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"FRONT вызвана с пустой очередью"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;insert&lt;/span&gt; &lt;span class="nv"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;new-pair&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;item&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-pair&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-pair&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-pair&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-pair&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"DELETE! вызвана с пустой очередью"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	     &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="nv"&gt;dispatch&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org87446e3" class="outline-2"&gt;
+&lt;h2 id="org87446e3"&gt;Упражнение 3.23&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org87446e3"&gt;
+&lt;p&gt;
+Дек (deque, double-ended queue, «двусторонняя очередь») представляет собой последовательность, элементы в которой могут добавляться и уничтожаться как с головы, так и с хвоста. На деках определены такие операции: конструктор make-deque, предикат empty-deque?, селекто-
+ры front-deque и rear-deque, и мутаторы front-insert-deque!, rear-insert-deque!, front-delete-deque! и rear-delete-deque!. Покажите, как представить дек при помощи пар, и напишите реализацию операций .Все операции должны выполняться за Θ(1) шагов.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.23.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-deque&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;front-ptr&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rear-ptr&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;front-queue&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"FRONT вызвана с пустой очередью"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rear-insert&lt;/span&gt; &lt;span class="nv"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;new-list&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;item&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;new-list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;rear-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;front-insert&lt;/span&gt; &lt;span class="nv"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;new-list&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;item&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;new-list&lt;/span&gt; &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;new-list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt; &lt;span class="nv"&gt;new-list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;front-delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"DELETE! вызвана с пустой очередью"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;when&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+	     &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rear-delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;empty-queue?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"DELETE! вызвана с пустой очередью"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;when&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;rear-ptr&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+	     &lt;span class="nv"&gt;rear-ptr&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rear&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nv"&gt;rear-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;front&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nv"&gt;front-ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'front-delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;front-delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'rear-delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;rear-delete&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'rear&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;rear&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'front&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;front&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'rear-insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;rear-insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'front-insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;front-insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="nv"&gt;dispatch&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;q&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-deque&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;q&lt;/span&gt; &lt;span class="ss"&gt;'rear-insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ss"&gt;'a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;q&lt;/span&gt; &lt;span class="ss"&gt;'rear-insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;q&lt;/span&gt; &lt;span class="ss"&gt;'rear-insert&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ss"&gt;'c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;;; #0=((a) . #1=((b . #0#) (c . #1#)))&lt;/span&gt;
+
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;q&lt;/span&gt; &lt;span class="ss"&gt;'front-delete&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;q&lt;/span&gt; &lt;span class="ss"&gt;'rear-delete&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc6e1fa9" class="outline-2"&gt;
+&lt;h2 id="orgc6e1fa9"&gt;Упражнение 3.24&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc6e1fa9"&gt;
+&lt;p&gt;
+В реализациях таблиц в этом разделе ключи всегда проверяются на равенство с помощью equal? (который, в свою очередь, зовется из assoc). Это не всегда то, что нужно. Например, можно представить себе таблицу с числовыми ключами, где не требуется точного совпадения с числом,
+которое мы ищем, а нужно только совпадение с определенной допустимой ошибкой. Постройте конструктор таблиц make-table, который в качестве аргумента принимает процедуру same-key? для проверки равенства ключей. Make-table должна возвращать процедуру dispatch. через которую можно добраться до процедур lookup и insert! локальной таблицы. В реализациях таблиц в этом разделе ключи всегда проверяются на равенство с помощью equal? (который, в свою очередь, зовется из assoc). Это не всегда то, что нужно. Например, можно представить себе таблицу с числовыми ключами, где не требуется точного совпадения с числом, которое мы ищем, а нужно только совпадение с определенной допустимой ошибкой. Постройте
+конструктор таблиц make-table, который в качестве аргумента принимает процедуру same-key? для проверки равенства ключей. Make-table должна возвращать процедуру dispatch. через которую можно добраться до процедур lookup и insert! локальной таблицы.
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt; &lt;span class="nv"&gt;comparator&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;local-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'*table*&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;comparator&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;caar &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+&lt;span class="o"&gt;...&lt;/span&gt;
+&lt;span class="p"&gt;))&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;operation-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt;= &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;tolerance&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+						   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;tolerance&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+					      &lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2484d94" class="outline-2"&gt;
+&lt;h2 id="org2484d94"&gt;Упражнение 3.25&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2484d94"&gt;
+&lt;p&gt;
+Обобщая случаи одно- и двумерных таблиц, покажите, как можно реализовать таблицу, в которой элементы хранятся с произвольным количеством ключей и различные значения могут храниться с различным количеством ключей. Процедуры lookup и insert! должны принимать на входе
+список ключей, с которыми требуется обратиться к таблице.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;local-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'*table*&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="nv"&gt;local-table&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;equal? &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;caar &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lookup&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-lookup&lt;/span&gt; &lt;span class="nv"&gt;table&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-lookup&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	      &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+	&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-lookup&lt;/span&gt; &lt;span class="nv"&gt;local-table&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;insert!&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="nv"&gt;table&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;sub-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+		    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;sub-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+		    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="nv"&gt;sub-table&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		    &lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;)&lt;/span&gt;
+
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="nv"&gt;local-table&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="ss"&gt;'ok&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'lookup-proc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;lookup&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'insert-proc!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;insert!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Unknown operation -- TABLE"&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="nv"&gt;dispatch&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;operation-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;get&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;operation-table&lt;/span&gt; &lt;span class="ss"&gt;'lookup-proc&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;put&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;operation-table&lt;/span&gt; &lt;span class="ss"&gt;'insert-proc!&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;print&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;operation-table&lt;/span&gt; &lt;span class="ss"&gt;'print&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;put&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="ss"&gt;'test&lt;/span&gt; &lt;span class="ss"&gt;'two&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt; &lt;span class="ss"&gt;'test&lt;/span&gt; &lt;span class="ss"&gt;'two&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;put&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="ss"&gt;'test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt; &lt;span class="ss"&gt;'test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orge41ab83" class="outline-2"&gt;
+&lt;h2 id="orge41ab83"&gt;Упражнение 3.26&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge41ab83"&gt;
+&lt;p&gt;
+При поиске в таблице, как она реализована выше, приходится просматривать список записей. В сущности, это представление с неупорядоченным списком из раздела 2.3.3. Для больших таблиц может оказаться эффективнее организовать таблицу иначе. Опишите реализацию таблицы, в которой записи (ключ, значение) организованы в виде бинарного дерева, в предположении, что ключи можно каким-то образом упорядочить (например, численно или по алфавиту).
+&lt;/p&gt;
+
+&lt;p&gt;
+тут не стал делать общие операции для нескольких типов таблиц, но добавляя теги мы можем этого добиться, далее просто реализация хранения таблиц в виде бинарных деревьев, где к ветви дерева добавляется четвертое поле, которое хранит значение.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cadr &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;caddr &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;value-tree&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cadddr &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-tree&lt;/span&gt; &lt;span class="nv"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="c1"&gt;;; добавляем тег 'bin&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;empty-bin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'*bin*&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-bin?&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;equal? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;value-tree&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="ss"&gt;'*bin*&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adjoin-set&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-tree&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-tree&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adjoin-set&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;value-tree&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-tree&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adjoin-set&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;value-tree&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;local-bin&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;empty-bin&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="c1"&gt;;; вместо списка бинарное дерево&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="nv"&gt;local-bin&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;assoc-bin&lt;/span&gt; &lt;span class="nv"&gt;given-key&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;equal? &lt;/span&gt;&lt;span class="nv"&gt;given-key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="nv"&gt;given-key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;assoc-bin&lt;/span&gt; &lt;span class="nv"&gt;given-key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;given-key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;entry&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;assoc-bin&lt;/span&gt; &lt;span class="nv"&gt;given-key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lookup&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-lookup&lt;/span&gt; &lt;span class="nv"&gt;bin&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;assoc-bin&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;value-tree&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-bin?&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-lookup&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;value-tree&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		      &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	      &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+	&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-lookup&lt;/span&gt; &lt;span class="nv"&gt;local-bin&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;insert!&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="nv"&gt;bin&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;assoc-bin&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+					 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+					 &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cadddr &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;bin&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adjoin-set&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;sub-bin&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;empty-bin&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+		    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;bin&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adjoin-set&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;sub-bin&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="nv"&gt;sub-bin&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		    &lt;span class="p"&gt;)&lt;/span&gt;
+		  &lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-insert&lt;/span&gt; &lt;span class="nv"&gt;local-bin&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="ss"&gt;'ok&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'lookup-proc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;lookup&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'insert-proc!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;insert!&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Unknown operation -- TABLE"&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="nv"&gt;dispatch&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;operation-table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;get&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;operation-table&lt;/span&gt; &lt;span class="ss"&gt;'lookup-proc&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;put&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;operation-table&lt;/span&gt; &lt;span class="ss"&gt;'insert-proc!&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;print&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;operation-table&lt;/span&gt; &lt;span class="ss"&gt;'print&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;put&lt;/span&gt; &lt;span class="ss"&gt;'a&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;put&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;put&lt;/span&gt; &lt;span class="ss"&gt;'b&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;put&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="ss"&gt;'test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;put&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="ss"&gt;'two&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgb4a0f33" class="outline-2"&gt;
+&lt;h2 id="orgb4a0f33"&gt;Упражнение 3.27&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb4a0f33"&gt;
+&lt;p&gt;
+Мемоизация (memoization) (называемая также табуляризация (tabulation)) — прием, который позволяет процедуре записывать в локальной таблице единожды вычисленные значения.
+&lt;/p&gt;
+
+&lt;p&gt;
+Нарисуйте диаграмму окружений, анализирующую вычисление (memo-fib 3). Объясните, почему memo-fib вычисляет n-е число Фибоначчи за число шагов, пропорциональное n. Стала бы схема работать, если бы мы определили memo-fib просто как (memoize fib)?
+&lt;/p&gt;
+
+&lt;p&gt;
+к моменту когда вычислим (memo-fib (- n 1)), значение для (memo-fib (-n 2) будет находиться в таблице, поэтому порядок роста такой функции будет n.
+&lt;/p&gt;
+
+&lt;p&gt;
+если определить memo-fib как (memoize fib) то будет запоминаться только последний результат таблицы, эти функции не эквивалентны.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lookup&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;equal? &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;caar &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;records&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;insert!&lt;/span&gt; &lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;record&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;assoc &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;record&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-cdr! &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;key&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+  &lt;span class="ss"&gt;'ok&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="ss"&gt;'*table*&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fib&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fib&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fib&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;memo-fib&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;memoize&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		   &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;memo-fib&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+			    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;memo-fib&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))))))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;memoize&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;table&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-table&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;previously-computed-result&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lookup&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="nv"&gt;previously-computed-result&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;result&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="nv"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;insert!&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;result&lt;/span&gt; &lt;span class="nv"&gt;table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="nv"&gt;result&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fib&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;memo-fib&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;memoize&lt;/span&gt; &lt;span class="nv"&gt;fib&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.27.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org7aecf10" class="outline-2"&gt;
+&lt;h2 id="org7aecf10"&gt;Упражнение 3.28&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7aecf10"&gt;
+&lt;p&gt;
+Определите ИЛИ-элемент как элементарный функциональный блок. Ваш конструктор or-gate должен быть подобен and-gate.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;or-gate&lt;/span&gt; &lt;span class="nv"&gt;a1&lt;/span&gt; &lt;span class="nv"&gt;a2&lt;/span&gt; &lt;span class="nv"&gt;output&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;or-action-procedure&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;new-value&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;logical-or&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-signal&lt;/span&gt; &lt;span class="nv"&gt;a1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-signal&lt;/span&gt; &lt;span class="nv"&gt;a2&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;after-delay&lt;/span&gt; &lt;span class="nv"&gt;or-gate-delay&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+		     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-signal!&lt;/span&gt; &lt;span class="nv"&gt;output&lt;/span&gt; &lt;span class="nv"&gt;new-value&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-action!&lt;/span&gt; &lt;span class="nv"&gt;a1&lt;/span&gt; &lt;span class="nv"&gt;or-action-procedure&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-action!&lt;/span&gt; &lt;span class="nv"&gt;a2&lt;/span&gt; &lt;span class="nv"&gt;or-action-procedure&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="ss"&gt;'ok&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfc74320" class="outline-2"&gt;
+&lt;h2 id="orgfc74320"&gt;Упражнение 3.29&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfc74320"&gt;
+&lt;p&gt;
+Еще один способ создать ИЛИ-элемент — это собрать его как составной блок из И-элементов и инверторов. Определите процедуру or-gate, которая это осуществляет. Как время задержки ИЛИ-элемента выражается через and-gate-delay и inverter-delay?
+&lt;/p&gt;
+
+&lt;p&gt;
+(not (and (not a1) (not a2)))
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;or-gate&lt;/span&gt; &lt;span class="nv"&gt;a1&lt;/span&gt; &lt;span class="nv"&gt;a2&lt;/span&gt; &lt;span class="nv"&gt;output&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;inverter&lt;/span&gt; &lt;span class="nv"&gt;a1&lt;/span&gt; &lt;span class="nv"&gt;na1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;inventer&lt;/span&gt; &lt;span class="nv"&gt;a2&lt;/span&gt; &lt;span class="nv"&gt;na2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;and-gate&lt;/span&gt; &lt;span class="nv"&gt;na1&lt;/span&gt; &lt;span class="nv"&gt;na2&lt;/span&gt; &lt;span class="nv"&gt;andnot&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;inventer&lt;/span&gt; &lt;span class="nv"&gt;andnot&lt;/span&gt; &lt;span class="nv"&gt;output&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="ss"&gt;'ok&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+время задержки будет равно сумме всех задержек?
+inventer-delay + inventer-delay + and-gate-delay + and-gate-delay + inventer-delay
+как в последствии выяснится будет равно просто сумме and и or
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org7bb8808" class="outline-2"&gt;
+&lt;h2 id="org7bb8808"&gt;Упражнение 3.30&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7bb8808"&gt;
+&lt;p&gt;
+Напишите процедуру riple-carry-adder, которая бы моделировала схему каскадного сумматора.
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;riple-carry-adder&lt;/span&gt; &lt;span class="nv"&gt;A&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="nv"&gt;S&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-carry-adder&lt;/span&gt; &lt;span class="nv"&gt;A&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="nv"&gt;S&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt; &lt;span class="nv"&gt;res&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;res&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;Sn&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;S&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;full-adder&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt; &lt;span class="nv"&gt;Sn&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-carry-adder&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;S&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;Sn&lt;/span&gt; &lt;span class="nv"&gt;res&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;))))&lt;/span&gt;
+
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter-carry-adder&lt;/span&gt; &lt;span class="nv"&gt;A&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="nv"&gt;S&lt;/span&gt; &lt;span class="nv"&gt;Cn&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga125d4e" class="outline-2"&gt;
+&lt;h2 id="orga125d4e"&gt;Упражнение 3.31&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga125d4e"&gt;
+&lt;p&gt;
+Внутренняя процедура accept-action-procedure!, определенная в make-wire, требует, чтобы в момент, когда процедура-действие добавляется к проводу, она немедленно исполнялась. Объясните, зачем требуется такая инициализация. В частности, проследите работу процедуры half-adder из этого текста и скажите, как отличалась бы реакция системы, если бы accept-action-procedure! была определена как
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;accept-action-procedure!&lt;/span&gt; &lt;span class="nv"&gt;proc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;action-procedures&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;proc&lt;/span&gt; &lt;span class="nv"&gt;action-procedures&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+при инициализации только первого сигнала, результат будет 0 0 на sum и carry
+&lt;/p&gt;
+
+&lt;p&gt;
+в расписание не попадает интвентор, при выставлении только первого сигнала, поэтому схема совсем не будет работать.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2f909cc" class="outline-2"&gt;
+&lt;h2 id="org2f909cc"&gt;Упражнение 3.32&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2f909cc"&gt;
+&lt;p&gt;
+Процедуры, предназначенные к выполнению в каждом временном отрезке, хранятся в виде очереди. Таким образом, процедуры для каждого отрезка вызываются в том же порядке, в котором они были добавлены к плану (первый пришел, первый ушел). Объясните, почему требуется использовать именно такой порядок. В частности, проследите поведение И-элемента, входы которого меняются с 0 на 1 и с 1 на 0 одновременно и скажите, как отличалось бы поведение, если бы мы хранили процедуры отрезка в обыкновенном списке, добавляя и убирая их только с головы (последний пришел, первый ушел).
+&lt;/p&gt;
+
+&lt;p&gt;
+initial (a1 a2)
+(0 1)
+(1 1) a1 -&amp;gt; 1, out = 1
+(1 0) a2 -&amp;gt; 0, out = 0
+то есть выполняя a2 последним получим правильный результат
+&lt;/p&gt;
+
+&lt;p&gt;
+если выполним в обратном порядке, получим неправильный
+если же сначала выставляем a2, а потом a1, то получим правильный результат, но тогда каждый раз необходимо думать о последовательности.
+(0 1)
+(0 0) 0
+(1 0) 1
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgdea7e91" class="outline-2"&gt;
+&lt;h2 id="orgdea7e91"&gt;Упражнение 3.33&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdea7e91"&gt;
+&lt;p&gt;
+С помощью элементарных ограничений сумматор, умножитель и константа, определите процедуру averager (усреднитель), которая принимает три соединителя a, b и c, и обеспечивает условие, что значение c равно среднему арифметическому значений a и b.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;averager&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;av&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;half&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adder&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;constant&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="nv"&gt;/2&lt;/span&gt; &lt;span class="nv"&gt;half&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;multiplier&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt; &lt;span class="nv"&gt;half&lt;/span&gt; &lt;span class="nv"&gt;av&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="ss"&gt;'ok&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;av&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;averager&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;av&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-value!&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="ss"&gt;'user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-value!&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="ss"&gt;'user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;probe&lt;/span&gt; &lt;span class="s"&gt;"Average temp"&lt;/span&gt; &lt;span class="nv"&gt;av&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgdb0c0b7" class="outline-2"&gt;
+&lt;h2 id="orgdb0c0b7"&gt;Упражнение 3.34&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdb0c0b7"&gt;
+&lt;p&gt;
+Хьюго Дум хочет построить квадратор, блок-ограничение с двумя выводами, такое, что значение соединителя b на втором выводе всегда будет равно квадрату значения соединителя a на первом выводе. Он предлагает следующее простое устройство на основе умножителя:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;squarer&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;multiplier&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+В такой идее есть существенная ошибка. Объясните ее.
+&lt;/p&gt;
+
+&lt;p&gt;
+Не можем вычислить a по b
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;squarer&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;multiplier&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;probe&lt;/span&gt; &lt;span class="s"&gt;"Squarer temp"&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;squarer&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-value!&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt; &lt;span class="ss"&gt;'user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org86c027a" class="outline-2"&gt;
+&lt;h2 id="org86c027a"&gt;Упражнение 3.35&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org86c027a"&gt;
+&lt;p&gt;
+Бен Битобор объясняет Хьюго, что один из способов избежать неприятностей в упражнении 3.34  — определить квадратор как новое элементарное ограничение. Заполните недостающие части в Беновой схеме процедуры, реализующей такое ограничение:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;squarer&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;process-new-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;has-value?&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"square less than 0 -- SQUARER"&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="nv"&gt;&amp;lt;alternative1&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="nv"&gt;&amp;lt;alternative2&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;process-forget-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;&amp;lt;body1&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;me&lt;/span&gt; &lt;span class="nv"&gt;request&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;&amp;lt;body2&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;&amp;lt;rest&lt;/span&gt; &lt;span class="nv"&gt;of&lt;/span&gt; &lt;span class="nv"&gt;definition&amp;gt;&lt;/span&gt;
+  &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;squarer&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;process-new-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;has-value?&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"square less than 0 -- SQUARER"&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-value!&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;sqrt &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;has-value?&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-value!&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;process-forget-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;forget-value!&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;forget-value!&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;process-new-value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;me&lt;/span&gt; &lt;span class="nv"&gt;request&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;request&lt;/span&gt; &lt;span class="ss"&gt;'I-have-a-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;process-new-value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;request&lt;/span&gt; &lt;span class="ss"&gt;'I-lost-my-value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;process-forget-value&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Unknown request -- SQUARER"&lt;/span&gt; &lt;span class="nv"&gt;request&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;connect&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;connect&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;me&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8a5bd41" class="outline-2"&gt;
+&lt;h2 id="org8a5bd41"&gt;Упражнение 3.36&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8a5bd41"&gt;
+&lt;p&gt;
+Допустим, что мы выполняем следующую последовательность действий в глобальном окружении:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-value!&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="nv"&gt;user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+В какой-то момент при вычислении set-value! будет выполнено следующее выражение из внутренней процедуры соединителя:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;for-each-except&lt;/span&gt; &lt;span class="nv"&gt;setter&lt;/span&gt; &lt;span class="nv"&gt;inform-about-value&lt;/span&gt; &lt;span class="nv"&gt;constraints&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Нарисуйте диаграмму, изображающую окружение, в котором выполняется указанное выражение.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.36.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfffde21" class="outline-2"&gt;
+&lt;h2 id="orgfffde21"&gt;Упражнение 3.37&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfffde21"&gt;
+&lt;p&gt;
+Процедура celsius-fahrenheit-converter выглядит громоздко по сравнению со стилем определения в формате выражения:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;celsius-fahrenheit-converter&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cv&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cv&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cv&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;C&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;F&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;celsius-fahrenheit-converter&lt;/span&gt; &lt;span class="nv"&gt;C&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Здесь c+, c* и т. п. — «ограничительные» версии арифметических операций. Например, c+ берет в виде аргументов два соединителя, и возвращает соединитель, который связан с ними ограничением-сумматором:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c+&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adder&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Определите аналогичные процедуры для c-, c*, c/ и cv (константа), так, чтобы можно было определять составные ограничения, как в вышеприведенном примере 33.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;celsius-fahrenheit-converter&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cv&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cv&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cv&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c+&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;adder&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cv&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;constant&lt;/span&gt; &lt;span class="nv"&gt;value&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c*&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;m&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;multiplier&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;c/&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;d&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;divider&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-connector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;Z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;celsius-fahrenheit-converter&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set-value!&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="ss"&gt;'user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; 32&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>mutable_data</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</guid><pubDate>Wed, 05 Feb 2020 11:06:34 GMT</pubDate></item><item><title>SICP 3.2 Модель вычислений с окружениями</title><link>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgd02c925" class="outline-2"&gt;
 &lt;h2 id="orgd02c925"&gt;Упражнение 3.9&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgd02c925"&gt;
 &lt;p&gt;
@@ -4606,168 +5719,4 @@ rest-of-queens - способ разместить k -1 ферзей в перв
    &lt;/div&gt;
   &lt;/div&gt;
  &lt;/div&gt;
-&lt;/div&gt;</description><category>data_abstraction</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-vvedenie-v-abstragirovanie-dannykh/</guid><pubDate>Thu, 16 Jan 2020 08:35:27 GMT</pubDate></item><item><title>SICP 1.34 Процедуры как возвращаемые значения, упражнения 1.40-1.46</title><link>http://velikiinehochuha.github.io/posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 1.40
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите процедуру cubic, которая может быть использована вместе с newtons-method для нахождения корней &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="158" height="16" src="http://velikiinehochuha.github.io/formulae/sXwqMiZD7UL6oHbZ.i0kVUnRMNW4SotUtae6OQ.png" alt="x^3+a\cdot x^2+b\cdot x+c" title="x^3+a\cdot x^2+b\cdot x+c"&gt;&lt;/span&gt;
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cubic&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newtons-method&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cubic&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 1.41
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите процедуру double которая принимает процедуру как аргумент и возвращает процедуру, которая применяет переданную процедуру дважды. К примеру (double inc) должена вернуть процедуру которая два раза делает inc. Какое значение вернет (((double (double double)) inc) 5)?
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;double&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;&lt;span class="p"&gt;(((&lt;/span&gt;&lt;span class="nf"&gt;double&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;double&lt;/span&gt; &lt;span class="nv"&gt;double&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;inc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; 16&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 1.42
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Пусть f и g две функции одного аргумента. Композицией f после g называется &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="93" height="17" src="http://velikiinehochuha.github.io/formulae/gZRHSPvfgublk.GfaBQZG_htxW7etTPzHVF0_g.png" alt="x\mapsto f(g(x))" title="x\mapsto f(g(x))"&gt;&lt;/span&gt;. Определите процедуру compose, которая составляет композицию двух функций.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;compose&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;g&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;g&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;compose&lt;/span&gt; &lt;span class="nv"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;inc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; 49&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 1.43
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Если f числовая функция и n положительное целое, тогда мы можем n раз применить функцию к результату выполнения исходной функции, то есть &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="124" height="17" src="http://velikiinehochuha.github.io/formulae/HU6llSc5.Zpyr.Hr5NnGjQGw2XI4.RQN15cVAQ.png" alt="f(f(...(f(x))...))" title="f(f(...(f(x))...))"&gt;&lt;/span&gt;. К примеру, если f(x) = x + 1, тогда если мы применим функцию n раз, то получим функцию f(x)=x+n. Если f - возведение в квадрат,тогда результирующая функция будет x в степени 2n. Напишите процедуру, что бы её можно было использовать вот таким образом ((repeated square 2) 5), используйте compose из упражнения 1.42.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;repeated&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;compose&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;repeated&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;repeated&lt;/span&gt; &lt;span class="nv"&gt;square&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; 625&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 1.44
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Идея сглаживающей функции важна при обработке сигналов. Если f - функция и dx - некоторое малое приращение, тогда сглаженная версия функции f, эта функция значение которой в точке x среднее между f(x-dx) и f(x+dx). Напишете процедуру smooth которая принимает на вход функцию и возвращает сглаженную функцию f. Иногда полезно применить сглаживание несколько раз (то есть сгладить сглаженную функцию) что-бы получить n-раз сглаженную функцию. Покажите как генерировать n раз сглаженную функцию при помощи процедуры repeat из 1.43.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;dx&lt;/span&gt; &lt;span class="mf"&gt;0.00001&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;smooth&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;dx&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;dx&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;smooth-n&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;repeated&lt;/span&gt; &lt;span class="nv"&gt;smooth&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;smooth&lt;/span&gt; &lt;span class="nv"&gt;square&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;smooth-n&lt;/span&gt; &lt;span class="nv"&gt;square&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 1.45
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     В разделе 1.3.3 мы видели, что вычилсить квадратные корни путем лобового нахождения фиксированной точки от &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="64" height="17" src="http://velikiinehochuha.github.io/formulae/zdJWgnFS7PUYZhExeEvrX_tFSENKt1VSCK.Y5Q.png" alt="y\mapsto x/y" title="y\mapsto x/y"&gt;&lt;/span&gt; не получается, это удалось починить методом усреднения. Тот же метод работает для нахождения кубического корня. К сожалению процесс не срабатывает для корня четвертой степени. Одного усреднения не достаточно что бы выполнить поиск фиксированной точки для схождения &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="71" height="18" src="http://velikiinehochuha.github.io/formulae/lgB8nsh8BmlyJvAIU7tAqvbF8Rl8.f5Qr5TrSA.png" alt="y\mapsto x/y^3" title="y\mapsto x/y^3"&gt;&lt;/span&gt;. C другой стороны если применить усреднение два раза , поиск фиксированной точки начинает сходиться. Поэксперементируйте с количеством усреднений для вычисления корня n-ой степени, то есть на отображении &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="91" height="18" src="http://velikiinehochuha.github.io/formulae/3G5wsHuLMEIvQKNcMebKrdcrXyGTIDeetUDp8Q.png" alt="y\mapsto x/y^{n-1}" title="y\mapsto x/y^{n-1}"&gt;&lt;/span&gt;. Используя это запишите процедуру для вычисления корня n-ой степени, через fixed-point, average-damp и repeated.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="c1"&gt;;; 1 ; 1 0&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="c1"&gt;;; 2 ; 2 1&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;     &lt;span class="c1"&gt;; 3 1&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;&lt;span class="c1"&gt;;; 4 ; 4 2&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;     &lt;span class="c1"&gt;; 5 2&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;     &lt;span class="c1"&gt;; 6 2&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;     &lt;span class="c1"&gt;; 7 2&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;&lt;span class="c1"&gt;;; 8 ; 8 3&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;     &lt;span class="c1"&gt;; 15 3&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;     &lt;span class="c1"&gt;; 16 4&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;     &lt;span class="c1"&gt;; 32 4&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;     &lt;span class="c1"&gt;; 33 5&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;nth-root&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-ad-count&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-ad-count&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-ad-count&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fixed-point&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;repeated&lt;/span&gt; &lt;span class="nv"&gt;average-damp&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-ad-count&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;               &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;nth-root&lt;/span&gt; &lt;span class="mi"&gt;27&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 1.46
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Некоторые из численных методов, описанных в этой главе являются примерами примерами чрезвычайно общей вычислитетельной стратегии известной как итеративное улучшение. Итеративное вычисление говорит о том, что для вычисления чего либо, мы начнем с первоначальной догадки для ответа, проверим, является ли догадка достаточно хорошей, иначе улчучшим догадку и продолжим процесс используя улучшенную догадку в качестве новой догадки. Напишите процедуру iterative-improve которая принимает две процедуры в качестве аргументов: метод определяющий достаточно ли хороша догадка и метод улучшения догадки. Iterative-improve должна возвращать процедуру которая принимает в качестве аргумента догадку и улучшает её пока она не проходит проверку на предел. Перепишете процедуру квадратного корня и процедуру fixed-point в терминах iterative-improve.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;tolerance&lt;/span&gt; &lt;span class="mf"&gt;0.00001&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;close-enough?&lt;/span&gt; &lt;span class="nv"&gt;v1&lt;/span&gt; &lt;span class="nv"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;v1&lt;/span&gt; &lt;span class="nv"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;tolerance&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iterative-improve&lt;/span&gt; &lt;span class="nv"&gt;good-enough?&lt;/span&gt; &lt;span class="nv"&gt;improve&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;try&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;next&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;improve&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;close-enough?&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt; &lt;span class="nv"&gt;next&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;          &lt;span class="nv"&gt;next&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;try&lt;/span&gt; &lt;span class="nv"&gt;next&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;try&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;sqrt &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;improve&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;guess&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;iterative-improve&lt;/span&gt; &lt;span class="nv"&gt;close-enough?&lt;/span&gt; &lt;span class="nv"&gt;improve&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;sqrt &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;Value: 1.4142156862745097&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fixed-point&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;iterative-improve&lt;/span&gt; &lt;span class="nv"&gt;close-enough?&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fixed-point&lt;/span&gt; &lt;span class="nv"&gt;cos&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;Value: .7390822985224024&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
-&lt;/div&gt;</description><category>procedures_as_returned_values</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/</guid><pubDate>Wed, 15 Jan 2020 16:17:40 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>data_abstraction</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-vvedenie-v-abstragirovanie-dannykh/</guid><pubDate>Thu, 16 Jan 2020 08:35:27 GMT</pubDate></item></channel></rss>

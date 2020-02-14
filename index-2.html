@@ -34,7 +34,191 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-133-protsedury-kak-obobshchaiushchie-metody-uprazhneniia-135-139/" class="u-url">SICP 1.33 Процедуры как обобщающие методы, упражнения 1.35-1.39</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/" class="u-url">SICP 1.34 Процедуры как возвращаемые значения, упражнения 1.40-1.46</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-01-15T19:17:40+03:00" itemprop="datePublished" title="2020-01-15 19:17">2020-01-15 19:17</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.40
+  </h2>
+  <div>
+   <div>
+    <p>
+     Определите процедуру cubic, которая может быть использована вместе с newtons-method для нахождения корней <span class="inline-formula"><img class="img-inline-formula img-formula" width="158" height="16" src="formulae/sXwqMiZD7UL6oHbZ.i0kVUnRMNW4SotUtae6OQ.png" alt="x^3+a\cdot x^2+b\cdot x+c" title="x^3+a\cdot x^2+b\cdot x+c"></span>
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cubic</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+<span class="lineno">3 </span>    <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="lineno">4 </span>
+<span class="lineno">5 </span><span class="p">(</span><span class="nf">newtons-method</span> <span class="p">(</span><span class="nf">cubic</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.41
+  </h2>
+  <div>
+   <div>
+    <p>
+     Определите процедуру double которая принимает процедуру как аргумент и возвращает процедуру, которая применяет переданную процедуру дважды. К примеру (double inc) должена вернуть процедуру которая два раза делает inc. Какое значение вернет (((double (double double)) inc) 5)?
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">double</span> <span class="nv">f</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+<span class="lineno">3 </span>    <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="lineno">4 </span><span class="p">(((</span><span class="nf">double</span> <span class="p">(</span><span class="nf">double</span> <span class="nv">double</span><span class="p">))</span> <span class="nv">inc</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">; 16</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.42
+  </h2>
+  <div>
+   <div>
+    <p>
+     Пусть f и g две функции одного аргумента. Композицией f после g называется <span class="inline-formula"><img class="img-inline-formula img-formula" width="93" height="17" src="formulae/gZRHSPvfgublk.GfaBQZG_htxW7etTPzHVF0_g.png" alt="x\mapsto f(g(x))" title="x\mapsto f(g(x))"></span>. Определите процедуру compose, которая составляет композицию двух функций.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">compose</span> <span class="nv">f</span> <span class="nv">g</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">g</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="lineno">3 </span><span class="p">((</span><span class="nf">compose</span> <span class="nv">square</span> <span class="nv">inc</span><span class="p">)</span> <span class="mi">6</span><span class="p">)</span> <span class="c1">; 49</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.43
+  </h2>
+  <div>
+   <div>
+    <p>
+     Если f числовая функция и n положительное целое, тогда мы можем n раз применить функцию к результату выполнения исходной функции, то есть <span class="inline-formula"><img class="img-inline-formula img-formula" width="124" height="17" src="formulae/HU6llSc5.Zpyr.Hr5NnGjQGw2XI4.RQN15cVAQ.png" alt="f(f(...(f(x))...))" title="f(f(...(f(x))...))"></span>. К примеру, если f(x) = x + 1, тогда если мы применим функцию n раз, то получим функцию f(x)=x+n. Если f - возведение в квадрат,тогда результирующая функция будет x в степени 2n. Напишите процедуру, что бы её можно было использовать вот таким образом ((repeated square 2) 5), используйте compose из упражнения 1.42.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">repeated</span> <span class="nv">f</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno">3 </span>      <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">))</span>
+<span class="lineno">4 </span>      <span class="p">(</span><span class="nf">compose</span> <span class="nv">f</span> <span class="p">(</span><span class="nf">repeated</span> <span class="nv">f</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="lineno">5 </span>
+<span class="lineno">6 </span><span class="p">((</span><span class="nf">repeated</span> <span class="nv">square</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">;; 625</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.44
+  </h2>
+  <div>
+   <div>
+    <p>
+     Идея сглаживающей функции важна при обработке сигналов. Если f - функция и dx - некоторое малое приращение, тогда сглаженная версия функции f, эта функция значение которой в точке x среднее между f(x-dx) и f(x+dx). Напишете процедуру smooth которая принимает на вход функцию и возвращает сглаженную функцию f. Иногда полезно применить сглаживание несколько раз (то есть сгладить сглаженную функцию) что-бы получить n-раз сглаженную функцию. Покажите как генерировать n раз сглаженную функцию при помощи процедуры repeat из 1.43.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">dx</span> <span class="mf">0.00001</span><span class="p">)</span>
+<span class="lineno">2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smooth</span> <span class="nv">f</span><span class="p">)</span>
+<span class="lineno">3 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">dx</span><span class="p">))</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">dx</span><span class="p">)))))</span>
+<span class="lineno">4 </span>
+<span class="lineno">5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">smooth-n</span> <span class="nv">f</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">6 </span>  <span class="p">((</span><span class="nf">repeated</span> <span class="nv">smooth</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">f</span><span class="p">))</span>
+<span class="lineno">7 </span><span class="p">((</span><span class="nf">smooth</span> <span class="nv">square</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+<span class="lineno">8 </span><span class="p">((</span><span class="nf">smooth-n</span> <span class="nv">square</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.45
+  </h2>
+  <div>
+   <div>
+    <p>
+     В разделе 1.3.3 мы видели, что вычилсить квадратные корни путем лобового нахождения фиксированной точки от <span class="inline-formula"><img class="img-inline-formula img-formula" width="64" height="17" src="formulae/zdJWgnFS7PUYZhExeEvrX_tFSENKt1VSCK.Y5Q.png" alt="y\mapsto x/y" title="y\mapsto x/y"></span> не получается, это удалось починить методом усреднения. Тот же метод работает для нахождения кубического корня. К сожалению процесс не срабатывает для корня четвертой степени. Одного усреднения не достаточно что бы выполнить поиск фиксированной точки для схождения <span class="inline-formula"><img class="img-inline-formula img-formula" width="71" height="18" src="formulae/lgB8nsh8BmlyJvAIU7tAqvbF8Rl8.f5Qr5TrSA.png" alt="y\mapsto x/y^3" title="y\mapsto x/y^3"></span>. C другой стороны если применить усреднение два раза , поиск фиксированной точки начинает сходиться. Поэксперементируйте с количеством усреднений для вычисления корня n-ой степени, то есть на отображении <span class="inline-formula"><img class="img-inline-formula img-formula" width="91" height="18" src="formulae/3G5wsHuLMEIvQKNcMebKrdcrXyGTIDeetUDp8Q.png" alt="y\mapsto x/y^{n-1}" title="y\mapsto x/y^{n-1}"></span>. Используя это запишите процедуру для вычисления корня n-ой степени, через fixed-point, average-damp и repeated.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; 1 ; 1 0</span>
+<span class="lineno"> 2 </span><span class="c1">;; 2 ; 2 1</span>
+<span class="lineno"> 3 </span>     <span class="c1">; 3 1</span>
+<span class="lineno"> 4 </span><span class="c1">;; 4 ; 4 2</span>
+<span class="lineno"> 5 </span>     <span class="c1">; 5 2</span>
+<span class="lineno"> 6 </span>     <span class="c1">; 6 2</span>
+<span class="lineno"> 7 </span>     <span class="c1">; 7 2</span>
+<span class="lineno"> 8 </span><span class="c1">;; 8 ; 8 3</span>
+<span class="lineno"> 9 </span>     <span class="c1">; 15 3</span>
+<span class="lineno">10 </span>     <span class="c1">; 16 4</span>
+<span class="lineno">11 </span>     <span class="c1">; 32 4</span>
+<span class="lineno">12 </span>     <span class="c1">; 33 5</span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">nth-root</span> <span class="nv">x</span> <span class="nv">n</span><span class="p">)</span>
+<span class="lineno">14 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="nv">i</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">2</span> <span class="nv">i</span><span class="p">))</span>
+<span class="lineno">16 </span>        <span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)</span>
+<span class="lineno">17 </span>        <span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="lineno">18 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+<span class="lineno">19 </span>  <span class="p">(</span><span class="nf">fixed-point</span> <span class="p">((</span><span class="nf">repeated</span> <span class="nv">average-damp</span> <span class="p">(</span><span class="nf">get-ad-count</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="lineno">20 </span>               <span class="mf">1.0</span><span class="p">))</span>
+<span class="lineno">21 </span><span class="p">(</span><span class="nf">nth-root</span> <span class="mi">27</span> <span class="mi">64</span><span class="p">)</span>
+</pre>
+</div>  </div>
+ </div>
+ <div class="chapter-block">
+  <h2>
+   Упражнение 1.46
+  </h2>
+  <div>
+   <div>
+    <p>
+     Некоторые из численных методов, описанных в этой главе являются примерами примерами чрезвычайно общей вычислитетельной стратегии известной как итеративное улучшение. Итеративное вычисление говорит о том, что для вычисления чего либо, мы начнем с первоначальной догадки для ответа, проверим, является ли догадка достаточно хорошей, иначе улчучшим догадку и продолжим процесс используя улучшенную догадку в качестве новой догадки. Напишите процедуру iterative-improve которая принимает две процедуры в качестве аргументов: метод определяющий достаточно ли хороша догадка и метод улучшения догадки. Iterative-improve должна возвращать процедуру которая принимает в качестве аргумента догадку и улучшает её пока она не проходит проверку на предел. Перепишете процедуру квадратного корня и процедуру fixed-point в терминах iterative-improve.
+    </p>
+   </div>
+<div class="code-scheme">
+<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="nv">tolerance</span> <span class="mf">0.00001</span><span class="p">)</span>
+<span class="lineno"> 2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">close-enough?</span> <span class="nv">v1</span> <span class="nv">v2</span><span class="p">)</span>
+<span class="lineno"> 3 </span>  <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="nv">v1</span> <span class="nv">v2</span><span class="p">))</span> <span class="nv">tolerance</span><span class="p">))</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iterative-improve</span> <span class="nv">good-enough?</span> <span class="nv">improve</span><span class="p">)</span>
+<span class="lineno"> 6 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">try</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)</span>
+<span class="lineno"> 7 </span>    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">next</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">)))</span>
+<span class="lineno"> 8 </span>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">close-enough?</span> <span class="nv">guess</span> <span class="nv">next</span><span class="p">)</span>
+<span class="lineno"> 9 </span>          <span class="nv">next</span>
+<span class="lineno">10 </span>          <span class="p">(</span><span class="nf">try</span> <span class="nv">next</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="lineno">11 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">guess</span><span class="p">)</span> <span class="p">(</span><span class="nf">try</span> <span class="nv">guess</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="lineno">12 </span>
+<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)</span>
+<span class="lineno">14 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+<span class="lineno">16 </span>      <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+<span class="lineno">17 </span>    <span class="p">(</span><span class="nf">average</span> <span class="nv">guess</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="nv">guess</span><span class="p">)))</span>
+<span class="lineno">18 </span>  <span class="p">((</span><span class="nf">iterative-improve</span> <span class="nv">close-enough?</span> <span class="nv">improve</span><span class="p">)</span> <span class="nv">x</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="lineno">19 </span>
+<span class="lineno">20 </span><span class="p">(</span><span class="nb">sqrt </span><span class="mi">2</span><span class="p">)</span> <span class="c1">;Value: 1.4142156862745097</span>
+<span class="lineno">21 </span>
+<span class="lineno">22 </span>
+<span class="lineno">23 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fixed-point</span> <span class="nv">f</span><span class="p">)</span>
+<span class="lineno">24 </span>  <span class="p">((</span><span class="nf">iterative-improve</span> <span class="nv">close-enough?</span> <span class="nv">f</span><span class="p">)</span> <span class="mf">1.0</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="lineno">25 </span><span class="p">(</span><span class="nf">fixed-point</span> <span class="nv">cos</span><span class="p">)</span> <span class="c1">;Value: .7390822985224024</span>
+</pre>
+</div>  </div>
+ </div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-133-protsedury-kak-obobshchaiushchie-metody-uprazhneniia-135-139/" class="u-url">SICP 1.33 Процедуры как обобщающие методы, упражнения 1.35-1.39</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha
