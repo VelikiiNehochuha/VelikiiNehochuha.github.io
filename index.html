@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="rss.xml">
 <link rel="canonical" href="http://velikiinehochuha.github.io/">
 <link rel="next" href="index-2.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-34-parallelizm-vremia-imeet-znachenie/" type="text/html">
 </head>
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
@@ -33,7 +33,494 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/" class="u-url">SICP 3.3 Моделирование с изменяемыми данными.</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-34-parallelizm-vremia-imeet-znachenie/" class="u-url">SICP 3.4 Параллелизм: время имеет значение</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/sicp-34-parallelizm-vremia-imeet-znachenie/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-02-14T14:23:44+03:00" itemprop="datePublished" title="2020-02-14 14:23">2020-02-14 14:23</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org0f5b9a8" class="outline-2">
+<h2 id="org0f5b9a8">Упражнение 3.38</h2>
+<div class="outline-text-2" id="text-org0f5b9a8">
+<p>
+Пусть Петр, Павел и Мария имеют общий счет, на котором вначале лежит 100 долларов. Петр кладет на счет 10 долларов, одновременно с этим Павел берет 20, а Мария берет половину денег со счета. При этом они выполняют следующие операции:
+</p>
+
+<p>
+Петр: (set! balance (+ balance 10))
+Павел: (set! balance (- balance 20))
+Мария: (set! balance (- balance (/ balance 2)))
+</p>
+
+<p>
+а. Перечислите возможные значения balance после завершения операций, предполагая, что банковская система требует от транзакций исполняться последовательно в каком-то порядке.
+</p>
+
+<ol class="org-ol">
+<li>Петр, Павел, Мария, в результате 45</li>
+<li>Петр, Мария, Павел, в результате 35</li>
+<li>Павел, Петр, Мария, в результате 45</li>
+<li>Павел, Мария, Петр, в результате 50</li>
+<li>Мария, Петр, Павел, в результате 40</li>
+<li>Мария, Павел, Петр, в результате 40</li>
+</ol>
+<p>
+б. Назовите какие-нибудь другие значения, которые могли бы получиться, если бы система разрешала операциям чередоваться. Нарисуйте временные диаграммы, подобные рис. 3.29, чтобы объяснить, как возникают такие результаты.
+</p>
+
+<p>
+<img src="images/3.38.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-org4fa1839" class="outline-2">
+<h2 id="org4fa1839">Упражнение 3.39</h2>
+<div class="outline-text-2" id="text-org4fa1839">
+<p>
+Какие из пяти возможных исходов параллельного выполнения сохраняются, если мы сериализуем выполнение таким образом:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">((</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))))))</span>
+		  <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+</pre></div>
+
+<p>
+таким образом мы отсекаем варианты когда P1 получает разные значения для x.
+</p>
+
+<p>
+101: 	P1 потом P2
+121: 	P2 потом P1
+11: 	P2 читает x, потом P1 выставляет x в 100, затем P2 выставляет x.
+100: 	P1 считывает x (дважды), потом P2 ставит x to 11, потом P1 ставит x.
+</p>
+
+<p>
+случай который не произойдет:
+</p>
+
+<p>
+110:  P2 меняет x c 10 на 11 между двумя чтениями P1 значения x, во время выполнения (* x x)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbc47be1" class="outline-2">
+<h2 id="orgbc47be1">Упражнение 3.40</h2>
+<div class="outline-text-2" id="text-orgbc47be1">
+<p>
+Укажите все возможные значения x при выполнении
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))))</span>
+</pre></div>
+
+<ol class="org-ol">
+<li>P1 потом P2, 1 000 000</li>
+<li>P2 потом P1, 1 000 000</li>
+<li>P2 считал x = 10, потом P1, потом P2 выставил 10 * 100 * 100 = 100 000</li>
+<li>P2 считал x = 10 (дважды), потом P1, потом P2 выставил 10 * 10 * 100 = 10 000</li>
+<li>P2 считал x = 10 (трижды), потом P1, потом P2 выставил 1000</li>
+<li>P1 считал x = 10, потом P2, потом 10 * 1000 = 10 000</li>
+<li>P2 считал x = 10 (дважды), потом P2, потом P1 100</li>
+</ol>
+<p>
+Какие из них сохраняются, если вместо этого мы выполняем   сериализованные процедуры:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))))</span>
+		  <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))))</span>
+</pre></div>
+
+<p>
+только 1 000 000
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb12047" class="outline-2">
+<h2 id="orgcb12047">Упражнение 3.41</h2>
+<div class="outline-text-2" id="text-orgcb12047">
+<p>
+Бен Битобор считает, что лучше было бы реализовать банковский счет таким образом (измененная строка отмечена комментарием):
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-account</span> <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">withdraw</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+	       <span class="nv">balance</span><span class="p">)</span>
+	<span class="s">"Insufficient funds"</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+    <span class="nv">balance</span><span class="p">)</span>
+  <span class="c1">;; continued on next page</span>
+
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">protected</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">m</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">withdraw</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">deposit</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'balance</span><span class="p">)</span>
+	     <span class="p">((</span><span class="nf">protected</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="nv">balance</span><span class="p">))))</span> <span class="c1">; serialized</span>
+	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown request -- MAKE-ACCOUNT"</span>
+			 <span class="nv">m</span><span class="p">))))</span>
+    <span class="nv">dispatch</span><span class="p">))</span>
+</pre></div>
+
+<p>
+поскольку несериализованный доступ к банковскому счету может привести к неправильному поведению. Вы согласны? Существует ли сценарий, который демонстрирует обоснованность беспокойства Бена?
+</p>
+
+<p>
+нет, чтение можно не сериализовывать
+</p>
+</div>
+</div>
+
+<div id="outline-container-org98f924a" class="outline-2">
+<h2 id="org98f924a">Упражнение 3.42</h2>
+<div class="outline-text-2" id="text-org98f924a">
+<p>
+Бен Битобор говорит, что слишком расточительно в ответ на каждое сообщение withdraw и deposit создавать по новой сериализованной процедуре. Он говорит, что можно изменить make-account так, чтобы все вызовы protected происходили вне процедуры dispatch. Таким обра-
+зом, счет будет возвращать одну и ту же сериализованную процедуру (созданную тогда же, когда и сам счет) каждый раз, когда у него просят процедуру снятия денег:
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-account</span> <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">withdraw</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+	       <span class="nv">balance</span><span class="p">)</span>
+	<span class="s">"Insufficient funds"</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+    <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">protected</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">protected-withdraw</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">withdraw</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">protected-deposit</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">deposit</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">m</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="nv">protected-withdraw</span><span class="p">)</span>
+	      <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">protected-deposit</span><span class="p">)</span>
+	      <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'balance</span><span class="p">)</span> <span class="nv">balance</span><span class="p">)</span>
+	      <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown request -- MAKE-ACCOUNT"</span>
+			   <span class="nv">m</span><span class="p">))))</span>
+      <span class="nv">dispatch</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+Безопасно ли такое изменение? В частности, есть ли разница в том, в каком порядке может происходить параллельное выполнение в этих двух версиях make-account?
+</p>
+
+<p>
+преобразование эквивалентно тому что мы выполняли ранее, поэтому такую замену можно использовать
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))))</span>
+		  <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org763296d" class="outline-2">
+<h2 id="org763296d">Упражнение 3.43</h2>
+<div class="outline-text-2" id="text-org763296d">
+<p>
+Предположим, что значения баланса на трех счетах вначале равны 10, 20 и 30 долларам, и что несколько процессов занимаются обменом значений баланса. Покажите, что если эти процессы выполняются последовательно, то после любого количества обменов значения баланса по-прежнему
+будут равны 10, 20 и 30 долларам, в каком-то порядке. Нарисуйте временную диаграмму вроде той, которая изображена на рис. 3.29, и покажите, что указанное условие может нарушаться, если работает первая версия процедуры обмена из этого раздела. Покажите, с другой стороны, что даже с первой программой exchange общая сумма балансов на счетах сохранится. Нарисуйте временную диаграмму, показывающую, что если бы мы не сериализовали транзакции по отдельным счетам, это условие тоже могло бы нарушаться.
+</p>
+
+
+<p>
+При последовательном обмене очевидно что значения балансов останутся прежними без учета порядка.
+</p>
+
+<p>
+Первая версия процедуры, когда сериализатор частный для каждого аккаунта
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">difference</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">account1</span> <span class="ss">'balance</span><span class="p">)</span>
+		       <span class="p">(</span><span class="nf">account2</span> <span class="ss">'balance</span><span class="p">))))</span>
+    <span class="p">((</span><span class="nf">account1</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">account2</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+P1 считываем баланс A1 A2, вычисляет разницу
+</p>
+
+<p>
+после этого P2 считывает A2 A3 вычисляет разницу и выполняет смену счетов 2 3. На втором 30 на третьем 20.
+После этого P1 делает списание -10 c первого и делает deposit -10 на второй. В итоге получается
+</p>
+
+<p>
+20 20 20.
+</p>
+
+<p>
+<img src="images/3.43.png" alt="nil"></p>
+
+<p>
+Сумма остается прежней, но происходит не очевидное перераспределение сумм между аккаунтами.
+</p>
+
+
+<p>
+Если бы счета вообще не сериализовались, то общая сумма могла бы измениться, например
+</p>
+
+<p>
+P1 считывает баланс A1 A2, вычисляет разницу - 10
+P2 считывает баланс A2 A3, вычисляет разницу - 10
+</p>
+
+<p>
+P1 делает списание -10 на A1
+</p>
+
+<p>
+P1 и P2 считывают баланс A2 20 и одновременно делают операции deposit -10 и withdraw -10, получается что на счете A2 образуется сумма 30
+</p>
+
+<p>
+P2 делает депозит -10 на A2
+</p>
+
+<p>
+в итоге получается набор сумм 20 30 30.
+20 30 30.
+</p>
+
+<p>
+<img src="images/3.43_2.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-orgdde64cb" class="outline-2">
+<h2 id="orgdde64cb">Упражнение 3.44</h2>
+<div class="outline-text-2" id="text-orgdde64cb">
+<p>
+Рассмотрим задачу переноса денег с одного счета на другой. Бен Битобор утверждает, что ее можно решить с помощью следующей процедуры, даже в тех случаях, когда много людей одновременно перемещают деньги между различными счетами, если использовать при этом какой-то механизм,
+сериализующий операции занесения на счет и снятия со счета, например, версию make-account из нашего текста.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">transfer</span> <span class="nv">from-account</span> <span class="nv">to-account</span> <span class="nv">amount</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">from-account</span> <span class="err">’</span><span class="nv">withdraw</span><span class="p">)</span> <span class="nv">amount</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">to-account</span> <span class="err">’</span><span class="nv">deposit</span><span class="p">)</span> <span class="nv">amount</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Хьюго Дум считает, что с этой версией возникнут проблемы и что нужно использовать более сложный подход, вроде того, который требуется при решении задачи обмена. Прав ли он? Если нет, то в чем состоит существенная разница между задачей перевода денег и задачей обмена
+счетов? (Нужно предположить, что значение баланса на from-account по крайней мере равно amount.)
+</p>
+
+<p>
+Такая процедура вполне корректна. Разница между обменом состоит в том что там нам было необходимо поменять местами счета, что при одновременном выполнении могло привести к не очевидному перераспределению, тут же нет такого требования, важно что бы итоговая сумма не изменилась, а это требование выполняется.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org219e59c" class="outline-2">
+<h2 id="org219e59c">Упражнение 3.45</h2>
+<div class="outline-text-2" id="text-org219e59c">
+<p>
+Хьюго Дум полагает, что теперь, когда операции снятия денег со счета и занесения их на счет перестали сериализовываться автоматически, система банковских счетов стала неоправданно сложной и работать с ней правильным образом чересчур трудно. Он предлагает сделать так, чтобы make-account-and-serializer экспортировал сериализатор (для использования в процедурах вроде serialized-exchange), и вдобавок сам использовал его для сериализации простых операций
+со счетом, как это делал make-account. Он предлагает переопределить объект-счет так:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-account-and-serializer</span> <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">withdraw</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+	       <span class="nv">balance</span><span class="p">)</span>
+	<span class="s">"Insufficient funds"</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+    <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">balance-serializer</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">m</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="p">(</span><span class="nf">balance-serializer</span> <span class="nv">withdraw</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="p">(</span><span class="nf">balance-serializer</span> <span class="nv">deposit</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'balance</span><span class="p">)</span> <span class="nv">balance</span><span class="p">)</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'serializer</span><span class="p">)</span> <span class="nv">balance-serializer</span><span class="p">)</span>
+	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown request -- MAKE-ACCOUNT"</span>
+			 <span class="nv">m</span><span class="p">))))</span>
+    <span class="nv">dispatch</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">account</span> <span class="nv">amount</span><span class="p">)</span>
+ <span class="p">((</span><span class="nf">account</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">amount</span><span class="p">))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">difference</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">account1</span> <span class="ss">'balance</span><span class="p">)</span>
+		       <span class="p">(</span><span class="nf">account2</span> <span class="ss">'balance</span><span class="p">))))</span>
+    <span class="p">((</span><span class="nf">account1</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">account2</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">serialized-exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">serializer1</span> <span class="p">(</span><span class="nf">account1</span> <span class="ss">'serializer</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">serializer2</span> <span class="p">(</span><span class="nf">account2</span> <span class="ss">'serializer</span><span class="p">)))</span>
+    <span class="p">((</span><span class="nf">serializer1</span> <span class="p">(</span><span class="nf">serializer2</span> <span class="nv">exchange</span><span class="p">))</span>
+     <span class="nv">account1</span>
+     <span class="nv">account2</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+Объясните, в чем Хьюго ошибается. В частности, рассмотрите, что происходит при вызове serialized-exchange.
+</p>
+
+<p>
+получится троекратный вызов serializer на withdraw и deposit. Объект будучи заблокированным для изменения снова будет ожидать получение разрешения на изменение, в итоге он никогда не дождется разрешения.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org755f61c" class="outline-2">
+<h2 id="org755f61c">Упражнение 3.46</h2>
+<div class="outline-text-2" id="text-org755f61c">
+<p>
+Допустим, что мы реализуем test-and-set в виде обыкновенной процедуры, как показано в тексте, не пытаясь сделать ее атомарной. Нарисуйте временную диаграмму, подобную диаграмме на рис. 3.29, и покажите, как реализация мьютекса может ошибиться и позволить двум процессам одновременно захватить мьютекс.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-serializer</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mutex</span> <span class="p">(</span><span class="nf">make-mutex</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">serialized-p</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">mutex</span> <span class="ss">'acquire</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val</span> <span class="p">(</span><span class="nb">apply </span><span class="nv">p</span> <span class="nv">args</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="nf">mutex</span> <span class="ss">'release</span><span class="p">)</span>
+	  <span class="nv">val</span><span class="p">))</span>
+      <span class="nv">serialized-p</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-mutex</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">cell</span> <span class="p">(</span><span class="nb">list </span><span class="nv">false</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">the-mutex</span> <span class="nv">m</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'acquire</span><span class="p">)</span>
+	     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">test-and-set!</span> <span class="nv">cell</span><span class="p">)</span>
+		 <span class="p">(</span><span class="nf">the-mutex</span> <span class="ss">'acquire</span><span class="p">)))</span> <span class="c1">; retry</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'release</span><span class="p">)</span> <span class="p">(</span><span class="nf">clear!</span> <span class="nv">cell</span><span class="p">))))</span>
+    <span class="nv">the-mutex</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">clear!</span> <span class="nv">cell</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">set-car! </span><span class="nv">cell</span> <span class="nv">false</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">test-and-set!</span> <span class="nv">cell</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">car </span><span class="nv">cell</span><span class="p">)</span>
+      <span class="nv">true</span>
+      <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="nb">set-car! </span><span class="nv">cell</span> <span class="nv">true</span><span class="p">)</span>
+	     <span class="nv">false</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+если мы не гарантируем атомарность проверки проверки test-and-set! то можем получить ошибку когда у нас мьютекс будет захвачен сразу двумя процессами, это ситуация ничем не отличается от той, когда мы вообще не использовали сериализатор, у нас может произойти одновременное назначение разных балансов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">test-and-set!</span> <span class="nv">cell</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">without-interrupts</span>
+   <span class="p">(</span><span class="k">lambda </span><span class="p">()</span>
+     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">car </span><span class="nv">cell</span><span class="p">)</span>
+	 <span class="nv">true</span>
+	 <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="nb">set-car! </span><span class="nv">cell</span> <span class="nv">true</span><span class="p">)</span>
+		<span class="nv">false</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf765f97" class="outline-2">
+<h2 id="orgf765f97">Упражнение 3.47</h2>
+<div class="outline-text-2" id="text-orgf765f97">
+<p>
+Семафор (размера n) представляет собой обобщение мьютекса. Подобно мьютексу, семафор поддерживает операции захвата и освобождения, но захватить его одновременно могут до n процессов. Прочие процессы, которые попытаются захватить семафор, должны будут ждать освобождения. Дайте реализацию семафоров
+а. в терминах мьютексов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-semaphore</span> <span class="nv">n</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mutex</span> <span class="p">(</span><span class="nf">make-mutex</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">count-mutex</span> <span class="p">(</span><span class="nf">make-mutex</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">taken</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">semaphore</span> <span class="nv">command</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">command</span> <span class="ss">'acquire</span><span class="p">)</span>
+	     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">taken</span> <span class="nv">n</span><span class="p">)</span>
+		 <span class="p">(</span><span class="nf">begin</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'acquire</span><span class="p">)</span>
+		   <span class="p">(</span><span class="k">set! </span><span class="nv">taken</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">taken</span><span class="p">))</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'release</span><span class="p">))</span>
+		 <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="nf">mutex</span> <span class="ss">'acquire</span><span class="p">)))))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">command</span> <span class="ss">'release</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">begin</span>
+		<span class="p">(</span><span class="nf">when</span> <span class="p">(</span><span class="nb">&gt; </span><span class="nv">taken</span> <span class="mi">1</span><span class="p">)</span>
+		 <span class="p">(</span><span class="nf">begin</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'acquire</span><span class="p">)</span>
+		   <span class="p">(</span><span class="k">set! </span><span class="nv">taken</span> <span class="p">(</span><span class="nb">- </span><span class="nv">taken</span> <span class="mi">1</span><span class="p">))</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'release</span><span class="p">)))</span>
+	     <span class="p">(</span><span class="nf">mutex</span> <span class="ss">'release</span><span class="p">))))</span>
+    <span class="nv">semaphore</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-semaphore</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">s</span> <span class="ss">'acquire</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">s</span> <span class="ss">'release</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org651a987" class="outline-2">
+<h2 id="org651a987">Упражнение 3.48</h2>
+<div class="outline-text-2" id="text-org651a987">
+<p>
+Подробно объясните, почему метод избежания тупиков, описанный выше (т. е. счета нумеруются, и каждый процесс сначала пытается захватить счет с меньшим номером), в самом деле позволяет избежать тупика в задаче обмена балансов. Перепишите serialized-exchange с использованием этой идеи. (Придется также изменить make-account, так, чтобы каждый счет создавался вместе с номером, и чтобы этот номер можно было считать, послав соответствующее сообщение.)
+</p>
+
+<p>
+В данном случае два процесса не могут захватить разные мьютексы из-за того что они отсортированы, поэтому если первый процесс захватит первый мьютекс второй должен дождаться его освобождения.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">serialized-exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">serializer1</span> <span class="ss">'serializer-for-bigger-id--acc</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">serializer2</span> <span class="ss">'serializer-for-smaller-id-acc</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">get-id</span> <span class="nv">account1</span><span class="p">)</span> <span class="p">(</span><span class="nf">get-id</span> <span class="nv">account2</span><span class="p">))</span>
+	   <span class="p">(</span><span class="k">set! </span><span class="nv">serializer1</span> <span class="p">(</span><span class="nf">account1</span> <span class="ss">'serializer</span><span class="p">))</span>
+	   <span class="p">(</span><span class="k">set! </span><span class="nv">serializer2</span> <span class="p">(</span><span class="nf">account2</span> <span class="ss">'serializer</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">set! </span><span class="nv">serializer1</span> <span class="p">(</span><span class="nf">account2</span> <span class="ss">'serializer</span><span class="p">))</span>
+		<span class="p">(</span><span class="k">set! </span><span class="nv">serializer2</span> <span class="p">(</span><span class="nf">account1</span> <span class="ss">'serializer</span><span class="p">))))</span>
+    <span class="p">((</span><span class="nf">serializer1</span> <span class="p">(</span><span class="nf">serializer2</span> <span class="nv">exchange</span><span class="p">))</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9399a6a" class="outline-2">
+<h2 id="org9399a6a">Упражнение 3.49</h2>
+<div class="outline-text-2" id="text-org9399a6a">
+<p>
+Опишите сценарий, в котором вышеописанный механизм избежания тупиков не работает. (Подсказка: в задаче обмена счетов каждый процесс заранее знает, к каким счетам ему нужен будет доступ. Рассмотрите ситуацию, в которой процессу нужно сначала получить доступ к каким-то разделяемым ресурсам, прежде чем он сможет определить, какие ресурсы ему потребуются дополнительно.)
+</p>
+
+<p>
+Например нам нужно полнить счет 1 и в зависимости от суммы на счете сделать перевод на x или y. А при пополнении счета y, нам нужно в зависимости от суммы перевести на 1 или x. Получается если сначала процесс захватит счет 1, а второй процесс захватит счет y, то может возникнуть ситуация deadlock, так как счету 1 надо выполнить перевод на y, а y надо выполнить перевод на 1.
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/" class="u-url">SICP 3.3 Моделирование с изменяемыми данными.</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha
@@ -5353,544 +5840,6 @@ rest-of-queens - способ разместить k -1 ферзей в перв
 </div>   <div>
     <p>
      выбираем список без первого элемента, генерируем для него все подмножества. добавляем к полученным подмножествам такое же подмножество но везде первым элементом идет первый элемент. на последней итерации у нас получается пустое список, он возвращает () - нулевое подмножество. в итоге мы перебрали все возможные варианты.
-    </p>
-   </div>
-  </div>
- </div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-vvedenie-v-abstragirovanie-dannykh/" class="u-url">SICP Введение в абстрагирование данных</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/sicp-vvedenie-v-abstragirovanie-dannykh/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-01-16T11:35:27+03:00" itemprop="datePublished" title="2020-01-16 11:35">2020-01-16 11:35</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.1
-  </h2>
-  <div>
-   <div>
-    <p>
-     Определите make-rat которая будет определять знак.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rat</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">g</span> <span class="p">(</span><span class="nb">gcd </span><span class="nv">n</span> <span class="nv">d</span><span class="p">))</span>
-<span class="lineno">3 </span>        <span class="p">(</span><span class="nf">sign</span> <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="k">or </span><span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt; </span><span class="nv">d</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="nv">d</span> <span class="mi">0</span><span class="p">)))</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">4 </span>                        <span class="p">(</span><span class="k">else </span><span class="mi">0</span><span class="p">))))</span>
-<span class="lineno">5 </span>    <span class="p">(</span><span class="nf">cons</span>
-<span class="lineno">6 </span>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">sign</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="nv">g</span><span class="p">))</span> <span class="p">(</span><span class="nb">* </span><span class="mi">-1</span> <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="nv">g</span><span class="p">))))</span>
-<span class="lineno">7 </span>     <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">d</span> <span class="nv">g</span><span class="p">)))))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.2
-  </h2>
-  <div>
-   <div>
-    <p>
-     Рассмотрим проблему представления отрезков на плоскости. Каждый отрезок представлен в виде пары точек. Определите консруктор отрезка make-segment и методы получения (selectors) начала и конца отрезка: start-segment, end-segment, которые определяют представление сегмента в виде точек. Кроме того точка может быть представлена в виде пары чисел. Наконец определите процедуру для средней точки отрезка midpoint-segment.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 2 </span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-point</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">p</span><span class="p">))</span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">p</span><span class="p">))</span>
-<span class="lineno"> 6 </span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">print-point</span> <span class="nv">p</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno"> 9 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"("</span><span class="p">)</span>
-<span class="lineno">10 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">p</span><span class="p">))</span>
-<span class="lineno">11 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">","</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">p</span><span class="p">))</span>
-<span class="lineno">13 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">")"</span><span class="p">))</span>
-<span class="lineno">14 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average-points</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">15 </span>   <span class="p">(</span><span class="nf">make-point</span> <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">b</span><span class="p">))</span>
-<span class="lineno">16 </span>               <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">b</span><span class="p">))))</span>
-<span class="lineno">17 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">distance-points</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">18 </span>  <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">b</span><span class="p">)))</span>
-<span class="lineno">19 </span>           <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">b</span><span class="p">))))))</span>
-<span class="lineno">20 </span><span class="p">(</span><span class="nf">print-point</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno">21 </span>
-<span class="lineno">22 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-segment</span> <span class="nv">start</span> <span class="nv">end</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">start</span> <span class="nv">end</span><span class="p">))</span>
-<span class="lineno">23 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">s</span><span class="p">))</span>
-<span class="lineno">24 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">s</span><span class="p">))</span>
-<span class="lineno">25 </span>
-<span class="lineno">26 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">midpoint-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">average-points</span> <span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)))</span>
-<span class="lineno">27 </span><span class="p">(</span><span class="nf">print-point</span> <span class="p">(</span><span class="nf">midpoint-segment</span> <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.3
-  </h2>
-  <div>
-   <div>
-    <p>
-     Определите представление прямоугольника на плоскости. В терминаха вашего конструктора и селекторов создайте процедуру которая вывчисляет периметр и площадь. Теперь реализуйте другое представление для прямоугольников. Можете ли вы спроектировать вашу сисетму с подходящими барьерами абстракций, что бы одни и теже процедуры для перемитра и площади работали с разными представлениями.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="nv">s</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">distance-points</span> <span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)))</span>
-<span class="lineno"> 3 </span><span class="c1">;; (segment-lenght (make-segment (make-point 0 0) (make-point 6 0)))</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rect</span> <span class="nv">seg1</span> <span class="nv">seg2</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">seg1</span> <span class="nv">seg2</span><span class="p">))</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">r</span><span class="p">))</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="nv">r</span><span class="p">)</span>
-<span class="lineno">10 </span>  <span class="p">(</span><span class="nb">* </span><span class="mf">2.0</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">))</span> <span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">)))))</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">react-area</span> <span class="nv">r</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">))</span> <span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">))))</span>
-<span class="lineno">13 </span>
-<span class="lineno">14 </span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">15 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno">16 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">17 </span>                 <span class="p">))</span>
-<span class="lineno">18 </span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">react-area</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">20 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno">21 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">22 </span>                 <span class="p">))</span>
-<span class="lineno">23 </span>
-<span class="lineno">24 </span>
-<span class="lineno">25 </span><span class="c1">;; другое представление прямоугольника например тремя точками</span>
-<span class="lineno">26 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rect</span> <span class="nv">point1</span> <span class="nv">point2</span> <span class="nv">point3</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">cons </span><span class="nv">point1</span> <span class="nv">point2</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">point2</span> <span class="nv">point3</span><span class="p">)))</span>
-<span class="lineno">27 </span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">28 </span>                 <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">29 </span>                 <span class="p">))</span>
-<span class="lineno">30 </span>
-<span class="lineno">31 </span><span class="p">(</span><span class="nf">react-area</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">32 </span>             <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">33 </span>             <span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.4
-  </h2>
-  <div>
-   <div>
-    <p>
-     Дано альтернативное процедурное представление пары. Проверить Что с его помощью можно получить первое значение из пары, допишите реализацию получения второго значения из пары?
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">m</span><span class="p">)</span> <span class="p">(</span><span class="nf">m</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno"> 3 </span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno"> 5 </span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">car </span><span class="nv">z</span><span class="p">)</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="nf">z</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span> <span class="nv">q</span><span class="p">)</span> <span class="nv">p</span><span class="p">)))</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span><span class="c1">;; (cons 1 3)</span>
-<span class="lineno">10 </span><span class="c1">;; (car (cons 1 3))</span>
-<span class="lineno">11 </span><span class="c1">;; (car (lambda (m) (m x y)))</span>
-<span class="lineno">12 </span><span class="c1">;; ((lambda (m) (m x y)) (lambda (p q) p))</span>
-<span class="lineno">13 </span><span class="c1">;; (m x y) это как раз вызвать процедуру которая в параметрах с параметрами x y</span>
-<span class="lineno">14 </span><span class="c1">;; но следующая проуедура как раз возвращает первый параметр p, то есть все выражение</span>
-<span class="lineno">15 </span><span class="c1">;; вернет x</span>
-<span class="lineno">16 </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno">17 </span>
-<span class="lineno">18 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">z</span><span class="p">)</span>
-<span class="lineno">19 </span>  <span class="p">(</span><span class="nf">z</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span> <span class="nv">q</span><span class="p">)</span> <span class="nv">q</span><span class="p">)))</span>
-<span class="lineno">20 </span>
-<span class="lineno">21 </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.5
-  </h2>
-  <div>
-   <div>
-    <p>
-     Покажите что мы можем представить пары неотрицательных целых чисел, используя только числа и арифметические операции, если представим пару a и b как целое произведение <span class="inline-formula"><img class="img-inline-formula img-formula" width="45" height="15" src="formulae/.zOENo0lip4SHHhRpT3lhv8ITPk7RRL56PDS_A.png" alt="2^a\cdot 3^b" title="2^a\cdot 3^b"></span>. Приведите соответствующие процедуры cons, car, cdr.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="nv">logB</span>
-<span class="lineno"> 2 </span>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">B</span><span class="p">)</span>
-<span class="lineno"> 3 </span>      <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">log </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">log </span><span class="nv">B</span><span class="p">))))</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cons </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">2</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">3</span> <span class="nv">b</span><span class="p">)))</span>
-<span class="lineno"> 7 </span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">r</span><span class="p">)</span>
-<span class="lineno"> 9 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">r</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">10 </span>      <span class="p">(</span><span class="nf">logB</span> <span class="nv">r</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno">11 </span>      <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">/ </span><span class="nv">r</span> <span class="mi">2</span><span class="p">))))</span>
-<span class="lineno">12 </span>
-<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">)</span>
-<span class="lineno">14 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">r</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">15 </span>      <span class="p">(</span><span class="nf">logB</span> <span class="nv">r</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno">16 </span>      <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">/ </span><span class="nv">r</span> <span class="mi">3</span><span class="p">))))</span>
-<span class="lineno">17 </span>
-<span class="lineno">18 </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">; 162</span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nb">car </span><span class="mi">162</span><span class="p">)</span> <span class="c1">; 1</span>
-<span class="lineno">20 </span><span class="p">(</span><span class="nb">cdr </span><span class="mi">162</span><span class="p">)</span> <span class="c1">; 4</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.6
-  </h2>
-  <div>
-   <div>
-    <p>
-     Если случай представления пар в виде процедур был не достаточно ошеломляющим, учтите что в языке который может манипулировать процедурами, мы можем обойтись без чисел , по крайне мерее если говорить о неотрицательных целых числах, реализовав 0 и операцию добавления 1 как:
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">zero</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
-<span class="lineno">2 </span>
-<span class="lineno">3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-1</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">4 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
-</pre>
-</div>   <div>
-    <p>
-     Это представление изветсно как цифры Черча в честь изобретателя Алонсо Черча, логика который изобрел исчисления. Дайте определении one и two (напрямую без использования zero add-1) (Используйте подстановку выполненния (add-1 zero)). Дайте прямое определение процедуры + (не в терминах повторения add-1)
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">zero</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
-<span class="lineno">2 </span>
-<span class="lineno">3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-1</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">4 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
-</pre>
-</div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; (add-1 zero)</span>
-<span class="lineno"> 2 </span><span class="c1">;; (add-1 (lambda (f) (lambda (x) x)))</span>
-<span class="lineno"> 3 </span><span class="c1">;; ((n f) x) будет просто x, так как n это zero</span>
-<span class="lineno"> 4 </span><span class="c1">;;</span>
-<span class="lineno"> 5 </span><span class="c1">;; (lambda (x) (f x))</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">one</span> <span class="nv">f</span><span class="p">)</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">)))</span>
-<span class="lineno"> 8 </span><span class="c1">;; (add-1 one)</span>
-<span class="lineno"> 9 </span><span class="c1">;;</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">two</span> <span class="nv">f</span><span class="p">)</span>
-<span class="lineno">11 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">))))</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add</span> <span class="nv">m</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">13 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">((</span><span class="nf">m</span> <span class="nv">f</span><span class="p">)</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
-<span class="lineno">14 </span><span class="c1">;; пусть m=one, n=one</span>
-<span class="lineno">15 </span><span class="c1">;; ((n f) x) = (f x)</span>
-<span class="lineno">16 </span><span class="c1">;; ((m f) (f x))</span>
-<span class="lineno">17 </span><span class="c1">;; (f (f x))</span>
-<span class="lineno">18 </span><span class="c1">;; (lambda (x) (f (f x))) а это не что иное как два</span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">add</span> <span class="nv">one</span> <span class="nv">one</span><span class="p">)</span>
-<span class="lineno">20 </span>
-<span class="lineno">21 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">22 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">((</span><span class="nf">n</span> <span class="nv">inc</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">newline</span><span class="p">))</span>
-<span class="lineno">23 </span>
-<span class="lineno">24 </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">zero</span><span class="p">)</span>
-<span class="lineno">25 </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">one</span><span class="p">)</span>
-<span class="lineno">26 </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">two</span><span class="p">)</span>
-<span class="lineno">27 </span><span class="p">(</span><span class="nf">print-church</span> <span class="p">(</span><span class="nf">add</span> <span class="nv">two</span> <span class="nv">two</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.7
-  </h2>
-  <div>
-   <div>
-    <p>
-     Определите селекторы upper-bound и lower-bound.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-interval</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
-<span class="lineno">2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">max </span><span class="p">(</span><span class="nb">car </span><span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">i</span><span class="p">)))</span>
-<span class="lineno">3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">min </span><span class="p">(</span><span class="nb">car </span><span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">i</span><span class="p">)))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.8
-  </h2>
-  <div>
-   <div>
-    <p>
-     Используя рассуждения Алисы напишите процедуру для вычисления разности интервалов.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">3 </span>                 <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.9
-  </h2>
-  <div>
-   <div>
-    <p>
-     Ширина интервала - половина разницы между верхней и нижней оценкой. Ширина является мерой неопределенности значения указанного для интервала. Для некоторых операций над интервалами результирующая ширина является функцией от ширин интервалов, которые были аргументами, а для некотрых операций нет. Покажите что ширина суммы (или разницы) является такой функцией. А для умножения и деления правило не выполняется.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; определяем функцию ширины интервала</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">width-interval</span> <span class="nv">i</span><span class="p">)</span>
-<span class="lineno"> 3 </span>  <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">i</span><span class="p">))</span> <span class="mf">2.0</span><span class="p">))</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">4.0</span> <span class="mf">6.0</span><span class="p">))</span> <span class="c1">;; 1</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">))</span> <span class="c1">;; 2</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">add-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno"> 8 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)))</span><span class="c1">;; 3</span>
-<span class="lineno"> 9 </span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">sub-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">11 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)))</span><span class="c1">;; 3</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)</span>
-<span class="lineno">13 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)))</span><span class="c1">;; 22</span>
-<span class="lineno">14 </span>
-<span class="lineno">15 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">10.0</span> <span class="mf">14.0</span><span class="p">)</span>
-<span class="lineno">16 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">4.0</span> <span class="mf">6.0</span><span class="p">)))</span><span class="c1">;; 0.916</span>
-</pre>
-</div>   <div>
-    <p>
-     Видим что для сложения и вычитания результирующая ширина равна сумме исходных. Для yмножения и деления это все не выполняется.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.10
-  </h2>
-  <div>
-   <div>
-    <p>
-     Бен Битдиддл подсказал что неясно как делить если интервал с нулевой границей. Добавить в код обработку ошибки.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">div-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"Error upper-bound = 0"</span><span class="p">))</span>
-<span class="lineno">3 </span>        <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"Error lower-bound = 0"</span><span class="p">))</span>
-<span class="lineno">4 </span>        <span class="p">(</span><span class="nf">else</span>
-<span class="lineno">5 </span>         <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">x</span>
-<span class="lineno">6 </span>                       <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">/ </span><span class="mf">1.0</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">7 </span>                                      <span class="p">(</span><span class="nb">/ </span><span class="mf">1.0</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))))))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.11
-  </h2>
-  <div>
-   <div>
-    <p>
-     Испытывая знаки конечных точек интервалов можно разбить multi-interval на девять случаев, только один из которых требует более двух перемножений. Перепишите процедуру используя этот совет.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="c1">;; Если все положительно</span>
-<span class="lineno"> 3 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno"> 4 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno"> 5 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno"> 6 </span>        <span class="c1">;; Если все отрицательное</span>
-<span class="lineno"> 7 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno"> 8 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno"> 9 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">10 </span>        <span class="c1">;; x положительный, а y содержит 0</span>
-<span class="lineno">11 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">12 </span>                                                                                    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">13 </span>                                                                                    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">14 </span>        <span class="c1">;; x положительный, а y весь отрицательный</span>
-<span class="lineno">15 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">16 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">17 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">18 </span>        <span class="c1">;; y положительный, а x содержит 0</span>
-<span class="lineno">19 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">20 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">21 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">22 </span>        <span class="c1">;; y положительный, а x весь отрицательный</span>
-<span class="lineno">23 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">24 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">25 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">26 </span>        <span class="c1">;; x отрицательный y пересекает 0</span>
-<span class="lineno">27 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">28 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">29 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">30 </span>        <span class="c1">;; y отрицательный x пересекает 0</span>
-<span class="lineno">31 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">32 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">33 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">34 </span>        <span class="c1">;; иначе у нас и x и y пересекают 0, в этом случае и нужно перемножать значения</span>
-<span class="lineno">35 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">p1</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno">36 </span>                    <span class="p">(</span><span class="nf">p2</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno">37 </span>                    <span class="p">(</span><span class="nf">p3</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno">38 </span>                    <span class="p">(</span><span class="nf">p4</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">39 </span>                <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">min </span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">p4</span><span class="p">)</span>
-<span class="lineno">40 </span>                               <span class="p">(</span><span class="nb">max </span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">p4</span><span class="p">))))))</span>
-<span class="lineno">41 </span>
-<span class="lineno">42 </span><span class="c1">;; Тесты</span>
-<span class="lineno">43 </span><span class="c1">;; 1) x, y &gt;</span>
-<span class="lineno">44 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)</span>
-<span class="lineno">45 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">46 </span><span class="c1">;; 2) x, y &lt;</span>
-<span class="lineno">47 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-14</span> <span class="mi">-10</span><span class="p">)</span>
-<span class="lineno">48 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-4</span><span class="p">))</span>
-<span class="lineno">49 </span><span class="c1">;; 3) x&gt; y&lt;</span>
-<span class="lineno">50 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">51 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-4</span><span class="p">))</span>
-<span class="lineno">52 </span><span class="c1">;; 4) x&gt; y 0</span>
-<span class="lineno">53 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">54 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno">55 </span><span class="c1">;; 5) y&gt; x 0</span>
-<span class="lineno">56 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno">57 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">))</span>
-<span class="lineno">58 </span><span class="c1">;; 6) y&gt; x&lt;</span>
-<span class="lineno">59 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">)</span>
-<span class="lineno">60 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">))</span>
-<span class="lineno">61 </span><span class="c1">;; 7) x&lt; y 0</span>
-<span class="lineno">62 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">)</span>
-<span class="lineno">63 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">64 </span><span class="c1">;; 8) y&lt; x 0</span>
-<span class="lineno">65 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">66 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">))</span>
-<span class="lineno">67 </span><span class="c1">;; 9) x, y 0</span>
-<span class="lineno">68 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-3</span><span class="p">)</span>
-<span class="lineno">69 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.12
-  </h2>
-  <div>
-   <div>
-    <p>
-     Определите конструктор make-center-percent который получает центр и процент погрешности что бы создать интервал. Вам также нужно определить селектор percent, который вычисляет погрешность для интервала.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-center-percent</span> <span class="nv">c</span> <span class="nv">p</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">- </span><span class="nv">c</span>  <span class="p">(</span><span class="nb">* </span><span class="nv">c</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">p</span> <span class="mf">100.0</span><span class="p">)))</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">c</span> <span class="p">(</span><span class="nb">* </span><span class="nv">c</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">p</span> <span class="mf">100.0</span><span class="p">)))))</span>
-<span class="lineno">3 </span>
-<span class="lineno">4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">percent</span> <span class="nv">i</span><span class="p">)</span>
-<span class="lineno">5 </span>  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">c</span> <span class="p">(</span><span class="nf">center</span> <span class="nv">i</span><span class="p">)))</span>
-<span class="lineno">6 </span>    <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="nv">c</span><span class="p">)</span> <span class="mi">100</span><span class="p">)</span> <span class="nv">c</span><span class="p">)))</span>
-<span class="lineno">7 </span><span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">8 </span><span class="p">(</span><span class="nf">percent</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.13
-  </h2>
-  <div>
-   <p>
-    Покажите что при малых процентных допусках, есть простая формула для вычисления приблизительного значения допуска для произведения двух интервалов в терминах допусков факторов. Вы можете упростить задачу предположив что все интервалы положительные.
-   </p>
-   <p>
-    Пусть Сx Cy центры двух интервалов, их погрешности Tx, Ty соответственно, пусть Сx, Cy &gt; 0. Тогда перемножая их получим:
-   </p>
-   <p>
-    <span class="inline-formula"><img class="img-inline-formula img-formula" width="494" height="17" src="formulae/yzLwIL7U8o0TGIgYxnq1jKv8cn5D8X8nw.DdkQ.png" alt="min = (Cx-Tx)(Cy-Ty) = CxCy - (TxCy + TyCx) + TxTy" title="min = (Cx-Tx)(Cy-Ty) = CxCy - (TxCy + TyCx) + TxTy"></span> <span class="inline-formula"><img class="img-inline-formula img-formula" width="497" height="17" src="formulae/cbJuiyvW49gp_pAPXhvfaE1cmIYp.NqcCuql3Q.png" alt="max = (Cx+Tx)(Cy+Ty) = CxCy + (TxCy + TyCx) + TxTy" title="max = (Cx+Tx)(Cy+Ty) = CxCy + (TxCy + TyCx) + TxTy"></span>
-   </p>
-   <p>
-    <span class="inline-formula"><img class="img-inline-formula img-formula" width="263" height="24" src="formulae/sWwyVefJ_.k1_WRDQReg36g_d43CjaZgB5m5IQ.png" alt="Tmul = \frac{CyTx + CxTy}{CxCy + TxTy}=\frac{CyTx + CxTy}{CxCy}" title="Tmul = \frac{CyTx + CxTy}{CxCy + TxTy}=\frac{CyTx + CxTy}{CxCy}"></span>. значением TxTy в знаменателе можно пренебречь.
-   </p>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.14, 2.15, 2.16
-  </h2>
-  <div>
-   <div>
-    <p>
-     Продемонстрируйте что утверждения Лема из книги правильно. Исследуйте поведение системы на различных арифметических выражениях. Создайте интервалы A и B и используйте их для вычисления A/A и B/B. Вы получите наибольшее понимание, используя интервалы, чья ширина составляет небольшой процент от значения центра. Изучите результаты вычислений в форме центр-процент.
-    </p>
-    <p>
-     получается что при повторном делении умножении мы увеличиваем
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">A</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">100</span> <span class="mi">3</span><span class="p">))</span> <span class="p">(</span><span class="nf">B</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">80</span> <span class="mi">4</span><span class="p">)))</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">par1</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
-<span class="lineno"> 3 </span>    <span class="p">(</span><span class="nf">div-interval</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
-<span class="lineno"> 4 </span>                  <span class="p">(</span><span class="nf">add-interval</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)))</span>
-<span class="lineno"> 5 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">par2</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
-<span class="lineno"> 6 </span>    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">one</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)))</span>
-<span class="lineno"> 7 </span>      <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span>
-<span class="lineno"> 8 </span>                    <span class="p">(</span><span class="nf">add-interval</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span> <span class="nv">r1</span><span class="p">)</span>
-<span class="lineno"> 9 </span>                                  <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span> <span class="nv">r2</span><span class="p">)))))</span>
-<span class="lineno">10 </span>  <span class="c1">;; Подтверждение утверждения Лема</span>
-<span class="lineno">11 </span>  <span class="c1">;; (display (width A))</span>
-<span class="lineno">12 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">13 </span>  <span class="c1">;; (display (width B))</span>
-<span class="lineno">14 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">15 </span>  <span class="c1">;; (display (par1 A B))</span>
-<span class="lineno">16 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">17 </span>  <span class="c1">;; (display (center (par1 A B)))</span>
-<span class="lineno">18 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">19 </span>  <span class="c1">;; (display (percent (par1 A B)))</span>
-<span class="lineno">20 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">21 </span>  <span class="c1">;; (display (par2 A B))</span>
-<span class="lineno">22 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">23 </span>  <span class="c1">;; (display (center (par2 A B)))</span>
-<span class="lineno">24 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">25 </span>  <span class="c1">;; (display (percent (par2 A B)))</span>
-<span class="lineno">26 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">27 </span>
-<span class="lineno">28 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"****B****"</span><span class="p">)</span>
-<span class="lineno">29 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">B</span><span class="p">)</span>
-<span class="lineno">30 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">31 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">center</span> <span class="nv">B</span><span class="p">))</span>
-<span class="lineno">32 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">33 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">percent</span> <span class="nv">B</span><span class="p">))</span>
-<span class="lineno">34 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">35 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"****B*(B/B)****"</span><span class="p">)</span>
-<span class="lineno">36 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">)))</span>
-<span class="lineno">37 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">38 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">center</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">))))</span>
-<span class="lineno">39 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">40 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">percent</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">))))</span>
-<span class="lineno">41 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">42 </span>  <span class="p">)</span>
-</pre>
-</div>   <div>
-    <p>
-     Другой пользователь так же заметил различные результаты подсчета интервалов при эквивалентных алгебраических выражениях. Она говорит, что формула для вычисления интервалов с использованием сисетмы Алисы даст более жесткие границы ошибок, если её можно записать в такой форме, что никакая переменная, представляющая неопределенное число, не повторяется. Поэтому par2 "лучше" par1. Права ли она? Почему?
-    </p>
-    <p>
-     "лучше" потому что погрешность получается меньше. она получается меньше, потому что в случае par2 у интервала 1 нет погрешности, поэтому все действия с этим интервалом не приводят к росту погрешности в целом, напротив в первом случае мы вводим дополнительную погрешность при каждом действии с интервалом. А нам нужно вводить погрешность столько раз сколько элемент задействован в цепи. То есть по разу для R1 и R2, поэтому вторая формула лучше.
-    </p>
-    <p>
-     Объясните, в общем, почему эквивалентные алгебраические выражения могут привести к разным ответам. Можете ли вы разработать интервально-арифметический пакет, который не имеет этого недостатка, или эта задача невозможна? (Предупреждение: эта проблема очень сложная.)
-    </p>
-    <p>
-     Алгебраические выражения не учитывают физического смысла встречающихся элементов. Если разрабатывать такой пакет, то нам при каждом расчете нужно знать сколько раз встречается тот или иной элемент и в каким способом он задействован, что бы дать расчет неопределенности конкретно для этого случая. Наверно можно разработать пакет которые будет находить минимально возможную неопределенность. Если проанализировать все действия которые нам надо выполнять и выявить повторы, можно перестроить уравнение таким образом что бы уменьшить количество действий с неопределенными интервалами.
     </p>
    </div>
   </div>

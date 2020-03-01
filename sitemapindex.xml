@@ -30,6 +30,10 @@
   <lastmod>2020-02-01T22:22:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>http://velikiinehochuha.github.io/categories/concurrency.xml</loc>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/data-directed.xml</loc>
   <lastmod>2020-01-27T12:04:00Z</lastmod>
  </sitemap>
@@ -87,7 +91,7 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/mutable_data.xml</loc>
-  <lastmod>2020-02-05T12:44:00Z</lastmod>
+  <lastmod>2020-02-14T09:56:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/prime_numbers.xml</loc>
@@ -103,7 +107,7 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-02-05T12:44:00Z</lastmod>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sequences_as_conventional_interfaces.xml</loc>
@@ -111,7 +115,7 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-02-05T12:44:00Z</lastmod>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
@@ -131,10 +135,10 @@
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-02-05T12:44:00Z</lastmod>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-02-05T12:44:00Z</lastmod>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </sitemap>
 </sitemapindex>

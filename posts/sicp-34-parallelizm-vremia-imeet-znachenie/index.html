@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html prefix="
+        og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+    " vocab="http://ogp.me/ns" lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>SICP 3.4 Параллелизм: время имеет значение | VelikiiNehochuha Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="../../rss.xml">
+<link rel="canonical" href="http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/">
+<!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
+<link rel="prev" href="../sicp-33-modelirovanie-s-izmeniaemymi-dannymi/" title="SICP 3.3 Моделирование с изменяемыми данными." type="text/html">
+<meta property="og:site_name" content="VelikiiNehochuha Blog">
+<meta property="og:title" content="SICP 3.4 Параллелизм: время имеет значение">
+<meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/">
+<meta property="og:description" content="Упражнение 3.38
+
+
+Пусть Петр, Павел и Мария имеют общий счет, на котором вначале лежит 100 долларов. Петр кладет на счет 10 долларов, одновременно с этим Павел берет 20, а Мария берет половину денег с">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-02-14T14:23:44+03:00">
+<meta property="article:tag" content="concurrency">
+<meta property="article:tag" content="scheme">
+<meta property="article:tag" content="sicp">
+</head>
+<body>
+    <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
+    <div id="container">
+             <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+
+        <span id="blog-title">VelikiiNehochuha Blog</span>
+    </a></h1>
+
+        
+            <nav id="menu"><ul>
+<li><a href="../../archive.html">Архив</a></li>
+                <li><a href="../../categories/">Тэги</a></li>
+                <li><a href="../../rss.xml">RSS лента</a></li>
+
+    
+    
+    
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SICP 3.4 Параллелизм: время имеет значение</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-02-14T14:23:44+03:00" itemprop="datePublished" title="2020-02-14 14:23">2020-02-14 14:23</time></a>
+            </p>
+                    <p class="sourceline"><a href="index.org" class="sourcelink">Источник</a></p>
+
+        </div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org0f5b9a8" class="outline-2">
+<h2 id="org0f5b9a8">Упражнение 3.38</h2>
+<div class="outline-text-2" id="text-org0f5b9a8">
+<p>
+Пусть Петр, Павел и Мария имеют общий счет, на котором вначале лежит 100 долларов. Петр кладет на счет 10 долларов, одновременно с этим Павел берет 20, а Мария берет половину денег со счета. При этом они выполняют следующие операции:
+</p>
+
+<p>
+Петр: (set! balance (+ balance 10))
+Павел: (set! balance (- balance 20))
+Мария: (set! balance (- balance (/ balance 2)))
+</p>
+
+<p>
+а. Перечислите возможные значения balance после завершения операций, предполагая, что банковская система требует от транзакций исполняться последовательно в каком-то порядке.
+</p>
+
+<ol class="org-ol">
+<li>Петр, Павел, Мария, в результате 45</li>
+<li>Петр, Мария, Павел, в результате 35</li>
+<li>Павел, Петр, Мария, в результате 45</li>
+<li>Павел, Мария, Петр, в результате 50</li>
+<li>Мария, Петр, Павел, в результате 40</li>
+<li>Мария, Павел, Петр, в результате 40</li>
+</ol>
+<p>
+б. Назовите какие-нибудь другие значения, которые могли бы получиться, если бы система разрешала операциям чередоваться. Нарисуйте временные диаграммы, подобные рис. 3.29, чтобы объяснить, как возникают такие результаты.
+</p>
+
+<p>
+<img src="../../images/3.38.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-org4fa1839" class="outline-2">
+<h2 id="org4fa1839">Упражнение 3.39</h2>
+<div class="outline-text-2" id="text-org4fa1839">
+<p>
+Какие из пяти возможных исходов параллельного выполнения сохраняются, если мы сериализуем выполнение таким образом:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">((</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))))))</span>
+		  <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+</pre></div>
+
+<p>
+таким образом мы отсекаем варианты когда P1 получает разные значения для x.
+</p>
+
+<p>
+101: 	P1 потом P2
+121: 	P2 потом P1
+11: 	P2 читает x, потом P1 выставляет x в 100, затем P2 выставляет x.
+100: 	P1 считывает x (дважды), потом P2 ставит x to 11, потом P1 ставит x.
+</p>
+
+<p>
+случай который не произойдет:
+</p>
+
+<p>
+110:  P2 меняет x c 10 на 11 между двумя чтениями P1 значения x, во время выполнения (* x x)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbc47be1" class="outline-2">
+<h2 id="orgbc47be1">Упражнение 3.40</h2>
+<div class="outline-text-2" id="text-orgbc47be1">
+<p>
+Укажите все возможные значения x при выполнении
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))))</span>
+</pre></div>
+
+<ol class="org-ol">
+<li>P1 потом P2, 1 000 000</li>
+<li>P2 потом P1, 1 000 000</li>
+<li>P2 считал x = 10, потом P1, потом P2 выставил 10 * 100 * 100 = 100 000</li>
+<li>P2 считал x = 10 (дважды), потом P1, потом P2 выставил 10 * 10 * 100 = 10 000</li>
+<li>P2 считал x = 10 (трижды), потом P1, потом P2 выставил 1000</li>
+<li>P1 считал x = 10, потом P2, потом 10 * 1000 = 10 000</li>
+<li>P2 считал x = 10 (дважды), потом P2, потом P1 100</li>
+</ol>
+<p>
+Какие из них сохраняются, если вместо этого мы выполняем   сериализованные процедуры:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))))</span>
+		  <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))))</span>
+</pre></div>
+
+<p>
+только 1 000 000
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb12047" class="outline-2">
+<h2 id="orgcb12047">Упражнение 3.41</h2>
+<div class="outline-text-2" id="text-orgcb12047">
+<p>
+Бен Битобор считает, что лучше было бы реализовать банковский счет таким образом (измененная строка отмечена комментарием):
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-account</span> <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">withdraw</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+	       <span class="nv">balance</span><span class="p">)</span>
+	<span class="s">"Insufficient funds"</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+    <span class="nv">balance</span><span class="p">)</span>
+  <span class="c1">;; continued on next page</span>
+
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">protected</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">m</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">withdraw</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">deposit</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'balance</span><span class="p">)</span>
+	     <span class="p">((</span><span class="nf">protected</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="nv">balance</span><span class="p">))))</span> <span class="c1">; serialized</span>
+	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown request -- MAKE-ACCOUNT"</span>
+			 <span class="nv">m</span><span class="p">))))</span>
+    <span class="nv">dispatch</span><span class="p">))</span>
+</pre></div>
+
+<p>
+поскольку несериализованный доступ к банковскому счету может привести к неправильному поведению. Вы согласны? Существует ли сценарий, который демонстрирует обоснованность беспокойства Бена?
+</p>
+
+<p>
+нет, чтение можно не сериализовывать
+</p>
+</div>
+</div>
+
+<div id="outline-container-org98f924a" class="outline-2">
+<h2 id="org98f924a">Упражнение 3.42</h2>
+<div class="outline-text-2" id="text-org98f924a">
+<p>
+Бен Битобор говорит, что слишком расточительно в ответ на каждое сообщение withdraw и deposit создавать по новой сериализованной процедуре. Он говорит, что можно изменить make-account так, чтобы все вызовы protected происходили вне процедуры dispatch. Таким обра-
+зом, счет будет возвращать одну и ту же сериализованную процедуру (созданную тогда же, когда и сам счет) каждый раз, когда у него просят процедуру снятия денег:
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-account</span> <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">withdraw</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+	       <span class="nv">balance</span><span class="p">)</span>
+	<span class="s">"Insufficient funds"</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+    <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">protected</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">protected-withdraw</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">withdraw</span><span class="p">))</span>
+	  <span class="p">(</span><span class="nf">protected-deposit</span> <span class="p">(</span><span class="nf">protected</span> <span class="nv">deposit</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">m</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="nv">protected-withdraw</span><span class="p">)</span>
+	      <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">protected-deposit</span><span class="p">)</span>
+	      <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'balance</span><span class="p">)</span> <span class="nv">balance</span><span class="p">)</span>
+	      <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown request -- MAKE-ACCOUNT"</span>
+			   <span class="nv">m</span><span class="p">))))</span>
+      <span class="nv">dispatch</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+Безопасно ли такое изменение? В частности, есть ли разница в том, в каком порядке может происходить параллельное выполнение в этих двух версиях make-account?
+</p>
+
+<p>
+преобразование эквивалентно тому что мы выполняли ранее, поэтому такую замену можно использовать
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">parallel-execute</span> <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))))</span>
+		  <span class="p">(</span><span class="nf">s</span> <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org763296d" class="outline-2">
+<h2 id="org763296d">Упражнение 3.43</h2>
+<div class="outline-text-2" id="text-org763296d">
+<p>
+Предположим, что значения баланса на трех счетах вначале равны 10, 20 и 30 долларам, и что несколько процессов занимаются обменом значений баланса. Покажите, что если эти процессы выполняются последовательно, то после любого количества обменов значения баланса по-прежнему
+будут равны 10, 20 и 30 долларам, в каком-то порядке. Нарисуйте временную диаграмму вроде той, которая изображена на рис. 3.29, и покажите, что указанное условие может нарушаться, если работает первая версия процедуры обмена из этого раздела. Покажите, с другой стороны, что даже с первой программой exchange общая сумма балансов на счетах сохранится. Нарисуйте временную диаграмму, показывающую, что если бы мы не сериализовали транзакции по отдельным счетам, это условие тоже могло бы нарушаться.
+</p>
+
+
+<p>
+При последовательном обмене очевидно что значения балансов останутся прежними без учета порядка.
+</p>
+
+<p>
+Первая версия процедуры, когда сериализатор частный для каждого аккаунта
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">difference</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">account1</span> <span class="ss">'balance</span><span class="p">)</span>
+		       <span class="p">(</span><span class="nf">account2</span> <span class="ss">'balance</span><span class="p">))))</span>
+    <span class="p">((</span><span class="nf">account1</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">account2</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+P1 считываем баланс A1 A2, вычисляет разницу
+</p>
+
+<p>
+после этого P2 считывает A2 A3 вычисляет разницу и выполняет смену счетов 2 3. На втором 30 на третьем 20.
+После этого P1 делает списание -10 c первого и делает deposit -10 на второй. В итоге получается
+</p>
+
+<p>
+20 20 20.
+</p>
+
+<p>
+<img src="../../images/3.43.png" alt="nil"></p>
+
+<p>
+Сумма остается прежней, но происходит не очевидное перераспределение сумм между аккаунтами.
+</p>
+
+
+<p>
+Если бы счета вообще не сериализовались, то общая сумма могла бы измениться, например
+</p>
+
+<p>
+P1 считывает баланс A1 A2, вычисляет разницу - 10
+P2 считывает баланс A2 A3, вычисляет разницу - 10
+</p>
+
+<p>
+P1 делает списание -10 на A1
+</p>
+
+<p>
+P1 и P2 считывают баланс A2 20 и одновременно делают операции deposit -10 и withdraw -10, получается что на счете A2 образуется сумма 30
+</p>
+
+<p>
+P2 делает депозит -10 на A2
+</p>
+
+<p>
+в итоге получается набор сумм 20 30 30.
+20 30 30.
+</p>
+
+<p>
+<img src="../../images/3.43_2.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-orgdde64cb" class="outline-2">
+<h2 id="orgdde64cb">Упражнение 3.44</h2>
+<div class="outline-text-2" id="text-orgdde64cb">
+<p>
+Рассмотрим задачу переноса денег с одного счета на другой. Бен Битобор утверждает, что ее можно решить с помощью следующей процедуры, даже в тех случаях, когда много людей одновременно перемещают деньги между различными счетами, если использовать при этом какой-то механизм,
+сериализующий операции занесения на счет и снятия со счета, например, версию make-account из нашего текста.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">transfer</span> <span class="nv">from-account</span> <span class="nv">to-account</span> <span class="nv">amount</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">from-account</span> <span class="err">’</span><span class="nv">withdraw</span><span class="p">)</span> <span class="nv">amount</span><span class="p">)</span>
+  <span class="p">((</span><span class="nf">to-account</span> <span class="err">’</span><span class="nv">deposit</span><span class="p">)</span> <span class="nv">amount</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Хьюго Дум считает, что с этой версией возникнут проблемы и что нужно использовать более сложный подход, вроде того, который требуется при решении задачи обмена. Прав ли он? Если нет, то в чем состоит существенная разница между задачей перевода денег и задачей обмена
+счетов? (Нужно предположить, что значение баланса на from-account по крайней мере равно amount.)
+</p>
+
+<p>
+Такая процедура вполне корректна. Разница между обменом состоит в том что там нам было необходимо поменять местами счета, что при одновременном выполнении могло привести к не очевидному перераспределению, тут же нет такого требования, важно что бы итоговая сумма не изменилась, а это требование выполняется.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org219e59c" class="outline-2">
+<h2 id="org219e59c">Упражнение 3.45</h2>
+<div class="outline-text-2" id="text-org219e59c">
+<p>
+Хьюго Дум полагает, что теперь, когда операции снятия денег со счета и занесения их на счет перестали сериализовываться автоматически, система банковских счетов стала неоправданно сложной и работать с ней правильным образом чересчур трудно. Он предлагает сделать так, чтобы make-account-and-serializer экспортировал сериализатор (для использования в процедурах вроде serialized-exchange), и вдобавок сам использовал его для сериализации простых операций
+со счетом, как это делал make-account. Он предлагает переопределить объект-счет так:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-account-and-serializer</span> <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">withdraw</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt;= </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">- </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+	       <span class="nv">balance</span><span class="p">)</span>
+	<span class="s">"Insufficient funds"</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">amount</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">set! </span><span class="nv">balance</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">balance</span> <span class="nv">amount</span><span class="p">))</span>
+    <span class="nv">balance</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">balance-serializer</span> <span class="p">(</span><span class="nf">make-serializer</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dispatch</span> <span class="nv">m</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="p">(</span><span class="nf">balance-serializer</span> <span class="nv">withdraw</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="p">(</span><span class="nf">balance-serializer</span> <span class="nv">deposit</span><span class="p">))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'balance</span><span class="p">)</span> <span class="nv">balance</span><span class="p">)</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'serializer</span><span class="p">)</span> <span class="nv">balance-serializer</span><span class="p">)</span>
+	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">"Unknown request -- MAKE-ACCOUNT"</span>
+			 <span class="nv">m</span><span class="p">))))</span>
+    <span class="nv">dispatch</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deposit</span> <span class="nv">account</span> <span class="nv">amount</span><span class="p">)</span>
+ <span class="p">((</span><span class="nf">account</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">amount</span><span class="p">))</span>
+
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">difference</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">account1</span> <span class="ss">'balance</span><span class="p">)</span>
+		       <span class="p">(</span><span class="nf">account2</span> <span class="ss">'balance</span><span class="p">))))</span>
+    <span class="p">((</span><span class="nf">account1</span> <span class="ss">'withdraw</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)</span>
+    <span class="p">((</span><span class="nf">account2</span> <span class="ss">'deposit</span><span class="p">)</span> <span class="nv">difference</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">serialized-exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">serializer1</span> <span class="p">(</span><span class="nf">account1</span> <span class="ss">'serializer</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">serializer2</span> <span class="p">(</span><span class="nf">account2</span> <span class="ss">'serializer</span><span class="p">)))</span>
+    <span class="p">((</span><span class="nf">serializer1</span> <span class="p">(</span><span class="nf">serializer2</span> <span class="nv">exchange</span><span class="p">))</span>
+     <span class="nv">account1</span>
+     <span class="nv">account2</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+Объясните, в чем Хьюго ошибается. В частности, рассмотрите, что происходит при вызове serialized-exchange.
+</p>
+
+<p>
+получится троекратный вызов serializer на withdraw и deposit. Объект будучи заблокированным для изменения снова будет ожидать получение разрешения на изменение, в итоге он никогда не дождется разрешения.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org755f61c" class="outline-2">
+<h2 id="org755f61c">Упражнение 3.46</h2>
+<div class="outline-text-2" id="text-org755f61c">
+<p>
+Допустим, что мы реализуем test-and-set в виде обыкновенной процедуры, как показано в тексте, не пытаясь сделать ее атомарной. Нарисуйте временную диаграмму, подобную диаграмме на рис. 3.29, и покажите, как реализация мьютекса может ошибиться и позволить двум процессам одновременно захватить мьютекс.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-serializer</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mutex</span> <span class="p">(</span><span class="nf">make-mutex</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">serialized-p</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">mutex</span> <span class="ss">'acquire</span><span class="p">)</span>
+	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val</span> <span class="p">(</span><span class="nb">apply </span><span class="nv">p</span> <span class="nv">args</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="nf">mutex</span> <span class="ss">'release</span><span class="p">)</span>
+	  <span class="nv">val</span><span class="p">))</span>
+      <span class="nv">serialized-p</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-mutex</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">cell</span> <span class="p">(</span><span class="nb">list </span><span class="nv">false</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">the-mutex</span> <span class="nv">m</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'acquire</span><span class="p">)</span>
+	     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">test-and-set!</span> <span class="nv">cell</span><span class="p">)</span>
+		 <span class="p">(</span><span class="nf">the-mutex</span> <span class="ss">'acquire</span><span class="p">)))</span> <span class="c1">; retry</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">m</span> <span class="ss">'release</span><span class="p">)</span> <span class="p">(</span><span class="nf">clear!</span> <span class="nv">cell</span><span class="p">))))</span>
+    <span class="nv">the-mutex</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">clear!</span> <span class="nv">cell</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">set-car! </span><span class="nv">cell</span> <span class="nv">false</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">test-and-set!</span> <span class="nv">cell</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">car </span><span class="nv">cell</span><span class="p">)</span>
+      <span class="nv">true</span>
+      <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="nb">set-car! </span><span class="nv">cell</span> <span class="nv">true</span><span class="p">)</span>
+	     <span class="nv">false</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+если мы не гарантируем атомарность проверки проверки test-and-set! то можем получить ошибку когда у нас мьютекс будет захвачен сразу двумя процессами, это ситуация ничем не отличается от той, когда мы вообще не использовали сериализатор, у нас может произойти одновременное назначение разных балансов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">test-and-set!</span> <span class="nv">cell</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">without-interrupts</span>
+   <span class="p">(</span><span class="k">lambda </span><span class="p">()</span>
+     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">car </span><span class="nv">cell</span><span class="p">)</span>
+	 <span class="nv">true</span>
+	 <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="nb">set-car! </span><span class="nv">cell</span> <span class="nv">true</span><span class="p">)</span>
+		<span class="nv">false</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf765f97" class="outline-2">
+<h2 id="orgf765f97">Упражнение 3.47</h2>
+<div class="outline-text-2" id="text-orgf765f97">
+<p>
+Семафор (размера n) представляет собой обобщение мьютекса. Подобно мьютексу, семафор поддерживает операции захвата и освобождения, но захватить его одновременно могут до n процессов. Прочие процессы, которые попытаются захватить семафор, должны будут ждать освобождения. Дайте реализацию семафоров
+а. в терминах мьютексов.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-semaphore</span> <span class="nv">n</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">mutex</span> <span class="p">(</span><span class="nf">make-mutex</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">count-mutex</span> <span class="p">(</span><span class="nf">make-mutex</span><span class="p">))</span>
+	<span class="p">(</span><span class="nf">taken</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">semaphore</span> <span class="nv">command</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">eq? </span><span class="nv">command</span> <span class="ss">'acquire</span><span class="p">)</span>
+	     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">taken</span> <span class="nv">n</span><span class="p">)</span>
+		 <span class="p">(</span><span class="nf">begin</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'acquire</span><span class="p">)</span>
+		   <span class="p">(</span><span class="k">set! </span><span class="nv">taken</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">taken</span><span class="p">))</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'release</span><span class="p">))</span>
+		 <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="nf">mutex</span> <span class="ss">'acquire</span><span class="p">)))))</span>
+	    <span class="p">((</span><span class="nb">eq? </span><span class="nv">command</span> <span class="ss">'release</span><span class="p">)</span>
+	      <span class="p">(</span><span class="nf">begin</span>
+		<span class="p">(</span><span class="nf">when</span> <span class="p">(</span><span class="nb">&gt; </span><span class="nv">taken</span> <span class="mi">1</span><span class="p">)</span>
+		 <span class="p">(</span><span class="nf">begin</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'acquire</span><span class="p">)</span>
+		   <span class="p">(</span><span class="k">set! </span><span class="nv">taken</span> <span class="p">(</span><span class="nb">- </span><span class="nv">taken</span> <span class="mi">1</span><span class="p">))</span>
+		   <span class="p">(</span><span class="nf">count-mutex</span> <span class="ss">'release</span><span class="p">)))</span>
+	     <span class="p">(</span><span class="nf">mutex</span> <span class="ss">'release</span><span class="p">))))</span>
+    <span class="nv">semaphore</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">make-semaphore</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">s</span> <span class="ss">'acquire</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">s</span> <span class="ss">'release</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org651a987" class="outline-2">
+<h2 id="org651a987">Упражнение 3.48</h2>
+<div class="outline-text-2" id="text-org651a987">
+<p>
+Подробно объясните, почему метод избежания тупиков, описанный выше (т. е. счета нумеруются, и каждый процесс сначала пытается захватить счет с меньшим номером), в самом деле позволяет избежать тупика в задаче обмена балансов. Перепишите serialized-exchange с использованием этой идеи. (Придется также изменить make-account, так, чтобы каждый счет создавался вместе с номером, и чтобы этот номер можно было считать, послав соответствующее сообщение.)
+</p>
+
+<p>
+В данном случае два процесса не могут захватить разные мьютексы из-за того что они отсортированы, поэтому если первый процесс захватит первый мьютекс второй должен дождаться его освобождения.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">serialized-exchange</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">serializer1</span> <span class="ss">'serializer-for-bigger-id--acc</span><span class="p">)</span>
+	<span class="p">(</span><span class="nf">serializer2</span> <span class="ss">'serializer-for-smaller-id-acc</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">get-id</span> <span class="nv">account1</span><span class="p">)</span> <span class="p">(</span><span class="nf">get-id</span> <span class="nv">account2</span><span class="p">))</span>
+	   <span class="p">(</span><span class="k">set! </span><span class="nv">serializer1</span> <span class="p">(</span><span class="nf">account1</span> <span class="ss">'serializer</span><span class="p">))</span>
+	   <span class="p">(</span><span class="k">set! </span><span class="nv">serializer2</span> <span class="p">(</span><span class="nf">account2</span> <span class="ss">'serializer</span><span class="p">)))</span>
+	  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">set! </span><span class="nv">serializer1</span> <span class="p">(</span><span class="nf">account2</span> <span class="ss">'serializer</span><span class="p">))</span>
+		<span class="p">(</span><span class="k">set! </span><span class="nv">serializer2</span> <span class="p">(</span><span class="nf">account1</span> <span class="ss">'serializer</span><span class="p">))))</span>
+    <span class="p">((</span><span class="nf">serializer1</span> <span class="p">(</span><span class="nf">serializer2</span> <span class="nv">exchange</span><span class="p">))</span> <span class="nv">account1</span> <span class="nv">account2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9399a6a" class="outline-2">
+<h2 id="org9399a6a">Упражнение 3.49</h2>
+<div class="outline-text-2" id="text-org9399a6a">
+<p>
+Опишите сценарий, в котором вышеописанный механизм избежания тупиков не работает. (Подсказка: в задаче обмена счетов каждый процесс заранее знает, к каким счетам ему нужен будет доступ. Рассмотрите ситуацию, в которой процессу нужно сначала получить доступ к каким-то разделяемым ресурсам, прежде чем он сможет определить, какие ресурсы ему потребуются дополнительно.)
+</p>
+
+<p>
+Например нам нужно полнить счет 1 и в зависимости от суммы на счете сделать перевод на x или y. А при пополнении счета y, нам нужно в зависимости от суммы перевести на 1 или x. Получается если сначала процесс захватит счет 1, а второй процесс захватит счет y, то может возникнуть ситуация deadlock, так как счету 1 надо выполнить перевод на y, а y надо выполнить перевод на 1.
+</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/concurrency/" rel="tag">concurrency</a></li>
+            <li><a class="tag p-category" href="../../categories/scheme/" rel="tag">scheme</a></li>
+            <li><a class="tag p-category" href="../../categories/sicp/" rel="tag">sicp</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../sicp-33-modelirovanie-s-izmeniaemymi-dannymi/" rel="prev" title="SICP 3.3 Моделирование с изменяемыми данными.">Предыдущая запись</a>
+            </li>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+                <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

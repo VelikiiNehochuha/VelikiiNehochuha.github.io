@@ -1,5 +1,485 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Feb 2020 09:56:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.3 Моделирование с изменяемыми данными.</title><link>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgf182db6" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog</title><link>http://velikiinehochuha.github.io/</link><description>IT blog</description><atom:link href="http://velikiinehochuha.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Sun, 01 Mar 2020 13:16:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.4 Параллелизм: время имеет значение</title><link>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org0f5b9a8" class="outline-2"&gt;
+&lt;h2 id="org0f5b9a8"&gt;Упражнение 3.38&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0f5b9a8"&gt;
+&lt;p&gt;
+Пусть Петр, Павел и Мария имеют общий счет, на котором вначале лежит 100 долларов. Петр кладет на счет 10 долларов, одновременно с этим Павел берет 20, а Мария берет половину денег со счета. При этом они выполняют следующие операции:
+&lt;/p&gt;
+
+&lt;p&gt;
+Петр: (set! balance (+ balance 10))
+Павел: (set! balance (- balance 20))
+Мария: (set! balance (- balance (/ balance 2)))
+&lt;/p&gt;
+
+&lt;p&gt;
+а. Перечислите возможные значения balance после завершения операций, предполагая, что банковская система требует от транзакций исполняться последовательно в каком-то порядке.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;Петр, Павел, Мария, в результате 45&lt;/li&gt;
+&lt;li&gt;Петр, Мария, Павел, в результате 35&lt;/li&gt;
+&lt;li&gt;Павел, Петр, Мария, в результате 45&lt;/li&gt;
+&lt;li&gt;Павел, Мария, Петр, в результате 50&lt;/li&gt;
+&lt;li&gt;Мария, Петр, Павел, в результате 40&lt;/li&gt;
+&lt;li&gt;Мария, Павел, Петр, в результате 40&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+б. Назовите какие-нибудь другие значения, которые могли бы получиться, если бы система разрешала операциям чередоваться. Нарисуйте временные диаграммы, подобные рис. 3.29, чтобы объяснить, как возникают такие результаты.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.38.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4fa1839" class="outline-2"&gt;
+&lt;h2 id="org4fa1839"&gt;Упражнение 3.39&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4fa1839"&gt;
+&lt;p&gt;
+Какие из пяти возможных исходов параллельного выполнения сохраняются, если мы сериализуем выполнение таким образом:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-serializer&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;parallel-execute&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+таким образом мы отсекаем варианты когда P1 получает разные значения для x.
+&lt;/p&gt;
+
+&lt;p&gt;
+101: 	P1 потом P2
+121: 	P2 потом P1
+11: 	P2 читает x, потом P1 выставляет x в 100, затем P2 выставляет x.
+100: 	P1 считывает x (дважды), потом P2 ставит x to 11, потом P1 ставит x.
+&lt;/p&gt;
+
+&lt;p&gt;
+случай который не произойдет:
+&lt;/p&gt;
+
+&lt;p&gt;
+110:  P2 меняет x c 10 на 11 между двумя чтениями P1 значения x, во время выполнения (* x x)
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgbc47be1" class="outline-2"&gt;
+&lt;h2 id="orgbc47be1"&gt;Упражнение 3.40&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc47be1"&gt;
+&lt;p&gt;
+Укажите все возможные значения x при выполнении
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;parallel-execute&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;P1 потом P2, 1 000 000&lt;/li&gt;
+&lt;li&gt;P2 потом P1, 1 000 000&lt;/li&gt;
+&lt;li&gt;P2 считал x = 10, потом P1, потом P2 выставил 10 * 100 * 100 = 100 000&lt;/li&gt;
+&lt;li&gt;P2 считал x = 10 (дважды), потом P1, потом P2 выставил 10 * 10 * 100 = 10 000&lt;/li&gt;
+&lt;li&gt;P2 считал x = 10 (трижды), потом P1, потом P2 выставил 1000&lt;/li&gt;
+&lt;li&gt;P1 считал x = 10, потом P2, потом 10 * 1000 = 10 000&lt;/li&gt;
+&lt;li&gt;P2 считал x = 10 (дважды), потом P2, потом P1 100&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;
+Какие из них сохраняются, если вместо этого мы выполняем   сериализованные процедуры:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-serializer&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;parallel-execute&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+только 1 000 000
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcb12047" class="outline-2"&gt;
+&lt;h2 id="orgcb12047"&gt;Упражнение 3.41&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcb12047"&gt;
+&lt;p&gt;
+Бен Битобор считает, что лучше было бы реализовать банковский счет таким образом (измененная строка отмечена комментарием):
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-account&lt;/span&gt; &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;withdraw&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;begin &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="s"&gt;"Insufficient funds"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;deposit&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="c1"&gt;;; continued on next page&lt;/span&gt;
+
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;protected&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-serializer&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'withdraw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;protected&lt;/span&gt; &lt;span class="nv"&gt;withdraw&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;protected&lt;/span&gt; &lt;span class="nv"&gt;deposit&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;protected&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt; &lt;span class="c1"&gt;; serialized&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Unknown request -- MAKE-ACCOUNT"&lt;/span&gt;
+			 &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="nv"&gt;dispatch&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+поскольку несериализованный доступ к банковскому счету может привести к неправильному поведению. Вы согласны? Существует ли сценарий, который демонстрирует обоснованность беспокойства Бена?
+&lt;/p&gt;
+
+&lt;p&gt;
+нет, чтение можно не сериализовывать
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org98f924a" class="outline-2"&gt;
+&lt;h2 id="org98f924a"&gt;Упражнение 3.42&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org98f924a"&gt;
+&lt;p&gt;
+Бен Битобор говорит, что слишком расточительно в ответ на каждое сообщение withdraw и deposit создавать по новой сериализованной процедуре. Он говорит, что можно изменить make-account так, чтобы все вызовы protected происходили вне процедуры dispatch. Таким обра-
+зом, счет будет возвращать одну и ту же сериализованную процедуру (созданную тогда же, когда и сам счет) каждый раз, когда у него просят процедуру снятия денег:
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-account&lt;/span&gt; &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;withdraw&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;begin &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="s"&gt;"Insufficient funds"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;deposit&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;protected&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-serializer&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;protected-withdraw&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;protected&lt;/span&gt; &lt;span class="nv"&gt;withdraw&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;protected-deposit&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;protected&lt;/span&gt; &lt;span class="nv"&gt;deposit&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'withdraw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;protected-withdraw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;protected-deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Unknown request -- MAKE-ACCOUNT"&lt;/span&gt;
+			   &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+      &lt;span class="nv"&gt;dispatch&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Безопасно ли такое изменение? В частности, есть ли разница в том, в каком порядке может происходить параллельное выполнение в этих двух версиях make-account?
+&lt;/p&gt;
+
+&lt;p&gt;
+преобразование эквивалентно тому что мы выполняли ранее, поэтому такую замену можно использовать
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-serializer&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;parallel-execute&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+		  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org763296d" class="outline-2"&gt;
+&lt;h2 id="org763296d"&gt;Упражнение 3.43&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org763296d"&gt;
+&lt;p&gt;
+Предположим, что значения баланса на трех счетах вначале равны 10, 20 и 30 долларам, и что несколько процессов занимаются обменом значений баланса. Покажите, что если эти процессы выполняются последовательно, то после любого количества обменов значения баланса по-прежнему
+будут равны 10, 20 и 30 долларам, в каком-то порядке. Нарисуйте временную диаграмму вроде той, которая изображена на рис. 3.29, и покажите, что указанное условие может нарушаться, если работает первая версия процедуры обмена из этого раздела. Покажите, с другой стороны, что даже с первой программой exchange общая сумма балансов на счетах сохранится. Нарисуйте временную диаграмму, показывающую, что если бы мы не сериализовали транзакции по отдельным счетам, это условие тоже могло бы нарушаться.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+При последовательном обмене очевидно что значения балансов останутся прежними без учета порядка.
+&lt;/p&gt;
+
+&lt;p&gt;
+Первая версия процедуры, когда сериализатор частный для каждого аккаунта
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;exchange&lt;/span&gt; &lt;span class="nv"&gt;account1&lt;/span&gt; &lt;span class="nv"&gt;account2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;difference&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account1&lt;/span&gt; &lt;span class="ss"&gt;'balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account2&lt;/span&gt; &lt;span class="ss"&gt;'balance&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;account1&lt;/span&gt; &lt;span class="ss"&gt;'withdraw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;difference&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;account2&lt;/span&gt; &lt;span class="ss"&gt;'deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;difference&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+P1 считываем баланс A1 A2, вычисляет разницу
+&lt;/p&gt;
+
+&lt;p&gt;
+после этого P2 считывает A2 A3 вычисляет разницу и выполняет смену счетов 2 3. На втором 30 на третьем 20.
+После этого P1 делает списание -10 c первого и делает deposit -10 на второй. В итоге получается
+&lt;/p&gt;
+
+&lt;p&gt;
+20 20 20.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.43.png" alt="nil"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Сумма остается прежней, но происходит не очевидное перераспределение сумм между аккаунтами.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+Если бы счета вообще не сериализовались, то общая сумма могла бы измениться, например
+&lt;/p&gt;
+
+&lt;p&gt;
+P1 считывает баланс A1 A2, вычисляет разницу - 10
+P2 считывает баланс A2 A3, вычисляет разницу - 10
+&lt;/p&gt;
+
+&lt;p&gt;
+P1 делает списание -10 на A1
+&lt;/p&gt;
+
+&lt;p&gt;
+P1 и P2 считывают баланс A2 20 и одновременно делают операции deposit -10 и withdraw -10, получается что на счете A2 образуется сумма 30
+&lt;/p&gt;
+
+&lt;p&gt;
+P2 делает депозит -10 на A2
+&lt;/p&gt;
+
+&lt;p&gt;
+в итоге получается набор сумм 20 30 30.
+20 30 30.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src="http://velikiinehochuha.github.io/images/3.43_2.png" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdde64cb" class="outline-2"&gt;
+&lt;h2 id="orgdde64cb"&gt;Упражнение 3.44&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdde64cb"&gt;
+&lt;p&gt;
+Рассмотрим задачу переноса денег с одного счета на другой. Бен Битобор утверждает, что ее можно решить с помощью следующей процедуры, даже в тех случаях, когда много людей одновременно перемещают деньги между различными счетами, если использовать при этом какой-то механизм,
+сериализующий операции занесения на счет и снятия со счета, например, версию make-account из нашего текста.
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;transfer&lt;/span&gt; &lt;span class="nv"&gt;from-account&lt;/span&gt; &lt;span class="nv"&gt;to-account&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;from-account&lt;/span&gt; &lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="nv"&gt;withdraw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;to-account&lt;/span&gt; &lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="nv"&gt;deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Хьюго Дум считает, что с этой версией возникнут проблемы и что нужно использовать более сложный подход, вроде того, который требуется при решении задачи обмена. Прав ли он? Если нет, то в чем состоит существенная разница между задачей перевода денег и задачей обмена
+счетов? (Нужно предположить, что значение баланса на from-account по крайней мере равно amount.)
+&lt;/p&gt;
+
+&lt;p&gt;
+Такая процедура вполне корректна. Разница между обменом состоит в том что там нам было необходимо поменять местами счета, что при одновременном выполнении могло привести к не очевидному перераспределению, тут же нет такого требования, важно что бы итоговая сумма не изменилась, а это требование выполняется.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org219e59c" class="outline-2"&gt;
+&lt;h2 id="org219e59c"&gt;Упражнение 3.45&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org219e59c"&gt;
+&lt;p&gt;
+Хьюго Дум полагает, что теперь, когда операции снятия денег со счета и занесения их на счет перестали сериализовываться автоматически, система банковских счетов стала неоправданно сложной и работать с ней правильным образом чересчур трудно. Он предлагает сделать так, чтобы make-account-and-serializer экспортировал сериализатор (для использования в процедурах вроде serialized-exchange), и вдобавок сам использовал его для сериализации простых операций
+со счетом, как это делал make-account. Он предлагает переопределить объект-счет так:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-account-and-serializer&lt;/span&gt; &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;withdraw&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;begin &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="s"&gt;"Insufficient funds"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;deposit&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;balance&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;balance-serializer&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-serializer&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;dispatch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'withdraw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;balance-serializer&lt;/span&gt; &lt;span class="nv"&gt;withdraw&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;balance-serializer&lt;/span&gt; &lt;span class="nv"&gt;deposit&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'serializer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;balance-serializer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Unknown request -- MAKE-ACCOUNT"&lt;/span&gt;
+			 &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="nv"&gt;dispatch&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;deposit&lt;/span&gt; &lt;span class="nv"&gt;account&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+ &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;account&lt;/span&gt; &lt;span class="ss"&gt;'deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;exchange&lt;/span&gt; &lt;span class="nv"&gt;account1&lt;/span&gt; &lt;span class="nv"&gt;account2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;difference&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account1&lt;/span&gt; &lt;span class="ss"&gt;'balance&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account2&lt;/span&gt; &lt;span class="ss"&gt;'balance&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;account1&lt;/span&gt; &lt;span class="ss"&gt;'withdraw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;difference&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;account2&lt;/span&gt; &lt;span class="ss"&gt;'deposit&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;difference&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;serialized-exchange&lt;/span&gt; &lt;span class="nv"&gt;account1&lt;/span&gt; &lt;span class="nv"&gt;account2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;serializer1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account1&lt;/span&gt; &lt;span class="ss"&gt;'serializer&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;serializer2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account2&lt;/span&gt; &lt;span class="ss"&gt;'serializer&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;serializer1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;serializer2&lt;/span&gt; &lt;span class="nv"&gt;exchange&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+     &lt;span class="nv"&gt;account1&lt;/span&gt;
+     &lt;span class="nv"&gt;account2&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Объясните, в чем Хьюго ошибается. В частности, рассмотрите, что происходит при вызове serialized-exchange.
+&lt;/p&gt;
+
+&lt;p&gt;
+получится троекратный вызов serializer на withdraw и deposit. Объект будучи заблокированным для изменения снова будет ожидать получение разрешения на изменение, в итоге он никогда не дождется разрешения.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org755f61c" class="outline-2"&gt;
+&lt;h2 id="org755f61c"&gt;Упражнение 3.46&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org755f61c"&gt;
+&lt;p&gt;
+Допустим, что мы реализуем test-and-set в виде обыкновенной процедуры, как показано в тексте, не пытаясь сделать ее атомарной. Нарисуйте временную диаграмму, подобную диаграмме на рис. 3.29, и покажите, как реализация мьютекса может ошибиться и позволить двум процессам одновременно захватить мьютекс.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-serializer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;mutex&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mutex&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;serialized-p&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mutex&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;val&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;apply &lt;/span&gt;&lt;span class="nv"&gt;p&lt;/span&gt; &lt;span class="nv"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mutex&lt;/span&gt; &lt;span class="ss"&gt;'release&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="nv"&gt;val&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+      &lt;span class="nv"&gt;serialized-p&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mutex&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;cell&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;the-mutex&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;test-and-set!&lt;/span&gt; &lt;span class="nv"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;the-mutex&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="c1"&gt;; retry&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="ss"&gt;'release&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;clear!&lt;/span&gt; &lt;span class="nv"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="nv"&gt;the-mutex&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;clear!&lt;/span&gt; &lt;span class="nv"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-car! &lt;/span&gt;&lt;span class="nv"&gt;cell&lt;/span&gt; &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;test-and-set!&lt;/span&gt; &lt;span class="nv"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nv"&gt;true&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;begin &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-car! &lt;/span&gt;&lt;span class="nv"&gt;cell&lt;/span&gt; &lt;span class="nv"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+если мы не гарантируем атомарность проверки проверки test-and-set! то можем получить ошибку когда у нас мьютекс будет захвачен сразу двумя процессами, это ситуация ничем не отличается от той, когда мы вообще не использовали сериализатор, у нас может произойти одновременное назначение разных балансов.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;test-and-set!&lt;/span&gt; &lt;span class="nv"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;without-interrupts&lt;/span&gt;
+   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	 &lt;span class="nv"&gt;true&lt;/span&gt;
+	 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;begin &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set-car! &lt;/span&gt;&lt;span class="nv"&gt;cell&lt;/span&gt; &lt;span class="nv"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		&lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgf765f97" class="outline-2"&gt;
+&lt;h2 id="orgf765f97"&gt;Упражнение 3.47&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf765f97"&gt;
+&lt;p&gt;
+Семафор (размера n) представляет собой обобщение мьютекса. Подобно мьютексу, семафор поддерживает операции захвата и освобождения, но захватить его одновременно могут до n процессов. Прочие процессы, которые попытаются захватить семафор, должны будут ждать освобождения. Дайте реализацию семафоров
+а. в терминах мьютексов.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-semaphore&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;mutex&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mutex&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-mutex&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mutex&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;taken&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;semaphore&lt;/span&gt; &lt;span class="nv"&gt;command&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;command&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;taken&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-mutex&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;taken&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;taken&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-mutex&lt;/span&gt; &lt;span class="ss"&gt;'release&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;begin &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mutex&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
+	    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;eq? &lt;/span&gt;&lt;span class="nv"&gt;command&lt;/span&gt; &lt;span class="ss"&gt;'release&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;
+		&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;when&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="nv"&gt;taken&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-mutex&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;taken&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;taken&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-mutex&lt;/span&gt; &lt;span class="ss"&gt;'release&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mutex&lt;/span&gt; &lt;span class="ss"&gt;'release&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="nv"&gt;semaphore&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-semaphore&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="ss"&gt;'acquire&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;s&lt;/span&gt; &lt;span class="ss"&gt;'release&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org651a987" class="outline-2"&gt;
+&lt;h2 id="org651a987"&gt;Упражнение 3.48&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org651a987"&gt;
+&lt;p&gt;
+Подробно объясните, почему метод избежания тупиков, описанный выше (т. е. счета нумеруются, и каждый процесс сначала пытается захватить счет с меньшим номером), в самом деле позволяет избежать тупика в задаче обмена балансов. Перепишите serialized-exchange с использованием этой идеи. (Придется также изменить make-account, так, чтобы каждый счет создавался вместе с номером, и чтобы этот номер можно было считать, послав соответствующее сообщение.)
+&lt;/p&gt;
+
+&lt;p&gt;
+В данном случае два процесса не могут захватить разные мьютексы из-за того что они отсортированы, поэтому если первый процесс захватит первый мьютекс второй должен дождаться его освобождения.
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;serialized-exchange&lt;/span&gt; &lt;span class="nv"&gt;account1&lt;/span&gt; &lt;span class="nv"&gt;account2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;serializer1&lt;/span&gt; &lt;span class="ss"&gt;'serializer-for-bigger-id--acc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;serializer2&lt;/span&gt; &lt;span class="ss"&gt;'serializer-for-smaller-id-acc&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-id&lt;/span&gt; &lt;span class="nv"&gt;account1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-id&lt;/span&gt; &lt;span class="nv"&gt;account2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;serializer1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account1&lt;/span&gt; &lt;span class="ss"&gt;'serializer&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;serializer2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account2&lt;/span&gt; &lt;span class="ss"&gt;'serializer&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+	  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;serializer1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account2&lt;/span&gt; &lt;span class="ss"&gt;'serializer&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+		&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;set! &lt;/span&gt;&lt;span class="nv"&gt;serializer2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;account1&lt;/span&gt; &lt;span class="ss"&gt;'serializer&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;serializer1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;serializer2&lt;/span&gt; &lt;span class="nv"&gt;exchange&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;account1&lt;/span&gt; &lt;span class="nv"&gt;account2&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9399a6a" class="outline-2"&gt;
+&lt;h2 id="org9399a6a"&gt;Упражнение 3.49&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9399a6a"&gt;
+&lt;p&gt;
+Опишите сценарий, в котором вышеописанный механизм избежания тупиков не работает. (Подсказка: в задаче обмена счетов каждый процесс заранее знает, к каким счетам ему нужен будет доступ. Рассмотрите ситуацию, в которой процессу нужно сначала получить доступ к каким-то разделяемым ресурсам, прежде чем он сможет определить, какие ресурсы ему потребуются дополнительно.)
+&lt;/p&gt;
+
+&lt;p&gt;
+Например нам нужно полнить счет 1 и в зависимости от суммы на счете сделать перевод на x или y. А при пополнении счета y, нам нужно в зависимости от суммы перевести на 1 или x. Получается если сначала процесс захватит счет 1, а второй процесс захватит счет y, то может возникнуть ситуация deadlock, так как счету 1 надо выполнить перевод на y, а y надо выполнить перевод на 1.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>concurrency</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</guid><pubDate>Fri, 14 Feb 2020 11:23:44 GMT</pubDate></item><item><title>SICP 3.3 Моделирование с изменяемыми данными.</title><link>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgf182db6" class="outline-2"&gt;
 &lt;h2 id="orgf182db6"&gt;Упражнение 3.12&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgf182db6"&gt;
 &lt;p&gt;
@@ -5210,513 +5690,4 @@ rest-of-queens - способ разместить k -1 ферзей в перв
    &lt;/div&gt;
   &lt;/div&gt;
  &lt;/div&gt;
-&lt;/div&gt;</description><category>hierarchical_data</category><category>scheme</category><category>sicp</category><category>the_closure_property</category><guid>http://velikiinehochuha.github.io/posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/</guid><pubDate>Sat, 18 Jan 2020 12:18:01 GMT</pubDate></item><item><title>SICP Введение в абстрагирование данных</title><link>http://velikiinehochuha.github.io/posts/sicp-vvedenie-v-abstragirovanie-dannykh/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.1
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите make-rat которая будет определять знак.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-rat&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;g&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;gcd &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sign&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;                        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cons&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="nv"&gt;sign&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;g&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="mi"&gt;-1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;g&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="nv"&gt;g&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.2
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Рассмотрим проблему представления отрезков на плоскости. Каждый отрезок представлен в виде пары точек. Определите консруктор отрезка make-segment и методы получения (selectors) начала и конца отрезка: start-segment, end-segment, которые определяют представление сегмента в виде точек. Кроме того точка может быть представлена в виде пары чисел. Наконец определите процедуру для средней точки отрезка midpoint-segment.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x-point&lt;/span&gt; &lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;y-point&lt;/span&gt; &lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-point&lt;/span&gt; &lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;"("&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x-point&lt;/span&gt; &lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;","&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;y-point&lt;/span&gt; &lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;")"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average-points&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x-point&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x-point&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;               &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;y-point&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;y-point&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;distance-points&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;sqrt &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x-point&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x-point&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;           &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;y-point&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;y-point&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-segment&lt;/span&gt; &lt;span class="nv"&gt;start&lt;/span&gt; &lt;span class="nv"&gt;end&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;start&lt;/span&gt; &lt;span class="nv"&gt;end&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;start-segment&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;end-segment&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;
-&lt;span class="lineno"&gt;26 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;midpoint-segment&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;average-points&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;start-segment&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;end-segment&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;27 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-point&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;midpoint-segment&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-segment&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.3
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите представление прямоугольника на плоскости. В терминаха вашего конструктора и селекторов создайте процедуру которая вывчисляет периметр и площадь. Теперь реализуйте другое представление для прямоугольников. Можете ли вы спроектировать вашу сисетму с подходящими барьерами абстракций, что бы одни и теже процедуры для перемитра и площади работали с разными представлениями.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;segment-lenght&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;distance-points&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;start-segment&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;end-segment&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;&lt;span class="c1"&gt;;; (segment-lenght (make-segment (make-point 0 0) (make-point 6 0)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-rect&lt;/span&gt; &lt;span class="nv"&gt;seg1&lt;/span&gt; &lt;span class="nv"&gt;seg2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;seg1&lt;/span&gt; &lt;span class="nv"&gt;seg2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-base&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-side&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-perimeter&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;segment-lenght&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-base&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;segment-lenght&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-side&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;react-area&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;segment-lenght&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-base&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;segment-lenght&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-side&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-perimeter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-rect&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-segment&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-segment&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;                 &lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;react-area&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-rect&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-segment&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-segment&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;                 &lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;&lt;span class="c1"&gt;;; другое представление прямоугольника например тремя точками&lt;/span&gt;
-&lt;span class="lineno"&gt;26 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-rect&lt;/span&gt; &lt;span class="nv"&gt;point1&lt;/span&gt; &lt;span class="nv"&gt;point2&lt;/span&gt; &lt;span class="nv"&gt;point3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;point1&lt;/span&gt; &lt;span class="nv"&gt;point2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;point2&lt;/span&gt; &lt;span class="nv"&gt;point3&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;27 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;rect-perimeter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-rect&lt;/span&gt;
-&lt;span class="lineno"&gt;28 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;29 &lt;/span&gt;                 &lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;30 &lt;/span&gt;
-&lt;span class="lineno"&gt;31 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;react-area&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-rect&lt;/span&gt;
-&lt;span class="lineno"&gt;32 &lt;/span&gt;             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-point&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;33 &lt;/span&gt;             &lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.4
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Дано альтернативное процедурное представление пары. Проверить Что с его помощью можно получить первое значение из пары, допишите реализацию получения второго значения из пары?
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;m&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;p&lt;/span&gt; &lt;span class="nv"&gt;q&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;&lt;span class="c1"&gt;;; (cons 1 3)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;&lt;span class="c1"&gt;;; (car (cons 1 3))&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;&lt;span class="c1"&gt;;; (car (lambda (m) (m x y)))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="c1"&gt;;; ((lambda (m) (m x y)) (lambda (p q) p))&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;&lt;span class="c1"&gt;;; (m x y) это как раз вызвать процедуру которая в параметрах с параметрами x y&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;&lt;span class="c1"&gt;;; но следующая проуедура как раз возвращает первый параметр p, то есть все выражение&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;&lt;span class="c1"&gt;;; вернет x&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;p&lt;/span&gt; &lt;span class="nv"&gt;q&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;q&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.5
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Покажите что мы можем представить пары неотрицательных целых чисел, используя только числа и арифметические операции, если представим пару a и b как целое произведение &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="45" height="15" src="http://velikiinehochuha.github.io/formulae/.zOENo0lip4SHHhRpT3lhv8ITPk7RRL56PDS_A.png" alt="2^a\cdot 3^b" title="2^a\cdot 3^b"&gt;&lt;/span&gt;. Приведите соответствующие процедуры cons, car, cdr.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;logB&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;log &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;log &lt;/span&gt;&lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fast-expt&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;logB&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;remainder &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;logB&lt;/span&gt; &lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; 162&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="mi"&gt;162&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; 1&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="mi"&gt;162&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;; 4&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.6
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Если случай представления пар в виде процедур был не достаточно ошеломляющим, учтите что в языке который может манипулировать процедурами, мы можем обойтись без чисел , по крайне мерее если говорить о неотрицательных целых числах, реализовав 0 и операцию добавления 1 как:
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;zero&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-1&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Это представление изветсно как цифры Черча в честь изобретателя Алонсо Черча, логика который изобрел исчисления. Дайте определении one и two (напрямую без использования zero add-1) (Используйте подстановку выполненния (add-1 zero)). Дайте прямое определение процедуры + (не в терминах повторения add-1)
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;zero&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-1&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="c1"&gt;;; (add-1 zero)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="c1"&gt;;; (add-1 (lambda (f) (lambda (x) x)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;&lt;span class="c1"&gt;;; ((n f) x) будет просто x, так как n это zero&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;&lt;span class="c1"&gt;;;&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="c1"&gt;;; (lambda (x) (f x))&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;one&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;&lt;span class="c1"&gt;;; (add-1 one)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;&lt;span class="c1"&gt;;;&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;two&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;m&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;&lt;span class="c1"&gt;;; пусть m=one, n=one&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;&lt;span class="c1"&gt;;; ((n f) x) = (f x)&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;&lt;span class="c1"&gt;;; ((m f) (f x))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;&lt;span class="c1"&gt;;; (f (f x))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;&lt;span class="c1"&gt;;; (lambda (x) (f (f x))) а это не что иное как два&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add&lt;/span&gt; &lt;span class="nv"&gt;one&lt;/span&gt; &lt;span class="nv"&gt;one&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-church&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;n&lt;/span&gt; &lt;span class="nv"&gt;inc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-church&lt;/span&gt; &lt;span class="nv"&gt;zero&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-church&lt;/span&gt; &lt;span class="nv"&gt;one&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;26 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-church&lt;/span&gt; &lt;span class="nv"&gt;two&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;27 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;print-church&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add&lt;/span&gt; &lt;span class="nv"&gt;two&lt;/span&gt; &lt;span class="nv"&gt;two&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.7
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите селекторы upper-bound и lower-bound.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;max &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;min &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.8
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Используя рассуждения Алисы напишите процедуру для вычисления разности интервалов.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-interval&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.9
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Ширина интервала - половина разницы между верхней и нижней оценкой. Ширина является мерой неопределенности значения указанного для интервала. Для некоторых операций над интервалами результирующая ширина является функцией от ширин интервалов, которые были аргументами, а для некотрых операций нет. Покажите что ширина суммы (или разницы) является такой функцией. А для умножения и деления правило не выполняется.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="c1"&gt;;; определяем функцию ширины интервала&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;width-interval&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;width-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mf"&gt;4.0&lt;/span&gt; &lt;span class="mf"&gt;6.0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;;; 1&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;width-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;;; 2&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;width-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;&lt;span class="c1"&gt;;; 3&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;width-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;&lt;span class="c1"&gt;;; 3&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;width-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;&lt;span class="c1"&gt;;; 22&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;width-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mf"&gt;10.0&lt;/span&gt; &lt;span class="mf"&gt;14.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mf"&gt;4.0&lt;/span&gt; &lt;span class="mf"&gt;6.0&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;&lt;span class="c1"&gt;;; 0.916&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Видим что для сложения и вычитания результирующая ширина равна сумме исходных. Для yмножения и деления это все не выполняется.
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.10
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Бен Битдиддл подсказал что неясно как делить если интервал с нулевой границей. Добавить в код обработку ошибки.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Error upper-bound = 0"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;error&lt;/span&gt; &lt;span class="s"&gt;"Error lower-bound = 0"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;                       &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;                                      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)))))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.11
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Испытывая знаки конечных точек интервалов можно разбить multi-interval на девять случаев, только один из которых требует более двух перемножений. Перепишите процедуру используя этот совет.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="c1"&gt;;; Если все положительно&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;                                                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;                                                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;        &lt;span class="c1"&gt;;; Если все отрицательное&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;                                                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;                                                              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;        &lt;span class="c1"&gt;;; x положительный, а y содержит 0&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;                                                                                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;                                                                                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;        &lt;span class="c1"&gt;;; x положительный, а y весь отрицательный&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;        &lt;span class="c1"&gt;;; y положительный, а x содержит 0&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;        &lt;span class="c1"&gt;;; y положительный, а x весь отрицательный&lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;26 &lt;/span&gt;        &lt;span class="c1"&gt;;; x отрицательный y пересекает 0&lt;/span&gt;
-&lt;span class="lineno"&gt;27 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt;28 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;29 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;30 &lt;/span&gt;        &lt;span class="c1"&gt;;; y отрицательный x пересекает 0&lt;/span&gt;
-&lt;span class="lineno"&gt;31 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt;
-&lt;span class="lineno"&gt;32 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;33 &lt;/span&gt;                                                             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;34 &lt;/span&gt;        &lt;span class="c1"&gt;;; иначе у нас и x и y пересекают 0, в этом случае и нужно перемножать значения&lt;/span&gt;
-&lt;span class="lineno"&gt;35 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;p1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;36 &lt;/span&gt;                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;p2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;37 &lt;/span&gt;                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;p3&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;lower-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;38 &lt;/span&gt;                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;p4&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;39 &lt;/span&gt;                &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;min &lt;/span&gt;&lt;span class="nv"&gt;p1&lt;/span&gt; &lt;span class="nv"&gt;p2&lt;/span&gt; &lt;span class="nv"&gt;p3&lt;/span&gt; &lt;span class="nv"&gt;p4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;40 &lt;/span&gt;                               &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;max &lt;/span&gt;&lt;span class="nv"&gt;p1&lt;/span&gt; &lt;span class="nv"&gt;p2&lt;/span&gt; &lt;span class="nv"&gt;p3&lt;/span&gt; &lt;span class="nv"&gt;p4&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
-&lt;span class="lineno"&gt;41 &lt;/span&gt;
-&lt;span class="lineno"&gt;42 &lt;/span&gt;&lt;span class="c1"&gt;;; Тесты&lt;/span&gt;
-&lt;span class="lineno"&gt;43 &lt;/span&gt;&lt;span class="c1"&gt;;; 1) x, y &amp;gt;&lt;/span&gt;
-&lt;span class="lineno"&gt;44 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;45 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;46 &lt;/span&gt;&lt;span class="c1"&gt;;; 2) x, y &amp;lt;&lt;/span&gt;
-&lt;span class="lineno"&gt;47 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-14&lt;/span&gt; &lt;span class="mi"&gt;-10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;48 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-6&lt;/span&gt; &lt;span class="mi"&gt;-4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;49 &lt;/span&gt;&lt;span class="c1"&gt;;; 3) x&amp;gt; y&amp;lt;&lt;/span&gt;
-&lt;span class="lineno"&gt;50 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;51 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-6&lt;/span&gt; &lt;span class="mi"&gt;-4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;52 &lt;/span&gt;&lt;span class="c1"&gt;;; 4) x&amp;gt; y 0&lt;/span&gt;
-&lt;span class="lineno"&gt;53 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;54 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;55 &lt;/span&gt;&lt;span class="c1"&gt;;; 5) y&amp;gt; x 0&lt;/span&gt;
-&lt;span class="lineno"&gt;56 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;57 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;58 &lt;/span&gt;&lt;span class="c1"&gt;;; 6) y&amp;gt; x&amp;lt;&lt;/span&gt;
-&lt;span class="lineno"&gt;59 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-4&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;60 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;61 &lt;/span&gt;&lt;span class="c1"&gt;;; 7) x&amp;lt; y 0&lt;/span&gt;
-&lt;span class="lineno"&gt;62 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-4&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;63 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;64 &lt;/span&gt;&lt;span class="c1"&gt;;; 8) y&amp;lt; x 0&lt;/span&gt;
-&lt;span class="lineno"&gt;65 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;66 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-4&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;67 &lt;/span&gt;&lt;span class="c1"&gt;;; 9) x, y 0&lt;/span&gt;
-&lt;span class="lineno"&gt;68 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-6&lt;/span&gt; &lt;span class="mi"&gt;-3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;69 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;-4&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.12
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите конструктор make-center-percent который получает центр и процент погрешности что бы создать интервал. Вам также нужно определить селектор percent, который вычисляет погрешность для интервала.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-center-percent&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt; &lt;span class="nv"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;c&lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;c&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;p&lt;/span&gt; &lt;span class="mf"&gt;100.0&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="nv"&gt;c&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="nv"&gt;c&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="nv"&gt;p&lt;/span&gt; &lt;span class="mf"&gt;100.0&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;percent&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;center&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;/ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;upper-bound&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-center-percent&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;percent&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-center-percent&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.13
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;p&gt;
-    Покажите что при малых процентных допусках, есть простая формула для вычисления приблизительного значения допуска для произведения двух интервалов в терминах допусков факторов. Вы можете упростить задачу предположив что все интервалы положительные.
-   &lt;/p&gt;
-   &lt;p&gt;
-    Пусть Сx Cy центры двух интервалов, их погрешности Tx, Ty соответственно, пусть Сx, Cy &amp;gt; 0. Тогда перемножая их получим:
-   &lt;/p&gt;
-   &lt;p&gt;
-    &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="494" height="17" src="http://velikiinehochuha.github.io/formulae/yzLwIL7U8o0TGIgYxnq1jKv8cn5D8X8nw.DdkQ.png" alt="min = (Cx-Tx)(Cy-Ty) = CxCy - (TxCy + TyCx) + TxTy" title="min = (Cx-Tx)(Cy-Ty) = CxCy - (TxCy + TyCx) + TxTy"&gt;&lt;/span&gt; &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="497" height="17" src="http://velikiinehochuha.github.io/formulae/cbJuiyvW49gp_pAPXhvfaE1cmIYp.NqcCuql3Q.png" alt="max = (Cx+Tx)(Cy+Ty) = CxCy + (TxCy + TyCx) + TxTy" title="max = (Cx+Tx)(Cy+Ty) = CxCy + (TxCy + TyCx) + TxTy"&gt;&lt;/span&gt;
-   &lt;/p&gt;
-   &lt;p&gt;
-    &lt;span class="inline-formula"&gt;&lt;img class="img-inline-formula img-formula" width="263" height="24" src="http://velikiinehochuha.github.io/formulae/sWwyVefJ_.k1_WRDQReg36g_d43CjaZgB5m5IQ.png" alt="Tmul = \frac{CyTx + CxTy}{CxCy + TxTy}=\frac{CyTx + CxTy}{CxCy}" title="Tmul = \frac{CyTx + CxTy}{CxCy + TxTy}=\frac{CyTx + CxTy}{CxCy}"&gt;&lt;/span&gt;. значением TxTy в знаменателе можно пренебречь.
-   &lt;/p&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.14, 2.15, 2.16
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Продемонстрируйте что утверждения Лема из книги правильно. Исследуйте поведение системы на различных арифметических выражениях. Создайте интервалы A и B и используйте их для вычисления A/A и B/B. Вы получите наибольшее понимание, используя интервалы, чья ширина составляет небольшой процент от значения центра. Изучите результаты вычислений в форме центр-процент.
-    &lt;/p&gt;
-    &lt;p&gt;
-     получается что при повторном делении умножении мы увеличиваем
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;A&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-center-percent&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;B&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-center-percent&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;par1&lt;/span&gt; &lt;span class="nv"&gt;r1&lt;/span&gt; &lt;span class="nv"&gt;r2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="nv"&gt;r1&lt;/span&gt; &lt;span class="nv"&gt;r2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;                  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-interval&lt;/span&gt; &lt;span class="nv"&gt;r1&lt;/span&gt; &lt;span class="nv"&gt;r2&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;par2&lt;/span&gt; &lt;span class="nv"&gt;r1&lt;/span&gt; &lt;span class="nv"&gt;r2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;one&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-interval&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="nv"&gt;one&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;add-interval&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="nv"&gt;one&lt;/span&gt; &lt;span class="nv"&gt;r1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;                                  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="nv"&gt;one&lt;/span&gt; &lt;span class="nv"&gt;r2&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;  &lt;span class="c1"&gt;;; Подтверждение утверждения Лема&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (width A))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (width B))&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (par1 A B))&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (center (par1 A B)))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (percent (par1 A B)))&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (par2 A B))&lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (center (par2 A B)))&lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;  &lt;span class="c1"&gt;;; (display (percent (par2 A B)))&lt;/span&gt;
-&lt;span class="lineno"&gt;26 &lt;/span&gt;  &lt;span class="c1"&gt;;; (newline)&lt;/span&gt;
-&lt;span class="lineno"&gt;27 &lt;/span&gt;
-&lt;span class="lineno"&gt;28 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;"****B****"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;29 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;30 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;31 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;center&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;32 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;33 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;percent&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;34 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;35 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="s"&gt;"****B*(B/B)****"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;36 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;37 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;38 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;center&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;39 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;40 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;percent&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;mul-interval&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;div-interval&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt; &lt;span class="nv"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;41 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;42 &lt;/span&gt;  &lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Другой пользователь так же заметил различные результаты подсчета интервалов при эквивалентных алгебраических выражениях. Она говорит, что формула для вычисления интервалов с использованием сисетмы Алисы даст более жесткие границы ошибок, если её можно записать в такой форме, что никакая переменная, представляющая неопределенное число, не повторяется. Поэтому par2 "лучше" par1. Права ли она? Почему?
-    &lt;/p&gt;
-    &lt;p&gt;
-     "лучше" потому что погрешность получается меньше. она получается меньше, потому что в случае par2 у интервала 1 нет погрешности, поэтому все действия с этим интервалом не приводят к росту погрешности в целом, напротив в первом случае мы вводим дополнительную погрешность при каждом действии с интервалом. А нам нужно вводить погрешность столько раз сколько элемент задействован в цепи. То есть по разу для R1 и R2, поэтому вторая формула лучше.
-    &lt;/p&gt;
-    &lt;p&gt;
-     Объясните, в общем, почему эквивалентные алгебраические выражения могут привести к разным ответам. Можете ли вы разработать интервально-арифметический пакет, который не имеет этого недостатка, или эта задача невозможна? (Предупреждение: эта проблема очень сложная.)
-    &lt;/p&gt;
-    &lt;p&gt;
-     Алгебраические выражения не учитывают физического смысла встречающихся элементов. Если разрабатывать такой пакет, то нам при каждом расчете нужно знать сколько раз встречается тот или иной элемент и в каким способом он задействован, что бы дать расчет неопределенности конкретно для этого случая. Наверно можно разработать пакет которые будет находить минимально возможную неопределенность. Если проанализировать все действия которые нам надо выполнять и выявить повторы, можно перестроить уравнение таким образом что бы уменьшить количество действий с неопределенными интервалами.
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
-&lt;/div&gt;</description><category>data_abstraction</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-vvedenie-v-abstragirovanie-dannykh/</guid><pubDate>Thu, 16 Jan 2020 08:35:27 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>hierarchical_data</category><category>scheme</category><category>sicp</category><category>the_closure_property</category><guid>http://velikiinehochuha.github.io/posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/</guid><pubDate>Sat, 18 Jan 2020 12:18:01 GMT</pubDate></item></channel></rss>

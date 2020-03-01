@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-02-05T12:42:00Z</lastmod>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-02-05T12:44:00Z</lastmod>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/a_picture_language/</loc>
@@ -48,6 +48,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/categories/coercion/</loc>
   <lastmod>2020-02-01T22:22:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/categories/concurrency/</loc>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/data-directed/</loc>
@@ -155,7 +159,7 @@
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-2.html</loc>
-  <lastmod>2020-02-05T12:44:00Z</lastmod>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/listings/</loc>
@@ -216,6 +220,10 @@
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</loc>
   <lastmod>2020-02-05T12:44:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</loc>
+  <lastmod>2020-02-15T09:32:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/</loc>
