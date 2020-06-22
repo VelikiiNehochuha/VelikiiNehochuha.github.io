@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html prefix="
+        og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+    " vocab="http://ogp.me/ns" lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Лекция 10-11, Динамическое программирование | VelikiiNehochuha Blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="../../rss.xml">
+<link rel="canonical" href="http://velikiinehochuha.github.io/posts/dinamicheskoe-programmirovanie/">
+<!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
+<link rel="prev" href="../potoki/" title="SICP Потоки" type="text/html">
+<meta property="og:site_name" content="VelikiiNehochuha Blog">
+<meta property="og:title" content="Лекция 10-11, Динамическое программирование">
+<meta property="og:url" content="http://velikiinehochuha.github.io/posts/dinamicheskoe-programmirovanie/">
+<meta property="og:description" content="def fib_recusrion(n):
+    if n &lt; 2:
+	return n
+    return fib_recusrion(n-1) + fib_recusrion(n-2)
+
+
+for i in range(10):
+    print(fib_recusrion(i))
+
+
+
+Очевидно что количество повторных вычислений непри">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-06-20T17:29:57+03:00">
+<meta property="article:tag" content="algorithms">
+<meta property="article:tag" content="python">
+</head>
+<body>
+    <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
+    <div id="container">
+            <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+
+        <span id="blog-title">VelikiiNehochuha Blog</span>
+    </a></h1>
+
+        
+            <nav id="menu"><ul>
+<li><a href="../../archive.html">Архив</a></li>
+                <li><a href="../../categories/">Тэги</a></li>
+                <li><a href="../../rss.xml">RSS лента</a></li>
+
+    
+    
+    
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Лекция 10-11, Динамическое программирование</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-06-20T17:29:57+03:00" itemprop="datePublished" title="2020-06-20 17:29">2020-06-20 17:29</time></a>
+            </p>
+                    <p class="sourceline"><a href="index.org" class="sourcelink">Источник</a></p>
+
+        </div>
+        
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib_recusrion</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib_recusrion</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib_recusrion</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fib_recusrion</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Очевидно что количество повторных вычислений неприемлимо велико
+Экспотенциальный рост количества вычислений
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib_linier</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+    <span class="n">fib_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	<span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">fib_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fib_linier</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Так все линейно
+</p>
+
+<p>
+Сколько различных траекторий допрыгать из 1 в N? Если можно прыгнуть на 1 и на 2 клетки.
+</p>
+
+<p>
+Кn = Kn-1 + Kn-2
+</p>
+
+<p>
+Количество уникальных перестановок траекторий в точке N равно количеству уникальных траекторий в N-1 + количество уникальных траекторий в N-2 (перестановок - траекторий)
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">trajectory_num</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+    <span class="n">trajectory_num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	<span class="n">trajectory_num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">trajectory_num_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">trajectory_num</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Запретим некоторые клетки для посещения и добавим еще один вариант переджвижения 3.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">trajectory_num</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">allowed</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">allowed</span><span class="p">[</span><span class="mi">2</span><span class="p">])]:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+    <span class="n">trajectory_num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">allowed</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">allowed</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+	    <span class="n">trajectory_num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	<span class="k">else</span><span class="p">:</span>
+	    <span class="n">trajectory_num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">trajectory_num_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+<p>
+<b>Минимальная стоимость посещение клетки N</b>
+</p>
+
+<p>
+price[i] - за посещение клетки i
+C[i] - минимально возможная стоимость достижения клетки i
+пусть доступны шаги +1 и +2
+Ci = price[i] + min(Ci-1, Ci-2)
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">count_min_cost</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">price</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">'-inf'</span><span class="p">),</span> <span class="n">price</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="n">price</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">price</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">2</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+	<span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">price</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">price</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">price</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">C</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+<p>
+<b>Двумерное динамическое программирование.</b>
+</p>
+
+<p>
+Шахматный король на доске MxN. Сколькими способами шахматный король может добраться до заданной клетки, если он может шагать только вправо и вниз.
+</p>
+
+<p>
+Knm - количество способов достичь клетки (N,M)
+</p>
+
+<p>
+Kij = K(i-1)j + Ki(j-1)
+</p>
+
+<p>
+C из n по k - треугольник паскаля.
+</p>
+
+
+<p>
+<b>Наибольшая общая последовательность</b>
+</p>
+
+
+<p>
+A,B - массивы чисел len(A) <code>= N, len(B) =</code> M
+Последовательность - С, содержит элементы А в исходном порядке, но возможно не все. При поиске важен порядок элементов! Если порядок не важен, нужно использовать другой алгоритм.
+</p>
+
+<p>
+[] - последовательность - подпоследовательность любой последовательности А
+</p>
+
+<p>
+Какая максимльная подпоследовательность у них общая.
+Пусть Fij - длина наибольшей возможной подпоследовательности частей А и B.
+Ai = A[0:i] - часть А содержащая первые i элементов
+Bj = B[0:j] - часть B содержит первые j элементов
+</p>
+
+<p>
+Fij
+</p>
+
+
+<p>
+a1, a2, a3, a4, a5, .., ai
+b1, b2,             .., bj
+</p>
+
+<p>
+если ai = bj, то 1 + F(i-1)(j-1)
+</p>
+
+<p>
+если ai != bj, то max(Fi(j-1), F(i-1)j)
+</p>
+
+<p>
+F0j = 0
+Fi0 = 0
+</p>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	    <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+		<span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	    <span class="k">else</span><span class="p">:</span>
+		<span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">F</span>
+
+
+<span class="k">def</span> <span class="nf">l_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">find_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+	<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	    <span class="n">i_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+	    <span class="n">j_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">-</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+	    <span class="k">if</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="p">][</span><span class="n">j_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j_index</span><span class="p">]</span> <span class="ow">and</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="p">][</span><span class="n">j_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="p">][</span><span class="n">j_index</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+		<span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i_index</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">find_common_sequence</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]))</span>
+</pre></div>
+
+
+<p>
+<b>Наибольшая возрастающая под последовательность</b>
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gis</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)):</span>
+	<span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+	    <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">F</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">m</span><span class="p">:</span>
+		<span class="n">m</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+	<span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">gis</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]))</span>
+</pre></div>
+
+<p>
+<b>Алгоритм укладки рюкзака</b>
+</p>
+
+<p>
+Есть мешок и некоторый набор предметов. M - максимальный вес который можно унести. У каждого предмета есть цена и масса. Какую максимальную стоимость предметов вы можете унести. Полностью задача решается только полным перебором.
+Но дискретный алгоритм укладки рюкзака решается методом динамического программирования.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"> </td>
+<td class="org-right">цена</td>
+<td class="org-right">масса</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">3000</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">2000</td>
+<td class="org-right">3</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">2000</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">1000</td>
+<td class="org-right">1</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+</tbody>
+</table>
+<p>
+Стоимость ячейки можно вычислить таким образом
+</p>
+
+<p>
+CELL[i][j] = выбираем максимум из
+</p>
+<ol class="org-ol">
+<li>Предведущий максимум (значение в CELL[i-1][j])</li>
+<li>Стоимость текущего элемента + CELL[i-1][j-вес текущего]</li>
+</ol>
+<p>
+можно добавлять элементы динамически к уже существующим элементам, например добавив телефон стоимостью 2000
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+<td class="org-right">3500</td>
+<td class="org-right">4000</td>
+</tr>
+</tbody>
+</table>
+<p>
+Упражнение предположим добавили еще mp3 плеер, стоимостью 1000 и весом 1. Стоит ли брать его?
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+<td class="org-right">3500</td>
+<td class="org-right">4000</td>
+</tr>
+<tr>
+<td class="org-left">плеер</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+<td class="org-right">4500</td>
+<td class="org-right">4500</td>
+</tr>
+</tbody>
+</table>
+<p>
+Ответ: да. стоит сумма будет 4500.
+</p>
+
+<p>
+Что произойдет при изменении порядка строк?
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">2000</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+</tbody>
+</table>
+<p>
+Видим что итоговый результат не изменился, хотя таблица заполнена иным образом.
+</p>
+
+
+<p>
+Можно ли заполнять таблицу по столбцам а не по строкам?
+</p>
+
+<p>
+Ответ: а данном случае вполне возможно.
+</p>
+
+
+<p>
+<b>Оптимизация туристического маршрута</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Достопримечательность</td>
+<td class="org-left">Время</td>
+<td class="org-right">Оценка</td>
+</tr>
+<tr>
+<td class="org-left">Вестминстерское аббатство</td>
+<td class="org-left">0.5 дня</td>
+<td class="org-right">7</td>
+</tr>
+<tr>
+<td class="org-left">Театр «Глобус»</td>
+<td class="org-left">0.5 дня</td>
+<td class="org-right">6</td>
+</tr>
+<tr>
+<td class="org-left">Национальная галерея</td>
+<td class="org-left">1 день</td>
+<td class="org-right">9</td>
+</tr>
+<tr>
+<td class="org-left">Британский музей</td>
+<td class="org-left">2 дня</td>
+<td class="org-right">9</td>
+</tr>
+<tr>
+<td class="org-left">Собор св. Павла</td>
+<td class="org-left">0.5 дня</td>
+<td class="org-right">8</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">0.5</td>
+<td class="org-right">1</td>
+<td class="org-right">1.5</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-left">Вестминстерское аббатство</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+</tr>
+<tr>
+<td class="org-left">Театр «Глобус»</td>
+<td class="org-right">7</td>
+<td class="org-right">13</td>
+<td class="org-right">13</td>
+<td class="org-right">13</td>
+</tr>
+<tr>
+<td class="org-left">Национальная галерея</td>
+<td class="org-right">7</td>
+<td class="org-right">13</td>
+<td class="org-right">16</td>
+<td class="org-right">22</td>
+</tr>
+<tr>
+<td class="org-left">Британский музей</td>
+<td class="org-right">7</td>
+<td class="org-right">13</td>
+<td class="org-right">16</td>
+<td class="org-right">22</td>
+</tr>
+<tr>
+<td class="org-left">Собор св. Павла</td>
+<td class="org-right">8</td>
+<td class="org-right">15</td>
+<td class="org-right">21</td>
+<td class="org-right">24</td>
+</tr>
+</tbody>
+</table>
+<p>
+<b>Наибольшая общая последовательность</b>
+</p>
+
+<p>
+если ai = bj, то 1 + F(i-1)(j-1)
+</p>
+
+<p>
+если ai != bj, то max(Fi(j-1), F(i-1)j)
+</p>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"> </td>
+<td class="org-right">f</td>
+<td class="org-right">o</td>
+<td class="org-right">s</td>
+<td class="org-right">h</td>
+</tr>
+<tr>
+<td class="org-left">f</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">i</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">s</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-left">h</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/algorithms/" rel="tag">algorithms</a></li>
+            <li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../potoki/" rel="prev" title="SICP Потоки">Предыдущая запись</a>
+            </li>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+                <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

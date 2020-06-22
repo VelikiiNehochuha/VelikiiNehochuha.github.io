@@ -13,12 +13,12 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="ru" href="rss.xml">
 <link rel="canonical" href="http://velikiinehochuha.github.io/">
 <link rel="next" href="index-2.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/sicp-34-parallelizm-vremia-imeet-znachenie/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5shiv-printshiv.min.js"></script><![endif]--><link rel="prefetch" href="posts/dinamicheskoe-programmirovanie/" type="text/html">
 </head>
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
     <div id="container">
-             <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+            <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
 
         <span id="blog-title">VelikiiNehochuha Blog</span>
     </a></h1>
@@ -33,7 +33,856 @@
     
     
     </ul></nav></header><main id="content"><div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-34-parallelizm-vremia-imeet-znachenie/" class="u-url">SICP 3.4 Параллелизм: время имеет значение</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/dinamicheskoe-programmirovanie/" class="u-url">Лекция 10-11, Динамическое программирование</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/dinamicheskoe-programmirovanie/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-06-20T17:29:57+03:00" itemprop="datePublished" title="2020-06-20 17:29">2020-06-20 17:29</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib_recusrion</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib_recusrion</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib_recusrion</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fib_recusrion</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Очевидно что количество повторных вычислений неприемлимо велико
+Экспотенциальный рост количества вычислений
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib_linier</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+    <span class="n">fib_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	<span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">fib_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fib_linier</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Так все линейно
+</p>
+
+<p>
+Сколько различных траекторий допрыгать из 1 в N? Если можно прыгнуть на 1 и на 2 клетки.
+</p>
+
+<p>
+Кn = Kn-1 + Kn-2
+</p>
+
+<p>
+Количество уникальных перестановок траекторий в точке N равно количеству уникальных траекторий в N-1 + количество уникальных траекторий в N-2 (перестановок - траекторий)
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">trajectory_num</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+    <span class="n">trajectory_num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	<span class="n">trajectory_num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">trajectory_num_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">trajectory_num</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Запретим некоторые клетки для посещения и добавим еще один вариант переджвижения 3.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">trajectory_num</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">allowed</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">allowed</span><span class="p">[</span><span class="mi">2</span><span class="p">])]:</span>
+	<span class="k">return</span> <span class="n">n</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+    <span class="n">trajectory_num_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">allowed</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">allowed</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+	    <span class="n">trajectory_num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	<span class="k">else</span><span class="p">:</span>
+	    <span class="n">trajectory_num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">trajectory_num_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+<p>
+<b>Минимальная стоимость посещение клетки N</b>
+</p>
+
+<p>
+price[i] - за посещение клетки i
+C[i] - минимально возможная стоимость достижения клетки i
+пусть доступны шаги +1 и +2
+Ci = price[i] + min(Ci-1, Ci-2)
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">count_min_cost</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">price</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">'-inf'</span><span class="p">),</span> <span class="n">price</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="n">price</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">price</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">2</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+	<span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">price</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">price</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">price</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">C</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+<p>
+<b>Двумерное динамическое программирование.</b>
+</p>
+
+<p>
+Шахматный король на доске MxN. Сколькими способами шахматный король может добраться до заданной клетки, если он может шагать только вправо и вниз.
+</p>
+
+<p>
+Knm - количество способов достичь клетки (N,M)
+</p>
+
+<p>
+Kij = K(i-1)j + Ki(j-1)
+</p>
+
+<p>
+C из n по k - треугольник паскаля.
+</p>
+
+
+<p>
+<b>Наибольшая общая последовательность</b>
+</p>
+
+
+<p>
+A,B - массивы чисел len(A) <code>= N, len(B) =</code> M
+Последовательность - С, содержит элементы А в исходном порядке, но возможно не все. При поиске важен порядок элементов! Если порядок не важен, нужно использовать другой алгоритм.
+</p>
+
+<p>
+[] - последовательность - подпоследовательность любой последовательности А
+</p>
+
+<p>
+Какая максимльная подпоследовательность у них общая.
+Пусть Fij - длина наибольшей возможной подпоследовательности частей А и B.
+Ai = A[0:i] - часть А содержащая первые i элементов
+Bj = B[0:j] - часть B содержит первые j элементов
+</p>
+
+<p>
+Fij
+</p>
+
+
+<p>
+a1, a2, a3, a4, a5, .., ai
+b1, b2,             .., bj
+</p>
+
+<p>
+если ai = bj, то 1 + F(i-1)(j-1)
+</p>
+
+<p>
+если ai != bj, то max(Fi(j-1), F(i-1)j)
+</p>
+
+<p>
+F0j = 0
+Fi0 = 0
+</p>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+	    <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+		<span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	    <span class="k">else</span><span class="p">:</span>
+		<span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">F</span>
+
+
+<span class="k">def</span> <span class="nf">l_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">find_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">_common_sequence</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+	<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+	    <span class="n">i_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+	    <span class="n">j_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">-</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+	    <span class="k">if</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="p">][</span><span class="n">j_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j_index</span><span class="p">]</span> <span class="ow">and</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="p">][</span><span class="n">j_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">F</span><span class="p">[</span><span class="n">i_index</span><span class="p">][</span><span class="n">j_index</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+		<span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i_index</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">find_common_sequence</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]))</span>
+</pre></div>
+
+
+<p>
+<b>Наибольшая возрастающая под последовательность</b>
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gis</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)):</span>
+	<span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+	    <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">F</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">m</span><span class="p">:</span>
+		<span class="n">m</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+	<span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">gis</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]))</span>
+</pre></div>
+
+<p>
+<b>Алгоритм укладки рюкзака</b>
+</p>
+
+<p>
+Есть мешок и некоторый набор предметов. M - максимальный вес который можно унести. У каждого предмета есть цена и масса. Какую максимальную стоимость предметов вы можете унести. Полностью задача решается только полным перебором.
+Но дискретный алгоритм укладки рюкзака решается методом динамического программирования.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"> </td>
+<td class="org-right">цена</td>
+<td class="org-right">масса</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">3000</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">2000</td>
+<td class="org-right">3</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">2000</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">1000</td>
+<td class="org-right">1</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+</tbody>
+</table>
+<p>
+Стоимость ячейки можно вычислить таким образом
+</p>
+
+<p>
+CELL[i][j] = выбираем максимум из
+</p>
+<ol class="org-ol">
+<li>Предведущий максимум (значение в CELL[i-1][j])</li>
+<li>Стоимость текущего элемента + CELL[i-1][j-вес текущего]</li>
+</ol>
+<p>
+можно добавлять элементы динамически к уже существующим элементам, например добавив телефон стоимостью 2000
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+<td class="org-right">3500</td>
+<td class="org-right">4000</td>
+</tr>
+</tbody>
+</table>
+<p>
+Упражнение предположим добавили еще mp3 плеер, стоимостью 1000 и весом 1. Стоит ли брать его?
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+<tr>
+<td class="org-left">телефон</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+<td class="org-right">3500</td>
+<td class="org-right">4000</td>
+</tr>
+<tr>
+<td class="org-left">плеер</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+<td class="org-right">4500</td>
+<td class="org-right">4500</td>
+</tr>
+</tbody>
+</table>
+<p>
+Ответ: да. стоит сумма будет 4500.
+</p>
+
+<p>
+Что произойдет при изменении порядка строк?
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">магнитовон</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">ноутбук</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">2000</td>
+<td class="org-right">3000</td>
+</tr>
+<tr>
+<td class="org-left">гитара</td>
+<td class="org-right">1500</td>
+<td class="org-right">1500</td>
+<td class="org-right">2000</td>
+<td class="org-right">3500</td>
+</tr>
+</tbody>
+</table>
+<p>
+Видим что итоговый результат не изменился, хотя таблица заполнена иным образом.
+</p>
+
+
+<p>
+Можно ли заполнять таблицу по столбцам а не по строкам?
+</p>
+
+<p>
+Ответ: а данном случае вполне возможно.
+</p>
+
+
+<p>
+<b>Оптимизация туристического маршрута</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Достопримечательность</td>
+<td class="org-left">Время</td>
+<td class="org-right">Оценка</td>
+</tr>
+<tr>
+<td class="org-left">Вестминстерское аббатство</td>
+<td class="org-left">0.5 дня</td>
+<td class="org-right">7</td>
+</tr>
+<tr>
+<td class="org-left">Театр «Глобус»</td>
+<td class="org-left">0.5 дня</td>
+<td class="org-right">6</td>
+</tr>
+<tr>
+<td class="org-left">Национальная галерея</td>
+<td class="org-left">1 день</td>
+<td class="org-right">9</td>
+</tr>
+<tr>
+<td class="org-left">Британский музей</td>
+<td class="org-left">2 дня</td>
+<td class="org-right">9</td>
+</tr>
+<tr>
+<td class="org-left">Собор св. Павла</td>
+<td class="org-left">0.5 дня</td>
+<td class="org-right">8</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">предмет/емкость рюкзака</td>
+<td class="org-right">0.5</td>
+<td class="org-right">1</td>
+<td class="org-right">1.5</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-left">Вестминстерское аббатство</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+</tr>
+<tr>
+<td class="org-left">Театр «Глобус»</td>
+<td class="org-right">7</td>
+<td class="org-right">13</td>
+<td class="org-right">13</td>
+<td class="org-right">13</td>
+</tr>
+<tr>
+<td class="org-left">Национальная галерея</td>
+<td class="org-right">7</td>
+<td class="org-right">13</td>
+<td class="org-right">16</td>
+<td class="org-right">22</td>
+</tr>
+<tr>
+<td class="org-left">Британский музей</td>
+<td class="org-right">7</td>
+<td class="org-right">13</td>
+<td class="org-right">16</td>
+<td class="org-right">22</td>
+</tr>
+<tr>
+<td class="org-left">Собор св. Павла</td>
+<td class="org-right">8</td>
+<td class="org-right">15</td>
+<td class="org-right">21</td>
+<td class="org-right">24</td>
+</tr>
+</tbody>
+</table>
+<p>
+<b>Наибольшая общая последовательность</b>
+</p>
+
+<p>
+если ai = bj, то 1 + F(i-1)(j-1)
+</p>
+
+<p>
+если ai != bj, то max(Fi(j-1), F(i-1)j)
+</p>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"> </td>
+<td class="org-right">f</td>
+<td class="org-right">o</td>
+<td class="org-right">s</td>
+<td class="org-right">h</td>
+</tr>
+<tr>
+<td class="org-left">f</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">i</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+<tr>
+<td class="org-left">s</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-left">h</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/potoki/" class="u-url">SICP Потоки</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Velikii Nehochuha
+            </span></p>
+            <p class="dateline">
+            <a href="posts/potoki/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-06-12T19:17:51+03:00" itemprop="datePublished" title="2020-06-12 19:17">2020-06-12 19:17</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org39c0b2d" class="outline-2">
+<h2 id="org39c0b2d">Упражнение 3.50</h2>
+<div class="outline-text-2" id="text-org39c0b2d">
+<p>
+Закончите следующее определение, которое обращает процедуру stream-map, чтобы она позволяла использовать процедуры от нескольких аргументов, подобно map из раздела 2.2.1
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">stream-map</span> <span class="nv">proc</span> <span class="o">.</span> <span class="nv">argstreams</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">stream-null?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">argstreams</span><span class="p">))</span>
+      <span class="nv">the-empty-stream</span>
+      <span class="p">(</span><span class="nf">cons-stream</span>
+       <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">stream-car</span> <span class="nv">argstreams</span><span class="p">))</span>
+       <span class="p">(</span><span class="nb">apply </span><span class="nv">stream-map</span>
+	      <span class="p">(</span><span class="nb">cons </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">stream-cdr</span> <span class="nv">argstreams</span><span class="p">))))))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgd4d14d3" class="outline-2">
+<h2 id="orgd4d14d3">Упражнение 3.51</h2>
+<div class="outline-text-2" id="text-orgd4d14d3">
+<p>
+Чтобы внимательнее изучить задержанные вычисления, мы воспользуемся следующей процедурой, которая печатает свой аргумент, а затем возвращает его:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">show</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">display-line</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="nv">x</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Что печатает интерпретатор в ответ на каждое выражение из следующей последовательности?
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="p">(</span><span class="nf">stream-map</span> <span class="nv">show</span> <span class="p">(</span><span class="nf">stream-enumerate-interval</span> <span class="mi">0</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="c1">;; 0</span>
+<span class="c1">;; 2</span>
+<span class="c1">;; ...</span>
+<span class="c1">;; 10</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="nv">x</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">;; 5</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="nv">x</span> <span class="mi">7</span><span class="p">)</span>
+<span class="c1">;; 7</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org86ba445" class="outline-2">
+<h2 id="org86ba445">Упражнение 3.52</h2>
+<div class="outline-text-2" id="text-org86ba445">
+<p>
+Рассмотрим последовательность выражений
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">sum</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">accum</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">set! </span><span class="nv">sum</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">sum</span><span class="p">))</span>
+  <span class="nv">sum</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define </span><span class="nv">seq</span> <span class="p">(</span><span class="nf">stream-map</span> <span class="nv">accum</span> <span class="p">(</span><span class="nf">stream-enumerate-interval</span> <span class="mi">1</span> <span class="mi">20</span><span class="p">)))</span>
+<span class="nv">seq</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">y</span> <span class="p">(</span><span class="nf">stream-filter</span> <span class="nv">even?</span> <span class="nv">seq</span><span class="p">))</span>
+<span class="nv">y</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">z</span> <span class="p">(</span><span class="nf">stream-filter</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">x</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+			 <span class="nv">seq</span><span class="p">))</span>
+<span class="nv">z</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="nv">y</span> <span class="mi">7</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">display-stream</span> <span class="nv">z</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Изменился бы этот результат, если бы мы реализовали (delay выражение) просто как (lambda () выражение), не применяя оптимизацию через memo-proc? Объясните свой ответ.
+</p>
+
+<p>
+Ответ бы не изменился, но при вызове display-stream элементы последовательности вычислялись бы повторно, что сказывается на производительности.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org69f5df4" class="outline-2">
+<h2 id="org69f5df4">Упражнение 3.53</h2>
+<div class="outline-text-2" id="text-org69f5df4">
+<p>
+Не запуская программу, опишите элементы потока, порождаемого
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-streams</span> <span class="nv">s1</span> <span class="nv">s2</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">stream-map</span> <span class="nv">+</span> <span class="nv">s1</span> <span class="nv">s2</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">s</span> <span class="p">(</span><span class="nf">cons-stream</span> <span class="mi">1</span> <span class="p">(</span><span class="nf">add-streams</span> <span class="nv">s</span> <span class="nv">s</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+1 2 4 8 16, …
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgb037f6a" class="outline-2">
+<h2 id="orgb037f6a">Упражнение 3.54</h2>
+<div class="outline-text-2" id="text-orgb037f6a">
+<p>
+Определите процедуру mul-streams, аналогичную add-streams, которая порождает поэлементное произведение двух входных потоков. С помощью нее и потока integers закончите следующее определение потока, n-й элемент которого (начиная с 0) равен факториалу n + 1:
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-streams</span> <span class="nv">s1</span> <span class="nv">s2</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">stream-map</span> <span class="nv">*</span> <span class="nv">s1</span> <span class="nv">s2</span><span class="p">))</span>
+<span class="p">(</span><span class="k">define </span><span class="nv">factorials</span> <span class="p">(</span><span class="nf">cons-stream</span> <span class="mi">1</span> <span class="p">(</span><span class="nf">mul-streams</span> <span class="nv">integers</span> <span class="nv">factorials</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org3eb2a04" class="outline-2">
+<h2 id="org3eb2a04">Упражнение 3.55.</h2>
+<div class="outline-text-2" id="text-org3eb2a04">
+<p>
+Определите процедуру partial-sums, которая в качестве аргумента берет поток S, а возвращает поток, элементы которого равны S0, S0 + S1, S0 + S1 + S2, . . .. Например, (partial-sums integers) должно давать поток 1, 3, 6, 10, 15
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">stream</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">ps</span> <span class="nv">prev</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">cons-stream</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">stream-car</span> <span class="nv">ps</span><span class="p">)</span> <span class="nv">prev</span><span class="p">)</span> <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nf">stream-cdr</span> <span class="nv">ps</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">stream-car</span> <span class="nv">ps</span><span class="p">)</span> <span class="nv">prev</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">iter</span> <span class="nv">stream</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">;; 1</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">;; 3</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">;; 6</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">;; 10</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">;; 15</span>
+
+<span class="c1">;; more nicely solution</span>
+<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">s</span><span class="p">)</span>
+   <span class="p">(</span><span class="nf">add-streams</span> <span class="nv">s</span> <span class="p">(</span><span class="nf">cons-stream</span> <span class="mi">0</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">s</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">;; 1</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">;; 3</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">;; 6</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">;; 10</span>
+<span class="p">(</span><span class="nf">stream-ref</span> <span class="p">(</span><span class="nf">partial-sums</span> <span class="nv">integers</span><span class="p">)</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">;; 15</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org6959d5e" class="outline-2">
+<h2 id="org6959d5e">Упражнения 3.56.</h2>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-34-parallelizm-vremia-imeet-znachenie/" class="u-url">SICP 3.4 Параллелизм: время имеет значение</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Velikii Nehochuha
@@ -4825,1025 +5674,6 @@ d. Нарисовать волну.
 пример программы показывает что мы делаем редактирование только на одном из уровней абстракций.
 </p>
 </div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy/" class="u-url">SICP 2.2.3 Последовательности как обобщающие интерфейсы.</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-01-20T14:08:28+03:00" itemprop="datePublished" title="2020-01-20 14:08">2020-01-20 14:08</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <p>
-<img src="images/ch2-Z-G-17.gif" alt="nil"></p>
-
-
-<div id="outline-container-orgf90b00d" class="outline-2">
-<h2 id="orgf90b00d">Упражнение 2.33</h2>
-<div class="outline-text-2" id="text-orgf90b00d">
-<p>
-Заполните недостающие выражения, чтобы завершить определения некоторых основных операций над списками через накопление.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">map </span><span class="nv">p</span> <span class="nv">sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="nv">&lt;??&gt;</span><span class="p">)</span> <span class="nv">nil</span> <span class="nv">sequence</span><span class="p">))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">append </span><span class="nv">seq1</span> <span class="nv">seq2</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">cons</span> <span class="nv">&lt;??&gt;</span> <span class="nv">&lt;??&gt;</span><span class="p">))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">length </span><span class="nv">sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">&lt;??&gt;</span> <span class="mi">0</span> <span class="nv">sequence</span><span class="p">))</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">map </span><span class="nv">p</span> <span class="nv">sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">p</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">y</span><span class="p">))</span> <span class="nv">nil</span> <span class="nv">sequence</span><span class="p">))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">append </span><span class="nv">seq1</span> <span class="nv">seq2</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">cons</span> <span class="nv">seq2</span> <span class="nv">seq1</span><span class="p">))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">length </span><span class="nv">sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">y</span><span class="p">))</span> <span class="mi">0</span> <span class="nv">sequence</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org697f221" class="outline-2">
-<h2 id="org697f221">Упражнение 2.34</h2>
-<div class="outline-text-2" id="text-org697f221">
-<p>
-Оценка полинома от одной переменной x в заданной точке, может быть сформулирована в терминах накопления. Мы оцениваем полином
-\(a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0x\) используя широко известный алгоритм - правило Хорнера, который структурирует вычисление как \((...(a_nx+a_{n-1})x+...+a_1)x + a_0\).
-</p>
-
-<p>
-Другими словами начиная с a<sub>n</sub> умноженного на x, добавляем a<sub>n-1</sub>, умножаем на x и так далее, пока не достигаем a<sub>0</sub>. Заполните шаблон что бы закончить процедуру вычисления полинома, предполагая что коэффициенты полинома заданы списком.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">horner-eval</span> <span class="nv">x</span> <span class="nv">coefficient-sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">this-coeff</span> <span class="nv">higher-terms</span><span class="p">)</span> <span class="nv">&lt;??&gt;</span><span class="p">)</span>
-	      <span class="mi">0</span>
-	      <span class="nv">coefficient-sequence</span><span class="p">))</span>
-<span class="p">(</span><span class="nf">horner-eval</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">0</span> <span class="mi">5</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">horner-eval</span> <span class="nv">x</span> <span class="nv">coefficient-sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">this-coeff</span> <span class="nv">higher-terms</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">this-coeff</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">higher-terms</span><span class="p">)))</span>
-	      <span class="mi">0</span>
-	      <span class="nv">coefficient-sequence</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org19f5aff" class="outline-2">
-<h2 id="org19f5aff">Упражнение 2.35</h2>
-<div class="outline-text-2" id="text-org19f5aff">
-<p>
-Переопределите count-leaves из секции 2.2.2 через накопление.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">count-leaves</span> <span class="nv">t</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">&lt;??&gt;</span> <span class="nv">&lt;??&gt;</span> <span class="p">(</span><span class="nb">map </span><span class="nv">&lt;??&gt;</span> <span class="nv">&lt;??&gt;</span><span class="p">)))</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">count-leaves</span> <span class="nv">t</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">+</span> <span class="mi">0</span>
-	      <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sub-tree</span><span class="p">)</span>
-		     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">sub-tree</span><span class="p">)</span>
-			 <span class="p">(</span><span class="nf">count-leaves</span> <span class="nv">sub-tree</span><span class="p">)</span>
-			 <span class="mi">1</span><span class="p">))</span> <span class="nv">t</span><span class="p">)))</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgdf87e87" class="outline-2">
-<h2 id="orgdf87e87">Упражнение 2.36</h2>
-<div class="outline-text-2" id="text-orgdf87e87">
-<p>
-Процедура accumulate-n похожа на accumulate, но принимает третий аргумент последовательность последовательностей. Предполагается что все они имеют одинаковое количество аргументов. Она применяет назначенную процедуру накопления для всех первых элементов последовательности, всех вторых и так далее. И возвращает последовательность результатов. К примеру результат (accumulate-n + 0 s), где s это ((1 2 3) (4 5 6) (7 8 9) (10 11 12)), будет равен (22 26 30). Заполните пропуски в определении процедуры.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">accumulate-n</span> <span class="nv">op</span> <span class="nv">init</span> <span class="nv">seqs</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="p">(</span><span class="nb">car </span><span class="nv">seqs</span><span class="p">))</span>
-      <span class="nv">nil</span>
-      <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">accumulate</span> <span class="nv">op</span> <span class="nv">init</span> <span class="nv">&lt;??&gt;</span><span class="p">)</span>
-	    <span class="p">(</span><span class="nf">accumulate-n</span> <span class="nv">op</span> <span class="nv">init</span> <span class="nv">&lt;??&gt;</span><span class="p">))))</span>
-</pre></div>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">accumulate-n</span> <span class="nv">op</span> <span class="nv">init</span> <span class="nv">seqs</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="p">(</span><span class="nb">car </span><span class="nv">seqs</span><span class="p">))</span>
-      <span class="nv">nil</span>
-      <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">accumulate</span> <span class="nv">op</span> <span class="nv">init</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">seq</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">seq</span><span class="p">))</span> <span class="nv">seqs</span><span class="p">))</span>
-	    <span class="p">(</span><span class="nf">accumulate-n</span> <span class="nv">op</span> <span class="nv">init</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">seq</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">seq</span><span class="p">))</span> <span class="nv">seqs</span><span class="p">)))))</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org49f6012" class="outline-2">
-<h2 id="org49f6012">Упражнение 2.37</h2>
-<div class="outline-text-2" id="text-org49f6012">
-<p>
-Предположим мы представляем векторы v = (v<sub>i</sub>) как последовательность чисел и матрицы m =(m<sub>ij</sub>) как последовательность векторов (строки матрицы). К примеру матрица:
-</p>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup><col class="org-left"></colgroup>
-<tbody>
-<tr>
-<td class="org-left">1 2 3 4</td>
-</tr>
-<tr>
-<td class="org-left">4 5 6 7</td>
-</tr>
-<tr>
-<td class="org-left">6 7 8 9</td>
-</tr>
-</tbody>
-</table>
-<p>
-представлена как последовательность ((1 2 3 4) (4 5 6 6) (6 7 8 9)).
-C этим представлением мы можем использовать последовательности операций чтобы выразить основные операции на матрицей и вектором. Эти операции (которые описаны в любой книжке по алгебре) следующие:
-</p>
-
-<p>
-(dot-product v w)
-(matrix-<b>-vector m v)
-(matrix-</b>-matrix m n)
-(transpose m) ;; вернет матрицу n, где n<sub>ij</sub> = m<sub>ji</sub></p>
-
-
-<p>
-Мы можем определить dot-product как (map - стандартный из scheme):
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dot-product</span> <span class="nv">v</span> <span class="nv">w</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">+</span> <span class="mi">0</span> <span class="p">(</span><span class="nb">map </span><span class="nv">*</span> <span class="nv">v</span> <span class="nv">w</span><span class="p">)))</span>
-</pre></div>
-
-<p>
-Заполните недостающие места в следующих процедурах для остальных операций над матрицами. (Процедура accumulate-n определена в упражнении 2.36)
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">matrix-*-vector</span> <span class="nv">m</span> <span class="nv">v</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">w</span><span class="p">)</span> <span class="p">(</span><span class="nf">dot-product</span> <span class="nv">w</span> <span class="nv">v</span><span class="p">))</span> <span class="nv">m</span><span class="p">))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">transpose</span> <span class="nv">mat</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">accumulate-n</span> <span class="nv">cons</span> <span class="p">()</span> <span class="nv">mat</span><span class="p">))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">matrix-*-matrix</span> <span class="nv">m</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">cols</span> <span class="p">(</span><span class="nf">transpose</span> <span class="nv">n</span><span class="p">)))</span>
-    <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">row</span><span class="p">)</span> <span class="p">(</span><span class="nf">matrix-*-vector</span> <span class="nv">cols</span> <span class="nv">row</span><span class="p">))</span> <span class="nv">m</span><span class="p">)))</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org3c65486" class="outline-2">
-<h2 id="org3c65486">Упражнение 2.38</h2>
-<div class="outline-text-2" id="text-org3c65486">
-<p>
-Процедура accumulate так же известна как fold-right, потому что она объединяет первый элемент последовательности с результатами объединения всех элементов справа. Также есть fold-left, которая объединяет элементы в обратном направлении.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fold-left</span> <span class="nv">op</span> <span class="nv">initial</span> <span class="nv">sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">result</span> <span class="nv">rest</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">rest</span><span class="p">)</span>
-	<span class="nv">result</span>
-	<span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nf">op</span> <span class="nv">result</span> <span class="p">(</span><span class="nb">car </span><span class="nv">rest</span><span class="p">))</span>
-	      <span class="p">(</span><span class="nb">cdr </span><span class="nv">rest</span><span class="p">))))</span>
-  <span class="p">(</span><span class="nf">iter</span> <span class="nv">initial</span> <span class="nv">sequence</span><span class="p">))</span>
-
-<span class="c1">;; Каковы значения выражений?</span>
-<span class="p">(</span><span class="nf">fold-right</span> <span class="nv">/</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span> <span class="c1">;; 3/2</span>
-<span class="p">(</span><span class="nf">fold-left</span> <span class="nv">/</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span> <span class="c1">;;  1/6</span>
-<span class="p">(</span><span class="nf">fold-right</span> <span class="nv">list</span> <span class="nv">nil</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span><span class="c1">;; (list 1 (list 2 ( list 3 ())))</span>
-<span class="p">(</span><span class="nf">fold-left</span> <span class="nv">list</span> <span class="nv">nil</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span> <span class="c1">;; (list (list (list () 1) 2) 3)</span>
-</pre></div>
-
-<p>
-Каким свойством должен обладать op что бы fold-right, fold-left были одинаковыми? Коммутативность и ассоциативность.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orga36c62e" class="outline-2">
-<h2 id="orga36c62e">Упражнение 2.39</h2>
-<div class="outline-text-2" id="text-orga36c62e">
-<p>
-Дайте определение reverse через fold-right и fold-left.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">reverse </span><span class="nv">sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">fold-right</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">first</span> <span class="nv">part-reversed</span><span class="p">)</span> <span class="p">(</span><span class="nb">append </span><span class="nv">part-reversed</span> <span class="p">(</span><span class="nb">list </span><span class="nv">first</span><span class="p">)))</span> <span class="nv">nil</span> <span class="nv">sequence</span><span class="p">))</span>
-<span class="p">(</span><span class="nb">reverse </span><span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">reverse </span><span class="nv">sequence</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">fold-left</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">result</span> <span class="nv">last</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">last</span> <span class="nv">result</span><span class="p">))</span> <span class="nv">nil</span> <span class="nv">sequence</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-org3060f9c" class="outline-2">
-<h2 id="org3060f9c">Упражнение 2.40</h2>
-<div class="outline-text-2" id="text-org3060f9c">
-<p>
-Определите процедуру unique-pairs, которая принимая целое n, генерирует последовательность пар (i,j) 1&lt;=j&lt;i&lt;=n. Используя процедуру unique-pairs упростите определение prime-sum-pairs, приведенное в книге.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">unique-pairs</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">flatmap</span>
-   <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span>
-     <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">j</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">i</span> <span class="nv">j</span><span class="p">))</span>
-	  <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))))</span>
-   <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="nv">n</span><span class="p">)))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">prime-sum-pairs</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">map </span><span class="nv">make-pair-sum</span>
-       <span class="p">(</span><span class="nf">filter</span> <span class="nv">prime-sum?</span>
-	       <span class="p">(</span><span class="nf">unique-pairs</span> <span class="nv">n</span><span class="p">))))</span>
-<span class="p">(</span><span class="nf">prime-sum-pairs</span> <span class="mi">6</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgf767b71" class="outline-2">
-<h2 id="orgf767b71">Упражнение 2.41</h2>
-<div class="outline-text-2" id="text-orgf767b71">
-<p>
-Напишите процедуру, чтобы найти все упорядоченные тройки различных положительных целых чисел i, j, k, меньших или равных заданному числу n, сумма которых равна заданному числу S.
-</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">not-end-with-1?</span> <span class="nv">pair</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">pair</span><span class="p">)</span> <span class="mi">1</span><span class="p">)))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">uniq-3</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">flatmap</span>
-   <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">pair</span><span class="p">)</span>
-     <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">k</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">car </span><span class="nv">pair</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">pair</span><span class="p">)</span> <span class="nv">k</span><span class="p">))</span>
-	  <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">cadr </span><span class="nv">pair</span><span class="p">)</span> <span class="mi">1</span><span class="p">))))</span>
-   <span class="p">(</span><span class="nf">filter</span> <span class="nv">not-end-with-1?</span> <span class="p">(</span><span class="nf">unique-pairs</span> <span class="nv">n</span><span class="p">))))</span>
-
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">uniq-tuples-m</span> <span class="nv">n</span> <span class="nv">m</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="nv">m</span><span class="p">)</span> <span class="nv">nil</span><span class="p">)</span>
-	<span class="p">((</span><span class="nb">= </span><span class="nv">m</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">map </span><span class="nv">list</span> <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="nv">n</span><span class="p">)))</span>
-	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">flatmap</span>
-	       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">tuple</span><span class="p">)</span>
-		 <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">k</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">k</span> <span class="nv">tuple</span><span class="p">))</span>
-		      <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">car </span><span class="nv">tuple</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">n</span><span class="p">)))</span>
-	       <span class="p">(</span><span class="nf">uniq-tuples-m</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">m</span> <span class="mi">1</span><span class="p">))))))</span>
-
-<span class="p">(</span><span class="nf">uniq-tuples-m</span> <span class="mi">5</span> <span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org392b36a" class="outline-2">
-<h2 id="org392b36a">Упражнение 2.42</h2>
-<div class="outline-text-2" id="text-org392b36a">
-<p>
-Задача о восьми ферзях. Как разместить 8 ферзей на шахматной доске, что бы не один ферзь не бил другого. Одно из возможных решений представлено на картинке.
-</p>
-
-<p>
-<img src="images/ch2-Z-G-23.gif" alt="nil"></p>
-
-<p>
-Один способ решения ставим первого ферзя на любую клетку доски. Остальные k-1 ферзей мы должны расставить так что бы они не атаковали друг друга. Можно сформулировать этот подход рекурсивно. Предположим мы уже генерировали всех возможные способы расстановки k-1 ферзей в первых k-1 столбцах доски. Для каждого из этих способов генерируем дополнительный набор позиций размещая ферзя в каждой строчке k-ой колонки. Теперь отфильтруем их оставляя только позиции в которых ферзь не атакован другими. Это даст все возможные расположения k ферзей в первых k колонках. Продолжая этот процесс мы получим решения головоломки.
-</p>
-
-<p>
-Мы записали эту процедуру под именем queens. Она возвращает список всех решений для досок n x n. Она содержит внутреннюю процедуру queen-cols, которая возвращает список всех способов разместить ферзей на первых k колонках доски.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">queens</span> <span class="nv">board-size</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">queen-cols</span> <span class="nv">k</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">k</span> <span class="mi">0</span><span class="p">)</span>
-	<span class="p">(</span><span class="nb">list </span><span class="nv">empty-board</span><span class="p">)</span>
-	<span class="p">(</span><span class="nf">filter</span>
-	 <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">positions</span><span class="p">)</span> <span class="p">(</span><span class="nf">safe?</span> <span class="nv">k</span> <span class="nv">positions</span><span class="p">))</span>
-	 <span class="p">(</span><span class="nf">flatmap</span>
-	  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rest-of-queens</span><span class="p">)</span>
-	    <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">new-row</span><span class="p">)</span>
-		   <span class="p">(</span><span class="nf">adjoin-position</span> <span class="nv">new-row</span> <span class="nv">k</span> <span class="nv">rest-of-queens</span><span class="p">))</span>
-		 <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="nv">board-size</span><span class="p">)))</span>
-	  <span class="p">(</span><span class="nf">queen-cols</span> <span class="p">(</span><span class="nb">- </span><span class="nv">k</span> <span class="mi">1</span><span class="p">))))))</span>
-  <span class="p">(</span><span class="nf">queen-cols</span> <span class="nv">board-size</span><span class="p">))</span>
-</pre></div>
-
-<p>
-rest-of-queens - способ разместить k -1 ферзей в первых k - 1 колонках и new-row - строчка в которой надо поместить ферзя в k-ой колонке.
-Завершите программу реализовав представление позиций, включая adjoin-position, которая добавляет новую позицию к существующим позициям, и empty-set - пустой список позиций. Также нужно написать процедуру safe?.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">define </span><span class="nv">empty-board</span> <span class="p">())</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">adjoin-position</span> <span class="nv">new-row</span> <span class="nv">k</span> <span class="nv">rest-of-queens</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">cons </span><span class="nv">new-row</span> <span class="nv">rest-of-queens</span><span class="p">))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">include-row?</span> <span class="nv">item</span> <span class="nv">positions</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">positions</span><span class="p">)</span>
-      <span class="nv">false</span>
-      <span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">item</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">))</span> <span class="p">(</span><span class="nf">include?</span> <span class="nv">item</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)))))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">include-diagonale?</span> <span class="nv">item</span> <span class="nv">positions</span> <span class="nv">k</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">positive</span> <span class="nv">item</span> <span class="nv">positions</span> <span class="nv">k</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">positions</span><span class="p">)</span>
-	<span class="nv">false</span>
-	<span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">+ </span><span class="nv">item</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">))</span> <span class="p">(</span><span class="nf">positive</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">item</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)</span> <span class="nv">k</span><span class="p">))</span>
-	<span class="p">))</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">negative</span> <span class="nv">item</span> <span class="nv">positions</span> <span class="nv">k</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">null? </span><span class="nv">positions</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">- </span><span class="nv">item</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span>
-	<span class="nv">false</span>
-	<span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">- </span><span class="nv">item</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">))</span> <span class="p">(</span><span class="nf">negative</span> <span class="p">(</span><span class="nb">- </span><span class="nv">item</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)</span> <span class="nv">k</span><span class="p">))</span>
-	<span class="p">))</span>
-  <span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nf">negative</span> <span class="nv">item</span> <span class="nv">positions</span> <span class="nv">k</span><span class="p">)</span> <span class="p">(</span><span class="nf">positive</span> <span class="nv">item</span> <span class="nv">positions</span> <span class="nv">k</span><span class="p">)))</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">safe?</span> <span class="nv">k</span> <span class="nv">positions</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">and</span>
-   <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nf">include-row?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)))</span> <span class="c1">;; нет совпадений по строкам</span>
-   <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nf">include-diagonale?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)</span> <span class="nv">k</span><span class="p">))))</span> <span class="c1">;; не совпадает по диагоналям</span>
-
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">queens</span> <span class="nv">board-size</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">queen-cols</span> <span class="nv">k</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">k</span> <span class="mi">0</span><span class="p">)</span>
-	<span class="p">(</span><span class="nb">list </span><span class="nv">empty-board</span><span class="p">)</span>
-	<span class="p">(</span><span class="nf">filter</span>
-	 <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">positions</span><span class="p">)</span> <span class="p">(</span><span class="nf">safe?</span> <span class="nv">k</span> <span class="nv">positions</span><span class="p">))</span>
-	 <span class="p">(</span><span class="nf">flatmap</span>
-	  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rest-of-queens</span><span class="p">)</span>
-	    <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">new-row</span><span class="p">)</span>
-		   <span class="p">(</span><span class="nf">adjoin-position</span> <span class="nv">new-row</span> <span class="nv">k</span> <span class="nv">rest-of-queens</span><span class="p">))</span>
-		 <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="nv">board-size</span><span class="p">)))</span>
-	  <span class="p">(</span><span class="nf">queen-cols</span> <span class="p">(</span><span class="nb">- </span><span class="nv">k</span> <span class="mi">1</span><span class="p">))))))</span>
-  <span class="p">(</span><span class="nf">queen-cols</span> <span class="nv">board-size</span><span class="p">))</span>
-
-<span class="p">(</span><span class="nf">queens</span> <span class="mi">8</span><span class="p">)</span> <span class="c1">;; Value: ((4 2 7 3 6 8 5 1) (5 2 4 7 3 8 6 1) (3 5 2 8 6 4 7 1) (3 6 4 2 8 5 7 1) (5 7 1 3 8 6 4 2) (4 6 8 3 1 7 5 2) (3 6 8 1 4 7 5 2) (5 3 8 4 7 1 6 2) (5 7 4 1 3 8 6 2) (4 1 5 8 6 3 7 2) (3 6 4 1 8 5 7 2) (4 7 5 3 1 6 8 2) (6 4 2 8 5 7 1 3) (6 4 7 1 8 2 5 3) (1 7 4 6 8 2 5 3) (6 8 2 4 1 7 5 3) (6 2 7 1 4 8 5 3) (4 7 1 8 5 2 6 3) (5 8 4 1 7 2 6 3) (4 8 1 5 7 2 6 3) (2 7 5 8 1 4 6 3) (1 7 5 8 2 4 6 3) (2 5 7 4 1 8 6 3) (4 2 7 5 1 8 6 3) (5 7 1 4 2 8 6 3) (6 4 1 5 8 2 7 3) (5 1 4 6 8 2 7 3) (5 2 6 1 7 4 8 3) (6 3 7 2 8 5 1 4) (2 7 3 6 8 5 1 4) (7 3 1 6 8 5 2 4) (5 1 8 6 3 7 2 4) (1 5 8 6 3 7 2 4) (3 6 8 1 5 7 2 4) (6 3 1 7 5 8 2 4) (7 5 3 1 6 8 2 4) (7 3 8 2 5 1 6 4) (5 3 1 7 2 8 6 4) (2 5 7 1 3 8 6 4) (3 6 2 5 8 1 7 4) (6 1 5 2 8 3 7 4) (8 3 1 6 2 5 7 4) (2 8 6 1 3 5 7 4) (5 7 2 6 3 1 8 4) (3 6 2 7 5 1 8 4) (6 2 7 1 3 5 8 4) (3 7 2 8 6 4 1 5) (6 3 7 2 4 8 1 5) (4 2 7 3 6 8 1 5) (7 1 3 8 6 4 2 5) (1 6 8 3 7 4 2 5) (3 8 4 7 1 6 2 5) (6 3 7 4 1 8 2 5) (7 4 2 8 6 1 3 5) (4 6 8 2 7 1 3 5) (2 6 1 7 4 8 3 5) (2 4 6 8 3 1 7 5) (3 6 8 2 4 1 7 5) (6 3 1 8 4 2 7 5) (8 4 1 3 6 2 7 5) (4 8 1 3 6 2 7 5) (2 6 8 3 1 4 7 5) (7 2 6 3 1 4 8 5) (3 6 2 7 1 4 8 5) (4 7 3 8 2 5 1 6) (4 8 5 3 1 7 2 6) (3 5 8 4 1 7 2 6) (4 2 8 5 7 1 3 6) (5 7 2 4 8 1 3 6) (7 4 2 5 8 1 3 6) (8 2 4 1 7 5 3 6) (7 2 4 1 8 5 3 6) (5 1 8 4 2 7 3 6) (4 1 5 8 2 7 3 6) (5 2 8 1 4 7 3 6) (3 7 2 8 5 1 4 6) (3 1 7 5 8 2 4 6) (8 2 5 3 1 7 4 6) (3 5 2 8 1 7 4 6) (3 5 7 1 4 2 8 6) (5 2 4 6 8 3 1 7) (6 3 5 8 1 4 2 7) (5 8 4 1 3 6 2 7) (4 2 5 8 6 1 3 7) (4 6 1 5 2 8 3 7) (6 3 1 8 5 2 4 7) (5 3 1 6 8 2 4 7) (4 2 8 6 1 3 5 7) (6 3 5 7 1 4 2 8) (6 4 7 1 3 5 2 8) (4 7 5 2 6 1 3 8) (5 7 2 6 3 1 4 8))</span>
-<span class="p">(</span><span class="nb">length </span><span class="p">(</span><span class="nf">queens</span> <span class="mi">8</span><span class="p">))</span> <span class="c1">;Value: 92</span>
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-org3ed4730" class="outline-2">
-<h2 id="org3ed4730">Упражнение 2.43</h2>
-<div class="outline-text-2" id="text-org3ed4730">
-<p>
-Процедура Луиса для queens работала медленно. Выяснилось что он поменял местами отображения в flatmap.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">flatmap</span>
- <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">new-row</span><span class="p">)</span>
-   <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rest-of-queens</span><span class="p">)</span>
-	  <span class="p">(</span><span class="nf">adjoin-position</span> <span class="nv">new-row</span> <span class="nv">k</span> <span class="nv">rest-of-queens</span><span class="p">))</span>
-	<span class="p">(</span><span class="nf">queen-cols</span> <span class="p">(</span><span class="nb">- </span><span class="nv">k</span> <span class="mi">1</span><span class="p">))))</span>
- <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="nv">board-size</span><span class="p">))</span>
-</pre></div>
-
-<p>
-Объясните почему смена отображения замедляет программу. Оцени время для восьми ферзей если для 6 было время T.
-</p>
-
-<p>
-(queen-cols (- k 1)) вызывается 8 раз.
-</p>
-
-<p>
-Замедление происходит потому что считаем 8 раз предыдущие позиции на каждом вызове рекурсии. То есть если оценивать во времени обхода этих позиций то рост будет 8<sup>N</sup> где N количество позиций. Количество позиций сложная функция из-за фильтра, но после 5 она начинает резко расти. За счет этого наблюдается замедление.
-</p>
-
-<p>
-Допустим для 6 позиций заняло время T. что бы для 7 позиций посчитать она выполнит 8 раз для 6 позиций. Потом количество позиций увеличится в 8 раз. потом применим функцию фильтра, которая сократит варианты. И еще раз выполнится 8 раз для 7. То есть итоговое T, будет порядка (8<sup>2</sup>) T.
-</p>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/" class="u-url">SICP 2.2 Иерархические данные и свойство замыкания (the closure property).</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Velikii Nehochuha
-            </span></p>
-            <p class="dateline">
-            <a href="posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-01-18T15:18:01+03:00" itemprop="datePublished" title="2020-01-18 15:18">2020-01-18 15:18</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.17
-  </h2>
-  <div>
-   <div>
-    <p>
-     Определите процедуру last-pair, которая возвращает список который содержит только последний элемент данного (непустого списка).
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">last-pair</span> <span class="nv">list1</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">list1</span><span class="p">))</span>
-<span class="lineno">3 </span>      <span class="nv">list1</span>
-<span class="lineno">4 </span>      <span class="p">(</span><span class="nf">last-pair</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">list1</span><span class="p">))))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.18
-  </h2>
-  <div>
-   <div>
-    <p>
-     Определите процедуру reverse, которая возвращает список элементы которого записаны в обратном порядке.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">reverse </span><span class="nv">list1</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">l</span> <span class="nv">result</span><span class="p">)</span>
-<span class="lineno">3 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">l</span><span class="p">)</span>
-<span class="lineno">4 </span>        <span class="nv">result</span>
-<span class="lineno">5 </span>        <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">l</span><span class="p">)</span> <span class="nv">result</span><span class="p">))))</span>
-<span class="lineno">6 </span>  <span class="p">(</span><span class="nf">iter</span> <span class="nv">list1</span> <span class="nv">nil</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.19
-  </h2>
-  <div>
-   <div>
-    <p>
-     Рассмотрим программу подсчета количества изменений из раздела 1.2.2. Было бы хорошо легко изменить валюту. Когда программа написана валюта учитывается в методах first-denomination и count-change.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; исходная программа</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">count-change</span> <span class="nv">amount</span><span class="p">)</span>
-<span class="lineno"> 3 </span>  <span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="mi">5</span><span class="p">))</span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="nv">kinds-of-coins</span><span class="p">)</span>
-<span class="lineno"> 5 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno"> 6 </span>        <span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">0</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno"> 7 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span>
-<span class="lineno"> 8 </span>                     <span class="p">(</span><span class="nb">- </span><span class="nv">kinds-of-coins</span> <span class="mi">1</span><span class="p">))</span>
-<span class="lineno"> 9 </span>                 <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nb">- </span><span class="nv">amount</span>
-<span class="lineno">10 </span>                        <span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">kinds-of-coins</span><span class="p">))</span>
-<span class="lineno">11 </span>                     <span class="nv">kinds-of-coins</span><span class="p">)))))</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">kinds-of-coins</span><span class="p">)</span>
-<span class="lineno">13 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">14 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span>
-<span class="lineno">15 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">16 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">4</span><span class="p">)</span> <span class="mi">25</span><span class="p">)</span>
-<span class="lineno">17 </span>        <span class="p">((</span><span class="nb">= </span><span class="nv">kinds-of-coins</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">50</span><span class="p">)))</span>
-<span class="lineno">18 </span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">cc</span> <span class="mi">100</span> <span class="mi">5</span><span class="p">)</span>
-</pre>
-</div>   <div>
-    <p>
-     Было бы лучше иметь список монет которые могут быть использованы для размена.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">us-coins</span> <span class="p">(</span><span class="nb">list </span><span class="mi">50</span> <span class="mi">25</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">1</span><span class="p">))</span>
-<span class="lineno">2 </span><span class="p">(</span><span class="k">define </span><span class="nv">uk-coins</span> <span class="p">(</span><span class="nb">list </span><span class="mi">100</span> <span class="mi">50</span> <span class="mi">20</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mf">0.5</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     Мы хотим переписать программу cc что бы её второй аргумент представлял собой список значений монет, вместо целого числа. Тогда у нас будут списки для каждого вида валют.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="nf">cc</span> <span class="mi">100</span> <span class="nv">us-coins</span><span class="p">)</span>
-<span class="lineno">2 </span><span class="mi">292</span>
-</pre>
-</div>   <div>
-    <p>
-     Для этого потребуется несколько изменить программу cc. Доступ ко второму элементу будет осуществляться по другому.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="nv">coin-values</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">3 </span>        <span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">no-more?</span> <span class="nv">coin-values</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">4 </span>        <span class="p">(</span><span class="nf">else</span>
-<span class="lineno">5 </span>         <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span>
-<span class="lineno">6 </span>                <span class="p">(</span><span class="nf">except-first-denomination</span> <span class="nv">coin-values</span><span class="p">))</span>
-<span class="lineno">7 </span>            <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nb">- </span><span class="nv">amount</span>
-<span class="lineno">8 </span>                   <span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">coin-values</span><span class="p">))</span>
-<span class="lineno">9 </span>                <span class="nv">coin-values</span><span class="p">)))))</span>
-</pre>
-</div>   <div>
-    <p>
-     Определите процедуры first-denomination, except-first-denomination, no-more. Влияет ли порядок в списке на итоговое число?
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="nv">us-coins</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">25</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">50</span><span class="p">))</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="k">define </span><span class="nv">uk-coins</span> <span class="p">(</span><span class="nb">list </span><span class="mi">100</span> <span class="mi">50</span> <span class="mi">20</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mf">0.5</span><span class="p">))</span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">except-first-denomination</span> <span class="nv">list1</span><span class="p">)</span>
-<span class="lineno"> 4 </span>  <span class="p">(</span><span class="nb">cdr </span><span class="nv">list1</span><span class="p">))</span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">list1</span><span class="p">)</span>
-<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nb">car </span><span class="nv">list1</span><span class="p">))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">no-more?</span> <span class="nv">list1</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">list1</span><span class="p">)</span>
-<span class="lineno"> 9 </span>      <span class="nv">list1</span>
-<span class="lineno">10 </span>      <span class="nv">false</span><span class="p">))</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span> <span class="nv">coin-values</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">13 </span>        <span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">amount</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">no-more?</span> <span class="nv">coin-values</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">14 </span>        <span class="p">(</span><span class="nf">else</span>
-<span class="lineno">15 </span>         <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">cc</span> <span class="nv">amount</span>
-<span class="lineno">16 </span>                <span class="p">(</span><span class="nf">except-first-denomination</span> <span class="nv">coin-values</span><span class="p">))</span>
-<span class="lineno">17 </span>            <span class="p">(</span><span class="nf">cc</span> <span class="p">(</span><span class="nb">- </span><span class="nv">amount</span>
-<span class="lineno">18 </span>                   <span class="p">(</span><span class="nf">first-denomination</span> <span class="nv">coin-values</span><span class="p">))</span>
-<span class="lineno">19 </span>                <span class="nv">coin-values</span><span class="p">)))))</span>
-<span class="lineno">20 </span><span class="p">(</span><span class="nf">cc</span> <span class="mi">100</span> <span class="nv">us-coins</span><span class="p">)</span>
-</pre>
-</div>   <div>
-    <p>
-     Порядок не влияет, так как рекурсивно обходятся все варианты изменения.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.20
-  </h2>
-  <div>
-   <div>
-    <p>
-     Используя нотацию dotted-tail, напишите процедуру same-parity которая принимает одно или более целых чисел и возвращает список всех аргументов которые имеют такое-же четное-нечетное соотношение как первый аргумент.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">same-parity</span> <span class="nv">x</span> <span class="o">.</span> <span class="nv">l</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">filter</span> <span class="nv">list1</span> <span class="nv">same?</span><span class="p">)</span>
-<span class="lineno"> 3 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">list1</span><span class="p">)</span>
-<span class="lineno"> 4 </span>        <span class="nv">list1</span>
-<span class="lineno"> 5 </span>        <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">same?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">list1</span><span class="p">))</span>
-<span class="lineno"> 6 </span>            <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">list1</span><span class="p">)</span> <span class="p">(</span><span class="nf">filter</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">list1</span><span class="p">)</span> <span class="nv">same?</span><span class="p">))</span>
-<span class="lineno"> 7 </span>            <span class="p">(</span><span class="nf">filter</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">list1</span><span class="p">)</span> <span class="nv">same?</span><span class="p">)</span>
-<span class="lineno"> 8 </span>            <span class="p">)))</span>
-<span class="lineno"> 9 </span>  <span class="p">(</span><span class="k">define </span><span class="nv">same-even-odd</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">even? </span><span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">even? </span><span class="nv">i</span><span class="p">)))</span> <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">even? </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">even? </span><span class="nv">i</span><span class="p">)))</span> <span class="mi">1</span> <span class="nv">false</span><span class="p">)))</span>
-<span class="lineno">10 </span>  <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="p">(</span><span class="nf">filter</span> <span class="nv">l</span> <span class="nv">same-even-odd</span><span class="p">)))</span>
-<span class="lineno">11 </span>
-<span class="lineno">12 </span><span class="p">(</span><span class="nf">same-parity</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span><span class="p">)</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.21
-  </h2>
-  <div>
-   <div>
-    <p>
-     Процедура square-list принимает список аргументов и возвращает список квадратов.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="nf">square-list</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">))</span>
-<span class="lineno">2 </span><span class="p">(</span><span class="mi">1</span> <span class="mi">4</span> <span class="mi">9</span> <span class="mi">16</span><span class="p">)</span>
-</pre>
-</div>   <div>
-    <p>
-     Приведены два реализации square-list. Дополните их.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square-list</span> <span class="nv">items</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">items</span><span class="p">)</span>
-<span class="lineno">3 </span>      <span class="nv">nil</span>
-<span class="lineno">4 </span>      <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">car </span><span class="nv">items</span><span class="p">))</span> <span class="p">(</span><span class="nf">square-list</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">items</span><span class="p">)))))</span>
-<span class="lineno">5 </span>
-<span class="lineno">6 </span>
-<span class="lineno">7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square-list</span> <span class="nv">items</span><span class="p">)</span>
-<span class="lineno">8 </span>  <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">items</span><span class="p">))</span>
-<span class="lineno">9 </span><span class="p">(</span><span class="nf">square-list</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.22
-  </h2>
-  <div>
-   <div>
-    <p>
-     Луис пытается переписать первую реализацию square-list (2.21) что бы она генерировала итеративный процесс.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square-list</span> <span class="nv">items</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">things</span> <span class="nv">answer</span><span class="p">)</span>
-<span class="lineno">3 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">things</span><span class="p">)</span>
-<span class="lineno">4 </span>        <span class="nv">answer</span>
-<span class="lineno">5 </span>        <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">things</span><span class="p">)</span> 
-<span class="lineno">6 </span>              <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">car </span><span class="nv">things</span><span class="p">))</span>
-<span class="lineno">7 </span>                    <span class="nv">answer</span><span class="p">))))</span>
-<span class="lineno">8 </span>  <span class="p">(</span><span class="nf">iter</span> <span class="nv">items</span> <span class="nv">nil</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     К сожалению список получается в обратном порядке, почему?
-    </p>
-    <p>
-     (list 1 2 3) nil iter (list 2 3) (cons 1 nil) iter (list 3) (cons 4 (cons 1 nil)) iter () (cons 9 (cons 4 (cons 1 nil))) return (cons 9 (cons 4 (cons 1 nil)))
-    </p>
-    <p>
-     Луис пытается починить баг переставляя аргументы в cons
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square-list</span> <span class="nv">items</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">things</span> <span class="nv">answer</span><span class="p">)</span>
-<span class="lineno">3 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">things</span><span class="p">)</span>
-<span class="lineno">4 </span>        <span class="nv">answer</span>
-<span class="lineno">5 </span>        <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">things</span><span class="p">)</span>
-<span class="lineno">6 </span>              <span class="p">(</span><span class="nb">cons </span><span class="nv">answer</span>
-<span class="lineno">7 </span>                    <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">car </span><span class="nv">things</span><span class="p">))))))</span>
-<span class="lineno">8 </span>  <span class="p">(</span><span class="nf">iter</span> <span class="nv">items</span> <span class="nv">nil</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     Это не работает получается (cons (cons (cons nil 1) 4) 9)
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.23
-  </h2>
-  <div>
-   <div>
-    <p>
-     Процедура for-each похожа на map, только вместо того чтобы возвращать измененный список она просто применяет переданную функцию к каждому элементу. Используется что бы выполнить действия над списком, например печать.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="nb">for-each </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">newline</span><span class="p">)</span> <span class="p">(</span><span class="nb">display </span><span class="nv">x</span><span class="p">))</span>
-<span class="lineno">2 </span>          <span class="p">(</span><span class="nb">list </span><span class="mi">57</span> <span class="mi">321</span> <span class="mi">88</span><span class="p">))</span>
-<span class="lineno">3 </span><span class="mi">57</span>
-<span class="lineno">4 </span><span class="mi">321</span>
-<span class="lineno">5 </span><span class="mi">88</span>
-</pre>
-</div>   <div>
-    <p>
-     Возвращаемое значение может быть любым например true. Дайте определение процедуры for-each.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">for-each </span><span class="nv">proc</span> <span class="nv">items</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">null? </span><span class="nv">items</span><span class="p">))</span>
-<span class="lineno">3 </span>      <span class="p">(</span><span class="nf">proc</span> <span class="p">(</span><span class="nb">car </span><span class="nv">items</span><span class="p">)))</span>
-<span class="lineno">4 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">null? </span><span class="nv">items</span><span class="p">))</span>
-<span class="lineno">5 </span>      <span class="p">(</span><span class="nb">for-each </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">items</span><span class="p">)))</span>
-<span class="lineno">6 </span>  <span class="nv">true</span><span class="p">)</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.24
-  </h2>
-  <div>
-   <div>
-    <p>
-     Предположим мы оцениваем выражение (list 1 (list 2 (list 3 4))). Что даст вывод интерпретатора. Изобразите box-and-pointer и древовидную структуры.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="mi">1</span> <span class="p">(</span><span class="mi">2</span> <span class="p">(</span><span class="mi">3</span> <span class="mi">4</span><span class="p">)))</span>
-<span class="lineno"> 2 </span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="p">(</span><span class="nb">list </span><span class="mi">2</span> <span class="p">(</span><span class="nb">list </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)))</span>
-<span class="lineno"> 4 </span>     <span class="nv">/</span>      <span class="err">\</span>
-<span class="lineno"> 5 </span>    <span class="nv">/</span>        <span class="err">\</span>
-<span class="lineno"> 6 </span>   <span class="mi">1</span>   <span class="p">(</span><span class="nb">list </span><span class="mi">2</span> <span class="p">(</span><span class="nb">list </span><span class="mi">3</span> <span class="mi">4</span><span class="p">))</span>
-<span class="lineno"> 7 </span>            <span class="nv">/</span>        <span class="err">\</span>
-<span class="lineno"> 8 </span>           <span class="nv">/</span>          <span class="err">\</span>
-<span class="lineno"> 9 </span>          <span class="mi">2</span>         <span class="p">(</span><span class="nb">list </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>
-<span class="lineno">10 </span>                     <span class="nv">/</span>      <span class="err">\</span>
-<span class="lineno">11 </span>                    <span class="nv">/</span>        <span class="err">\</span>
-<span class="lineno">12 </span>                   <span class="mi">3</span>          <span class="mi">4</span>
-<span class="lineno">13 </span>
-<span class="lineno">14 </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span>  <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">list </span><span class="mi">2</span> <span class="p">(</span><span class="o">...</span><span class="p">))</span> <span class="nv">nil</span><span class="p">)</span>
-<span class="lineno">15 </span>     <span class="p">[</span><span class="o">.</span><span class="p">][</span><span class="o">.</span><span class="p">]</span><span class="nv">-</span> <span class="nv">-</span> <span class="nv">-</span> <span class="nv">-</span> <span class="nv">-</span> <span class="nv">-</span> <span class="nv">-</span> <span class="nv">&gt;</span><span class="p">[</span><span class="o">.</span><span class="p">][</span><span class="nv">/</span><span class="p">]</span>
-<span class="lineno">16 </span>      <span class="nv">|</span>                    <span class="nv">|</span>
-<span class="lineno">17 </span>      <span class="nv">|</span>                    <span class="nv">|</span>
-<span class="lineno">18 </span>      <span class="nv">v</span>                    <span class="nv">v</span>
-<span class="lineno">19 </span>      <span class="mi">1</span>                   <span class="p">[</span><span class="o">.</span><span class="p">][</span><span class="o">.</span><span class="p">]</span><span class="nv">-</span> <span class="nv">-&gt;</span><span class="p">[</span><span class="o">.</span><span class="p">][</span><span class="nv">/</span><span class="p">]</span>
-<span class="lineno">20 </span>                           <span class="nv">|</span>         <span class="nv">|</span>
-<span class="lineno">21 </span>                           <span class="nv">|</span>         <span class="nv">|</span>
-<span class="lineno">22 </span>                           <span class="nv">v</span>         <span class="nv">v</span>
-<span class="lineno">23 </span>                           <span class="mi">2</span>     <span class="p">(</span><span class="nb">cons </span><span class="mi">3</span> <span class="p">(</span><span class="nb">cons </span><span class="mi">4</span> <span class="nv">nil</span><span class="p">)</span>
-<span class="lineno">24 </span>                                    <span class="p">[</span><span class="o">.</span><span class="p">][</span><span class="o">.</span><span class="p">]</span><span class="nv">-</span> <span class="nv">-&gt;</span><span class="p">[</span><span class="o">.</span><span class="p">][</span><span class="nv">/</span><span class="p">]</span>
-<span class="lineno">25 </span>                                     <span class="nv">|</span>         <span class="nv">|</span>
-<span class="lineno">26 </span>                                     <span class="nv">|</span>         <span class="nv">|</span>
-<span class="lineno">27 </span>                                     <span class="nv">v</span>         <span class="nv">v</span>
-<span class="lineno">28 </span>                                     <span class="mi">3</span>         <span class="mi">4</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.25
-  </h2>
-  <div>
-   <div>
-    <p>
-     Приведите комюинации cars и cdrs которые выбирую 7 из каждого списка.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="c1">;; (1 3 (5 7) 9)</span>
-<span class="lineno">2 </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">3</span> <span class="p">(</span><span class="nb">list </span><span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="mi">9</span><span class="p">))))))</span>
-<span class="lineno">3 </span><span class="c1">;; ((7))</span>
-<span class="lineno">4 </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="mi">7</span><span class="p">))))</span>
-<span class="lineno">5 </span><span class="c1">;; (1 (2 (3 (4 (5 (6 7))))))</span>
-<span class="lineno">6 </span><span class="p">(</span><span class="k">define </span><span class="nv">list3</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="p">(</span><span class="nb">list </span><span class="mi">2</span> <span class="p">(</span><span class="nb">list </span><span class="mi">3</span> <span class="p">(</span><span class="nb">list </span><span class="mi">4</span> <span class="p">(</span><span class="nb">list </span><span class="mi">5</span> <span class="p">(</span><span class="nb">list </span><span class="mi">6</span> <span class="mi">7</span><span class="p">)))))))</span>
-<span class="lineno">7 </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">list3</span><span class="p">))))))))))))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.26
-  </h2>
-  <div>
-   <div>
-    <p>
-     Допустим определили два списка. Какой будет результат выражений.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="k">define </span><span class="nv">y</span> <span class="p">(</span><span class="nb">list </span><span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno"> 3 </span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="nb">append </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno"> 5 </span><span class="c1">;; (1 2 3 4 5 6)</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno"> 7 </span><span class="c1">;; ((1 2 3) 4 5 6)</span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="nb">list </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno"> 9 </span><span class="c1">;; (cons x (cons y nil)</span>
-<span class="lineno">10 </span><span class="c1">;; ((1 2 4) (4 5 6))</span>
-</pre>
-</div>   <div>
-    <p>
-     то есть list создаст список списков, в то время как cons запишет в car первый список, а в cdr указатель на y, что приведет к разному результату с list x y. cons просто добавляет элемент в начало списка y.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.27
-  </h2>
-  <div>
-   <div>
-    <p>
-     Измените процедуру reverse что бы она умела разворачивать вложенные списки.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)))</span>
-<span class="lineno"> 2 </span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">deep-reverse</span> <span class="nv">list1</span><span class="p">)</span>
-<span class="lineno"> 4 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">l</span> <span class="nv">result</span><span class="p">)</span>
-<span class="lineno"> 5 </span>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">l</span><span class="p">)</span>
-<span class="lineno"> 6 </span>        <span class="nv">result</span>
-<span class="lineno"> 7 </span>        <span class="p">(</span><span class="nf">iter</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">deep-reverse</span> <span class="p">(</span><span class="nb">car </span><span class="nv">l</span><span class="p">))</span> <span class="nv">result</span><span class="p">))))</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">list1</span><span class="p">)</span>
-<span class="lineno"> 9 </span>      <span class="p">(</span><span class="nf">iter</span> <span class="nv">list1</span> <span class="nv">nil</span><span class="p">)</span>
-<span class="lineno">10 </span>      <span class="nv">list1</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     тут просто рекурсивно вызываем deep-reverse и если list1 это не список просто возвращаем значение.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.28
-  </h2>
-  <div>
-   <div>
-    <p>
-     Напишите процедуру fringe, которая принимает дерево в виде списка и возвращает список всех листьев в порядке слева на право.
-    </p>
-    <p>
-     Например:
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)))</span>
-<span class="lineno">2 </span>
-<span class="lineno">3 </span><span class="p">(</span><span class="nf">fringe</span> <span class="nv">x</span><span class="p">)</span>
-<span class="lineno">4 </span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>
-<span class="lineno">5 </span>
-<span class="lineno">6 </span><span class="p">(</span><span class="nf">fringe</span> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">7 </span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>
-</pre>
-</div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="k">define </span><span class="p">(</span><span class="nf">fringe</span> <span class="nv">x</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">x</span><span class="p">)</span>
-<span class="lineno">3 </span>      <span class="nv">x</span>
-<span class="lineno">4 </span>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pair? </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">))</span>
-<span class="lineno">5 </span>          <span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nf">fringe</span> <span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nf">fringe</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">x</span><span class="p">)))</span>
-<span class="lineno">6 </span>          <span class="nv">x</span><span class="p">)))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.29
-  </h2>
-  <div>
-   <div>
-    <p>
-     Бинарный ползунок состоит из двух веток, левой и правой. Мы можем представить бинарный ползунок используя объединение из двух веток (к примеру используя list).
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-mobile</span> <span class="nv">left</span> <span class="nv">right</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nb">list </span><span class="nv">left</span> <span class="nv">right</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     Каждая ветка это стержень определенной длинны + вес либо еще один бинарный ползунок.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-branch</span> <span class="nv">length</span> <span class="nv">structure</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nb">list </span><span class="nv">length</span> <span class="nv">structure</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     a. Напишите селекторы left-branch и right-branch, которые возвращабт ветки + branch-length и branch-structure, которые возвращают компоненты ветки. b. Используя селекторы напишите процедуру total-weight, которая возвращает суммарный вес. с. Ползунок сбалансирован, когда крутящий момент верхней левой ветки равен верхней правой ветке (то есть длинна стержня умножить на вес свисающий с этого стержня). Напишите процедуру которая тестирует сбалансировал ли ползунок. d. Предположим мы поменяли представление так что конструктор стал таким
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-mobile</span> <span class="nv">left</span> <span class="nv">right</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nb">cons </span><span class="nv">left</span> <span class="nv">right</span><span class="p">))</span>
-<span class="lineno">3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-branch</span> <span class="nv">length</span> <span class="nv">structure</span><span class="p">)</span>
-<span class="lineno">4 </span>  <span class="p">(</span><span class="nb">cons </span><span class="nv">length</span> <span class="nv">structure</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     Как много изменений нужно внести в программу после этого?
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-mobile</span> <span class="nv">left</span> <span class="nv">right</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nb">list </span><span class="nv">left</span> <span class="nv">right</span><span class="p">))</span>
-<span class="lineno"> 3 </span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-branch</span> <span class="nv">length</span> <span class="nv">structure</span><span class="p">)</span>
-<span class="lineno"> 5 </span>  <span class="p">(</span><span class="nb">list </span><span class="nv">length</span> <span class="nv">structure</span><span class="p">))</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">left-branch</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="nb">car </span><span class="nv">m</span><span class="p">))</span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">right-branch</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno"> 9 </span>  <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">m</span><span class="p">)))</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">branch-length</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">11 </span>  <span class="p">(</span><span class="nb">car </span><span class="nv">b</span><span class="p">))</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">branch-structure</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">13 </span>  <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">b</span><span class="p">)))</span>
-<span class="lineno">14 </span>
-<span class="lineno">15 </span>
-<span class="lineno">16 </span><span class="p">(</span><span class="k">define </span><span class="nv">l0</span> <span class="p">(</span><span class="nf">make-branch</span> <span class="mi">3</span> <span class="mi">10</span><span class="p">))</span>
-<span class="lineno">17 </span><span class="p">(</span><span class="k">define </span><span class="nv">r0</span> <span class="p">(</span><span class="nf">make-branch</span> <span class="mi">3</span> <span class="mi">10</span><span class="p">))</span>
-<span class="lineno">18 </span><span class="p">(</span><span class="k">define </span><span class="nv">m0</span> <span class="p">(</span><span class="nf">make-mobile</span> <span class="nv">l0</span> <span class="nv">r0</span><span class="p">))</span>
-<span class="lineno">19 </span>
-<span class="lineno">20 </span><span class="p">(</span><span class="k">define </span><span class="nv">l1</span> <span class="p">(</span><span class="nf">make-branch</span> <span class="mi">10</span> <span class="mi">10</span><span class="p">))</span>
-<span class="lineno">21 </span><span class="p">(</span><span class="k">define </span><span class="nv">r1</span> <span class="p">(</span><span class="nf">make-branch</span> <span class="mi">5</span> <span class="nv">m0</span><span class="p">))</span>
-<span class="lineno">22 </span><span class="p">(</span><span class="k">define </span><span class="nv">m1</span> <span class="p">(</span><span class="nf">make-mobile</span> <span class="nv">l1</span> <span class="nv">r1</span><span class="p">))</span>
-<span class="lineno">23 </span>
-<span class="lineno">24 </span><span class="c1">;; общий вес</span>
-<span class="lineno">25 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">structure-weight</span> <span class="nv">s</span><span class="p">)</span>
-<span class="lineno">26 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">s</span><span class="p">)</span>
-<span class="lineno">27 </span>      <span class="p">(</span><span class="nf">total-weight</span> <span class="nv">s</span><span class="p">)</span>
-<span class="lineno">28 </span>      <span class="nv">s</span><span class="p">))</span>
-<span class="lineno">29 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">branch-weight</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">30 </span>  <span class="p">(</span><span class="nf">structure-weight</span> <span class="p">(</span><span class="nf">branch-structure</span> <span class="nv">b</span><span class="p">)))</span>
-<span class="lineno">31 </span>
-<span class="lineno">32 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">total-weight</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">33 </span>  <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">branch-weight</span> <span class="p">(</span><span class="nf">left-branch</span> <span class="nv">m</span><span class="p">))</span> <span class="p">(</span><span class="nf">branch-weight</span> <span class="p">(</span><span class="nf">right-branch</span> <span class="nv">m</span><span class="p">))))</span>
-<span class="lineno">34 </span>
-<span class="lineno">35 </span><span class="p">(</span><span class="nf">total-weight</span> <span class="nv">m1</span><span class="p">)</span>
-<span class="lineno">36 </span>
-<span class="lineno">37 </span><span class="c1">;; балансировка</span>
-<span class="lineno">38 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">balanced?</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">39 </span>  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">branch-weight</span> <span class="p">(</span><span class="nf">left-branch</span> <span class="nv">m</span><span class="p">))</span> <span class="p">(</span><span class="nf">branch-length</span> <span class="p">(</span><span class="nf">left-branch</span> <span class="nv">m</span><span class="p">)))</span>
-<span class="lineno">40 </span>     <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">branch-weight</span> <span class="p">(</span><span class="nf">right-branch</span> <span class="nv">m</span><span class="p">))</span> <span class="p">(</span><span class="nf">branch-length</span> <span class="p">(</span><span class="nf">right-branch</span> <span class="nv">m</span><span class="p">)))))</span>
-<span class="lineno">41 </span>
-<span class="lineno">42 </span><span class="p">(</span><span class="nf">balanced?</span> <span class="nv">m1</span><span class="p">)</span>
-<span class="lineno">43 </span><span class="p">(</span><span class="nf">balanced?</span> <span class="nv">m0</span><span class="p">)</span>
-<span class="lineno">44 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-mobile</span> <span class="nv">left</span> <span class="nv">right</span><span class="p">)</span>
-<span class="lineno">45 </span>  <span class="p">(</span><span class="nb">cons </span><span class="nv">left</span> <span class="nv">right</span><span class="p">))</span>
-<span class="lineno">46 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-branch</span> <span class="nv">length</span> <span class="nv">structure</span><span class="p">)</span>
-<span class="lineno">47 </span>  <span class="p">(</span><span class="nb">cons </span><span class="nv">length</span> <span class="nv">structure</span><span class="p">))</span>
-<span class="lineno">48 </span>
-<span class="lineno">49 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">left-branch</span> <span class="nv">m</span><span class="p">)</span>
-<span class="lineno">50 </span>  <span class="p">(</span><span class="nb">car </span><span class="nv">m</span><span class="p">))</span>
-<span class="lineno">51 </span><span class="p">(</span><span class="nf">left-branch</span> <span class="nv">m0</span><span class="p">)</span>
-<span class="lineno">52 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">right-branch</span> <span class="nv">m</span><span class="p">)</span> <span class="c1">;; поменял метод</span>
-<span class="lineno">53 </span>  <span class="p">(</span><span class="nb">cdr </span><span class="nv">m</span><span class="p">))</span>
-<span class="lineno">54 </span><span class="p">(</span><span class="nf">right-branch</span> <span class="nv">m0</span><span class="p">)</span>
-<span class="lineno">55 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">branch-length</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">56 </span>  <span class="p">(</span><span class="nb">car </span><span class="nv">b</span><span class="p">))</span>
-<span class="lineno">57 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">branch-structure</span> <span class="nv">b</span><span class="p">)</span> <span class="c1">;; поменял метод</span>
-<span class="lineno">58 </span>  <span class="p">(</span><span class="nb">cdr </span><span class="nv">b</span><span class="p">))</span>
-</pre>
-</div>   <div>
-    <p>
-     поменяли два селектора.
-    </p>
-   </div>
-  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.30
-  </h2>
-  <div>
-   <div>
-    <p>
-     Напишите процедуру square-tree без и с использованием map.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square-tree</span> <span class="nv">tree</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span> <span class="nv">nil</span><span class="p">)</span>
-<span class="lineno"> 3 </span>        <span class="p">((</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">tree</span><span class="p">))</span>
-<span class="lineno"> 4 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">square-tree</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">))</span>
-<span class="lineno"> 5 </span>                    <span class="p">(</span><span class="nf">square-tree</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">))))))</span>
-<span class="lineno"> 6 </span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square-tree</span> <span class="nv">tree</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sub-tree</span><span class="p">)</span>
-<span class="lineno"> 9 </span>         <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">sub-tree</span><span class="p">)</span>
-<span class="lineno">10 </span>             <span class="p">(</span><span class="nf">square-tree</span> <span class="nv">sub-tree</span><span class="p">)</span>
-<span class="lineno">11 </span>             <span class="p">(</span><span class="nf">square</span> <span class="nv">sub-tree</span><span class="p">)))</span>
-<span class="lineno">12 </span>       <span class="nv">tree</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.31
-  </h2>
-  <div>
-   <div>
-    <p>
-     Абстрагируйте ваш ответ к 2.30 что бы можно было записывать процедуру square-tree через tree-map.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square-tree</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">tree-map</span> <span class="nv">square</span> <span class="nv">tree</span><span class="p">))</span>
-<span class="lineno">2 </span>
-<span class="lineno">3 </span>
-<span class="lineno">4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">tree-map</span> <span class="nv">proc</span> <span class="nv">tree</span><span class="p">)</span>
-<span class="lineno">5 </span>  <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sub-tree</span><span class="p">)</span>
-<span class="lineno">6 </span>         <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">sub-tree</span><span class="p">)</span>
-<span class="lineno">7 </span>             <span class="p">(</span><span class="nf">tree-map</span> <span class="nv">proc</span> <span class="nv">sub-tree</span><span class="p">)</span>
-<span class="lineno">8 </span>             <span class="p">(</span><span class="nf">proc</span> <span class="nv">sub-tree</span><span class="p">)))</span>
-<span class="lineno">9 </span>       <span class="nv">tree</span><span class="p">))</span>
-</pre>
-</div>  </div>
- </div>
- <div class="chapter-block">
-  <h2>
-   Упражнение 2.32
-  </h2>
-  <div>
-   <div>
-    <p>
-     Мы можем представить set как список уникальных элементов, а так же set всех подмножеств как список списков. К примеру set (1 2 3), тогда сет всех подмножеств будет (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3)). Допишите функцию генерирующую список всех подмножеств сета и дайте пояснение как она работает.
-    </p>
-   </div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">subsets</span> <span class="nv">s</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">s</span><span class="p">)</span>
-<span class="lineno">3 </span>      <span class="p">(</span><span class="nb">list </span><span class="nv">nil</span><span class="p">)</span>
-<span class="lineno">4 </span>      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">rest</span> <span class="p">(</span><span class="nf">subsets</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">s</span><span class="p">))))</span>
-<span class="lineno">5 </span>        <span class="p">(</span><span class="nb">append </span><span class="nv">rest</span> <span class="p">(</span><span class="nb">map </span><span class="nv">&lt;??&gt;</span> <span class="nv">rest</span><span class="p">)))))</span>
-</pre>
-</div>
-<div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">subsets</span> <span class="nv">s</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">s</span><span class="p">)</span>
-<span class="lineno">3 </span>      <span class="p">(</span><span class="nb">list </span><span class="nv">nil</span><span class="p">)</span>
-<span class="lineno">4 </span>      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">rest</span> <span class="p">(</span><span class="nf">subsets</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">s</span><span class="p">))))</span>
-<span class="lineno">5 </span>        <span class="p">(</span><span class="nb">append </span><span class="nv">rest</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">set</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">s</span><span class="p">)</span> <span class="nv">set</span><span class="p">))</span> <span class="nv">rest</span><span class="p">)))))</span>
-<span class="lineno">6 </span>
-<span class="lineno">7 </span><span class="p">(</span><span class="nf">subsets</span> <span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
-<span class="lineno">8 </span><span class="c1">;Value: (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))</span>
-</pre>
-</div>   <div>
-    <p>
-     выбираем список без первого элемента, генерируем для него все подмножества. добавляем к полученным подмножествам такое же подмножество но везде первым элементом идет первый элемент. на последней итерации у нас получается пустое список, он возвращает () - нулевое подмножество. в итоге мы перебрали все возможные варианты.
-    </p>
-   </div>
-  </div>
- </div>
 </div>
     </div>
     </article>
