@@ -1,0 +1,143 @@
+#+BEGIN_COMMENT
+.. title: Расстояние Левенштейна, Проверка равенства строк, Наивный поиск подстроки в строке, Алгоритм Кнута-Морриса-Пратта
+.. slug: rasstoianie-levenshteina-proverka-ravenstva-strok-naivnyi-poisk-podstroki-v-stroke-algoritm-knuta-morrisa-pratta
+.. date: 2020-06-23 10:31:03 UTC+03:00
+.. tags: python, algorithms
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+*Редакционное расстояние между строками (Левинштейна)*
+
+A = "колокол"
+B = "молоко"
+
+1) перепутали символ
+2) вставили лишний символ
+3) потеряли нужный символ
+
+Какая должна быть редакционная правка?
+
+Можно сделать наподобие поиска наиобольшей общей последовательности.
+Fij - это минимальное редакционное расстояние между срезами A[:i] и B[:j]
+Ответ Fnm - ответ
+
+
+Fij = F[i-1][j-1], если a[i] == b[j]
+
+1 (ошибка как минимум потребуется удаление\добавление\замена) + min(F[i-1]j, Fi[j-1], F[i-1][j-1])
+
+Крайний случай F0j = j, Fi0 = i, F00 = 0
+
+
+| 0   |   м 1 | о 2 | л 3 | о 4 | к 5 | о 6 |
+| к 1 | 1+0=1 |   2 |   3 |   4 |   4 |   5 |
+| о 2 |     2 |   1 |   2 |   3 |   4 |   4 |
+| л 3 |     3 |   2 |   1 |   2 |   3 |   4 |
+| о 4 |     4 |   3 |   2 |   1 |   2 |   3 |
+| к 5 |     5 |   4 |   3 |   2 |   1 |   2 |
+| о 6 |     6 |   5 |   4 |   3 |   2 |   1 |
+| л 7 |     7 |   6 |   5 |   4 |   3 |   2 |
+
+#+BEGIN_SRC python
+def levenstein(A, B):
+    F = [[(i+j) if i*j == 0 else 0 for j in range(len(B) + 1)] for i in range(len(A)+1)]
+
+    for i in range(1, len(A)+1):
+        for j in range(1, len(B)+1):
+            if A[i-1] == B[j-1]:
+                F[i][j] = F[i-1][j-1]
+            else:
+                F[i][j] = 1 + min(F[i-1][j], F[i][j-1], F[i-1][j-1])
+    from pprint import pprint
+    pprint(F)
+    return F[-1][-1]
+
+
+print(levenstein("колокол", "молоко"))
+#+END_SRC
+
+*Проверка равенства строк*
+
+#+BEGIN_SRC python
+def equal(A, B):
+    if len(A) != len(B):
+        return False
+    for i in range(len(A)):
+        if A[i] != B[i]:
+            return False
+    return True
+#+END_SRC
+
+
+*Поиск подстроки в строке*
+
+S = "abacabadabacabafabacabadabacabadabacabafaba"
+
+sub = "dabac"
+
+#+BEGIN_SRC python O(N*M)
+def search_sub(s, sub):
+    for i in range(0, len(s)-len(sub)):
+        if equal(s[i:i+len(sub)], sub):
+            print(i)
+#+END_SRC
+
+*Префикс функция П строки*
+Собственный суффикс - суффикс не равный строке
+Пs - длинна максимального собственного суффикса, который является префиксом
+Пsi - префиксная функция среза S[:i]
+
+если Sp+1=x, то Пsi = p + 1, где p = Пs(i-1)
+
+
+#+BEGIN_SRC python O(N*M)
+def prefix_function(s):
+    pi = [0 for i in range(len(s))]
+    for i in range(1, len(s)):
+        p = pi[i-1]
+        while p > 0 and (s[i] != s[p]):
+            p = pi[p-1]
+        if s[i] == s[p]:
+            p += 1
+        pi[i] = p
+    return pi[-1], s[0:pi[-1]]
+
+
+print(prefix_function("aaabaaa"))
+#+END_SRC
+
+Поскольку внутри цикла while значение p может только уменьшаться, а увеличение p возможно лишь на единицу, то суммарно значение p не может уменьшиться более, чем S раз, что и ограничивает количество срабатываний внутреннего цикла. Поэтому алгоритм требует не более 2*len(S) операций, то есть порядок роста O(len(S)).
+
+*Алгоритм Кнута-Морриса-Пратта*
+
+s_kmt = sub + '#' + s
+
+Для каждого i найдем макс префикс который является суффиксом и если длинна префикса равна длинне подстроки, то это вхождение подстроки в строку! Опять линейное время.
+
+#+BEGIN_SRC python O(N*M)
+def kmt(sub, s):
+    string = sub + '#' + s
+
+    def prefix_function(s):
+        pi = [0 for i in range(len(s))]
+        for i in range(1, len(s)):
+            p = pi[i-1]
+            while p > 0 and (s[i] != s[p]):
+                p = pi[p-1]
+            if s[i] == s[p]:
+                p += 1
+            pi[i] = p
+        return pi
+    return prefix_function(string)
+
+sub = 'aa'
+s = 'ddfdgffgfdaahfgjjhjhgjghjaa'
+print(kmt(sub, s))
+#+END_SRC
+
+
