@@ -46,3 +46,4 @@ cache
 output
 .doit.db
 _env/
+.venv/
