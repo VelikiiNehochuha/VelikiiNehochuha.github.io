@@ -1,19 +1,18 @@
-#+BEGIN_COMMENT
+<!--
 .. title: SICP Потоки
-.. slug: potoki
-.. date: 2020-06-12 19:17:51 UTC+03:00
-.. tags: sicp
+.. slug: sicp-potoki
+.. date: 2021-05-07 17:45:06 UTC+03:00
+.. tags: sicp, scheme, lisp
 .. category: 
 .. link: 
 .. description: 
 .. type: text
+-->
 
-#+END_COMMENT
-
-* Упражнение 3.50
+### Упражнение 3.50
 Закончите следующее определение, которое обращает процедуру stream-map, чтобы она позволяла использовать процедуры от нескольких аргументов, подобно map из раздела 2.2.1
 
-#+BEGIN_SRC scheme
+```schema
 (define (stream-map proc . argstreams)
   (if (stream-null? (car argstreams))
       the-empty-stream
@@ -21,20 +20,20 @@
        (apply proc (map stream-car argstreams))
        (apply stream-map
               (cons proc (map stream-cdr argstreams))))))
-#+END_SRC
+```
 
-* Упражнение 3.51
+### Упражнение 3.51
 Чтобы внимательнее изучить задержанные вычисления, мы воспользуемся следующей процедурой, которая печатает свой аргумент, а затем возвращает его:
 
-#+BEGIN_SRC scheme
+```schema
 (define (show x)
   (display-line x)
   x)
-#+END_SRC
+```
 
 Что печатает интерпретатор в ответ на каждое выражение из следующей последовательности?
 
-#+BEGIN_SRC scheme
+```schema
 (define x (stream-map show (stream-enumerate-interval 0 10)))
 ;; 0
 ;; 2
@@ -44,11 +43,11 @@
 ;; 5
 (stream-ref x 7)
 ;; 7
-#+END_SRC
+```
 
-* Упражнение 3.52
+### Упражнение 3.52
 Рассмотрим последовательность выражений
-#+BEGIN_SRC scheme
+```schema
 (define sum 0)
 
 (define (accum x)
@@ -64,39 +63,39 @@ y
 z
 (stream-ref y 7)
 (display-stream z)
-#+END_SRC
+```
 
 Изменился бы этот результат, если бы мы реализовали (delay выражение) просто как (lambda () выражение), не применяя оптимизацию через memo-proc? Объясните свой ответ.
 
 Ответ бы не изменился, но при вызове display-stream элементы последовательности вычислялись бы повторно, что сказывается на производительности.
 
-* Упражнение 3.53
+### Упражнение 3.53
 
 Не запуская программу, опишите элементы потока, порождаемого
 
-#+BEGIN_SRC scheme
+```schema
 (define (add-streams s1 s2)
   (stream-map + s1 s2))
 (define s (cons-stream 1 (add-streams s s)))
-#+END_SRC
+```
 
 1 2 4 8 16, ...
 
 
-* Упражнение 3.54
+### Упражнение 3.54
 
 Определите процедуру mul-streams, аналогичную add-streams, которая порождает поэлементное произведение двух входных потоков. С помощью нее и потока integers закончите следующее определение потока, n-й элемент которого (начиная с 0) равен факториалу n + 1:
 
-#+BEGIN_SRC scheme
+```schema
 (define (mul-streams s1 s2)
   (stream-map * s1 s2))
 (define factorials (cons-stream 1 (mul-streams integers factorials)))
-#+END_SRC
+```
 
-* Упражнение 3.55.
+### Упражнение 3.55.
 Определите процедуру partial-sums, которая в качестве аргумента берет поток S, а возвращает поток, элементы которого равны S0, S0 + S1, S0 + S1 + S2, . . .. Например, (partial-sums integers) должно давать поток 1, 3, 6, 10, 15
 
-#+BEGIN_SRC scheme
+```schema
 (define (partial-sums stream)
   (define (iter ps prev)
     (cons-stream (+ (stream-car ps) prev) (iter (stream-cdr ps) (+ (stream-car ps) prev))))
@@ -117,12 +116,6 @@ z
 (stream-ref (partial-sums integers) 2) ;; 6
 (stream-ref (partial-sums integers) 3) ;; 10
 (stream-ref (partial-sums integers) 4) ;; 15
-#+END_SRC
+```
 
-* Упражнения 3.56.
-
-
-
-
-
-
+### Упражнения 3.56.
