@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о data-directed)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/data-directed.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Mon, 27 Jan 2020 12:04:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 2.4 Множественные представления для абстрактных данных.</title><link>http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о data-directed)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/data-directed.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2021 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 07 May 2021 14:21:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 2.4 Множественные представления для абстрактных данных.</title><link>http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;p&gt;
 &lt;img src="http://velikiinehochuha.github.io/images/ch2-Z-G-54.gif" alt="nil"&gt;
 &lt;/p&gt;
 
@@ -9,9 +9,9 @@
 &lt;/p&gt;
 
 
-&lt;div id="outline-container-org3dfb9b4" class="outline-2"&gt;
-&lt;h2 id="org3dfb9b4"&gt;Упражнение 2.73&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3dfb9b4"&gt;
+&lt;div id="outline-container-org8f72bb1" class="outline-2"&gt;
+&lt;h2 id="org8f72bb1"&gt;Упражнение 2.73&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8f72bb1"&gt;
 &lt;p&gt;
 В секции 2.3.2 описана программа символического дифференцирования.
 &lt;/p&gt;
@@ -147,9 +147,9 @@ d. предположим мы индексируем процедуры дру�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3f59c89" class="outline-2"&gt;
-&lt;h2 id="org3f59c89"&gt;Упражнение 2.74&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3f59c89"&gt;
+&lt;div id="outline-container-orgf8677cc" class="outline-2"&gt;
+&lt;h2 id="orgf8677cc"&gt;Упражнение 2.74&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf8677cc"&gt;
 &lt;p&gt;
 "Жадное Предприятие Inc." широко децентрализованная компания, которая имеет много подразделений. В каждом подразделении своя реализация хранения списка персонала. Нужно иметь возможность получать и искать сотрудников по всем подразделениям, определите общие методы.
 &lt;/p&gt;
@@ -296,9 +296,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7e3d48a" class="outline-2"&gt;
-&lt;h2 id="org7e3d48a"&gt;Упражнение 2.75&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7e3d48a"&gt;
+&lt;div id="outline-container-org70e0c0f" class="outline-2"&gt;
+&lt;h2 id="org70e0c0f"&gt;Упражнение 2.75&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org70e0c0f"&gt;
 &lt;p&gt;
 Определите конструктор make-from-mag-ang в стиле получения сообщения (message-passing).
 &lt;/p&gt;
@@ -338,9 +338,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga87bdec" class="outline-2"&gt;
-&lt;h2 id="orga87bdec"&gt;Упражнение 2.76&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga87bdec"&gt;
+&lt;div id="outline-container-orgbcb8d0d" class="outline-2"&gt;
+&lt;h2 id="orgbcb8d0d"&gt;Упражнение 2.76&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbcb8d0d"&gt;
 &lt;p&gt;
 При эволюционировании системы с общими процедурами, могут потребоваться новые типы данных или новые операции. Для каждой из трех стратегий
 &lt;/p&gt;

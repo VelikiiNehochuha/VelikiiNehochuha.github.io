@@ -7,142 +7,138 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/a_picture_language.xml</loc>
-  <lastmod>2020-01-24T13:36:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/abstract_data.xml</loc>
-  <lastmod>2020-01-27T12:04:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/algorithms.xml</loc>
-  <lastmod>2020-06-25T19:54:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/android.xml</loc>
-  <lastmod>2020-01-11T22:05:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/assignment.xml</loc>
-  <lastmod>2020-02-04T09:47:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/coercion.xml</loc>
-  <lastmod>2020-02-01T22:22:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/concurrency.xml</loc>
-  <lastmod>2020-03-01T13:16:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/data-directed.xml</loc>
-  <lastmod>2020-01-27T12:04:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/data_abstraction.xml</loc>
-  <lastmod>2020-01-17T19:18:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/emacs.xml</loc>
-  <lastmod>2020-01-11T22:05:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/environment_model.xml</loc>
-  <lastmod>2020-02-04T19:58:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/eslint.xml</loc>
-  <lastmod>2020-01-11T22:05:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/gcd.xml</loc>
-  <lastmod>2020-01-13T18:03:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/generic_operations.xml</loc>
-  <lastmod>2020-02-01T22:22:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/generic_procedures.xml</loc>
-  <lastmod>2020-01-27T12:04:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/hierarchical_data.xml</loc>
-  <lastmod>2020-01-19T16:44:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/higher_order_procedures.xml</loc>
-  <lastmod>2020-01-14T17:42:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/lisp.xml</loc>
-  <lastmod>2020-01-20T10:24:00Z</lastmod>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/local_state.xml</loc>
-  <lastmod>2020-02-04T09:47:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/mathematics.xml</loc>
-  <lastmod>2020-01-11T22:05:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/multiple_representations.xml</loc>
-  <lastmod>2020-01-27T12:04:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/mutable_data.xml</loc>
-  <lastmod>2020-02-14T09:56:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/prime_numbers.xml</loc>
-  <lastmod>2020-01-13T18:03:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/procedures_as_general_methods.xml</loc>
-  <lastmod>2020-01-15T16:15:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/procedures_as_returned_values.xml</loc>
-  <lastmod>2020-01-16T01:01:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/python.xml</loc>
-  <lastmod>2020-06-25T19:54:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/scheme.xml</loc>
-  <lastmod>2020-03-01T13:16:00Z</lastmod>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sequences_as_conventional_interfaces.xml</loc>
-  <lastmod>2020-01-27T12:04:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/sicp.xml</loc>
-  <lastmod>2020-06-22T11:44:00Z</lastmod>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/svelte.xml</loc>
-  <lastmod>2020-01-11T22:05:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/symbolic_data.xml</loc>
-  <lastmod>2020-01-25T15:07:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/categories/the_closure_property.xml</loc>
-  <lastmod>2020-01-19T16:44:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>http://velikiinehochuha.github.io/galleries/rss.xml</loc>
-  <lastmod>2020-06-12T16:41:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/rss.xml</loc>
-  <lastmod>2020-06-25T19:54:00Z</lastmod>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>http://velikiinehochuha.github.io/sitemap.xml</loc>
-  <lastmod>2020-06-25T19:54:00Z</lastmod>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </sitemap>
 </sitemapindex>

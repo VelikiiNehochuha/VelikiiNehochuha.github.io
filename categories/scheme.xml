@@ -1,7 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о scheme)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/scheme.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Sun, 01 Mar 2020 13:16:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.4 Параллелизм: время имеет значение</title><link>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org0f5b9a8" class="outline-2"&gt;
-&lt;h2 id="org0f5b9a8"&gt;Упражнение 3.38&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0f5b9a8"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о scheme)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/scheme.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2021 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 07 May 2021 14:52:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP Потоки</title><link>http://velikiinehochuha.github.io/posts/sicp-potoki/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div&gt;&lt;h4&gt;Упражнение 3.50&lt;/h4&gt;
+&lt;p&gt;Закончите следующее определение, которое обращает процедуру stream-map, чтобы она позволяла использовать процедуры от нескольких аргументов, подобно map из раздела 2.2.1&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;define&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;map&lt;/span&gt; &lt;span class="nv"&gt;proc&lt;/span&gt; . &lt;span class="nv"&gt;argstreams&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+  &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;null&lt;/span&gt;? &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;car&lt;/span&gt; &lt;span class="nv"&gt;argstreams&lt;/span&gt;&lt;span class="ss"&gt;))&lt;/span&gt;
+      &lt;span class="nv"&gt;the&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;empty&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;stream&lt;/span&gt;
+      &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;cons&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;stream&lt;/span&gt;
+       &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;apply&lt;/span&gt; &lt;span class="nv"&gt;proc&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;map&lt;/span&gt; &lt;span class="nv"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;car&lt;/span&gt; &lt;span class="nv"&gt;argstreams&lt;/span&gt;&lt;span class="ss"&gt;))&lt;/span&gt;
+       &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;apply&lt;/span&gt; &lt;span class="nv"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;map&lt;/span&gt;
+              &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;cons&lt;/span&gt; &lt;span class="nv"&gt;proc&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;map&lt;/span&gt; &lt;span class="nv"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;cdr&lt;/span&gt; &lt;span class="nv"&gt;argstreams&lt;/span&gt;&lt;span class="ss"&gt;))))))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Упражнение 3.51&lt;/h4&gt;
+&lt;p&gt;Чтобы внимательнее изучить задержанные вычисления, мы воспользуемся следующей процедурой, которая печатает свой аргумент, а затем возвращает его:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;define&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="k"&gt;show&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+  &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;display&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;line&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+  &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Что печатает интерпретатор в ответ на каждое выражение из следующей последовательности?&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt; &lt;span class="n"&gt;show&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;enumerate&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;interval&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ref&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ref&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Упражнение 3.52&lt;/h4&gt;
+&lt;p&gt;Рассмотрим последовательность выражений&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accum&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;set&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="n"&gt;seq&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt; &lt;span class="n"&gt;accum&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;enumerate&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;interval&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="n"&gt;seq&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt; &lt;span class="n"&gt;even&lt;/span&gt;&lt;span class="err"&gt;?&lt;/span&gt; &lt;span class="n"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;remainder&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                         &lt;span class="n"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;z&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ref&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Изменился бы этот результат, если бы мы реализовали (delay выражение) просто как (lambda () выражение), не применяя оптимизацию через memo-proc? Объясните свой ответ.&lt;/p&gt;
+&lt;p&gt;Ответ бы не изменился, но при вызове display-stream элементы последовательности вычислялись бы повторно, что сказывается на производительности.&lt;/p&gt;
+&lt;h4&gt;Упражнение 3.53&lt;/h4&gt;
+&lt;p&gt;Не запуская программу, опишите элементы потока, порождаемого&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;(define (add-streams s1 s2)
+  (stream-map + s1 s2))
+(define s (cons-stream 1 (add-streams s s)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;1 2 4 8 16, ...&lt;/p&gt;
+&lt;h4&gt;Упражнение 3.54&lt;/h4&gt;
+&lt;p&gt;Определите процедуру mul-streams, аналогичную add-streams, которая порождает поэлементное произведение двух входных потоков. С помощью нее и потока integers закончите следующее определение потока, n-й элемент которого (начиная с 0) равен факториалу n + 1:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;(define (mul-streams s1 s2)
+  (stream-map * s1 s2))
+(define factorials (cons-stream 1 (mul-streams integers factorials)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Упражнение 3.55.&lt;/h4&gt;
+&lt;p&gt;Определите процедуру partial-sums, которая в качестве аргумента берет поток S, а возвращает поток, элементы которого равны S0, S0 + S1, S0 + S1 + S2, . . .. Например, (partial-sums integers) должно давать поток 1, 3, 6, 10, 15&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;(define (partial-sums stream)
+  (define (iter ps prev)
+    (cons-stream (+ (stream-car ps) prev) (iter (stream-cdr ps) (+ (stream-car ps) prev))))
+  (iter stream 0))
+
+(stream-ref (partial-sums integers) 0) ;; 1
+(stream-ref (partial-sums integers) 1) ;; 3
+(stream-ref (partial-sums integers) 2) ;; 6
+(stream-ref (partial-sums integers) 3) ;; 10
+(stream-ref (partial-sums integers) 4) ;; 15
+
+;; more nicely solution
+(define (partial-sums s)
+   (add-streams s (cons-stream 0 (partial-sums s))))
+
+(stream-ref (partial-sums integers) 0) ;; 1
+(stream-ref (partial-sums integers) 1) ;; 3
+(stream-ref (partial-sums integers) 2) ;; 6
+(stream-ref (partial-sums integers) 3) ;; 10
+(stream-ref (partial-sums integers) 4) ;; 15
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Упражнения 3.56.&lt;/h4&gt;&lt;/div&gt;</description><category>lisp</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-potoki/</guid><pubDate>Fri, 07 May 2021 14:45:06 GMT</pubDate></item><item><title>SICP 3.4 Параллелизм: время имеет значение</title><link>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org0e2f77d" class="outline-2"&gt;
+&lt;h2 id="org0e2f77d"&gt;Упражнение 3.38&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0e2f77d"&gt;
 &lt;p&gt;
 Пусть Петр, Павел и Мария имеют общий счет, на котором вначале лежит 100 долларов. Петр кладет на счет 10 долларов, одновременно с этим Павел берет 20, а Мария берет половину денег со счета. При этом они выполняют следующие операции:
 &lt;/p&gt;
@@ -35,9 +125,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4fa1839" class="outline-2"&gt;
-&lt;h2 id="org4fa1839"&gt;Упражнение 3.39&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4fa1839"&gt;
+&lt;div id="outline-container-orge11687d" class="outline-2"&gt;
+&lt;h2 id="orge11687d"&gt;Упражнение 3.39&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge11687d"&gt;
 &lt;p&gt;
 Какие из пяти возможных исходов параллельного выполнения сохраняются, если мы сериализуем выполнение таким образом:
 &lt;/p&gt;
@@ -71,9 +161,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbc47be1" class="outline-2"&gt;
-&lt;h2 id="orgbc47be1"&gt;Упражнение 3.40&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbc47be1"&gt;
+&lt;div id="outline-container-org1dbb767" class="outline-2"&gt;
+&lt;h2 id="org1dbb767"&gt;Упражнение 3.40&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1dbb767"&gt;
 &lt;p&gt;
 Укажите все возможные значения x при выполнении
 &lt;/p&gt;
@@ -111,9 +201,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcb12047" class="outline-2"&gt;
-&lt;h2 id="orgcb12047"&gt;Упражнение 3.41&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcb12047"&gt;
+&lt;div id="outline-container-orga20c3ff" class="outline-2"&gt;
+&lt;h2 id="orga20c3ff"&gt;Упражнение 3.41&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga20c3ff"&gt;
 &lt;p&gt;
 Бен Битобор считает, что лучше было бы реализовать банковский счет таким образом (измененная строка отмечена комментарием):
 &lt;/p&gt;
@@ -151,9 +241,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org98f924a" class="outline-2"&gt;
-&lt;h2 id="org98f924a"&gt;Упражнение 3.42&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org98f924a"&gt;
+&lt;div id="outline-container-org662d06f" class="outline-2"&gt;
+&lt;h2 id="org662d06f"&gt;Упражнение 3.42&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org662d06f"&gt;
 &lt;p&gt;
 Бен Битобор говорит, что слишком расточительно в ответ на каждое сообщение withdraw и deposit создавать по новой сериализованной процедуре. Он говорит, что можно изменить make-account так, чтобы все вызовы protected происходили вне процедуры dispatch. Таким обра-
 зом, счет будет возвращать одну и ту же сериализованную процедуру (созданную тогда же, когда и сам счет) каждый раз, когда у него просят процедуру снятия денег:
@@ -196,9 +286,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org763296d" class="outline-2"&gt;
-&lt;h2 id="org763296d"&gt;Упражнение 3.43&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org763296d"&gt;
+&lt;div id="outline-container-org217fb6f" class="outline-2"&gt;
+&lt;h2 id="org217fb6f"&gt;Упражнение 3.43&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org217fb6f"&gt;
 &lt;p&gt;
 Предположим, что значения баланса на трех счетах вначале равны 10, 20 и 30 долларам, и что несколько процессов занимаются обменом значений баланса. Покажите, что если эти процессы выполняются последовательно, то после любого количества обменов значения баланса по-прежнему
 будут равны 10, 20 и 30 долларам, в каком-то порядке. Нарисуйте временную диаграмму вроде той, которая изображена на рис. 3.29, и покажите, что указанное условие может нарушаться, если работает первая версия процедуры обмена из этого раздела. Покажите, с другой стороны, что даже с первой программой exchange общая сумма балансов на счетах сохранится. Нарисуйте временную диаграмму, показывающую, что если бы мы не сериализовали транзакции по отдельным счетам, это условие тоже могло бы нарушаться.
@@ -273,9 +363,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdde64cb" class="outline-2"&gt;
-&lt;h2 id="orgdde64cb"&gt;Упражнение 3.44&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdde64cb"&gt;
+&lt;div id="outline-container-orgf87d260" class="outline-2"&gt;
+&lt;h2 id="orgf87d260"&gt;Упражнение 3.44&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf87d260"&gt;
 &lt;p&gt;
 Рассмотрим задачу переноса денег с одного счета на другой. Бен Битобор утверждает, что ее можно решить с помощью следующей процедуры, даже в тех случаях, когда много людей одновременно перемещают деньги между различными счетами, если использовать при этом какой-то механизм,
 сериализующий операции занесения на счет и снятия со счета, например, версию make-account из нашего текста.
@@ -299,9 +389,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org219e59c" class="outline-2"&gt;
-&lt;h2 id="org219e59c"&gt;Упражнение 3.45&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org219e59c"&gt;
+&lt;div id="outline-container-org8faf143" class="outline-2"&gt;
+&lt;h2 id="org8faf143"&gt;Упражнение 3.45&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8faf143"&gt;
 &lt;p&gt;
 Хьюго Дум полагает, что теперь, когда операции снятия денег со счета и занесения их на счет перестали сериализовываться автоматически, система банковских счетов стала неоправданно сложной и работать с ней правильным образом чересчур трудно. Он предлагает сделать так, чтобы make-account-and-serializer экспортировал сериализатор (для использования в процедурах вроде serialized-exchange), и вдобавок сам использовал его для сериализации простых операций
 со счетом, как это делал make-account. Он предлагает переопределить объект-счет так:
@@ -355,9 +445,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org755f61c" class="outline-2"&gt;
-&lt;h2 id="org755f61c"&gt;Упражнение 3.46&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org755f61c"&gt;
+&lt;div id="outline-container-org68e9e3b" class="outline-2"&gt;
+&lt;h2 id="org68e9e3b"&gt;Упражнение 3.46&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org68e9e3b"&gt;
 &lt;p&gt;
 Допустим, что мы реализуем test-and-set в виде обыкновенной процедуры, как показано в тексте, не пытаясь сделать ее атомарной. Нарисуйте временную диаграмму, подобную диаграмме на рис. 3.29, и покажите, как реализация мьютекса может ошибиться и позволить двум процессам одновременно захватить мьютекс.
 &lt;/p&gt;
@@ -407,9 +497,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgf765f97" class="outline-2"&gt;
-&lt;h2 id="orgf765f97"&gt;Упражнение 3.47&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf765f97"&gt;
+&lt;div id="outline-container-org6c11b69" class="outline-2"&gt;
+&lt;h2 id="org6c11b69"&gt;Упражнение 3.47&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6c11b69"&gt;
 &lt;p&gt;
 Семафор (размера n) представляет собой обобщение мьютекса. Подобно мьютексу, семафор поддерживает операции захвата и освобождения, но захватить его одновременно могут до n процессов. Прочие процессы, которые попытаются захватить семафор, должны будут ждать освобождения. Дайте реализацию семафоров
 а. в терминах мьютексов.
@@ -443,9 +533,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org651a987" class="outline-2"&gt;
-&lt;h2 id="org651a987"&gt;Упражнение 3.48&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org651a987"&gt;
+&lt;div id="outline-container-org4dcbfd2" class="outline-2"&gt;
+&lt;h2 id="org4dcbfd2"&gt;Упражнение 3.48&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4dcbfd2"&gt;
 &lt;p&gt;
 Подробно объясните, почему метод избежания тупиков, описанный выше (т. е. счета нумеруются, и каждый процесс сначала пытается захватить счет с меньшим номером), в самом деле позволяет избежать тупика в задаче обмена балансов. Перепишите serialized-exchange с использованием этой идеи. (Придется также изменить make-account, так, чтобы каждый счет создавался вместе с номером, и чтобы этот номер можно было считать, послав соответствующее сообщение.)
 &lt;/p&gt;
@@ -468,9 +558,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9399a6a" class="outline-2"&gt;
-&lt;h2 id="org9399a6a"&gt;Упражнение 3.49&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9399a6a"&gt;
+&lt;div id="outline-container-orgff83a37" class="outline-2"&gt;
+&lt;h2 id="orgff83a37"&gt;Упражнение 3.49&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgff83a37"&gt;
 &lt;p&gt;
 Опишите сценарий, в котором вышеописанный механизм избежания тупиков не работает. (Подсказка: в задаче обмена счетов каждый процесс заранее знает, к каким счетам ему нужен будет доступ. Рассмотрите ситуацию, в которой процессу нужно сначала получить доступ к каким-то разделяемым ресурсам, прежде чем он сможет определить, какие ресурсы ему потребуются дополнительно.)
 &lt;/p&gt;
@@ -479,9 +569,9 @@ P2 делает депозит -10 на A2
 Например нам нужно полнить счет 1 и в зависимости от суммы на счете сделать перевод на x или y. А при пополнении счета y, нам нужно в зависимости от суммы перевести на 1 или x. Получается если сначала процесс захватит счет 1, а второй процесс захватит счет y, то может возникнуть ситуация deadlock, так как счету 1 надо выполнить перевод на y, а y надо выполнить перевод на 1.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>concurrency</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</guid><pubDate>Fri, 14 Feb 2020 11:23:44 GMT</pubDate></item><item><title>SICP 3.3 Моделирование с изменяемыми данными.</title><link>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgf182db6" class="outline-2"&gt;
-&lt;h2 id="orgf182db6"&gt;Упражнение 3.12&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf182db6"&gt;
+&lt;/div&gt;</description><category>concurrency</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</guid><pubDate>Fri, 14 Feb 2020 11:23:44 GMT</pubDate></item><item><title>SICP 3.3 Моделирование с изменяемыми данными.</title><link>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgeb578a9" class="outline-2"&gt;
+&lt;h2 id="orgeb578a9"&gt;Упражнение 3.12&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgeb578a9"&gt;
 &lt;p&gt;
 Следующая процедура добавления элементов в список была приведена в главе 2.2.1
 &lt;/p&gt;
@@ -540,9 +630,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgfa76f23" class="outline-2"&gt;
-&lt;h2 id="orgfa76f23"&gt;Упражнение 3.13&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfa76f23"&gt;
+&lt;div id="outline-container-org0d02f9d" class="outline-2"&gt;
+&lt;h2 id="org0d02f9d"&gt;Упражнение 3.13&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0d02f9d"&gt;
 &lt;p&gt;
 Рассмотрим следующую процедуру make-cycle, которая использует last-pair описанную ранее.
 &lt;/p&gt;
@@ -573,9 +663,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge75d16f" class="outline-2"&gt;
-&lt;h2 id="orge75d16f"&gt;Упражнение 3.14&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge75d16f"&gt;
+&lt;div id="outline-container-org1dc935c" class="outline-2"&gt;
+&lt;h2 id="org1dc935c"&gt;Упражнение 3.14&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1dc935c"&gt;
 &lt;p&gt;
 Следующая процедура часто применяется, несмотря на запутанность.
 &lt;/p&gt;
@@ -611,9 +701,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0f814e4" class="outline-2"&gt;
-&lt;h2 id="org0f814e4"&gt;Упражнение 3.15&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0f814e4"&gt;
+&lt;div id="outline-container-orgdd82f88" class="outline-2"&gt;
+&lt;h2 id="orgdd82f88"&gt;Упражнение 3.15&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdd82f88"&gt;
 &lt;p&gt;
 Нарисуйте диаграмму для структур после применения set-to-wow!
 &lt;/p&gt;
@@ -634,9 +724,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org811a950" class="outline-2"&gt;
-&lt;h2 id="org811a950"&gt;Упражнение 3.16&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org811a950"&gt;
+&lt;div id="outline-container-org6b9d290" class="outline-2"&gt;
+&lt;h2 id="org6b9d290"&gt;Упражнение 3.16&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6b9d290"&gt;
 &lt;p&gt;
 Бен решил написать процедуру которая подсчитывает количество пар в любом списке. "Это просто. Количество пар, это количество в car плюс количество в cdr плюс один, что бы учесть текущую пару."
 &lt;/p&gt;
@@ -680,9 +770,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgeaf58ee" class="outline-2"&gt;
-&lt;h2 id="orgeaf58ee"&gt;Упражнение 3.17&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeaf58ee"&gt;
+&lt;div id="outline-container-orgb8ed19b" class="outline-2"&gt;
+&lt;h2 id="orgb8ed19b"&gt;Упражнение 3.17&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb8ed19b"&gt;
 &lt;p&gt;
 Напишите правильную версию процедуры count-pairs из упражнения 3.16, которая возвращает число различных пар в любой структуре. (Подсказка: просматривайте структуру, поддерживая при этом вспомогательную структуру, следящую за тем, какие пары уже были посчитаны.)
 &lt;/p&gt;
@@ -729,9 +819,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfa02144" class="outline-2"&gt;
-&lt;h2 id="orgfa02144"&gt;Упражнение 3.18, 3.19&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfa02144"&gt;
+&lt;div id="outline-container-orgb00b6ab" class="outline-2"&gt;
+&lt;h2 id="orgb00b6ab"&gt;Упражнение 3.18, 3.19&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb00b6ab"&gt;
 &lt;p&gt;
 Напишите процедуру, которая рассматривает список и определяет, содержится ли в нем цикл, то есть, не войдет ли программа, которая попытается добраться до конца списка, продвигаясь по полям cdr, в бесконечный цикл. Такие списки порождались в упражнении 3.13.
 &lt;/p&gt;
@@ -793,9 +883,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgae49f6f" class="outline-2"&gt;
-&lt;h2 id="orgae49f6f"&gt;Упражнение 3.20&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgae49f6f"&gt;
+&lt;div id="outline-container-orgcdb3055" class="outline-2"&gt;
+&lt;h2 id="orgcdb3055"&gt;Упражнение 3.20&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcdb3055"&gt;
 &lt;p&gt;
 Нарисуйте диаграммы окружений, изображающие выполнение  последовательности выражений с помощью вышеприведенной процедурной реализации пар.
 &lt;/p&gt;
@@ -835,9 +925,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3df06f8" class="outline-2"&gt;
-&lt;h2 id="org3df06f8"&gt;Упражнение 3.21&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3df06f8"&gt;
+&lt;div id="outline-container-org16121bf" class="outline-2"&gt;
+&lt;h2 id="org16121bf"&gt;Упражнение 3.21&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org16121bf"&gt;
 &lt;p&gt;
 при добавлении элемента, ссылка на новый элемент сохраняется в два места, поэтому при распечатке выводится не только список элементов, но и вторая ссылка.
 &lt;/p&gt;
@@ -849,9 +939,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org89823d3" class="outline-2"&gt;
-&lt;h2 id="org89823d3"&gt;Упражнение 3.22&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org89823d3"&gt;
+&lt;div id="outline-container-org95ca31c" class="outline-2"&gt;
+&lt;h2 id="org95ca31c"&gt;Упражнение 3.22&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org95ca31c"&gt;
 &lt;p&gt;
 Вместо того, чтобы представлять очередь как пару указателей, можно построить ее в виде процедуры с внутренним состоянием. Это состояние будет включать указатели на начало и конец обыкновенного списка. Таким образом, make-queue будет иметь вид
 &lt;/p&gt;
@@ -905,9 +995,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org87446e3" class="outline-2"&gt;
-&lt;h2 id="org87446e3"&gt;Упражнение 3.23&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org87446e3"&gt;
+&lt;div id="outline-container-orgada525d" class="outline-2"&gt;
+&lt;h2 id="orgada525d"&gt;Упражнение 3.23&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgada525d"&gt;
 &lt;p&gt;
 Дек (deque, double-ended queue, «двусторонняя очередь») представляет собой последовательность, элементы в которой могут добавляться и уничтожаться как с головы, так и с хвоста. На деках определены такие операции: конструктор make-deque, предикат empty-deque?, селекто-
 ры front-deque и rear-deque, и мутаторы front-insert-deque!, rear-insert-deque!, front-delete-deque! и rear-delete-deque!. Покажите, как представить дек при помощи пар, и напишите реализацию операций .Все операции должны выполняться за Θ(1) шагов.
@@ -996,9 +1086,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc6e1fa9" class="outline-2"&gt;
-&lt;h2 id="orgc6e1fa9"&gt;Упражнение 3.24&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc6e1fa9"&gt;
+&lt;div id="outline-container-org7aa8111" class="outline-2"&gt;
+&lt;h2 id="org7aa8111"&gt;Упражнение 3.24&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7aa8111"&gt;
 &lt;p&gt;
 В реализациях таблиц в этом разделе ключи всегда проверяются на равенство с помощью equal? (который, в свою очередь, зовется из assoc). Это не всегда то, что нужно. Например, можно представить себе таблицу с числовыми ключами, где не требуется точного совпадения с числом,
 которое мы ищем, а нужно только совпадение с определенной допустимой ошибкой. Постройте конструктор таблиц make-table, который в качестве аргумента принимает процедуру same-key? для проверки равенства ключей. Make-table должна возвращать процедуру dispatch. через которую можно добраться до процедур lookup и insert! локальной таблицы. В реализациях таблиц в этом разделе ключи всегда проверяются на равенство с помощью equal? (который, в свою очередь, зовется из assoc). Это не всегда то, что нужно. Например, можно представить себе таблицу с числовыми ключами, где не требуется точного совпадения с числом, которое мы ищем, а нужно только совпадение с определенной допустимой ошибкой. Постройте
@@ -1024,9 +1114,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2484d94" class="outline-2"&gt;
-&lt;h2 id="org2484d94"&gt;Упражнение 3.25&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2484d94"&gt;
+&lt;div id="outline-container-org6e4171f" class="outline-2"&gt;
+&lt;h2 id="org6e4171f"&gt;Упражнение 3.25&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6e4171f"&gt;
 &lt;p&gt;
 Обобщая случаи одно- и двумерных таблиц, покажите, как можно реализовать таблицу, в которой элементы хранятся с произвольным количеством ключей и различные значения могут храниться с различным количеством ключей. Процедуры lookup и insert! должны принимать на входе
 список ключей, с которыми требуется обратиться к таблице.
@@ -1100,9 +1190,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge41ab83" class="outline-2"&gt;
-&lt;h2 id="orge41ab83"&gt;Упражнение 3.26&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge41ab83"&gt;
+&lt;div id="outline-container-orgbc83345" class="outline-2"&gt;
+&lt;h2 id="orgbc83345"&gt;Упражнение 3.26&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc83345"&gt;
 &lt;p&gt;
 При поиске в таблице, как она реализована выше, приходится просматривать список записей. В сущности, это представление с неупорядоченным списком из раздела 2.3.3. Для больших таблиц может оказаться эффективнее организовать таблицу иначе. Опишите реализацию таблицы, в которой записи (ключ, значение) организованы в виде бинарного дерева, в предположении, что ключи можно каким-то образом упорядочить (например, численно или по алфавиту).
 &lt;/p&gt;
@@ -1216,9 +1306,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb4a0f33" class="outline-2"&gt;
-&lt;h2 id="orgb4a0f33"&gt;Упражнение 3.27&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb4a0f33"&gt;
+&lt;div id="outline-container-org203e3d9" class="outline-2"&gt;
+&lt;h2 id="org203e3d9"&gt;Упражнение 3.27&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org203e3d9"&gt;
 &lt;p&gt;
 Мемоизация (memoization) (называемая также табуляризация (tabulation)) — прием, который позволяет процедуре записывать в локальной таблице единожды вычисленные значения.
 &lt;/p&gt;
@@ -1292,9 +1382,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7aecf10" class="outline-2"&gt;
-&lt;h2 id="org7aecf10"&gt;Упражнение 3.28&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7aecf10"&gt;
+&lt;div id="outline-container-orgdd872ec" class="outline-2"&gt;
+&lt;h2 id="orgdd872ec"&gt;Упражнение 3.28&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdd872ec"&gt;
 &lt;p&gt;
 Определите ИЛИ-элемент как элементарный функциональный блок. Ваш конструктор or-gate должен быть подобен and-gate.
 &lt;/p&gt;
@@ -1313,9 +1403,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfc74320" class="outline-2"&gt;
-&lt;h2 id="orgfc74320"&gt;Упражнение 3.29&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfc74320"&gt;
+&lt;div id="outline-container-org6bdf6db" class="outline-2"&gt;
+&lt;h2 id="org6bdf6db"&gt;Упражнение 3.29&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6bdf6db"&gt;
 &lt;p&gt;
 Еще один способ создать ИЛИ-элемент — это собрать его как составной блок из И-элементов и инверторов. Определите процедуру or-gate, которая это осуществляет. Как время задержки ИЛИ-элемента выражается через and-gate-delay и inverter-delay?
 &lt;/p&gt;
@@ -1337,9 +1427,9 @@ inventer-delay + inventer-delay + and-gate-delay + and-gate-delay + inventer-del
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7bb8808" class="outline-2"&gt;
-&lt;h2 id="org7bb8808"&gt;Упражнение 3.30&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7bb8808"&gt;
+&lt;div id="outline-container-org4b438f0" class="outline-2"&gt;
+&lt;h2 id="org4b438f0"&gt;Упражнение 3.30&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4b438f0"&gt;
 &lt;p&gt;
 Напишите процедуру riple-carry-adder, которая бы моделировала схему каскадного сумматора.
 &lt;/p&gt;
@@ -1361,9 +1451,9 @@ inventer-delay + inventer-delay + and-gate-delay + and-gate-delay + inventer-del
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga125d4e" class="outline-2"&gt;
-&lt;h2 id="orga125d4e"&gt;Упражнение 3.31&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga125d4e"&gt;
+&lt;div id="outline-container-org73a317f" class="outline-2"&gt;
+&lt;h2 id="org73a317f"&gt;Упражнение 3.31&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org73a317f"&gt;
 &lt;p&gt;
 Внутренняя процедура accept-action-procedure!, определенная в make-wire, требует, чтобы в момент, когда процедура-действие добавляется к проводу, она немедленно исполнялась. Объясните, зачем требуется такая инициализация. В частности, проследите работу процедуры half-adder из этого текста и скажите, как отличалась бы реакция системы, если бы accept-action-procedure! была определена как
 &lt;/p&gt;
@@ -1382,9 +1472,9 @@ inventer-delay + inventer-delay + and-gate-delay + and-gate-delay + inventer-del
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2f909cc" class="outline-2"&gt;
-&lt;h2 id="org2f909cc"&gt;Упражнение 3.32&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2f909cc"&gt;
+&lt;div id="outline-container-org2dd2a33" class="outline-2"&gt;
+&lt;h2 id="org2dd2a33"&gt;Упражнение 3.32&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2dd2a33"&gt;
 &lt;p&gt;
 Процедуры, предназначенные к выполнению в каждом временном отрезке, хранятся в виде очереди. Таким образом, процедуры для каждого отрезка вызываются в том же порядке, в котором они были добавлены к плану (первый пришел, первый ушел). Объясните, почему требуется использовать именно такой порядок. В частности, проследите поведение И-элемента, входы которого меняются с 0 на 1 и с 1 на 0 одновременно и скажите, как отличалось бы поведение, если бы мы хранили процедуры отрезка в обыкновенном списке, добавляя и убирая их только с головы (последний пришел, первый ушел).
 &lt;/p&gt;
@@ -1408,9 +1498,9 @@ initial (a1 a2)
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgdea7e91" class="outline-2"&gt;
-&lt;h2 id="orgdea7e91"&gt;Упражнение 3.33&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdea7e91"&gt;
+&lt;div id="outline-container-org60d5d48" class="outline-2"&gt;
+&lt;h2 id="org60d5d48"&gt;Упражнение 3.33&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org60d5d48"&gt;
 &lt;p&gt;
 С помощью элементарных ограничений сумматор, умножитель и константа, определите процедуру averager (усреднитель), которая принимает три соединителя a, b и c, и обеспечивает условие, что значение c равно среднему арифметическому значений a и b.
 &lt;/p&gt;
@@ -1436,9 +1526,9 @@ initial (a1 a2)
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgdb0c0b7" class="outline-2"&gt;
-&lt;h2 id="orgdb0c0b7"&gt;Упражнение 3.34&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdb0c0b7"&gt;
+&lt;div id="outline-container-orgaedee5c" class="outline-2"&gt;
+&lt;h2 id="orgaedee5c"&gt;Упражнение 3.34&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgaedee5c"&gt;
 &lt;p&gt;
 Хьюго Дум хочет построить квадратор, блок-ограничение с двумя выводами, такое, что значение соединителя b на втором выводе всегда будет равно квадрату значения соединителя a на первом выводе. Он предлагает следующее простое устройство на основе умножителя:
 &lt;/p&gt;
@@ -1465,9 +1555,9 @@ initial (a1 a2)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org86c027a" class="outline-2"&gt;
-&lt;h2 id="org86c027a"&gt;Упражнение 3.35&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org86c027a"&gt;
+&lt;div id="outline-container-orgb5020d9" class="outline-2"&gt;
+&lt;h2 id="orgb5020d9"&gt;Упражнение 3.35&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb5020d9"&gt;
 &lt;p&gt;
 Бен Битобор объясняет Хьюго, что один из способов избежать неприятностей в упражнении 3.34  — определить квадратор как новое элементарное ограничение. Заполните недостающие части в Беновой схеме процедуры, реализующей такое ограничение:
 &lt;/p&gt;
@@ -1511,9 +1601,9 @@ initial (a1 a2)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8a5bd41" class="outline-2"&gt;
-&lt;h2 id="org8a5bd41"&gt;Упражнение 3.36&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8a5bd41"&gt;
+&lt;div id="outline-container-orgfb310ad" class="outline-2"&gt;
+&lt;h2 id="orgfb310ad"&gt;Упражнение 3.36&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfb310ad"&gt;
 &lt;p&gt;
 Допустим, что мы выполняем следующую последовательность действий в глобальном окружении:
 &lt;/p&gt;
@@ -1536,9 +1626,9 @@ initial (a1 a2)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfffde21" class="outline-2"&gt;
-&lt;h2 id="orgfffde21"&gt;Упражнение 3.37&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfffde21"&gt;
+&lt;div id="outline-container-orgdadd50b" class="outline-2"&gt;
+&lt;h2 id="orgdadd50b"&gt;Упражнение 3.37&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdadd50b"&gt;
 &lt;p&gt;
 Процедура celsius-fahrenheit-converter выглядит громоздко по сравнению со стилем определения в формате выражения:
 &lt;/p&gt;
@@ -1592,9 +1682,9 @@ initial (a1 a2)
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-value&lt;/span&gt; &lt;span class="nv"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; 32&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>mutable_data</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</guid><pubDate>Wed, 05 Feb 2020 11:06:34 GMT</pubDate></item><item><title>SICP 3.2 Модель вычислений с окружениями</title><link>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgd02c925" class="outline-2"&gt;
-&lt;h2 id="orgd02c925"&gt;Упражнение 3.9&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd02c925"&gt;
+&lt;/div&gt;</description><category>mutable_data</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</guid><pubDate>Wed, 05 Feb 2020 11:06:34 GMT</pubDate></item><item><title>SICP 3.2 Модель вычислений с окружениями</title><link>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org8d3ceba" class="outline-2"&gt;
+&lt;h2 id="org8d3ceba"&gt;Упражнение 3.9&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8d3ceba"&gt;
 &lt;p&gt;
 Покажите структуру окружений для вычисления факториала.
 &lt;/p&gt;
@@ -1660,9 +1750,9 @@ E3 - product 1          -&amp;gt; G
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org831495e" class="outline-2"&gt;
-&lt;h2 id="org831495e"&gt;Упражнение 3.10&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org831495e"&gt;
+&lt;div id="outline-container-orgc155f82" class="outline-2"&gt;
+&lt;h2 id="orgc155f82"&gt;Упражнение 3.10&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc155f82"&gt;
 &lt;p&gt;
 Проиллюстрируйте структуры окружений для следующей процедуры и вызовов.
 &lt;/p&gt;
@@ -1707,9 +1797,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org4792190" class="outline-2"&gt;
-&lt;h2 id="org4792190"&gt;Упражнение 3.11&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4792190"&gt;
+&lt;div id="outline-container-orgfafde9e" class="outline-2"&gt;
+&lt;h2 id="orgfafde9e"&gt;Упражнение 3.11&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfafde9e"&gt;
 &lt;p&gt;
 Проиллюстрируйте структуру окружений для следующей процедуры и вызовов
 &lt;/p&gt;
@@ -1759,9 +1849,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 Только глобальная область видимости, то есть определение make-account.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>environment_model</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</guid><pubDate>Tue, 04 Feb 2020 09:50:12 GMT</pubDate></item><item><title>SICP 3.1 Назначения и локальноые состояния.</title><link>http://velikiinehochuha.github.io/posts/sicp-31-naznacheniia-i-lokalnoye-sostoianiia/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org908d786" class="outline-2"&gt;
-&lt;h2 id="org908d786"&gt;Упражнение 3.1&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org908d786"&gt;
+&lt;/div&gt;</description><category>environment_model</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</guid><pubDate>Tue, 04 Feb 2020 09:50:12 GMT</pubDate></item><item><title>SICP 3.1 Назначения и локальноые состояния.</title><link>http://velikiinehochuha.github.io/posts/sicp-31-naznacheniia-i-lokalnoye-sostoianiia/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org21ec93b" class="outline-2"&gt;
+&lt;h2 id="org21ec93b"&gt;Упражнение 3.1&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org21ec93b"&gt;
 &lt;p&gt;
 определите сумматор
 &lt;/p&gt;
@@ -1782,9 +1872,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgaddaa17" class="outline-2"&gt;
-&lt;h2 id="orgaddaa17"&gt;Упражнение 3.2&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgaddaa17"&gt;
+&lt;div id="outline-container-orgeaa3e75" class="outline-2"&gt;
+&lt;h2 id="orgeaa3e75"&gt;Упражнение 3.2&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgeaa3e75"&gt;
 &lt;p&gt;
 в программах для тестирования важно уметь считать количество вызовов функции. Напишите процедуру, которая считает количество вызовов например функции sqrt.
 &lt;/p&gt;
@@ -1817,9 +1907,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7801aeb" class="outline-2"&gt;
-&lt;h2 id="org7801aeb"&gt;Упражнение 3.3&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7801aeb"&gt;
+&lt;div id="outline-container-org6812731" class="outline-2"&gt;
+&lt;h2 id="org6812731"&gt;Упражнение 3.3&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6812731"&gt;
 &lt;p&gt;
 Измените процедуру make-account, чтобы она принимала пароль в конструкторе. И пощволяла списание только при передаче его в параметре.
 &lt;/p&gt;
@@ -1861,9 +1951,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge82de4f" class="outline-2"&gt;
-&lt;h2 id="orge82de4f"&gt;Упражнение 3.4&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge82de4f"&gt;
+&lt;div id="outline-container-org432f6bd" class="outline-2"&gt;
+&lt;h2 id="org432f6bd"&gt;Упражнение 3.4&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org432f6bd"&gt;
 &lt;p&gt;
 Измените процедуру make-account, что бы при 7 вызовах с неверным паролем возвращалась процедура call-the-cops.
 &lt;/p&gt;
@@ -1905,9 +1995,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org548cfbb" class="outline-2"&gt;
-&lt;h2 id="org548cfbb"&gt;Упражнение 3.5&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org548cfbb"&gt;
+&lt;div id="outline-container-org5b5c5e4" class="outline-2"&gt;
+&lt;h2 id="org5b5c5e4"&gt;Упражнение 3.5&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5b5c5e4"&gt;
 &lt;p&gt;
 Реализуйте интегрирование методом Монте-Карло в виде процедуры estimateintegral, которая в качестве аргументов принимает предикат P, верхнюю и нижнюю границы прямоугольника x1, x2, y1 и y2, а также число проверок, которые мы должны осуществить, чтобы оценить отношение площадей. Ваша процедура должна использовать ту же самую процедуру monte-carlo, которая выше использовалась для оценки значения π. Оцените π при помощи estimate-integral.
 &lt;/p&gt;
@@ -1948,9 +2038,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org75f8c30" class="outline-2"&gt;
-&lt;h2 id="org75f8c30"&gt;Упражнение 3.6&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org75f8c30"&gt;
+&lt;div id="outline-container-org685973c" class="outline-2"&gt;
+&lt;h2 id="org685973c"&gt;Упражнение 3.6&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org685973c"&gt;
 &lt;p&gt;
 Полезно иметь возможность сбросить генератор случайных чисел, чтобы получить последовательность, которая начинается с некоторого числа. Постройте новую процедуру rand, которая вызывается с аргументом. Этот аргумент должен быть либо символом generate, либо символом reset. Процедура работает так: (rand 'generate) порождает новое случайное число; ((rand 'reset) (новое-значение)) сбрасывает внутреннюю переменную состояния в указанное новое значение. Таким образом, сбрасывая значения, можно получать повторяющиеся последовательности. Эта возможность очень полезна при тестировании и отладке программ, использующих случайные числа.
 &lt;/p&gt;
@@ -1989,9 +2079,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org8c0b159" class="outline-2"&gt;
-&lt;h2 id="org8c0b159"&gt;Упражнение 3.7&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8c0b159"&gt;
+&lt;div id="outline-container-orgd2ec0ce" class="outline-2"&gt;
+&lt;h2 id="orgd2ec0ce"&gt;Упражнение 3.7&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd2ec0ce"&gt;
 &lt;p&gt;
 Нужно написать процедуру связанного аккаунта, что бы как новый так и старый пользователи могли с ним работать.
 &lt;/p&gt;
@@ -2041,9 +2131,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org9a84ce3" class="outline-2"&gt;
-&lt;h2 id="org9a84ce3"&gt;Упражнение 3.8&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9a84ce3"&gt;
+&lt;div id="outline-container-org041c7cc" class="outline-2"&gt;
+&lt;h2 id="org041c7cc"&gt;Упражнение 3.8&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org041c7cc"&gt;
 &lt;p&gt;
 Определите простую процедуру f, чтобы вычисление (+ (f 0) (f 1)) возвращало 0, если аргументы + вычисляются слева направо, и 1, если они вычисляются справа налево.
 &lt;/p&gt;
@@ -2073,9 +2163,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 Системы с общими операциями не только для разных представлений, но и для разного числа аргументов.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org3d2b23d" class="outline-2"&gt;
-&lt;h2 id="org3d2b23d"&gt;Упражнение 2.77&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3d2b23d"&gt;
+&lt;div id="outline-container-orgffa0736" class="outline-2"&gt;
+&lt;h2 id="orgffa0736"&gt;Упражнение 2.77&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgffa0736"&gt;
 &lt;p&gt;
 Луис Разумный пытается выполнить процедуру (magnitude z) где z объект комплексного числа как на изображении.
 &lt;/p&gt;
@@ -2119,9 +2209,9 @@ apply-generic вызывается два раза, на первом этапе
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org48cfd39" class="outline-2"&gt;
-&lt;h2 id="org48cfd39"&gt;Упражнение 2.78&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org48cfd39"&gt;
+&lt;div id="outline-container-org2c90d49" class="outline-2"&gt;
+&lt;h2 id="org2c90d49"&gt;Упражнение 2.78&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2c90d49"&gt;
 &lt;p&gt;
 Внутренние процедуры scheme-number по существу просто вызывают процедуры +/-/.. Не возможно использовать примитивы языка напрямую, потому что наша система тип-тег требует что бы каждый объект имел тег, в тоже время все реализации Lisp имеют внутренню систему типов. Примитивы symbol? number? определяют являются ли объекты примитивными типами. Измените определение type-tag, contents и attach-tag, что бы наша система получила преимущество использования внутренних типов Scheme. То есть функции должны работать по прежнему, но для операции над простыми числами не требуется дополнительный конструктор, который возвращает пару тип значение.
 &lt;/p&gt;
@@ -2157,9 +2247,9 @@ apply-generic вызывается два раза, на первом этапе
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7b91fc1" class="outline-2"&gt;
-&lt;h2 id="org7b91fc1"&gt;Упражнение 2.79, 2.80&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7b91fc1"&gt;
+&lt;div id="outline-container-org87f48ae" class="outline-2"&gt;
+&lt;h2 id="org87f48ae"&gt;Упражнение 2.79, 2.80&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org87f48ae"&gt;
 &lt;p&gt;
 Определите общую процедуру equ? которая проверяет эквивалентность двух чисел. Процедура должна работать с обычными, рациональными и комплексными числами.
 &lt;/p&gt;
@@ -2201,9 +2291,9 @@ apply-generic вызывается два раза, на первом этапе
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge1b2234" class="outline-2"&gt;
-&lt;h2 id="orge1b2234"&gt;Упражнение 2.81&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge1b2234"&gt;
+&lt;div id="outline-container-org7a00995" class="outline-2"&gt;
+&lt;h2 id="org7a00995"&gt;Упражнение 2.81&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7a00995"&gt;
 &lt;p&gt;
 Луис Разумный заметил что apply-generic может приводить аргументы, даже если они одного типа. Поэтому, он рассудил, что мы должны поместить процедуры приведения одинаковых типов в таблицу приведения.
 &lt;/p&gt;
@@ -2272,9 +2362,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org36fb671" class="outline-2"&gt;
-&lt;h2 id="org36fb671"&gt;Упражнение 2.82&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org36fb671"&gt;
+&lt;div id="outline-container-orgdfb44aa" class="outline-2"&gt;
+&lt;h2 id="orgdfb44aa"&gt;Упражнение 2.82&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdfb44aa"&gt;
 &lt;p&gt;
 Покажите как обобщить apply-generic для обработки приведения типов множественных аргументов. Одна из стратегий, попытка привести все аргументы к типу первого аргумента, затем к типу второго и так далее.
 Дайте пример когда такая стратегия не работает (более того она может не сработать и для двух аргументов).
@@ -2331,9 +2421,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcf942c2" class="outline-2"&gt;
-&lt;h2 id="orgcf942c2"&gt;Упражнение 2.83&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcf942c2"&gt;
+&lt;div id="outline-container-org641c4d4" class="outline-2"&gt;
+&lt;h2 id="org641c4d4"&gt;Упражнение 2.83&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org641c4d4"&gt;
 &lt;p&gt;
 Предположим вы разрабатываете систему для работы с башней типов как на картинке
 &lt;/p&gt;
@@ -2377,9 +2467,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org625b917" class="outline-2"&gt;
-&lt;h2 id="org625b917"&gt;Упражнение 2.84&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org625b917"&gt;
+&lt;div id="outline-container-orgc7ab9f5" class="outline-2"&gt;
+&lt;h2 id="orgc7ab9f5"&gt;Упражнение 2.84&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc7ab9f5"&gt;
 &lt;p&gt;
 Используя процедуру raise из задачи 2.83 переделайте процедуру apply-generic, чтобы она приводила аргументы методом повышения типов.
 Вам нужно придумать способ определить какой из двух типов выше в иерархии.
@@ -2449,9 +2539,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgef58eb3" class="outline-2"&gt;
-&lt;h2 id="orgef58eb3"&gt;Упражнение 2.85&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgef58eb3"&gt;
+&lt;div id="outline-container-orgba0831d" class="outline-2"&gt;
+&lt;h2 id="orgba0831d"&gt;Упражнение 2.85&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgba0831d"&gt;
 &lt;p&gt;
 В разделе упоминалась процедура "упрощение" объекта, понижение типа насколько возможно. Составьте процедуру drop для башни типов. К примеру комплексное 1.5 + 0i может быть сведено к типу real 1.5. И используя drop перепишите apply-generic процедуру что бы "упростить" результат.
 &lt;/p&gt;
@@ -2562,9 +2652,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb60dc01" class="outline-2"&gt;
-&lt;h2 id="orgb60dc01"&gt;Упражнение 2.86&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb60dc01"&gt;
+&lt;div id="outline-container-org0e063a3" class="outline-2"&gt;
+&lt;h2 id="org0e063a3"&gt;Упражнение 2.86&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0e063a3"&gt;
 &lt;p&gt;
 Предположим мы хотим работать с комплексными числами, где реальная и мнимая часть могут быть представлены как обычными так и рациональными числами. Опишите и реализуйте изменения которые необходимы для этого. Вам потребуется реализовать операции sin, cos как общие операции над обычными и рациональными числами.
 &lt;/p&gt;
@@ -2624,9 +2714,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgf43679a" class="outline-2"&gt;
-&lt;h2 id="orgf43679a"&gt;Упражнение 2.87&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf43679a"&gt;
+&lt;div id="outline-container-org0c0c984" class="outline-2"&gt;
+&lt;h2 id="org0c0c984"&gt;Упражнение 2.87&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0c0c984"&gt;
 &lt;p&gt;
 Добавьте =zero? для полиномов. 
 &lt;/p&gt;
@@ -2645,9 +2735,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7a7de18" class="outline-2"&gt;
-&lt;h2 id="org7a7de18"&gt;Упражнение 2.88&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7a7de18"&gt;
+&lt;div id="outline-container-org9b68bb3" class="outline-2"&gt;
+&lt;h2 id="org9b68bb3"&gt;Упражнение 2.88&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9b68bb3"&gt;
 &lt;p&gt;
 Добавить в систему вычитание полиномов.
 &lt;/p&gt;
@@ -2676,9 +2766,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org364830b" class="outline-2"&gt;
-&lt;h2 id="org364830b"&gt;Упражнение 2.89&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org364830b"&gt;
+&lt;div id="outline-container-org4b6c04b" class="outline-2"&gt;
+&lt;h2 id="org4b6c04b"&gt;Упражнение 2.89&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4b6c04b"&gt;
 &lt;p&gt;
 Определите процедуру которая определяет представление term-list для компактных полиномов.
 &lt;/p&gt;
@@ -2754,9 +2844,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfdc03bf" class="outline-2"&gt;
-&lt;h2 id="orgfdc03bf"&gt;Упражнение 2.90&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfdc03bf"&gt;
+&lt;div id="outline-container-org73eae1d" class="outline-2"&gt;
+&lt;h2 id="org73eae1d"&gt;Упражнение 2.90&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org73eae1d"&gt;
 &lt;p&gt;
 Предположим бы хотим иметь два представления для компактных и разбросанных полиномов. Нам нужно разрешить два представления для полиномов. Перепишите модуль для полиномов что бы он работал с двумя представлениями.
 &lt;/p&gt;
@@ -2906,9 +2996,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge3eaf8d" class="outline-2"&gt;
-&lt;h2 id="orge3eaf8d"&gt;Упражнение 2.91&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge3eaf8d"&gt;
+&lt;div id="outline-container-orgcec3e6b" class="outline-2"&gt;
+&lt;h2 id="orgcec3e6b"&gt;Упражнение 2.91&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcec3e6b"&gt;
 &lt;p&gt;
 Допишите функцию деления полиномов.
 &lt;/p&gt;
@@ -2934,9 +3024,9 @@ b. Прав ли Луис что дописал эти преобразован�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga325370" class="outline-2"&gt;
-&lt;h2 id="orga325370"&gt;Упражнение 2.92&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga325370"&gt;
+&lt;div id="outline-container-orgfcb7bd6" class="outline-2"&gt;
+&lt;h2 id="orgfcb7bd6"&gt;Упражнение 2.92&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfcb7bd6"&gt;
 &lt;p&gt;
 Задав приоритет переменным, дополните пакет работы с полиномами так чтобы сумма и умножение для полиномов работало для полиномов разных переменных.
 &lt;/p&gt;
@@ -3022,9 +3112,9 @@ y&lt;sup&gt;2&lt;/sup&gt; (x&lt;sup&gt;2&lt;/sup&gt;)3 + y&lt;sup&gt;0&lt;/sup&g
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4e64d32" class="outline-2"&gt;
-&lt;h2 id="org4e64d32"&gt;Упражнение 2.93, 2.94&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4e64d32"&gt;
+&lt;div id="outline-container-org6e81f88" class="outline-2"&gt;
+&lt;h2 id="org6e81f88"&gt;Упражнение 2.93, 2.94&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6e81f88"&gt;
 &lt;p&gt;
 Измените пакет для рациональных чисел чтобы он мог работать с полиномами. Протестируйте ваш пакет, вызвав make-rational над полиномами.
 &lt;/p&gt;
@@ -3128,9 +3218,9 @@ y&lt;sup&gt;2&lt;/sup&gt; (x&lt;sup&gt;2&lt;/sup&gt;)3 + y&lt;sup&gt;0&lt;/sup&g
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org00cb686" class="outline-2"&gt;
-&lt;h2 id="org00cb686"&gt;Упражнение 2.95, 2.96, 2.97&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org00cb686"&gt;
+&lt;div id="outline-container-org26cabfe" class="outline-2"&gt;
+&lt;h2 id="org26cabfe"&gt;Упражнение 2.95, 2.96, 2.97&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org26cabfe"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;terms1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-sparse-terms&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;-2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;p1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-polynomial&lt;/span&gt; &lt;span class="ss"&gt;'x&lt;/span&gt; &lt;span class="nv"&gt;terms1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="nv"&gt;p1&lt;/span&gt;
@@ -3243,9 +3333,9 @@ c. определите процедуру reduce для полиномов
 &lt;/p&gt;
 
 
-&lt;div id="outline-container-org3dfb9b4" class="outline-2"&gt;
-&lt;h2 id="org3dfb9b4"&gt;Упражнение 2.73&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3dfb9b4"&gt;
+&lt;div id="outline-container-org8f72bb1" class="outline-2"&gt;
+&lt;h2 id="org8f72bb1"&gt;Упражнение 2.73&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8f72bb1"&gt;
 &lt;p&gt;
 В секции 2.3.2 описана программа символического дифференцирования.
 &lt;/p&gt;
@@ -3381,9 +3471,9 @@ d. предположим мы индексируем процедуры дру�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3f59c89" class="outline-2"&gt;
-&lt;h2 id="org3f59c89"&gt;Упражнение 2.74&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3f59c89"&gt;
+&lt;div id="outline-container-orgf8677cc" class="outline-2"&gt;
+&lt;h2 id="orgf8677cc"&gt;Упражнение 2.74&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf8677cc"&gt;
 &lt;p&gt;
 "Жадное Предприятие Inc." широко децентрализованная компания, которая имеет много подразделений. В каждом подразделении своя реализация хранения списка персонала. Нужно иметь возможность получать и искать сотрудников по всем подразделениям, определите общие методы.
 &lt;/p&gt;
@@ -3530,9 +3620,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7e3d48a" class="outline-2"&gt;
-&lt;h2 id="org7e3d48a"&gt;Упражнение 2.75&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7e3d48a"&gt;
+&lt;div id="outline-container-org70e0c0f" class="outline-2"&gt;
+&lt;h2 id="org70e0c0f"&gt;Упражнение 2.75&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org70e0c0f"&gt;
 &lt;p&gt;
 Определите конструктор make-from-mag-ang в стиле получения сообщения (message-passing).
 &lt;/p&gt;
@@ -3572,9 +3662,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga87bdec" class="outline-2"&gt;
-&lt;h2 id="orga87bdec"&gt;Упражнение 2.76&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga87bdec"&gt;
+&lt;div id="outline-container-orgbcb8d0d" class="outline-2"&gt;
+&lt;h2 id="orgbcb8d0d"&gt;Упражнение 2.76&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbcb8d0d"&gt;
 &lt;p&gt;
 При эволюционировании системы с общими процедурами, могут потребоваться новые типы данных или новые операции. Для каждой из трех стратегий
 &lt;/p&gt;
@@ -3597,9 +3687,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;li class="on"&gt;&lt;code&gt;[X]&lt;/code&gt; при использовании message-passing при добавлении метода, нужно изменить конструкторы всех типов, добавив туда обработку нового метода, если добавляется новый тип, достаточно описать новый конструктор. То есть &lt;b&gt;при добавлении типа, старый код не меняется&lt;/b&gt;, но &lt;b&gt;при добавлении метода, придется менять конструкторы в старом коде&lt;/b&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>abstract_data</category><category>data-directed</category><category>generic_procedures</category><category>multiple_representations</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/</guid><pubDate>Sat, 25 Jan 2020 16:33:39 GMT</pubDate></item><item><title>SICP 2.3 Символические данные.</title><link>http://velikiinehochuha.github.io/posts/sicp-23-simvolicheskie-dannye/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org3297eb5" class="outline-2"&gt;
-&lt;h2 id="org3297eb5"&gt;Упражнение 2.54&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3297eb5"&gt;
+&lt;/div&gt;</description><category>abstract_data</category><category>data-directed</category><category>generic_procedures</category><category>multiple_representations</category><category>scheme</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/</guid><pubDate>Sat, 25 Jan 2020 16:33:39 GMT</pubDate></item><item><title>SICP 2.3 Символические данные.</title><link>http://velikiinehochuha.github.io/posts/sicp-23-simvolicheskie-dannye/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org3a0bd10" class="outline-2"&gt;
+&lt;h2 id="org3a0bd10"&gt;Упражнение 2.54&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3a0bd10"&gt;
 &lt;p&gt;
 Два списка называются равными если они содержат одинаковые элементы в одной последовательности. Определите equal? как рекурсивную функцию сравнения при помощи eq?.
 &lt;/p&gt;
@@ -3611,18 +3701,18 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1901cd8" class="outline-2"&gt;
-&lt;h2 id="org1901cd8"&gt;Упражнение 2.55&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1901cd8"&gt;
+&lt;div id="outline-container-org493dfe2" class="outline-2"&gt;
+&lt;h2 id="org493dfe2"&gt;Упражнение 2.55&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org493dfe2"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="ss"&gt;'abracadabra&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;;; '''asdfsfsf = (quote (quote asdfsfsf))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org51fd1bc" class="outline-2"&gt;
-&lt;h2 id="org51fd1bc"&gt;Упражнение 2.56&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org51fd1bc"&gt;
+&lt;div id="outline-container-orgf3c32ed" class="outline-2"&gt;
+&lt;h2 id="orgf3c32ed"&gt;Упражнение 2.56&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf3c32ed"&gt;
 &lt;p&gt;
 Покажите как расширить базовое дифференцирование чтобы оно могло обрабатывать больше видов выражений. Например реализовав правило  \(\frac{d(u^n)}{dx}=nu^{n-1}\frac{du}{dx}\) 
 добавив условие на проверку экспоненты и реализовав определения exponentiation?, base, exponent и make-exponentiation.
@@ -3668,9 +3758,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc07f50d" class="outline-2"&gt;
-&lt;h2 id="orgc07f50d"&gt;Упражнение 2.57&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc07f50d"&gt;
+&lt;div id="outline-container-orgbb18f56" class="outline-2"&gt;
+&lt;h2 id="orgbb18f56"&gt;Упражнение 2.57&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbb18f56"&gt;
 &lt;p&gt;
 Расширьте программу для дифференцирования что бы сумма и умножение могло вычисляться двух или более под выражений. То есть что бы можно было писать так.
 &lt;/p&gt;
@@ -3709,9 +3799,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb1537f1" class="outline-2"&gt;
-&lt;h2 id="orgb1537f1"&gt;Упражнение 2.58&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb1537f1"&gt;
+&lt;div id="outline-container-orgdda4d12" class="outline-2"&gt;
+&lt;h2 id="orgdda4d12"&gt;Упражнение 2.58&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdda4d12"&gt;
 &lt;p&gt;
 Предположим мы хотим записывать программу для дифференцирования в обычной математической нотации. &lt;code&gt;[2/2]&lt;/code&gt;
 &lt;/p&gt;
@@ -3790,9 +3880,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org89b4f10" class="outline-2"&gt;
-&lt;h2 id="org89b4f10"&gt;Упражнение 2.59&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org89b4f10"&gt;
+&lt;div id="outline-container-org3da3f3a" class="outline-2"&gt;
+&lt;h2 id="org3da3f3a"&gt;Упражнение 2.59&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3da3f3a"&gt;
 &lt;p&gt;
 Определите процедуру union-set если set не отсортированный список.
 &lt;/p&gt;
@@ -3809,9 +3899,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc43a71b" class="outline-2"&gt;
-&lt;h2 id="orgc43a71b"&gt;Упражнение 2.60&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc43a71b"&gt;
+&lt;div id="outline-container-org3876ac1" class="outline-2"&gt;
+&lt;h2 id="org3876ac1"&gt;Упражнение 2.60&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3876ac1"&gt;
 &lt;p&gt;
 Предположим сеты могут иметь дубликаты. Реализуйте методы для сетов для такой структуры. Как от этого изменится порядок роста?
 &lt;/p&gt;
@@ -3842,9 +3932,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga4b7165" class="outline-2"&gt;
-&lt;h2 id="orga4b7165"&gt;Упражнение 2.61&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga4b7165"&gt;
+&lt;div id="outline-container-orgf2dfffc" class="outline-2"&gt;
+&lt;h2 id="orgf2dfffc"&gt;Упражнение 2.61&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf2dfffc"&gt;
 &lt;p&gt;
 Дайте определение adjoin-set для сортированных списков.
 &lt;/p&gt;
@@ -3861,9 +3951,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2d060af" class="outline-2"&gt;
-&lt;h2 id="org2d060af"&gt;Упражнение 2.62&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2d060af"&gt;
+&lt;div id="outline-container-org0e3766d" class="outline-2"&gt;
+&lt;h2 id="org0e3766d"&gt;Упражнение 2.62&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0e3766d"&gt;
 &lt;p&gt;
 Приведите определение union-set с порядком роста n.
 &lt;/p&gt;
@@ -3884,9 +3974,9 @@ d. Какие изменения нужно внести если в Жадно�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orged02fc2" class="outline-2"&gt;
-&lt;h2 id="orged02fc2"&gt;Упражнение 2.63&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orged02fc2"&gt;
+&lt;div id="outline-container-org2e59406" class="outline-2"&gt;
+&lt;h2 id="org2e59406"&gt;Упражнение 2.63&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2e59406"&gt;
 &lt;p&gt;
 Обе процедуры приведенные ниже трансформируют дерево в список.
 &lt;/p&gt;
@@ -3962,9 +4052,9 @@ b. как отличается порядок роста?
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8be82d5" class="outline-2"&gt;
-&lt;h2 id="org8be82d5"&gt;Упражнение 2.64&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8be82d5"&gt;
+&lt;div id="outline-container-orgd3375d6" class="outline-2"&gt;
+&lt;h2 id="orgd3375d6"&gt;Упражнение 2.64&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd3375d6"&gt;
 &lt;p&gt;
 Следующая процедура list-&amp;gt;tree преобразует отсортированный список в сбалансированное бинарное дерево. Вспомогательная процедура partial-tree принимает в качестве аргументов целое n и список и строит сбалансированное  бинарное дерево содержащее первые n элементов списка. Результат это функции - пара, первое значение это созданное дерево, а cdr элементы не вошедшие в дерево.
 &lt;/p&gt;
@@ -4018,9 +4108,9 @@ b. Каков порядок роста list-&amp;gt;tree?
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org517d17c" class="outline-2"&gt;
-&lt;h2 id="org517d17c"&gt;Упражнение 2.65&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org517d17c"&gt;
+&lt;div id="outline-container-orgc94bc7d" class="outline-2"&gt;
+&lt;h2 id="orgc94bc7d"&gt;Упражнение 2.65&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc94bc7d"&gt;
 &lt;p&gt;
 Используя результаты упражнений 2.63 и 2.64 приведите определение union-set и intersection-set для множеств определенных как сбалансированные бинарные деревья.
 &lt;/p&gt;
@@ -4073,9 +4163,9 @@ b. Каков порядок роста list-&amp;gt;tree?
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org93769a0" class="outline-2"&gt;
-&lt;h2 id="org93769a0"&gt;Упражнение 2.66&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org93769a0"&gt;
+&lt;div id="outline-container-orgce19218" class="outline-2"&gt;
+&lt;h2 id="orgce19218"&gt;Упражнение 2.66&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgce19218"&gt;
 &lt;p&gt;
 Определите lookup для бинарного дерева.
 &lt;/p&gt;
@@ -4093,9 +4183,9 @@ log n
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb3dd010" class="outline-2"&gt;
-&lt;h2 id="orgb3dd010"&gt;Упражнение 2.67&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb3dd010"&gt;
+&lt;div id="outline-container-orge488258" class="outline-2"&gt;
+&lt;h2 id="orge488258"&gt;Упражнение 2.67&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge488258"&gt;
 &lt;p&gt;
 Дано кодирующее дерево и сообщение, используя decode расшифруйте сообщение.
 &lt;/p&gt;
@@ -4114,9 +4204,9 @@ log n
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2ad5157" class="outline-2"&gt;
-&lt;h2 id="org2ad5157"&gt;Упражнение 2.68&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2ad5157"&gt;
+&lt;div id="outline-container-orge6697ff" class="outline-2"&gt;
+&lt;h2 id="orge6697ff"&gt;Упражнение 2.68&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge6697ff"&gt;
 &lt;p&gt;
 Процедура encode принимает на вход сообщение и дерево и генерирует последовательность бит.
 &lt;/p&gt;
@@ -4149,9 +4239,9 @@ Encode-symbol - процедура кодирующая один символ. �
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6da5208" class="outline-2"&gt;
-&lt;h2 id="org6da5208"&gt;Упражнение 2.69&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6da5208"&gt;
+&lt;div id="outline-container-org6356635" class="outline-2"&gt;
+&lt;h2 id="org6356635"&gt;Упражнение 2.69&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6356635"&gt;
 &lt;p&gt;
 Следующая процедура генерирует дерево по Хафману из пар символ-частота.
 &lt;/p&gt;
@@ -4200,9 +4290,9 @@ Make-leaf-set, процедура приведенная выше, сортир�
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1498b35" class="outline-2"&gt;
-&lt;h2 id="org1498b35"&gt;Упражнение 2.70&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1498b35"&gt;
+&lt;div id="outline-container-orgea6f2c7" class="outline-2"&gt;
+&lt;h2 id="orgea6f2c7"&gt;Упражнение 2.70&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgea6f2c7"&gt;
 &lt;p&gt;
 Следующий 8ми символьный алфавит с заданными частотами повторения был разработан чтобы эффективно кодировать рок лирику пятидесятых.
 &lt;/p&gt;
@@ -4296,9 +4386,9 @@ Sha boom
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org587e382" class="outline-2"&gt;
-&lt;h2 id="org587e382"&gt;Упражнение 2.71&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org587e382"&gt;
+&lt;div id="outline-container-orgcf50e46" class="outline-2"&gt;
+&lt;h2 id="orgcf50e46"&gt;Упражнение 2.71&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcf50e46"&gt;
 &lt;p&gt;
 Предположим у нас есть дерево по Хафману для алфавита из n символов, частота которых 1,2,4,..,2&lt;sup&gt;(n-1)&lt;/sup&gt;. Сделайте набросок дерева для n=5 и n=10. Сколько бит требуется в таком дереве что бы закодировать наиболее часто встречающийся символ? Наименее часто встречающийся?
 &lt;/p&gt;
@@ -4355,9 +4445,9 @@ Sha boom
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org364e2d4" class="outline-2"&gt;
-&lt;h2 id="org364e2d4"&gt;Упражнение 2.72&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org364e2d4"&gt;
+&lt;div id="outline-container-orgc413929" class="outline-2"&gt;
+&lt;h2 id="orgc413929"&gt;Упражнение 2.72&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc413929"&gt;
 &lt;p&gt;
 Каков порядок роста для процедуры кодирования символа? Убедитесь что учли поиск вхождения символа. Ответить на этот вопрос в общем сложно. Поэтому рассмотрите частный случай когда частота символов при кодировании будет как в упражнении 2.71. И приведите порядок роста для кодирования наиболее часто встречающегося символа и наименее часто встречающегося символа.
 &lt;/p&gt;
@@ -4374,9 +4464,9 @@ Sha boom
 То есть общий ответ будет между n и n&lt;sup&gt;2&lt;/sup&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>scheme</category><category>sicp</category><category>symbolic_data</category><guid>http://velikiinehochuha.github.io/posts/sicp-23-simvolicheskie-dannye/</guid><pubDate>Wed, 22 Jan 2020 22:03:21 GMT</pubDate></item><item><title>SICP 2.2.4 Пример: Язык изображений.</title><link>http://velikiinehochuha.github.io/posts/sicp-224-primer-iazyk-izobrazhenii/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org7c6fd9b" class="outline-2"&gt;
-&lt;h2 id="org7c6fd9b"&gt;Упражнение 2.44.&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7c6fd9b"&gt;
+&lt;/div&gt;</description><category>scheme</category><category>sicp</category><category>symbolic_data</category><guid>http://velikiinehochuha.github.io/posts/sicp-23-simvolicheskie-dannye/</guid><pubDate>Wed, 22 Jan 2020 22:03:21 GMT</pubDate></item><item><title>SICP 2.2.4 Пример: Язык изображений.</title><link>http://velikiinehochuha.github.io/posts/sicp-224-primer-iazyk-izobrazhenii/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org3f627d7" class="outline-2"&gt;
+&lt;h2 id="org3f627d7"&gt;Упражнение 2.44.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3f627d7"&gt;
 &lt;p&gt;
 Определите процедуру up-split используемую в corner-split.
 &lt;/p&gt;
@@ -4394,9 +4484,9 @@ Sha boom
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc1f752f" class="outline-2"&gt;
-&lt;h2 id="orgc1f752f"&gt;Упражнение 2.45.&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc1f752f"&gt;
+&lt;div id="outline-container-org21607b6" class="outline-2"&gt;
+&lt;h2 id="org21607b6"&gt;Упражнение 2.45.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org21607b6"&gt;
 &lt;p&gt;
 Определите процедуру обобщение up-split right-split.
 &lt;/p&gt;
@@ -4413,9 +4503,9 @@ Sha boom
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7d94fea" class="outline-2"&gt;
-&lt;h2 id="org7d94fea"&gt;Упражнение 2.46&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7d94fea"&gt;
+&lt;div id="outline-container-orgf046b2b" class="outline-2"&gt;
+&lt;h2 id="orgf046b2b"&gt;Упражнение 2.46&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf046b2b"&gt;
 &lt;p&gt;
 Двумерный вектор v проведенный из точки отсчета в некоторую точку может быть представлен как пара координат x и y. Реализуйте абстракцию для векторов задав конструктор make-vect и соответствующие селекторы xcor-vect, ycor-vect. Реализуйте процедуры add-vect, sub-vect и scale-vect, которые выполняют операции над вектором.
 &lt;/p&gt;
@@ -4439,9 +4529,9 @@ Sha boom
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org91bb85a" class="outline-2"&gt;
-&lt;h2 id="org91bb85a"&gt;Упражнение 2.47&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org91bb85a"&gt;
+&lt;div id="outline-container-org5481c96" class="outline-2"&gt;
+&lt;h2 id="org5481c96"&gt;Упражнение 2.47&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5481c96"&gt;
 &lt;p&gt;
 Здесь две возможных конструктора для фреймов:
 &lt;/p&gt;
@@ -4474,9 +4564,9 @@ Sha boom
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6773718" class="outline-2"&gt;
-&lt;h2 id="org6773718"&gt;Упражнение 2.48&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6773718"&gt;
+&lt;div id="outline-container-orga6ade8f" class="outline-2"&gt;
+&lt;h2 id="orga6ade8f"&gt;Упражнение 2.48&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga6ade8f"&gt;
 &lt;p&gt;
 Сегмент направленной линии на плоскости может быть представлен в виде пары векторов: вектор идущий от начала координат до начальной точки сегмента и вектор идущий от начала координат до конечной точки сегмента. Используя векторное представление из 2.46 что бы определить представление для сегментов с конструктором make-segment и селекторами start-segment, end-segment.
 &lt;/p&gt;
@@ -4491,9 +4581,9 @@ Sha boom
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd1f80c5" class="outline-2"&gt;
-&lt;h2 id="orgd1f80c5"&gt;Упражнение 2.49&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd1f80c5"&gt;
+&lt;div id="outline-container-orga62a345" class="outline-2"&gt;
+&lt;h2 id="orga62a345"&gt;Упражнение 2.49&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga62a345"&gt;
 &lt;p&gt;
 Используя segments-&amp;gt;painter определите следующие процедуры
 a. Нарисовать контур обозначенной рамки.
@@ -4608,9 +4698,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge422d16" class="outline-2"&gt;
-&lt;h2 id="orge422d16"&gt;Упражнение 2.50&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge422d16"&gt;
+&lt;div id="outline-container-orge87d661" class="outline-2"&gt;
+&lt;h2 id="orge87d661"&gt;Упражнение 2.50&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge87d661"&gt;
 &lt;p&gt;
 Определите процедуру flip-horiz и трансформации которые вращают изображения против часовой стрелки на 180 и 270 градусов.
 &lt;/p&gt;
@@ -4642,9 +4732,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6a92d68" class="outline-2"&gt;
-&lt;h2 id="org6a92d68"&gt;Упражнение 2.51&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6a92d68"&gt;
+&lt;div id="outline-container-org1c197dd" class="outline-2"&gt;
+&lt;h2 id="org1c197dd"&gt;Упражнение 2.51&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1c197dd"&gt;
 &lt;p&gt;
 Определите процедуру below. Как аналог beside и второй раз через beside и подходящие трасформации.
 &lt;/p&gt;
@@ -4673,9 +4763,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org67a1205" class="outline-2"&gt;
-&lt;h2 id="org67a1205"&gt;Упражнение 2.52&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org67a1205"&gt;
+&lt;div id="outline-container-orgcd1685d" class="outline-2"&gt;
+&lt;h2 id="orgcd1685d"&gt;Упражнение 2.52&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcd1685d"&gt;
 &lt;p&gt;
 Внесите изменение в square-limit на разных уровнях абстракции
 а. Добавьте какие-нибудь сегменты к примитиву wave.
@@ -4722,9 +4812,9 @@ d. Нарисовать волну.
 &lt;/p&gt;
 
 
-&lt;div id="outline-container-orgf90b00d" class="outline-2"&gt;
-&lt;h2 id="orgf90b00d"&gt;Упражнение 2.33&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf90b00d"&gt;
+&lt;div id="outline-container-orgcfefae3" class="outline-2"&gt;
+&lt;h2 id="orgcfefae3"&gt;Упражнение 2.33&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcfefae3"&gt;
 &lt;p&gt;
 Заполните недостающие выражения, чтобы завершить определения некоторых основных операций над списками через накопление.
 &lt;/p&gt;
@@ -4747,9 +4837,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org697f221" class="outline-2"&gt;
-&lt;h2 id="org697f221"&gt;Упражнение 2.34&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org697f221"&gt;
+&lt;div id="outline-container-org385d612" class="outline-2"&gt;
+&lt;h2 id="org385d612"&gt;Упражнение 2.34&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org385d612"&gt;
 &lt;p&gt;
 Оценка полинома от одной переменной x в заданной точке, может быть сформулирована в терминах накопления. Мы оцениваем полином
 \(a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0x\) используя широко известный алгоритм - правило Хорнера, который структурирует вычисление как \((...(a_nx+a_{n-1})x+...+a_1)x + a_0\).
@@ -4773,9 +4863,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org19f5aff" class="outline-2"&gt;
-&lt;h2 id="org19f5aff"&gt;Упражнение 2.35&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org19f5aff"&gt;
+&lt;div id="outline-container-org780594a" class="outline-2"&gt;
+&lt;h2 id="org780594a"&gt;Упражнение 2.35&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org780594a"&gt;
 &lt;p&gt;
 Переопределите count-leaves из секции 2.2.2 через накопление.
 &lt;/p&gt;
@@ -4794,9 +4884,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdf87e87" class="outline-2"&gt;
-&lt;h2 id="orgdf87e87"&gt;Упражнение 2.36&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdf87e87"&gt;
+&lt;div id="outline-container-orge9f19c7" class="outline-2"&gt;
+&lt;h2 id="orge9f19c7"&gt;Упражнение 2.36&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge9f19c7"&gt;
 &lt;p&gt;
 Процедура accumulate-n похожа на accumulate, но принимает третий аргумент последовательность последовательностей. Предполагается что все они имеют одинаковое количество аргументов. Она применяет назначенную процедуру накопления для всех первых элементов последовательности, всех вторых и так далее. И возвращает последовательность результатов. К примеру результат (accumulate-n + 0 s), где s это ((1 2 3) (4 5 6) (7 8 9) (10 11 12)), будет равен (22 26 30). Заполните пропуски в определении процедуры.
 &lt;/p&gt;
@@ -4817,9 +4907,9 @@ d. Нарисовать волну.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org49f6012" class="outline-2"&gt;
-&lt;h2 id="org49f6012"&gt;Упражнение 2.37&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org49f6012"&gt;
+&lt;div id="outline-container-org17b749c" class="outline-2"&gt;
+&lt;h2 id="org17b749c"&gt;Упражнение 2.37&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org17b749c"&gt;
 &lt;p&gt;
 Предположим мы представляем векторы v = (v&lt;sub&gt;i&lt;/sub&gt;) как последовательность чисел и матрицы m =(m&lt;sub&gt;ij&lt;/sub&gt;) как последовательность векторов (строки матрицы). К примеру матрица:
 &lt;/p&gt;
@@ -4883,9 +4973,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3c65486" class="outline-2"&gt;
-&lt;h2 id="org3c65486"&gt;Упражнение 2.38&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3c65486"&gt;
+&lt;div id="outline-container-org443d7cd" class="outline-2"&gt;
+&lt;h2 id="org443d7cd"&gt;Упражнение 2.38&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org443d7cd"&gt;
 &lt;p&gt;
 Процедура accumulate так же известна как fold-right, потому что она объединяет первый элемент последовательности с результатами объединения всех элементов справа. Также есть fold-left, которая объединяет элементы в обратном направлении.
 &lt;/p&gt;
@@ -4911,9 +5001,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga36c62e" class="outline-2"&gt;
-&lt;h2 id="orga36c62e"&gt;Упражнение 2.39&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga36c62e"&gt;
+&lt;div id="outline-container-org947a9aa" class="outline-2"&gt;
+&lt;h2 id="org947a9aa"&gt;Упражнение 2.39&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org947a9aa"&gt;
 &lt;p&gt;
 Дайте определение reverse через fold-right и fold-left.
 &lt;/p&gt;
@@ -4929,9 +5019,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3060f9c" class="outline-2"&gt;
-&lt;h2 id="org3060f9c"&gt;Упражнение 2.40&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3060f9c"&gt;
+&lt;div id="outline-container-org03170d4" class="outline-2"&gt;
+&lt;h2 id="org03170d4"&gt;Упражнение 2.40&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org03170d4"&gt;
 &lt;p&gt;
 Определите процедуру unique-pairs, которая принимая целое n, генерирует последовательность пар (i,j) 1&amp;lt;=j&amp;lt;i&amp;lt;=n. Используя процедуру unique-pairs упростите определение prime-sum-pairs, приведенное в книге.
 &lt;/p&gt;
@@ -4952,9 +5042,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf767b71" class="outline-2"&gt;
-&lt;h2 id="orgf767b71"&gt;Упражнение 2.41&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf767b71"&gt;
+&lt;div id="outline-container-org788a709" class="outline-2"&gt;
+&lt;h2 id="org788a709"&gt;Упражнение 2.41&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org788a709"&gt;
 &lt;p&gt;
 Напишите процедуру, чтобы найти все упорядоченные тройки различных положительных целых чисел i, j, k, меньших или равных заданному числу n, сумма которых равна заданному числу S.
 &lt;/p&gt;
@@ -4982,9 +5072,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org392b36a" class="outline-2"&gt;
-&lt;h2 id="org392b36a"&gt;Упражнение 2.42&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org392b36a"&gt;
+&lt;div id="outline-container-org6b2854d" class="outline-2"&gt;
+&lt;h2 id="org6b2854d"&gt;Упражнение 2.42&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6b2854d"&gt;
 &lt;p&gt;
 Задача о восьми ферзях. Как разместить 8 ферзей на шахматной доске, что бы не один ферзь не бил другого. Одно из возможных решений представлено на картинке.
 &lt;/p&gt;
@@ -5069,9 +5159,9 @@ rest-of-queens - способ разместить k -1 ферзей в перв
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3ed4730" class="outline-2"&gt;
-&lt;h2 id="org3ed4730"&gt;Упражнение 2.43&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3ed4730"&gt;
+&lt;div id="outline-container-org7f0a329" class="outline-2"&gt;
+&lt;h2 id="org7f0a329"&gt;Упражнение 2.43&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7f0a329"&gt;
 &lt;p&gt;
 Процедура Луиса для queens работала медленно. Выяснилось что он поменял местами отображения в flatmap.
 &lt;/p&gt;
@@ -5100,594 +5190,4 @@ rest-of-queens - способ разместить k -1 ферзей в перв
 Допустим для 6 позиций заняло время T. что бы для 7 позиций посчитать она выполнит 8 раз для 6 позиций. Потом количество позиций увеличится в 8 раз. потом применим функцию фильтра, которая сократит варианты. И еще раз выполнится 8 раз для 7. То есть итоговое T, будет порядка (8&lt;sup&gt;2&lt;/sup&gt;) T.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>scheme</category><category>sequences_as_conventional_interfaces</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy/</guid><pubDate>Mon, 20 Jan 2020 11:08:28 GMT</pubDate></item><item><title>SICP 2.2 Иерархические данные и свойство замыкания (the closure property).</title><link>http://velikiinehochuha.github.io/posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.17
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите процедуру last-pair, которая возвращает список который содержит только последний элемент данного (непустого списка).
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;last-pair&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;      &lt;span class="nv"&gt;list1&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;last-pair&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.18
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Определите процедуру reverse, которая возвращает список элементы которого записаны в обратном порядке.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;reverse &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;l&lt;/span&gt; &lt;span class="nv"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;        &lt;span class="nv"&gt;result&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;result&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt; &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.19
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Рассмотрим программу подсчета количества изменений из раздела 1.2.2. Было бы хорошо легко изменить валюту. Когда программа написана валюта учитывается в методах first-denomination и count-change.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="c1"&gt;;; исходная программа&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;count-change&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;                     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;                 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;                        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;first-denomination&lt;/span&gt; &lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;                     &lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;first-denomination&lt;/span&gt; &lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;kinds-of-coins&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Было бы лучше иметь список монет которые могут быть использованы для размена.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;us-coins&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;uk-coins&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Мы хотим переписать программу cc что бы её второй аргумент представлял собой список значений монет, вместо целого числа. Тогда у нас будут списки для каждого вида валют.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="nv"&gt;us-coins&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;&lt;span class="mi"&gt;292&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Для этого потребуется несколько изменить программу cc. Доступ ко второму элементу будет осуществляться по другому.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;no-more?&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;                &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;except-first-denomination&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;                   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;first-denomination&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;9 &lt;/span&gt;                &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Определите процедуры first-denomination, except-first-denomination, no-more. Влияет ли порядок в списке на итоговое число?
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;us-coins&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;uk-coins&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;except-first-denomination&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;first-denomination&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;no-more?&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;      &lt;span class="nv"&gt;list1&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;      &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;lt; &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;no-more?&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;else&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="nv"&gt;amount&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;                &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;except-first-denomination&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;- &lt;/span&gt;&lt;span class="nv"&gt;amount&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;                   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;first-denomination&lt;/span&gt; &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;                &lt;span class="nv"&gt;coin-values&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cc&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="nv"&gt;us-coins&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Порядок не влияет, так как рекурсивно обходятся все варианты изменения.
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.20
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Используя нотацию dotted-tail, напишите процедуру same-parity которая принимает одно или более целых чисел и возвращает список всех аргументов которые имеют такое-же четное-нечетное соотношение как первый аргумент.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;same-parity&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;filter&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt; &lt;span class="nv"&gt;same?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;        &lt;span class="nv"&gt;list1&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;same?&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;filter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;same?&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;filter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;same?&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;            &lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;same-even-odd&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;or &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;and &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;even? &lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;filter&lt;/span&gt; &lt;span class="nv"&gt;l&lt;/span&gt; &lt;span class="nv"&gt;same-even-odd&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;same-parity&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.21
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Процедура square-list принимает список аргументов и возвращает список квадратов.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-list&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Приведены два реализации square-list. Дополните их.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-list&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;      &lt;span class="nv"&gt;nil&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-list&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-list&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;9 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-list&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.22
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Луис пытается переписать первую реализацию square-list (2.21) что бы она генерировала итеративный процесс.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-list&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;things&lt;/span&gt; &lt;span class="nv"&gt;answer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;things&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;        &lt;span class="nv"&gt;answer&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;things&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
-&lt;span class="lineno"&gt;6 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;things&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;                    &lt;span class="nv"&gt;answer&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt; &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     К сожалению список получается в обратном порядке, почему?
-    &lt;/p&gt;
-    &lt;p&gt;
-     (list 1 2 3) nil iter (list 2 3) (cons 1 nil) iter (list 3) (cons 4 (cons 1 nil)) iter () (cons 9 (cons 4 (cons 1 nil))) return (cons 9 (cons 4 (cons 1 nil)))
-    &lt;/p&gt;
-    &lt;p&gt;
-     Луис пытается починить баг переставляя аргументы в cons
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-list&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;things&lt;/span&gt; &lt;span class="nv"&gt;answer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;things&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;        &lt;span class="nv"&gt;answer&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;things&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;answer&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;things&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt; &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Это не работает получается (cons (cons (cons nil 1) 4) 9)
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.23
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Процедура for-each похожа на map, только вместо того чтобы возвращать измененный список она просто применяет переданную функцию к каждому элементу. Используется что бы выполнить действия над списком, например печать.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;for-each &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;newline&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;display &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;57&lt;/span&gt; &lt;span class="mi"&gt;321&lt;/span&gt; &lt;span class="mi"&gt;88&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="mi"&gt;57&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;&lt;span class="mi"&gt;321&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;&lt;span class="mi"&gt;88&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Возвращаемое значение может быть любым например true. Дайте определение процедуры for-each.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;for-each &lt;/span&gt;&lt;span class="nv"&gt;proc&lt;/span&gt; &lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;proc&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;for-each &lt;/span&gt;&lt;span class="nv"&gt;proc&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;  &lt;span class="nv"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.24
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Предположим мы оцениваем выражение (list 1 (list 2 (list 3 4))). Что даст вывод интерпретатора. Изобразите box-and-pointer и древовидную структуры.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;     &lt;span class="nv"&gt;/&lt;/span&gt;      &lt;span class="err"&gt;\&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;    &lt;span class="nv"&gt;/&lt;/span&gt;        &lt;span class="err"&gt;\&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;   &lt;span class="mi"&gt;1&lt;/span&gt;   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;            &lt;span class="nv"&gt;/&lt;/span&gt;        &lt;span class="err"&gt;\&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;           &lt;span class="nv"&gt;/&lt;/span&gt;          &lt;span class="err"&gt;\&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;          &lt;span class="mi"&gt;2&lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;                     &lt;span class="nv"&gt;/&lt;/span&gt;      &lt;span class="err"&gt;\&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;                    &lt;span class="nv"&gt;/&lt;/span&gt;        &lt;span class="err"&gt;\&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;                   &lt;span class="mi"&gt;3&lt;/span&gt;          &lt;span class="mi"&gt;4&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;     &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="nv"&gt;/&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;      &lt;span class="nv"&gt;|&lt;/span&gt;                    &lt;span class="nv"&gt;|&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;      &lt;span class="nv"&gt;|&lt;/span&gt;                    &lt;span class="nv"&gt;|&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;      &lt;span class="nv"&gt;v&lt;/span&gt;                    &lt;span class="nv"&gt;v&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;      &lt;span class="mi"&gt;1&lt;/span&gt;                   &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="nv"&gt;/&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;                           &lt;span class="nv"&gt;|&lt;/span&gt;         &lt;span class="nv"&gt;|&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;                           &lt;span class="nv"&gt;|&lt;/span&gt;         &lt;span class="nv"&gt;|&lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;                           &lt;span class="nv"&gt;v&lt;/span&gt;         &lt;span class="nv"&gt;v&lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;                           &lt;span class="mi"&gt;2&lt;/span&gt;     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;                                    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="nv"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="nv"&gt;/&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;                                     &lt;span class="nv"&gt;|&lt;/span&gt;         &lt;span class="nv"&gt;|&lt;/span&gt;
-&lt;span class="lineno"&gt;26 &lt;/span&gt;                                     &lt;span class="nv"&gt;|&lt;/span&gt;         &lt;span class="nv"&gt;|&lt;/span&gt;
-&lt;span class="lineno"&gt;27 &lt;/span&gt;                                     &lt;span class="nv"&gt;v&lt;/span&gt;         &lt;span class="nv"&gt;v&lt;/span&gt;
-&lt;span class="lineno"&gt;28 &lt;/span&gt;                                     &lt;span class="mi"&gt;3&lt;/span&gt;         &lt;span class="mi"&gt;4&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.25
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Приведите комюинации cars и cdrs которые выбирую 7 из каждого списка.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="c1"&gt;;; (1 3 (5 7) 9)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="c1"&gt;;; ((7))&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;&lt;span class="c1"&gt;;; (1 (2 (3 (4 (5 (6 7))))))&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;list3&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)))))))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;list3&lt;/span&gt;&lt;span class="p"&gt;))))))))))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.26
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Допустим определили два списка. Какой будет результат выражений.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;append &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;&lt;span class="c1"&gt;;; (1 2 3 4 5 6)&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="c1"&gt;;; ((1 2 3) 4 5 6)&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;&lt;span class="c1"&gt;;; (cons x (cons y nil)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;&lt;span class="c1"&gt;;; ((1 2 4) (4 5 6))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     то есть list создаст список списков, в то время как cons запишет в car первый список, а в cdr указатель на y, что приведет к разному результату с list x y. cons просто добавляет элемент в начало списка y.
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.27
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Измените процедуру reverse что бы она умела разворачивать вложенные списки.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;deep-reverse&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;l&lt;/span&gt; &lt;span class="nv"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;        &lt;span class="nv"&gt;result&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;deep-reverse&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;result&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;iter&lt;/span&gt; &lt;span class="nv"&gt;list1&lt;/span&gt; &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;      &lt;span class="nv"&gt;list1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     тут просто рекурсивно вызываем deep-reverse и если list1 это не список просто возвращаем значение.
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.28
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Напишите процедуру fringe, которая принимает дерево в виде списка и возвращает список всех листьев в порядке слева на право.
-    &lt;/p&gt;
-    &lt;p&gt;
-     Например:
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fringe&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fringe&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fringe&lt;/span&gt; &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;      &lt;span class="nv"&gt;x&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;append &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fringe&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;fringe&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;          &lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.29
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Бинарный ползунок состоит из двух веток, левой и правой. Мы можем представить бинарный ползунок используя объединение из двух веток (к примеру используя list).
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mobile&lt;/span&gt; &lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Каждая ветка это стержень определенной длинны + вес либо еще один бинарный ползунок.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     a. Напишите селекторы left-branch и right-branch, которые возвращабт ветки + branch-length и branch-structure, которые возвращают компоненты ветки. b. Используя селекторы напишите процедуру total-weight, которая возвращает суммарный вес. с. Ползунок сбалансирован, когда крутящий момент верхней левой ветки равен верхней правой ветке (то есть длинна стержня умножить на вес свисающий с этого стержня). Напишите процедуру которая тестирует сбалансировал ли ползунок. d. Предположим мы поменяли представление так что конструктор стал таким
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mobile&lt;/span&gt; &lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     Как много изменений нужно внести в программу после этого?
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mobile&lt;/span&gt; &lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-length&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-structure&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;13 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;14 &lt;/span&gt;
-&lt;span class="lineno"&gt;15 &lt;/span&gt;
-&lt;span class="lineno"&gt;16 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;l0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;17 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;r0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;18 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;m0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mobile&lt;/span&gt; &lt;span class="nv"&gt;l0&lt;/span&gt; &lt;span class="nv"&gt;r0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;19 &lt;/span&gt;
-&lt;span class="lineno"&gt;20 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;l1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;21 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;r1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="nv"&gt;m0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;22 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="nv"&gt;m1&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mobile&lt;/span&gt; &lt;span class="nv"&gt;l1&lt;/span&gt; &lt;span class="nv"&gt;r1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;23 &lt;/span&gt;
-&lt;span class="lineno"&gt;24 &lt;/span&gt;&lt;span class="c1"&gt;;; общий вес&lt;/span&gt;
-&lt;span class="lineno"&gt;25 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;structure-weight&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;26 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;27 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;total-weight&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;28 &lt;/span&gt;      &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;29 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-weight&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;30 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;structure-weight&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-structure&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;31 &lt;/span&gt;
-&lt;span class="lineno"&gt;32 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;total-weight&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;33 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-weight&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-weight&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;34 &lt;/span&gt;
-&lt;span class="lineno"&gt;35 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;total-weight&lt;/span&gt; &lt;span class="nv"&gt;m1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;36 &lt;/span&gt;
-&lt;span class="lineno"&gt;37 &lt;/span&gt;&lt;span class="c1"&gt;;; балансировка&lt;/span&gt;
-&lt;span class="lineno"&gt;38 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;balanced?&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;39 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;= &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-weight&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-length&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;40 &lt;/span&gt;     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;* &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-weight&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-length&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;41 &lt;/span&gt;
-&lt;span class="lineno"&gt;42 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;balanced?&lt;/span&gt; &lt;span class="nv"&gt;m1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;43 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;balanced?&lt;/span&gt; &lt;span class="nv"&gt;m0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;44 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-mobile&lt;/span&gt; &lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;45 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;left&lt;/span&gt; &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;46 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;make-branch&lt;/span&gt; &lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;47 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="nv"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;structure&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;48 &lt;/span&gt;
-&lt;span class="lineno"&gt;49 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;50 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;51 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;left-branch&lt;/span&gt; &lt;span class="nv"&gt;m0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;52 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; поменял метод&lt;/span&gt;
-&lt;span class="lineno"&gt;53 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;m&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;54 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;right-branch&lt;/span&gt; &lt;span class="nv"&gt;m0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;55 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-length&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;56 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;57 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;branch-structure&lt;/span&gt; &lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;;; поменял метод&lt;/span&gt;
-&lt;span class="lineno"&gt;58 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     поменяли два селектора.
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.30
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Напишите процедуру square-tree без и с использованием map.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-tree&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cond &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 3 &lt;/span&gt;        &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;not &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 4 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;else &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-tree&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt; 5 &lt;/span&gt;                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-tree&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))))))&lt;/span&gt;
-&lt;span class="lineno"&gt; 6 &lt;/span&gt;
-&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-tree&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 8 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt; 9 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="nv"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;10 &lt;/span&gt;             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-tree&lt;/span&gt; &lt;span class="nv"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;11 &lt;/span&gt;             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;12 &lt;/span&gt;       &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.31
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Абстрагируйте ваш ответ к 2.30 что бы можно было записывать процедуру square-tree через tree-map.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;square-tree&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;tree-map&lt;/span&gt; &lt;span class="nv"&gt;square&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;tree-map&lt;/span&gt; &lt;span class="nv"&gt;proc&lt;/span&gt; &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;pair? &lt;/span&gt;&lt;span class="nv"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;tree-map&lt;/span&gt; &lt;span class="nv"&gt;proc&lt;/span&gt; &lt;span class="nv"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;             &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;proc&lt;/span&gt; &lt;span class="nv"&gt;sub-tree&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-&lt;span class="lineno"&gt;9 &lt;/span&gt;       &lt;span class="nv"&gt;tree&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;  &lt;/div&gt;
- &lt;/div&gt;
- &lt;div class="chapter-block"&gt;
-  &lt;h2&gt;
-   Упражнение 2.32
-  &lt;/h2&gt;
-  &lt;div&gt;
-   &lt;div&gt;
-    &lt;p&gt;
-     Мы можем представить set как список уникальных элементов, а так же set всех подмножеств как список списков. К примеру set (1 2 3), тогда сет всех подмножеств будет (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3)). Допишите функцию генерирующую список всех подмножеств сета и дайте пояснение как она работает.
-    &lt;/p&gt;
-   &lt;/div&gt;
-&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;subsets&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;rest&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;subsets&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;append &lt;/span&gt;&lt;span class="nv"&gt;rest&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map &lt;/span&gt;&lt;span class="nv"&gt;&amp;lt;??&amp;gt;&lt;/span&gt; &lt;span class="nv"&gt;rest&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;&lt;div class="code-scheme"&gt;&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;define &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;subsets&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;2 &lt;/span&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;null? &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;3 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="lineno"&gt;4 &lt;/span&gt;      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;rest&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;subsets&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cdr &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
-&lt;span class="lineno"&gt;5 &lt;/span&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;append &lt;/span&gt;&lt;span class="nv"&gt;rest&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cons &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;car &lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;set&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="nv"&gt;rest&lt;/span&gt;&lt;span class="p"&gt;)))))&lt;/span&gt;
-&lt;span class="lineno"&gt;6 &lt;/span&gt;
-&lt;span class="lineno"&gt;7 &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;subsets&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="lineno"&gt;8 &lt;/span&gt;&lt;span class="c1"&gt;;Value: (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;   &lt;div&gt;
-    &lt;p&gt;
-     выбираем список без первого элемента, генерируем для него все подмножества. добавляем к полученным подмножествам такое же подмножество но везде первым элементом идет первый элемент. на последней итерации у нас получается пустое список, он возвращает () - нулевое подмножество. в итоге мы перебрали все возможные варианты.
-    &lt;/p&gt;
-   &lt;/div&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
-&lt;/div&gt;</description><category>hierarchical_data</category><category>scheme</category><category>sicp</category><category>the_closure_property</category><guid>http://velikiinehochuha.github.io/posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/</guid><pubDate>Sat, 18 Jan 2020 12:18:01 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>scheme</category><category>sequences_as_conventional_interfaces</category><category>sicp</category><guid>http://velikiinehochuha.github.io/posts/sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy/</guid><pubDate>Mon, 20 Jan 2020 11:08:28 GMT</pubDate></item></channel></rss>

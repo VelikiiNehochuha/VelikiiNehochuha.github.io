@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о concurrency)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/concurrency.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Sun, 01 Mar 2020 13:16:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.4 Параллелизм: время имеет значение</title><link>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org0f5b9a8" class="outline-2"&gt;
-&lt;h2 id="org0f5b9a8"&gt;Упражнение 3.38&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0f5b9a8"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о concurrency)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/concurrency.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2021 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 07 May 2021 14:21:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.4 Параллелизм: время имеет значение</title><link>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org0e2f77d" class="outline-2"&gt;
+&lt;h2 id="org0e2f77d"&gt;Упражнение 3.38&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0e2f77d"&gt;
 &lt;p&gt;
 Пусть Петр, Павел и Мария имеют общий счет, на котором вначале лежит 100 долларов. Петр кладет на счет 10 долларов, одновременно с этим Павел берет 20, а Мария берет половину денег со счета. При этом они выполняют следующие операции:
 &lt;/p&gt;
@@ -35,9 +35,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4fa1839" class="outline-2"&gt;
-&lt;h2 id="org4fa1839"&gt;Упражнение 3.39&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4fa1839"&gt;
+&lt;div id="outline-container-orge11687d" class="outline-2"&gt;
+&lt;h2 id="orge11687d"&gt;Упражнение 3.39&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge11687d"&gt;
 &lt;p&gt;
 Какие из пяти возможных исходов параллельного выполнения сохраняются, если мы сериализуем выполнение таким образом:
 &lt;/p&gt;
@@ -71,9 +71,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbc47be1" class="outline-2"&gt;
-&lt;h2 id="orgbc47be1"&gt;Упражнение 3.40&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbc47be1"&gt;
+&lt;div id="outline-container-org1dbb767" class="outline-2"&gt;
+&lt;h2 id="org1dbb767"&gt;Упражнение 3.40&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1dbb767"&gt;
 &lt;p&gt;
 Укажите все возможные значения x при выполнении
 &lt;/p&gt;
@@ -111,9 +111,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcb12047" class="outline-2"&gt;
-&lt;h2 id="orgcb12047"&gt;Упражнение 3.41&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcb12047"&gt;
+&lt;div id="outline-container-orga20c3ff" class="outline-2"&gt;
+&lt;h2 id="orga20c3ff"&gt;Упражнение 3.41&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga20c3ff"&gt;
 &lt;p&gt;
 Бен Битобор считает, что лучше было бы реализовать банковский счет таким образом (измененная строка отмечена комментарием):
 &lt;/p&gt;
@@ -151,9 +151,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org98f924a" class="outline-2"&gt;
-&lt;h2 id="org98f924a"&gt;Упражнение 3.42&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org98f924a"&gt;
+&lt;div id="outline-container-org662d06f" class="outline-2"&gt;
+&lt;h2 id="org662d06f"&gt;Упражнение 3.42&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org662d06f"&gt;
 &lt;p&gt;
 Бен Битобор говорит, что слишком расточительно в ответ на каждое сообщение withdraw и deposit создавать по новой сериализованной процедуре. Он говорит, что можно изменить make-account так, чтобы все вызовы protected происходили вне процедуры dispatch. Таким обра-
 зом, счет будет возвращать одну и ту же сериализованную процедуру (созданную тогда же, когда и сам счет) каждый раз, когда у него просят процедуру снятия денег:
@@ -196,9 +196,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org763296d" class="outline-2"&gt;
-&lt;h2 id="org763296d"&gt;Упражнение 3.43&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org763296d"&gt;
+&lt;div id="outline-container-org217fb6f" class="outline-2"&gt;
+&lt;h2 id="org217fb6f"&gt;Упражнение 3.43&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org217fb6f"&gt;
 &lt;p&gt;
 Предположим, что значения баланса на трех счетах вначале равны 10, 20 и 30 долларам, и что несколько процессов занимаются обменом значений баланса. Покажите, что если эти процессы выполняются последовательно, то после любого количества обменов значения баланса по-прежнему
 будут равны 10, 20 и 30 долларам, в каком-то порядке. Нарисуйте временную диаграмму вроде той, которая изображена на рис. 3.29, и покажите, что указанное условие может нарушаться, если работает первая версия процедуры обмена из этого раздела. Покажите, с другой стороны, что даже с первой программой exchange общая сумма балансов на счетах сохранится. Нарисуйте временную диаграмму, показывающую, что если бы мы не сериализовали транзакции по отдельным счетам, это условие тоже могло бы нарушаться.
@@ -273,9 +273,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdde64cb" class="outline-2"&gt;
-&lt;h2 id="orgdde64cb"&gt;Упражнение 3.44&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdde64cb"&gt;
+&lt;div id="outline-container-orgf87d260" class="outline-2"&gt;
+&lt;h2 id="orgf87d260"&gt;Упражнение 3.44&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf87d260"&gt;
 &lt;p&gt;
 Рассмотрим задачу переноса денег с одного счета на другой. Бен Битобор утверждает, что ее можно решить с помощью следующей процедуры, даже в тех случаях, когда много людей одновременно перемещают деньги между различными счетами, если использовать при этом какой-то механизм,
 сериализующий операции занесения на счет и снятия со счета, например, версию make-account из нашего текста.
@@ -299,9 +299,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org219e59c" class="outline-2"&gt;
-&lt;h2 id="org219e59c"&gt;Упражнение 3.45&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org219e59c"&gt;
+&lt;div id="outline-container-org8faf143" class="outline-2"&gt;
+&lt;h2 id="org8faf143"&gt;Упражнение 3.45&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8faf143"&gt;
 &lt;p&gt;
 Хьюго Дум полагает, что теперь, когда операции снятия денег со счета и занесения их на счет перестали сериализовываться автоматически, система банковских счетов стала неоправданно сложной и работать с ней правильным образом чересчур трудно. Он предлагает сделать так, чтобы make-account-and-serializer экспортировал сериализатор (для использования в процедурах вроде serialized-exchange), и вдобавок сам использовал его для сериализации простых операций
 со счетом, как это делал make-account. Он предлагает переопределить объект-счет так:
@@ -355,9 +355,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org755f61c" class="outline-2"&gt;
-&lt;h2 id="org755f61c"&gt;Упражнение 3.46&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org755f61c"&gt;
+&lt;div id="outline-container-org68e9e3b" class="outline-2"&gt;
+&lt;h2 id="org68e9e3b"&gt;Упражнение 3.46&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org68e9e3b"&gt;
 &lt;p&gt;
 Допустим, что мы реализуем test-and-set в виде обыкновенной процедуры, как показано в тексте, не пытаясь сделать ее атомарной. Нарисуйте временную диаграмму, подобную диаграмме на рис. 3.29, и покажите, как реализация мьютекса может ошибиться и позволить двум процессам одновременно захватить мьютекс.
 &lt;/p&gt;
@@ -407,9 +407,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgf765f97" class="outline-2"&gt;
-&lt;h2 id="orgf765f97"&gt;Упражнение 3.47&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf765f97"&gt;
+&lt;div id="outline-container-org6c11b69" class="outline-2"&gt;
+&lt;h2 id="org6c11b69"&gt;Упражнение 3.47&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6c11b69"&gt;
 &lt;p&gt;
 Семафор (размера n) представляет собой обобщение мьютекса. Подобно мьютексу, семафор поддерживает операции захвата и освобождения, но захватить его одновременно могут до n процессов. Прочие процессы, которые попытаются захватить семафор, должны будут ждать освобождения. Дайте реализацию семафоров
 а. в терминах мьютексов.
@@ -443,9 +443,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org651a987" class="outline-2"&gt;
-&lt;h2 id="org651a987"&gt;Упражнение 3.48&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org651a987"&gt;
+&lt;div id="outline-container-org4dcbfd2" class="outline-2"&gt;
+&lt;h2 id="org4dcbfd2"&gt;Упражнение 3.48&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4dcbfd2"&gt;
 &lt;p&gt;
 Подробно объясните, почему метод избежания тупиков, описанный выше (т. е. счета нумеруются, и каждый процесс сначала пытается захватить счет с меньшим номером), в самом деле позволяет избежать тупика в задаче обмена балансов. Перепишите serialized-exchange с использованием этой идеи. (Придется также изменить make-account, так, чтобы каждый счет создавался вместе с номером, и чтобы этот номер можно было считать, послав соответствующее сообщение.)
 &lt;/p&gt;
@@ -468,9 +468,9 @@ P2 делает депозит -10 на A2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9399a6a" class="outline-2"&gt;
-&lt;h2 id="org9399a6a"&gt;Упражнение 3.49&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9399a6a"&gt;
+&lt;div id="outline-container-orgff83a37" class="outline-2"&gt;
+&lt;h2 id="orgff83a37"&gt;Упражнение 3.49&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgff83a37"&gt;
 &lt;p&gt;
 Опишите сценарий, в котором вышеописанный механизм избежания тупиков не работает. (Подсказка: в задаче обмена счетов каждый процесс заранее знает, к каким счетам ему нужен будет доступ. Рассмотрите ситуацию, в которой процессу нужно сначала получить доступ к каким-то разделяемым ресурсам, прежде чем он сможет определить, какие ресурсы ему потребуются дополнительно.)
 &lt;/p&gt;

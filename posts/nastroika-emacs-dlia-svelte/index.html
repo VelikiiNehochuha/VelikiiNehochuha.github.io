@@ -35,7 +35,7 @@ package-install web-mode
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
     <div id="container">
-            <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+            <header id="header"><h1 id="brand"><a href="../../" title="VelikiiNehochuha Blog" rel="home">
 
         <span id="blog-title">VelikiiNehochuha Blog</span>
     </a></h1>
@@ -64,9 +64,9 @@ package-install web-mode
         </div>
         
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgf99b1d5" class="outline-2">
-<h2 id="orgf99b1d5">Установить необходимые пакеты в emacs</h2>
-<div class="outline-text-2" id="text-orgf99b1d5">
+    <div id="outline-container-org74087b4" class="outline-2">
+<h2 id="org74087b4">Установить необходимые пакеты в emacs</h2>
+<div class="outline-text-2" id="text-org74087b4">
 <p>
 Я добавил поддержку svelte шаблонов сравнительно недавно, поэтому web-mode
 c поддержкой svelte доступен пока только в unstable melpa
@@ -79,9 +79,9 @@ c поддержкой svelte доступен пока только в unstable
 </div>
 </div>
 
-<div id="outline-container-org53994fa" class="outline-2">
-<h2 id="org53994fa">Настроим web-mode</h2>
-<div class="outline-text-2" id="text-org53994fa">
+<div id="outline-container-orgfa038f1" class="outline-2">
+<h2 id="orgfa038f1">Настроим web-mode</h2>
+<div class="outline-text-2" id="text-orgfa038f1">
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/web-mode.el"</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.svelte\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
 <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="s">"\\.html\\'"</span> <span class="o">.</span> <span class="nv">web-mode</span><span class="p">))</span>
@@ -108,9 +108,9 @@ c поддержкой svelte доступен пока только в unstable
 </div>
 
 
-<div id="outline-container-org8aa27a8" class="outline-2">
-<h2 id="org8aa27a8">Настройка eslint</h2>
-<div class="outline-text-2" id="text-org8aa27a8">
+<div id="outline-container-orgce45102" class="outline-2">
+<h2 id="orgce45102">Настройка eslint</h2>
+<div class="outline-text-2" id="text-orgce45102">
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nv">maybe-require-package</span> <span class="ss">'add-node-modules-path</span><span class="p">)</span>
   <span class="p">(</span><span class="nv">after-load</span> <span class="ss">'web-mode</span>
     <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'web-mode-hook</span> <span class="ss">'add-node-modules-path</span><span class="p">)))</span>
@@ -122,25 +122,25 @@ c поддержкой svelte доступен пока только в unstable
 </pre></div>
 </div>
 
-<div id="outline-container-org5604b4a" class="outline-3">
-<h3 id="org5604b4a">установить глобально eslint<sub>d</sub>
+<div id="outline-container-orgd354685" class="outline-3">
+<h3 id="orgd354685">установить глобально eslint<sub>d</sub>
 </h3>
-<div class="outline-text-3" id="text-org5604b4a">
+<div class="outline-text-3" id="text-orgd354685">
 <div class="highlight"><pre><span></span>npm install -g eslint eslint_d
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgf8cce70" class="outline-3">
-<h3 id="orgf8cce70">установить в директорию с проектом</h3>
-<div class="outline-text-3" id="text-orgf8cce70">
+<div id="outline-container-org9436ac4" class="outline-3">
+<h3 id="org9436ac4">установить в директорию с проектом</h3>
+<div class="outline-text-3" id="text-org9436ac4">
 <div class="highlight"><pre><span></span>npm install eslint-plugin-svelte3 babel-eslint --save-dev
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org632c4ab" class="outline-3">
-<h3 id="org632c4ab">в директорию с проектом поместить .eslintrc</h3>
-<div class="outline-text-3" id="text-org632c4ab">
+<div id="outline-container-org9c0cf84" class="outline-3">
+<h3 id="org9c0cf84">в директорию с проектом поместить .eslintrc</h3>
+<div class="outline-text-3" id="text-org9c0cf84">
 <div class="highlight"><pre><span></span>{
   "parserOptions": { "ecmaVersion": 2019, "sourceType": "module" },
   "env": {
@@ -180,16 +180,14 @@ c поддержкой svelte доступен пока только в unstable
             <li class="next">
                 <a href="../zadachi-po-kursu-sicp/" rel="next" title="Задачи по курсу SICP. Введение.">Следующая запись</a>
             </li>
-        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2021         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
                 <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

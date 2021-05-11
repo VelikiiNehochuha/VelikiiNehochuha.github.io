@@ -13,7 +13,7 @@
 <link rel="canonical" href="http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/">
 <!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Velikii Nehochuha">
 <link rel="prev" href="../sicp-33-modelirovanie-s-izmeniaemymi-dannymi/" title="SICP 3.3 Моделирование с изменяемыми данными." type="text/html">
-<link rel="next" href="../potoki/" title="Потоки" type="text/html">
+<link rel="next" href="../dinamicheskoe-programmirovanie/" title="Лекция 10-11, Динамическое программирование" type="text/html">
 <meta property="og:site_name" content="VelikiiNehochuha Blog">
 <meta property="og:title" content="SICP 3.4 Параллелизм: время имеет значение">
 <meta property="og:url" content="http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/">
@@ -30,7 +30,7 @@
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
     <div id="container">
-            <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+            <header id="header"><h1 id="brand"><a href="../../" title="VelikiiNehochuha Blog" rel="home">
 
         <span id="blog-title">VelikiiNehochuha Blog</span>
     </a></h1>
@@ -59,9 +59,9 @@
         </div>
         
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org0f5b9a8" class="outline-2">
-<h2 id="org0f5b9a8">Упражнение 3.38</h2>
-<div class="outline-text-2" id="text-org0f5b9a8">
+    <div id="outline-container-org0e2f77d" class="outline-2">
+<h2 id="org0e2f77d">Упражнение 3.38</h2>
+<div class="outline-text-2" id="text-org0e2f77d">
 <p>
 Пусть Петр, Павел и Мария имеют общий счет, на котором вначале лежит 100 долларов. Петр кладет на счет 10 долларов, одновременно с этим Павел берет 20, а Мария берет половину денег со счета. При этом они выполняют следующие операции:
 </p>
@@ -93,9 +93,9 @@
 </div>
 </div>
 
-<div id="outline-container-org4fa1839" class="outline-2">
-<h2 id="org4fa1839">Упражнение 3.39</h2>
-<div class="outline-text-2" id="text-org4fa1839">
+<div id="outline-container-orge11687d" class="outline-2">
+<h2 id="orge11687d">Упражнение 3.39</h2>
+<div class="outline-text-2" id="text-orge11687d">
 <p>
 Какие из пяти возможных исходов параллельного выполнения сохраняются, если мы сериализуем выполнение таким образом:
 </p>
@@ -129,9 +129,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgbc47be1" class="outline-2">
-<h2 id="orgbc47be1">Упражнение 3.40</h2>
-<div class="outline-text-2" id="text-orgbc47be1">
+<div id="outline-container-org1dbb767" class="outline-2">
+<h2 id="org1dbb767">Упражнение 3.40</h2>
+<div class="outline-text-2" id="text-org1dbb767">
 <p>
 Укажите все возможные значения x при выполнении
 </p>
@@ -167,9 +167,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgcb12047" class="outline-2">
-<h2 id="orgcb12047">Упражнение 3.41</h2>
-<div class="outline-text-2" id="text-orgcb12047">
+<div id="outline-container-orga20c3ff" class="outline-2">
+<h2 id="orga20c3ff">Упражнение 3.41</h2>
+<div class="outline-text-2" id="text-orga20c3ff">
 <p>
 Бен Битобор считает, что лучше было бы реализовать банковский счет таким образом (измененная строка отмечена комментарием):
 </p>
@@ -207,9 +207,9 @@
 </div>
 </div>
 
-<div id="outline-container-org98f924a" class="outline-2">
-<h2 id="org98f924a">Упражнение 3.42</h2>
-<div class="outline-text-2" id="text-org98f924a">
+<div id="outline-container-org662d06f" class="outline-2">
+<h2 id="org662d06f">Упражнение 3.42</h2>
+<div class="outline-text-2" id="text-org662d06f">
 <p>
 Бен Битобор говорит, что слишком расточительно в ответ на каждое сообщение withdraw и deposit создавать по новой сериализованной процедуре. Он говорит, что можно изменить make-account так, чтобы все вызовы protected происходили вне процедуры dispatch. Таким обра-
 зом, счет будет возвращать одну и ту же сериализованную процедуру (созданную тогда же, когда и сам счет) каждый раз, когда у него просят процедуру снятия денег:
@@ -252,9 +252,9 @@
 </div>
 </div>
 
-<div id="outline-container-org763296d" class="outline-2">
-<h2 id="org763296d">Упражнение 3.43</h2>
-<div class="outline-text-2" id="text-org763296d">
+<div id="outline-container-org217fb6f" class="outline-2">
+<h2 id="org217fb6f">Упражнение 3.43</h2>
+<div class="outline-text-2" id="text-org217fb6f">
 <p>
 Предположим, что значения баланса на трех счетах вначале равны 10, 20 и 30 долларам, и что несколько процессов занимаются обменом значений баланса. Покажите, что если эти процессы выполняются последовательно, то после любого количества обменов значения баланса по-прежнему
 будут равны 10, 20 и 30 долларам, в каком-то порядке. Нарисуйте временную диаграмму вроде той, которая изображена на рис. 3.29, и покажите, что указанное условие может нарушаться, если работает первая версия процедуры обмена из этого раздела. Покажите, с другой стороны, что даже с первой программой exchange общая сумма балансов на счетах сохранится. Нарисуйте временную диаграмму, показывающую, что если бы мы не сериализовали транзакции по отдельным счетам, это условие тоже могло бы нарушаться.
@@ -327,9 +327,9 @@ P2 делает депозит -10 на A2
 </div>
 </div>
 
-<div id="outline-container-orgdde64cb" class="outline-2">
-<h2 id="orgdde64cb">Упражнение 3.44</h2>
-<div class="outline-text-2" id="text-orgdde64cb">
+<div id="outline-container-orgf87d260" class="outline-2">
+<h2 id="orgf87d260">Упражнение 3.44</h2>
+<div class="outline-text-2" id="text-orgf87d260">
 <p>
 Рассмотрим задачу переноса денег с одного счета на другой. Бен Битобор утверждает, что ее можно решить с помощью следующей процедуры, даже в тех случаях, когда много людей одновременно перемещают деньги между различными счетами, если использовать при этом какой-то механизм,
 сериализующий операции занесения на счет и снятия со счета, например, версию make-account из нашего текста.
@@ -353,9 +353,9 @@ P2 делает депозит -10 на A2
 </div>
 
 
-<div id="outline-container-org219e59c" class="outline-2">
-<h2 id="org219e59c">Упражнение 3.45</h2>
-<div class="outline-text-2" id="text-org219e59c">
+<div id="outline-container-org8faf143" class="outline-2">
+<h2 id="org8faf143">Упражнение 3.45</h2>
+<div class="outline-text-2" id="text-org8faf143">
 <p>
 Хьюго Дум полагает, что теперь, когда операции снятия денег со счета и занесения их на счет перестали сериализовываться автоматически, система банковских счетов стала неоправданно сложной и работать с ней правильным образом чересчур трудно. Он предлагает сделать так, чтобы make-account-and-serializer экспортировал сериализатор (для использования в процедурах вроде serialized-exchange), и вдобавок сам использовал его для сериализации простых операций
 со счетом, как это делал make-account. Он предлагает переопределить объект-счет так:
@@ -409,9 +409,9 @@ P2 делает депозит -10 на A2
 </div>
 
 
-<div id="outline-container-org755f61c" class="outline-2">
-<h2 id="org755f61c">Упражнение 3.46</h2>
-<div class="outline-text-2" id="text-org755f61c">
+<div id="outline-container-org68e9e3b" class="outline-2">
+<h2 id="org68e9e3b">Упражнение 3.46</h2>
+<div class="outline-text-2" id="text-org68e9e3b">
 <p>
 Допустим, что мы реализуем test-and-set в виде обыкновенной процедуры, как показано в тексте, не пытаясь сделать ее атомарной. Нарисуйте временную диаграмму, подобную диаграмме на рис. 3.29, и покажите, как реализация мьютекса может ошибиться и позволить двум процессам одновременно захватить мьютекс.
 </p>
@@ -461,9 +461,9 @@ P2 делает депозит -10 на A2
 </div>
 
 
-<div id="outline-container-orgf765f97" class="outline-2">
-<h2 id="orgf765f97">Упражнение 3.47</h2>
-<div class="outline-text-2" id="text-orgf765f97">
+<div id="outline-container-org6c11b69" class="outline-2">
+<h2 id="org6c11b69">Упражнение 3.47</h2>
+<div class="outline-text-2" id="text-org6c11b69">
 <p>
 Семафор (размера n) представляет собой обобщение мьютекса. Подобно мьютексу, семафор поддерживает операции захвата и освобождения, но захватить его одновременно могут до n процессов. Прочие процессы, которые попытаются захватить семафор, должны будут ждать освобождения. Дайте реализацию семафоров
 а. в терминах мьютексов.
@@ -497,9 +497,9 @@ P2 делает депозит -10 на A2
 </div>
 </div>
 
-<div id="outline-container-org651a987" class="outline-2">
-<h2 id="org651a987">Упражнение 3.48</h2>
-<div class="outline-text-2" id="text-org651a987">
+<div id="outline-container-org4dcbfd2" class="outline-2">
+<h2 id="org4dcbfd2">Упражнение 3.48</h2>
+<div class="outline-text-2" id="text-org4dcbfd2">
 <p>
 Подробно объясните, почему метод избежания тупиков, описанный выше (т. е. счета нумеруются, и каждый процесс сначала пытается захватить счет с меньшим номером), в самом деле позволяет избежать тупика в задаче обмена балансов. Перепишите serialized-exchange с использованием этой идеи. (Придется также изменить make-account, так, чтобы каждый счет создавался вместе с номером, и чтобы этот номер можно было считать, послав соответствующее сообщение.)
 </p>
@@ -522,9 +522,9 @@ P2 делает депозит -10 на A2
 </div>
 </div>
 
-<div id="outline-container-org9399a6a" class="outline-2">
-<h2 id="org9399a6a">Упражнение 3.49</h2>
-<div class="outline-text-2" id="text-org9399a6a">
+<div id="outline-container-orgff83a37" class="outline-2">
+<h2 id="orgff83a37">Упражнение 3.49</h2>
+<div class="outline-text-2" id="text-orgff83a37">
 <p>
 Опишите сценарий, в котором вышеописанный механизм избежания тупиков не работает. (Подсказка: в задаче обмена счетов каждый процесс заранее знает, к каким счетам ему нужен будет доступ. Рассмотрите ситуацию, в которой процессу нужно сначала получить доступ к каким-то разделяемым ресурсам, прежде чем он сможет определить, какие ресурсы ему потребуются дополнительно.)
 </p>
@@ -545,18 +545,16 @@ P2 делает депозит -10 на A2
                 <a href="../sicp-33-modelirovanie-s-izmeniaemymi-dannymi/" rel="prev" title="SICP 3.3 Моделирование с изменяемыми данными.">Предыдущая запись</a>
             </li>
             <li class="next">
-                <a href="../potoki/" rel="next" title="Потоки">Следующая запись</a>
+                <a href="../dinamicheskoe-programmirovanie/" rel="next" title="Лекция 10-11, Динамическое программирование">Следующая запись</a>
             </li>
-        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2021         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
                 <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

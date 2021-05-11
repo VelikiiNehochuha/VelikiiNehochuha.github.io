@@ -25,9 +25,9 @@
      Определите make-rat которая будет определять знак.
     
    
-1 (define (make-rat n d)
-2   (let ((g (gcd n d))
-3         (sign (cond (or ((and (&gt; n 0) (&gt; d 0)) (and (&lt;">
+1(define (make-rat n d)
+2  (let ((g (gcd n d))
+3        (sign (cond (or ((and (&gt; n 0) (&gt; d 0)) (and (&lt; n ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-01-16T11:35:27+03:00">
 <meta property="article:tag" content="data_abstraction">
@@ -37,7 +37,7 @@
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Перейти к главному содержимому</a>
     <div id="container">
-            <header id="header"><h1 id="brand"><a href="http://velikiinehochuha.github.io/" title="VelikiiNehochuha Blog" rel="home">
+            <header id="header"><h1 id="brand"><a href="../../" title="VelikiiNehochuha Blog" rel="home">
 
         <span id="blog-title">VelikiiNehochuha Blog</span>
     </a></h1>
@@ -78,13 +78,13 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rat</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">g</span> <span class="p">(</span><span class="nb">gcd </span><span class="nv">n</span> <span class="nv">d</span><span class="p">))</span>
-<span class="lineno">3 </span>        <span class="p">(</span><span class="nf">sign</span> <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="k">or </span><span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt; </span><span class="nv">d</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="nv">d</span> <span class="mi">0</span><span class="p">)))</span> <span class="mi">1</span><span class="p">)</span>
-<span class="lineno">4 </span>                        <span class="p">(</span><span class="k">else </span><span class="mi">0</span><span class="p">))))</span>
-<span class="lineno">5 </span>    <span class="p">(</span><span class="nf">cons</span>
-<span class="lineno">6 </span>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">sign</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="nv">g</span><span class="p">))</span> <span class="p">(</span><span class="nb">* </span><span class="mi">-1</span> <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="nv">g</span><span class="p">))))</span>
-<span class="lineno">7 </span>     <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">d</span> <span class="nv">g</span><span class="p">)))))</span>
+<pre class="code literal-block"><span></span><span class="linenos">1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rat</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)</span>
+<span class="linenos">2</span>  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">g</span> <span class="p">(</span><span class="nb">gcd </span><span class="nv">n</span> <span class="nv">d</span><span class="p">))</span>
+<span class="linenos">3</span>        <span class="p">(</span><span class="nf">sign</span> <span class="p">(</span><span class="k">cond </span><span class="p">(</span><span class="k">or </span><span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt; </span><span class="nv">d</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="nv">d</span> <span class="mi">0</span><span class="p">)))</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">4</span>                        <span class="p">(</span><span class="k">else </span><span class="mi">0</span><span class="p">))))</span>
+<span class="linenos">5</span>    <span class="p">(</span><span class="nf">cons</span>
+<span class="linenos">6</span>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">sign</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="nv">g</span><span class="p">))</span> <span class="p">(</span><span class="nb">* </span><span class="mi">-1</span> <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="nv">g</span><span class="p">))))</span>
+<span class="linenos">7</span>     <span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">/ </span><span class="nv">d</span> <span class="nv">g</span><span class="p">)))))</span>
 </pre>
 </div>  </div>
  </div>
@@ -99,33 +99,33 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno"> 2 </span>
-<span class="lineno"> 3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-point</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">p</span><span class="p">))</span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">p</span><span class="p">))</span>
-<span class="lineno"> 6 </span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">print-point</span> <span class="nv">p</span><span class="p">)</span>
-<span class="lineno"> 8 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno"> 9 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"("</span><span class="p">)</span>
-<span class="lineno">10 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">p</span><span class="p">))</span>
-<span class="lineno">11 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">","</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">p</span><span class="p">))</span>
-<span class="lineno">13 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">")"</span><span class="p">))</span>
-<span class="lineno">14 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average-points</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">15 </span>   <span class="p">(</span><span class="nf">make-point</span> <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">b</span><span class="p">))</span>
-<span class="lineno">16 </span>               <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">b</span><span class="p">))))</span>
-<span class="lineno">17 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">distance-points</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno">18 </span>  <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">b</span><span class="p">)))</span>
-<span class="lineno">19 </span>           <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">b</span><span class="p">))))))</span>
-<span class="lineno">20 </span><span class="p">(</span><span class="nf">print-point</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno">21 </span>
-<span class="lineno">22 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-segment</span> <span class="nv">start</span> <span class="nv">end</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">start</span> <span class="nv">end</span><span class="p">))</span>
-<span class="lineno">23 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">s</span><span class="p">))</span>
-<span class="lineno">24 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">s</span><span class="p">))</span>
-<span class="lineno">25 </span>
-<span class="lineno">26 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">midpoint-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">average-points</span> <span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)))</span>
-<span class="lineno">27 </span><span class="p">(</span><span class="nf">print-point</span> <span class="p">(</span><span class="nf">midpoint-segment</span> <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))))</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-point</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos"> 4</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">p</span><span class="p">))</span>
+<span class="linenos"> 5</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">p</span><span class="p">))</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">print-point</span> <span class="nv">p</span><span class="p">)</span>
+<span class="linenos"> 8</span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="linenos"> 9</span>  <span class="p">(</span><span class="nb">display </span><span class="s">"("</span><span class="p">)</span>
+<span class="linenos">10</span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">p</span><span class="p">))</span>
+<span class="linenos">11</span>  <span class="p">(</span><span class="nb">display </span><span class="s">","</span><span class="p">)</span>
+<span class="linenos">12</span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">p</span><span class="p">))</span>
+<span class="linenos">13</span>  <span class="p">(</span><span class="nb">display </span><span class="s">")"</span><span class="p">))</span>
+<span class="linenos">14</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">average-points</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="linenos">15</span>   <span class="p">(</span><span class="nf">make-point</span> <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">b</span><span class="p">))</span>
+<span class="linenos">16</span>               <span class="p">(</span><span class="nf">average</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">b</span><span class="p">))))</span>
+<span class="linenos">17</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">distance-points</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="linenos">18</span>  <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">x-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">x-point</span> <span class="nv">b</span><span class="p">)))</span>
+<span class="linenos">19</span>           <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">y-point</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">y-point</span> <span class="nv">b</span><span class="p">))))))</span>
+<span class="linenos">20</span><span class="p">(</span><span class="nf">print-point</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-segment</span> <span class="nv">start</span> <span class="nv">end</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">start</span> <span class="nv">end</span><span class="p">))</span>
+<span class="linenos">23</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">s</span><span class="p">))</span>
+<span class="linenos">24</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">s</span><span class="p">))</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">midpoint-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">average-points</span> <span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)))</span>
+<span class="linenos">27</span><span class="p">(</span><span class="nf">print-point</span> <span class="p">(</span><span class="nf">midpoint-segment</span> <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))))</span>
 </pre>
 </div>  </div>
  </div>
@@ -140,39 +140,39 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="nv">s</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="nf">distance-points</span> <span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)))</span>
-<span class="lineno"> 3 </span><span class="c1">;; (segment-lenght (make-segment (make-point 0 0) (make-point 6 0)))</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rect</span> <span class="nv">seg1</span> <span class="nv">seg2</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">seg1</span> <span class="nv">seg2</span><span class="p">))</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">))</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">r</span><span class="p">))</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="nv">r</span><span class="p">)</span>
-<span class="lineno">10 </span>  <span class="p">(</span><span class="nb">* </span><span class="mf">2.0</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">))</span> <span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">)))))</span>
-<span class="lineno">11 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">react-area</span> <span class="nv">r</span><span class="p">)</span>
-<span class="lineno">12 </span>  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">))</span> <span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">))))</span>
-<span class="lineno">13 </span>
-<span class="lineno">14 </span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">15 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno">16 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">17 </span>                 <span class="p">))</span>
-<span class="lineno">18 </span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">react-area</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">20 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
-<span class="lineno">21 </span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">22 </span>                 <span class="p">))</span>
-<span class="lineno">23 </span>
-<span class="lineno">24 </span>
-<span class="lineno">25 </span><span class="c1">;; другое представление прямоугольника например тремя точками</span>
-<span class="lineno">26 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rect</span> <span class="nv">point1</span> <span class="nv">point2</span> <span class="nv">point3</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">cons </span><span class="nv">point1</span> <span class="nv">point2</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">point2</span> <span class="nv">point3</span><span class="p">)))</span>
-<span class="lineno">27 </span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">28 </span>                 <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">29 </span>                 <span class="p">))</span>
-<span class="lineno">30 </span>
-<span class="lineno">31 </span><span class="p">(</span><span class="nf">react-area</span> <span class="p">(</span><span class="nf">make-rect</span>
-<span class="lineno">32 </span>             <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">33 </span>             <span class="p">))</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="nv">s</span><span class="p">)</span>
+<span class="linenos"> 2</span>  <span class="p">(</span><span class="nf">distance-points</span> <span class="p">(</span><span class="nf">start-segment</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">end-segment</span> <span class="nv">s</span><span class="p">)))</span>
+<span class="linenos"> 3</span><span class="c1">;; (segment-lenght (make-segment (make-point 0 0) (make-point 6 0)))</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rect</span> <span class="nv">seg1</span> <span class="nv">seg2</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">seg1</span> <span class="nv">seg2</span><span class="p">))</span>
+<span class="linenos"> 6</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">))</span>
+<span class="linenos"> 7</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">r</span><span class="p">))</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="nv">r</span><span class="p">)</span>
+<span class="linenos">10</span>  <span class="p">(</span><span class="nb">* </span><span class="mf">2.0</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">))</span> <span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">)))))</span>
+<span class="linenos">11</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">react-area</span> <span class="nv">r</span><span class="p">)</span>
+<span class="linenos">12</span>  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-base</span> <span class="nv">r</span><span class="p">))</span> <span class="p">(</span><span class="nf">segment-lenght</span> <span class="p">(</span><span class="nf">rect-side</span> <span class="nv">r</span><span class="p">))))</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="p">(</span><span class="nf">make-rect</span>
+<span class="linenos">15</span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
+<span class="linenos">16</span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
+<span class="linenos">17</span>                 <span class="p">))</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="p">(</span><span class="nf">react-area</span> <span class="p">(</span><span class="nf">make-rect</span>
+<span class="linenos">20</span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">))</span>
+<span class="linenos">21</span>                 <span class="p">(</span><span class="nf">make-segment</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
+<span class="linenos">22</span>                 <span class="p">))</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="c1">;; другое представление прямоугольника например тремя точками</span>
+<span class="linenos">26</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-rect</span> <span class="nv">point1</span> <span class="nv">point2</span> <span class="nv">point3</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">cons </span><span class="nv">point1</span> <span class="nv">point2</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">point2</span> <span class="nv">point3</span><span class="p">)))</span>
+<span class="linenos">27</span><span class="p">(</span><span class="nf">rect-perimeter</span> <span class="p">(</span><span class="nf">make-rect</span>
+<span class="linenos">28</span>                 <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">)</span>
+<span class="linenos">29</span>                 <span class="p">))</span>
+<span class="linenos">30</span>
+<span class="linenos">31</span><span class="p">(</span><span class="nf">react-area</span> <span class="p">(</span><span class="nf">make-rect</span>
+<span class="linenos">32</span>             <span class="p">(</span><span class="nf">make-point</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">make-point</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">)</span>
+<span class="linenos">33</span>             <span class="p">))</span>
 </pre>
 </div>  </div>
  </div>
@@ -187,27 +187,27 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">m</span><span class="p">)</span> <span class="p">(</span><span class="nf">m</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno"> 3 </span>
-<span class="lineno"> 4 </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno"> 5 </span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">car </span><span class="nv">z</span><span class="p">)</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="nf">z</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span> <span class="nv">q</span><span class="p">)</span> <span class="nv">p</span><span class="p">)))</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span><span class="c1">;; (cons 1 3)</span>
-<span class="lineno">10 </span><span class="c1">;; (car (cons 1 3))</span>
-<span class="lineno">11 </span><span class="c1">;; (car (lambda (m) (m x y)))</span>
-<span class="lineno">12 </span><span class="c1">;; ((lambda (m) (m x y)) (lambda (p q) p))</span>
-<span class="lineno">13 </span><span class="c1">;; (m x y) это как раз вызвать процедуру которая в параметрах с параметрами x y</span>
-<span class="lineno">14 </span><span class="c1">;; но следующая проуедура как раз возвращает первый параметр p, то есть все выражение</span>
-<span class="lineno">15 </span><span class="c1">;; вернет x</span>
-<span class="lineno">16 </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno">17 </span>
-<span class="lineno">18 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">z</span><span class="p">)</span>
-<span class="lineno">19 </span>  <span class="p">(</span><span class="nf">z</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span> <span class="nv">q</span><span class="p">)</span> <span class="nv">q</span><span class="p">)))</span>
-<span class="lineno">20 </span>
-<span class="lineno">21 </span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+<span class="linenos"> 2</span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">m</span><span class="p">)</span> <span class="p">(</span><span class="nf">m</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">car </span><span class="nv">z</span><span class="p">)</span>
+<span class="linenos"> 7</span>  <span class="p">(</span><span class="nf">z</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span> <span class="nv">q</span><span class="p">)</span> <span class="nv">p</span><span class="p">)))</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1">;; (cons 1 3)</span>
+<span class="linenos">10</span><span class="c1">;; (car (cons 1 3))</span>
+<span class="linenos">11</span><span class="c1">;; (car (lambda (m) (m x y)))</span>
+<span class="linenos">12</span><span class="c1">;; ((lambda (m) (m x y)) (lambda (p q) p))</span>
+<span class="linenos">13</span><span class="c1">;; (m x y) это как раз вызвать процедуру которая в параметрах с параметрами x y</span>
+<span class="linenos">14</span><span class="c1">;; но следующая проуедура как раз возвращает первый параметр p, то есть все выражение</span>
+<span class="linenos">15</span><span class="c1">;; вернет x</span>
+<span class="linenos">16</span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">z</span><span class="p">)</span>
+<span class="linenos">19</span>  <span class="p">(</span><span class="nf">z</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">p</span> <span class="nv">q</span><span class="p">)</span> <span class="nv">q</span><span class="p">)))</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
 </pre>
 </div>  </div>
  </div>
@@ -222,26 +222,26 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="nv">logB</span>
-<span class="lineno"> 2 </span>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">B</span><span class="p">)</span>
-<span class="lineno"> 3 </span>      <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">log </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">log </span><span class="nv">B</span><span class="p">))))</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cons </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-<span class="lineno"> 6 </span>  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">2</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">3</span> <span class="nv">b</span><span class="p">)))</span>
-<span class="lineno"> 7 </span>
-<span class="lineno"> 8 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">r</span><span class="p">)</span>
-<span class="lineno"> 9 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">r</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">10 </span>      <span class="p">(</span><span class="nf">logB</span> <span class="nv">r</span> <span class="mi">3</span><span class="p">)</span>
-<span class="lineno">11 </span>      <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">/ </span><span class="nv">r</span> <span class="mi">2</span><span class="p">))))</span>
-<span class="lineno">12 </span>
-<span class="lineno">13 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">)</span>
-<span class="lineno">14 </span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">r</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-<span class="lineno">15 </span>      <span class="p">(</span><span class="nf">logB</span> <span class="nv">r</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno">16 </span>      <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">/ </span><span class="nv">r</span> <span class="mi">3</span><span class="p">))))</span>
-<span class="lineno">17 </span>
-<span class="lineno">18 </span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">; 162</span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nb">car </span><span class="mi">162</span><span class="p">)</span> <span class="c1">; 1</span>
-<span class="lineno">20 </span><span class="p">(</span><span class="nb">cdr </span><span class="mi">162</span><span class="p">)</span> <span class="c1">; 4</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="p">(</span><span class="k">define </span><span class="nv">logB</span>
+<span class="linenos"> 2</span>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">B</span><span class="p">)</span>
+<span class="linenos"> 3</span>      <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">log </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">log </span><span class="nv">B</span><span class="p">))))</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cons </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="linenos"> 6</span>  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">2</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">fast-expt</span> <span class="mi">3</span> <span class="nv">b</span><span class="p">)))</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">r</span><span class="p">)</span>
+<span class="linenos"> 9</span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">r</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+<span class="linenos">10</span>      <span class="p">(</span><span class="nf">logB</span> <span class="nv">r</span> <span class="mi">3</span><span class="p">)</span>
+<span class="linenos">11</span>      <span class="p">(</span><span class="nb">cdr </span><span class="p">(</span><span class="nb">/ </span><span class="nv">r</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">)</span>
+<span class="linenos">14</span>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">r</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+<span class="linenos">15</span>      <span class="p">(</span><span class="nf">logB</span> <span class="nv">r</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos">16</span>      <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">/ </span><span class="nv">r</span> <span class="mi">3</span><span class="p">))))</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">; 162</span>
+<span class="linenos">19</span><span class="p">(</span><span class="nb">car </span><span class="mi">162</span><span class="p">)</span> <span class="c1">; 1</span>
+<span class="linenos">20</span><span class="p">(</span><span class="nb">cdr </span><span class="mi">162</span><span class="p">)</span> <span class="c1">; 4</span>
 </pre>
 </div>  </div>
  </div>
@@ -256,10 +256,10 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">zero</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
-<span class="lineno">2 </span>
-<span class="lineno">3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-1</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">4 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
+<pre class="code literal-block"><span></span><span class="linenos">1</span><span class="p">(</span><span class="k">define </span><span class="nv">zero</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-1</span> <span class="nv">n</span><span class="p">)</span>
+<span class="linenos">4</span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
 </pre>
 </div>   <div>
     <p>
@@ -267,40 +267,40 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="nv">zero</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
-<span class="lineno">2 </span>
-<span class="lineno">3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-1</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">4 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
+<pre class="code literal-block"><span></span><span class="linenos">1</span><span class="p">(</span><span class="k">define </span><span class="nv">zero</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-1</span> <span class="nv">n</span><span class="p">)</span>
+<span class="linenos">4</span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
 </pre>
 </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; (add-1 zero)</span>
-<span class="lineno"> 2 </span><span class="c1">;; (add-1 (lambda (f) (lambda (x) x)))</span>
-<span class="lineno"> 3 </span><span class="c1">;; ((n f) x) будет просто x, так как n это zero</span>
-<span class="lineno"> 4 </span><span class="c1">;;</span>
-<span class="lineno"> 5 </span><span class="c1">;; (lambda (x) (f x))</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">one</span> <span class="nv">f</span><span class="p">)</span>
-<span class="lineno"> 7 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">)))</span>
-<span class="lineno"> 8 </span><span class="c1">;; (add-1 one)</span>
-<span class="lineno"> 9 </span><span class="c1">;;</span>
-<span class="lineno">10 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">two</span> <span class="nv">f</span><span class="p">)</span>
-<span class="lineno">11 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">))))</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add</span> <span class="nv">m</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">13 </span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">((</span><span class="nf">m</span> <span class="nv">f</span><span class="p">)</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
-<span class="lineno">14 </span><span class="c1">;; пусть m=one, n=one</span>
-<span class="lineno">15 </span><span class="c1">;; ((n f) x) = (f x)</span>
-<span class="lineno">16 </span><span class="c1">;; ((m f) (f x))</span>
-<span class="lineno">17 </span><span class="c1">;; (f (f x))</span>
-<span class="lineno">18 </span><span class="c1">;; (lambda (x) (f (f x))) а это не что иное как два</span>
-<span class="lineno">19 </span><span class="p">(</span><span class="nf">add</span> <span class="nv">one</span> <span class="nv">one</span><span class="p">)</span>
-<span class="lineno">20 </span>
-<span class="lineno">21 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">n</span><span class="p">)</span>
-<span class="lineno">22 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">((</span><span class="nf">n</span> <span class="nv">inc</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">newline</span><span class="p">))</span>
-<span class="lineno">23 </span>
-<span class="lineno">24 </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">zero</span><span class="p">)</span>
-<span class="lineno">25 </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">one</span><span class="p">)</span>
-<span class="lineno">26 </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">two</span><span class="p">)</span>
-<span class="lineno">27 </span><span class="p">(</span><span class="nf">print-church</span> <span class="p">(</span><span class="nf">add</span> <span class="nv">two</span> <span class="nv">two</span><span class="p">))</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="c1">;; (add-1 zero)</span>
+<span class="linenos"> 2</span><span class="c1">;; (add-1 (lambda (f) (lambda (x) x)))</span>
+<span class="linenos"> 3</span><span class="c1">;; ((n f) x) будет просто x, так как n это zero</span>
+<span class="linenos"> 4</span><span class="c1">;;</span>
+<span class="linenos"> 5</span><span class="c1">;; (lambda (x) (f x))</span>
+<span class="linenos"> 6</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">one</span> <span class="nv">f</span><span class="p">)</span>
+<span class="linenos"> 7</span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="linenos"> 8</span><span class="c1">;; (add-1 one)</span>
+<span class="linenos"> 9</span><span class="c1">;;</span>
+<span class="linenos">10</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">two</span> <span class="nv">f</span><span class="p">)</span>
+<span class="linenos">11</span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">f</span> <span class="p">(</span><span class="nf">f</span> <span class="nv">x</span><span class="p">))))</span>
+<span class="linenos">12</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add</span> <span class="nv">m</span> <span class="nv">n</span><span class="p">)</span>
+<span class="linenos">13</span>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">((</span><span class="nf">m</span> <span class="nv">f</span><span class="p">)</span> <span class="p">((</span><span class="nf">n</span> <span class="nv">f</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
+<span class="linenos">14</span><span class="c1">;; пусть m=one, n=one</span>
+<span class="linenos">15</span><span class="c1">;; ((n f) x) = (f x)</span>
+<span class="linenos">16</span><span class="c1">;; ((m f) (f x))</span>
+<span class="linenos">17</span><span class="c1">;; (f (f x))</span>
+<span class="linenos">18</span><span class="c1">;; (lambda (x) (f (f x))) а это не что иное как два</span>
+<span class="linenos">19</span><span class="p">(</span><span class="nf">add</span> <span class="nv">one</span> <span class="nv">one</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">n</span><span class="p">)</span>
+<span class="linenos">22</span>  <span class="p">(</span><span class="nb">display </span><span class="p">((</span><span class="nf">n</span> <span class="nv">inc</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">newline</span><span class="p">))</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">zero</span><span class="p">)</span>
+<span class="linenos">25</span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">one</span><span class="p">)</span>
+<span class="linenos">26</span><span class="p">(</span><span class="nf">print-church</span> <span class="nv">two</span><span class="p">)</span>
+<span class="linenos">27</span><span class="p">(</span><span class="nf">print-church</span> <span class="p">(</span><span class="nf">add</span> <span class="nv">two</span> <span class="nv">two</span><span class="p">))</span>
 </pre>
 </div>  </div>
  </div>
@@ -315,9 +315,9 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-interval</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
-<span class="lineno">2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">max </span><span class="p">(</span><span class="nb">car </span><span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">i</span><span class="p">)))</span>
-<span class="lineno">3 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">min </span><span class="p">(</span><span class="nb">car </span><span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">i</span><span class="p">)))</span>
+<pre class="code literal-block"><span></span><span class="linenos">1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-interval</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
+<span class="linenos">2</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">max </span><span class="p">(</span><span class="nb">car </span><span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">i</span><span class="p">)))</span>
+<span class="linenos">3</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">min </span><span class="p">(</span><span class="nb">car </span><span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">i</span><span class="p">)))</span>
 </pre>
 </div>  </div>
  </div>
@@ -332,9 +332,9 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">3 </span>                 <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<pre class="code literal-block"><span></span><span class="linenos">1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+<span class="linenos">2</span>  <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos">3</span>                 <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
 </pre>
 </div>  </div>
  </div>
@@ -349,22 +349,22 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="c1">;; определяем функцию ширины интервала</span>
-<span class="lineno"> 2 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">width-interval</span> <span class="nv">i</span><span class="p">)</span>
-<span class="lineno"> 3 </span>  <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">i</span><span class="p">))</span> <span class="mf">2.0</span><span class="p">))</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">4.0</span> <span class="mf">6.0</span><span class="p">))</span> <span class="c1">;; 1</span>
-<span class="lineno"> 6 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">))</span> <span class="c1">;; 2</span>
-<span class="lineno"> 7 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">add-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno"> 8 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)))</span><span class="c1">;; 3</span>
-<span class="lineno"> 9 </span>
-<span class="lineno">10 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">sub-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">11 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)))</span><span class="c1">;; 3</span>
-<span class="lineno">12 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)</span>
-<span class="lineno">13 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)))</span><span class="c1">;; 22</span>
-<span class="lineno">14 </span>
-<span class="lineno">15 </span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">10.0</span> <span class="mf">14.0</span><span class="p">)</span>
-<span class="lineno">16 </span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">4.0</span> <span class="mf">6.0</span><span class="p">)))</span><span class="c1">;; 0.916</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="c1">;; определяем функцию ширины интервала</span>
+<span class="linenos"> 2</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">width-interval</span> <span class="nv">i</span><span class="p">)</span>
+<span class="linenos"> 3</span>  <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">i</span><span class="p">))</span> <span class="mf">2.0</span><span class="p">))</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">4.0</span> <span class="mf">6.0</span><span class="p">))</span> <span class="c1">;; 1</span>
+<span class="linenos"> 6</span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">))</span> <span class="c1">;; 2</span>
+<span class="linenos"> 7</span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">add-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)</span>
+<span class="linenos"> 8</span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)))</span><span class="c1">;; 3</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">sub-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)</span>
+<span class="linenos">11</span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)))</span><span class="c1">;; 3</span>
+<span class="linenos">12</span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)</span>
+<span class="linenos">13</span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)))</span><span class="c1">;; 22</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="p">(</span><span class="nf">width-interval</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">10.0</span> <span class="mf">14.0</span><span class="p">)</span>
+<span class="linenos">16</span>                              <span class="p">(</span><span class="nf">make-interval</span> <span class="mf">4.0</span> <span class="mf">6.0</span><span class="p">)))</span><span class="c1">;; 0.916</span>
 </pre>
 </div>   <div>
     <p>
@@ -384,13 +384,13 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">div-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"Error upper-bound = 0"</span><span class="p">))</span>
-<span class="lineno">3 </span>        <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"Error lower-bound = 0"</span><span class="p">))</span>
-<span class="lineno">4 </span>        <span class="p">(</span><span class="nf">else</span>
-<span class="lineno">5 </span>         <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">x</span>
-<span class="lineno">6 </span>                       <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">/ </span><span class="mf">1.0</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">7 </span>                                      <span class="p">(</span><span class="nb">/ </span><span class="mf">1.0</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))))))</span>
+<pre class="code literal-block"><span></span><span class="linenos">1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">div-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+<span class="linenos">2</span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"Error upper-bound = 0"</span><span class="p">))</span>
+<span class="linenos">3</span>        <span class="p">((</span><span class="nb">= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">error</span> <span class="s">"Error lower-bound = 0"</span><span class="p">))</span>
+<span class="linenos">4</span>        <span class="p">(</span><span class="nf">else</span>
+<span class="linenos">5</span>         <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">x</span>
+<span class="linenos">6</span>                       <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">/ </span><span class="mf">1.0</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos">7</span>                                      <span class="p">(</span><span class="nb">/ </span><span class="mf">1.0</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))))))</span>
 </pre>
 </div>  </div>
  </div>
@@ -405,75 +405,75 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-<span class="lineno"> 2 </span>  <span class="c1">;; Если все положительно</span>
-<span class="lineno"> 3 </span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno"> 4 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno"> 5 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno"> 6 </span>        <span class="c1">;; Если все отрицательное</span>
-<span class="lineno"> 7 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno"> 8 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno"> 9 </span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">10 </span>        <span class="c1">;; x положительный, а y содержит 0</span>
-<span class="lineno">11 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">12 </span>                                                                                    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">13 </span>                                                                                    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">14 </span>        <span class="c1">;; x положительный, а y весь отрицательный</span>
-<span class="lineno">15 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">16 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">17 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">18 </span>        <span class="c1">;; y положительный, а x содержит 0</span>
-<span class="lineno">19 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">20 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">21 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">22 </span>        <span class="c1">;; y положительный, а x весь отрицательный</span>
-<span class="lineno">23 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">24 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">25 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">26 </span>        <span class="c1">;; x отрицательный y пересекает 0</span>
-<span class="lineno">27 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">28 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
-<span class="lineno">29 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">30 </span>        <span class="c1">;; y отрицательный x пересекает 0</span>
-<span class="lineno">31 </span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
-<span class="lineno">32 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">))</span>
-<span class="lineno">33 </span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">34 </span>        <span class="c1">;; иначе у нас и x и y пересекают 0, в этом случае и нужно перемножать значения</span>
-<span class="lineno">35 </span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">p1</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno">36 </span>                    <span class="p">(</span><span class="nf">p2</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno">37 </span>                    <span class="p">(</span><span class="nf">p3</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))</span>
-<span class="lineno">38 </span>                    <span class="p">(</span><span class="nf">p4</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
-<span class="lineno">39 </span>                <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">min </span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">p4</span><span class="p">)</span>
-<span class="lineno">40 </span>                               <span class="p">(</span><span class="nb">max </span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">p4</span><span class="p">))))))</span>
-<span class="lineno">41 </span>
-<span class="lineno">42 </span><span class="c1">;; Тесты</span>
-<span class="lineno">43 </span><span class="c1">;; 1) x, y &gt;</span>
-<span class="lineno">44 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)</span>
-<span class="lineno">45 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">46 </span><span class="c1">;; 2) x, y &lt;</span>
-<span class="lineno">47 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-14</span> <span class="mi">-10</span><span class="p">)</span>
-<span class="lineno">48 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-4</span><span class="p">))</span>
-<span class="lineno">49 </span><span class="c1">;; 3) x&gt; y&lt;</span>
-<span class="lineno">50 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">51 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-4</span><span class="p">))</span>
-<span class="lineno">52 </span><span class="c1">;; 4) x&gt; y 0</span>
-<span class="lineno">53 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">54 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">2</span><span class="p">))</span>
-<span class="lineno">55 </span><span class="c1">;; 5) y&gt; x 0</span>
-<span class="lineno">56 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">2</span><span class="p">)</span>
-<span class="lineno">57 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">))</span>
-<span class="lineno">58 </span><span class="c1">;; 6) y&gt; x&lt;</span>
-<span class="lineno">59 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">)</span>
-<span class="lineno">60 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">))</span>
-<span class="lineno">61 </span><span class="c1">;; 7) x&lt; y 0</span>
-<span class="lineno">62 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">)</span>
-<span class="lineno">63 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">6</span><span class="p">))</span>
-<span class="lineno">64 </span><span class="c1">;; 8) y&lt; x 0</span>
-<span class="lineno">65 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">6</span><span class="p">)</span>
-<span class="lineno">66 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">))</span>
-<span class="lineno">67 </span><span class="c1">;; 9) x, y 0</span>
-<span class="lineno">68 </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-3</span><span class="p">)</span>
-<span class="lineno">69 </span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">))</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+<span class="linenos"> 2</span>  <span class="c1">;; Если все положительно</span>
+<span class="linenos"> 3</span>  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos"> 4</span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos"> 5</span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos"> 6</span>        <span class="c1">;; Если все отрицательное</span>
+<span class="linenos"> 7</span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos"> 8</span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos"> 9</span>                                                              <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">10</span>        <span class="c1">;; x положительный, а y содержит 0</span>
+<span class="linenos">11</span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos">12</span>                                                                                    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos">13</span>                                                                                    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">14</span>        <span class="c1">;; x положительный, а y весь отрицательный</span>
+<span class="linenos">15</span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos">16</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos">17</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">18</span>        <span class="c1">;; y положительный, а x содержит 0</span>
+<span class="linenos">19</span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos">20</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">))</span>
+<span class="linenos">21</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">22</span>        <span class="c1">;; y положительный, а x весь отрицательный</span>
+<span class="linenos">23</span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos">24</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">))</span>
+<span class="linenos">25</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">26</span>        <span class="c1">;; x отрицательный y пересекает 0</span>
+<span class="linenos">27</span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos">28</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))</span>
+<span class="linenos">29</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">30</span>        <span class="c1">;; y отрицательный x пересекает 0</span>
+<span class="linenos">31</span>        <span class="p">((</span><span class="k">and </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;= </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nf">make-interval</span>
+<span class="linenos">32</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">))</span>
+<span class="linenos">33</span>                                                             <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">34</span>        <span class="c1">;; иначе у нас и x и y пересекают 0, в этом случае и нужно перемножать значения</span>
+<span class="linenos">35</span>        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">p1</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))</span>
+<span class="linenos">36</span>                    <span class="p">(</span><span class="nf">p2</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">)))</span>
+<span class="linenos">37</span>                    <span class="p">(</span><span class="nf">p3</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">lower-bound</span> <span class="nv">y</span><span class="p">)))</span>
+<span class="linenos">38</span>                    <span class="p">(</span><span class="nf">p4</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">y</span><span class="p">))))</span>
+<span class="linenos">39</span>                <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">min </span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">p4</span><span class="p">)</span>
+<span class="linenos">40</span>                               <span class="p">(</span><span class="nb">max </span><span class="nv">p1</span> <span class="nv">p2</span> <span class="nv">p3</span> <span class="nv">p4</span><span class="p">))))))</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="c1">;; Тесты</span>
+<span class="linenos">43</span><span class="c1">;; 1) x, y &gt;</span>
+<span class="linenos">44</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">)</span>
+<span class="linenos">45</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">0</span> <span class="mi">6</span><span class="p">))</span>
+<span class="linenos">46</span><span class="c1">;; 2) x, y &lt;</span>
+<span class="linenos">47</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-14</span> <span class="mi">-10</span><span class="p">)</span>
+<span class="linenos">48</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-4</span><span class="p">))</span>
+<span class="linenos">49</span><span class="c1">;; 3) x&gt; y&lt;</span>
+<span class="linenos">50</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">)</span>
+<span class="linenos">51</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-4</span><span class="p">))</span>
+<span class="linenos">52</span><span class="c1">;; 4) x&gt; y 0</span>
+<span class="linenos">53</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">)</span>
+<span class="linenos">54</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">2</span><span class="p">))</span>
+<span class="linenos">55</span><span class="c1">;; 5) y&gt; x 0</span>
+<span class="linenos">56</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos">57</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos">58</span><span class="c1">;; 6) y&gt; x&lt;</span>
+<span class="linenos">59</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">)</span>
+<span class="linenos">60</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">14</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos">61</span><span class="c1">;; 7) x&lt; y 0</span>
+<span class="linenos">62</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">)</span>
+<span class="linenos">63</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">6</span><span class="p">))</span>
+<span class="linenos">64</span><span class="c1">;; 8) y&lt; x 0</span>
+<span class="linenos">65</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-2</span> <span class="mi">6</span><span class="p">)</span>
+<span class="linenos">66</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">))</span>
+<span class="linenos">67</span><span class="c1">;; 9) x, y 0</span>
+<span class="linenos">68</span><span class="p">(</span><span class="nf">mul-interval</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-6</span> <span class="mi">-3</span><span class="p">)</span>
+<span class="linenos">69</span>              <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">-4</span> <span class="mi">-2</span><span class="p">))</span>
 </pre>
 </div>  </div>
  </div>
@@ -488,14 +488,14 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno">1 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-center-percent</span> <span class="nv">c</span> <span class="nv">p</span><span class="p">)</span>
-<span class="lineno">2 </span>  <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">- </span><span class="nv">c</span>  <span class="p">(</span><span class="nb">* </span><span class="nv">c</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">p</span> <span class="mf">100.0</span><span class="p">)))</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">c</span> <span class="p">(</span><span class="nb">* </span><span class="nv">c</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">p</span> <span class="mf">100.0</span><span class="p">)))))</span>
-<span class="lineno">3 </span>
-<span class="lineno">4 </span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">percent</span> <span class="nv">i</span><span class="p">)</span>
-<span class="lineno">5 </span>  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">c</span> <span class="p">(</span><span class="nf">center</span> <span class="nv">i</span><span class="p">)))</span>
-<span class="lineno">6 </span>    <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="nv">c</span><span class="p">)</span> <span class="mi">100</span><span class="p">)</span> <span class="nv">c</span><span class="p">)))</span>
-<span class="lineno">7 </span><span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">)</span>
-<span class="lineno">8 </span><span class="p">(</span><span class="nf">percent</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">))</span>
+<pre class="code literal-block"><span></span><span class="linenos">1</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-center-percent</span> <span class="nv">c</span> <span class="nv">p</span><span class="p">)</span>
+<span class="linenos">2</span>  <span class="p">(</span><span class="nf">make-interval</span> <span class="p">(</span><span class="nb">- </span><span class="nv">c</span>  <span class="p">(</span><span class="nb">* </span><span class="nv">c</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">p</span> <span class="mf">100.0</span><span class="p">)))</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">c</span> <span class="p">(</span><span class="nb">* </span><span class="nv">c</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">p</span> <span class="mf">100.0</span><span class="p">)))))</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">percent</span> <span class="nv">i</span><span class="p">)</span>
+<span class="linenos">5</span>  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">c</span> <span class="p">(</span><span class="nf">center</span> <span class="nv">i</span><span class="p">)))</span>
+<span class="linenos">6</span>    <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">upper-bound</span> <span class="nv">i</span><span class="p">)</span> <span class="nv">c</span><span class="p">)</span> <span class="mi">100</span><span class="p">)</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="linenos">7</span><span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">)</span>
+<span class="linenos">8</span><span class="p">(</span><span class="nf">percent</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">5</span> <span class="mi">10</span><span class="p">))</span>
 </pre>
 </div>  </div>
  </div>
@@ -532,48 +532,48 @@
     </p>
    </div>
 <div class="code-scheme">
-<pre class="code literal-block"><span></span><span class="lineno"> 1 </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">A</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">100</span> <span class="mi">3</span><span class="p">))</span> <span class="p">(</span><span class="nf">B</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">80</span> <span class="mi">4</span><span class="p">)))</span>
-<span class="lineno"> 2 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">par1</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
-<span class="lineno"> 3 </span>    <span class="p">(</span><span class="nf">div-interval</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
-<span class="lineno"> 4 </span>                  <span class="p">(</span><span class="nf">add-interval</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)))</span>
-<span class="lineno"> 5 </span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">par2</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
-<span class="lineno"> 6 </span>    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">one</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)))</span>
-<span class="lineno"> 7 </span>      <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span>
-<span class="lineno"> 8 </span>                    <span class="p">(</span><span class="nf">add-interval</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span> <span class="nv">r1</span><span class="p">)</span>
-<span class="lineno"> 9 </span>                                  <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span> <span class="nv">r2</span><span class="p">)))))</span>
-<span class="lineno">10 </span>  <span class="c1">;; Подтверждение утверждения Лема</span>
-<span class="lineno">11 </span>  <span class="c1">;; (display (width A))</span>
-<span class="lineno">12 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">13 </span>  <span class="c1">;; (display (width B))</span>
-<span class="lineno">14 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">15 </span>  <span class="c1">;; (display (par1 A B))</span>
-<span class="lineno">16 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">17 </span>  <span class="c1">;; (display (center (par1 A B)))</span>
-<span class="lineno">18 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">19 </span>  <span class="c1">;; (display (percent (par1 A B)))</span>
-<span class="lineno">20 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">21 </span>  <span class="c1">;; (display (par2 A B))</span>
-<span class="lineno">22 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">23 </span>  <span class="c1">;; (display (center (par2 A B)))</span>
-<span class="lineno">24 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">25 </span>  <span class="c1">;; (display (percent (par2 A B)))</span>
-<span class="lineno">26 </span>  <span class="c1">;; (newline)</span>
-<span class="lineno">27 </span>
-<span class="lineno">28 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"****B****"</span><span class="p">)</span>
-<span class="lineno">29 </span>  <span class="p">(</span><span class="nb">display </span><span class="nv">B</span><span class="p">)</span>
-<span class="lineno">30 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">31 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">center</span> <span class="nv">B</span><span class="p">))</span>
-<span class="lineno">32 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">33 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">percent</span> <span class="nv">B</span><span class="p">))</span>
-<span class="lineno">34 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">35 </span>  <span class="p">(</span><span class="nb">display </span><span class="s">"****B*(B/B)****"</span><span class="p">)</span>
-<span class="lineno">36 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">)))</span>
-<span class="lineno">37 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">38 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">center</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">))))</span>
-<span class="lineno">39 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">40 </span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">percent</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">))))</span>
-<span class="lineno">41 </span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-<span class="lineno">42 </span>  <span class="p">)</span>
+<pre class="code literal-block"><span></span><span class="linenos"> 1</span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">A</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">100</span> <span class="mi">3</span><span class="p">))</span> <span class="p">(</span><span class="nf">B</span> <span class="p">(</span><span class="nf">make-center-percent</span> <span class="mi">80</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="linenos"> 2</span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">par1</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
+<span class="linenos"> 3</span>    <span class="p">(</span><span class="nf">div-interval</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
+<span class="linenos"> 4</span>                  <span class="p">(</span><span class="nf">add-interval</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)))</span>
+<span class="linenos"> 5</span>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">par2</span> <span class="nv">r1</span> <span class="nv">r2</span><span class="p">)</span>
+<span class="linenos"> 6</span>    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">one</span> <span class="p">(</span><span class="nf">make-interval</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="linenos"> 7</span>      <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span>
+<span class="linenos"> 8</span>                    <span class="p">(</span><span class="nf">add-interval</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span> <span class="nv">r1</span><span class="p">)</span>
+<span class="linenos"> 9</span>                                  <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">one</span> <span class="nv">r2</span><span class="p">)))))</span>
+<span class="linenos">10</span>  <span class="c1">;; Подтверждение утверждения Лема</span>
+<span class="linenos">11</span>  <span class="c1">;; (display (width A))</span>
+<span class="linenos">12</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">13</span>  <span class="c1">;; (display (width B))</span>
+<span class="linenos">14</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">15</span>  <span class="c1">;; (display (par1 A B))</span>
+<span class="linenos">16</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">17</span>  <span class="c1">;; (display (center (par1 A B)))</span>
+<span class="linenos">18</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">19</span>  <span class="c1">;; (display (percent (par1 A B)))</span>
+<span class="linenos">20</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">21</span>  <span class="c1">;; (display (par2 A B))</span>
+<span class="linenos">22</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">23</span>  <span class="c1">;; (display (center (par2 A B)))</span>
+<span class="linenos">24</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">25</span>  <span class="c1">;; (display (percent (par2 A B)))</span>
+<span class="linenos">26</span>  <span class="c1">;; (newline)</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span>  <span class="p">(</span><span class="nb">display </span><span class="s">"****B****"</span><span class="p">)</span>
+<span class="linenos">29</span>  <span class="p">(</span><span class="nb">display </span><span class="nv">B</span><span class="p">)</span>
+<span class="linenos">30</span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="linenos">31</span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">center</span> <span class="nv">B</span><span class="p">))</span>
+<span class="linenos">32</span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="linenos">33</span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">percent</span> <span class="nv">B</span><span class="p">))</span>
+<span class="linenos">34</span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="linenos">35</span>  <span class="p">(</span><span class="nb">display </span><span class="s">"****B*(B/B)****"</span><span class="p">)</span>
+<span class="linenos">36</span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">)))</span>
+<span class="linenos">37</span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="linenos">38</span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">center</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">))))</span>
+<span class="linenos">39</span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="linenos">40</span>  <span class="p">(</span><span class="nb">display </span><span class="p">(</span><span class="nf">percent</span> <span class="p">(</span><span class="nf">mul-interval</span> <span class="nv">B</span> <span class="p">(</span><span class="nf">div-interval</span> <span class="nv">B</span> <span class="nv">B</span><span class="p">))))</span>
+<span class="linenos">41</span>  <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+<span class="linenos">42</span>  <span class="p">)</span>
 </pre>
 </div>   <div>
     <p>
@@ -605,16 +605,14 @@
             <li class="next">
                 <a href="../sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/" rel="next" title="SICP 2.2 Иерархические данные и свойство замыкания (the closure property).">Следующая запись</a>
             </li>
-        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2020         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav></aside></article></main><footer id="footer"><p>Contents © 2021         <a href="mailto:anton.s.pilipenko@gmail.com">Velikii Nehochuha</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
                 <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о environment_model)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/environment_model.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Tue, 04 Feb 2020 19:58:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.2 Модель вычислений с окружениями</title><link>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgd02c925" class="outline-2"&gt;
-&lt;h2 id="orgd02c925"&gt;Упражнение 3.9&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd02c925"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о environment_model)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/environment_model.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2021 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 07 May 2021 14:21:36 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.2 Модель вычислений с окружениями</title><link>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-org8d3ceba" class="outline-2"&gt;
+&lt;h2 id="org8d3ceba"&gt;Упражнение 3.9&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8d3ceba"&gt;
 &lt;p&gt;
 Покажите структуру окружений для вычисления факториала.
 &lt;/p&gt;
@@ -67,9 +67,9 @@ E3 - product 1          -&amp;gt; G
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org831495e" class="outline-2"&gt;
-&lt;h2 id="org831495e"&gt;Упражнение 3.10&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org831495e"&gt;
+&lt;div id="outline-container-orgc155f82" class="outline-2"&gt;
+&lt;h2 id="orgc155f82"&gt;Упражнение 3.10&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc155f82"&gt;
 &lt;p&gt;
 Проиллюстрируйте структуры окружений для следующей процедуры и вызовов.
 &lt;/p&gt;
@@ -114,9 +114,9 @@ Set! повлияет на E2, initial-mount останется неизменн
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org4792190" class="outline-2"&gt;
-&lt;h2 id="org4792190"&gt;Упражнение 3.11&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4792190"&gt;
+&lt;div id="outline-container-orgfafde9e" class="outline-2"&gt;
+&lt;h2 id="orgfafde9e"&gt;Упражнение 3.11&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfafde9e"&gt;
 &lt;p&gt;
 Проиллюстрируйте структуру окружений для следующей процедуры и вызовов
 &lt;/p&gt;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о mutable_data)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/mutable_data.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Feb 2020 09:56:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.3 Моделирование с изменяемыми данными.</title><link>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgf182db6" class="outline-2"&gt;
-&lt;h2 id="orgf182db6"&gt;Упражнение 3.12&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf182db6"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о mutable_data)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/mutable_data.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2021 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 07 May 2021 14:21:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 3.3 Моделирование с изменяемыми данными.</title><link>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;div id="outline-container-orgeb578a9" class="outline-2"&gt;
+&lt;h2 id="orgeb578a9"&gt;Упражнение 3.12&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgeb578a9"&gt;
 &lt;p&gt;
 Следующая процедура добавления элементов в список была приведена в главе 2.2.1
 &lt;/p&gt;
@@ -60,9 +60,9 @@
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgfa76f23" class="outline-2"&gt;
-&lt;h2 id="orgfa76f23"&gt;Упражнение 3.13&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfa76f23"&gt;
+&lt;div id="outline-container-org0d02f9d" class="outline-2"&gt;
+&lt;h2 id="org0d02f9d"&gt;Упражнение 3.13&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0d02f9d"&gt;
 &lt;p&gt;
 Рассмотрим следующую процедуру make-cycle, которая использует last-pair описанную ранее.
 &lt;/p&gt;
@@ -93,9 +93,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge75d16f" class="outline-2"&gt;
-&lt;h2 id="orge75d16f"&gt;Упражнение 3.14&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge75d16f"&gt;
+&lt;div id="outline-container-org1dc935c" class="outline-2"&gt;
+&lt;h2 id="org1dc935c"&gt;Упражнение 3.14&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1dc935c"&gt;
 &lt;p&gt;
 Следующая процедура часто применяется, несмотря на запутанность.
 &lt;/p&gt;
@@ -131,9 +131,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0f814e4" class="outline-2"&gt;
-&lt;h2 id="org0f814e4"&gt;Упражнение 3.15&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0f814e4"&gt;
+&lt;div id="outline-container-orgdd82f88" class="outline-2"&gt;
+&lt;h2 id="orgdd82f88"&gt;Упражнение 3.15&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdd82f88"&gt;
 &lt;p&gt;
 Нарисуйте диаграмму для структур после применения set-to-wow!
 &lt;/p&gt;
@@ -154,9 +154,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org811a950" class="outline-2"&gt;
-&lt;h2 id="org811a950"&gt;Упражнение 3.16&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org811a950"&gt;
+&lt;div id="outline-container-org6b9d290" class="outline-2"&gt;
+&lt;h2 id="org6b9d290"&gt;Упражнение 3.16&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6b9d290"&gt;
 &lt;p&gt;
 Бен решил написать процедуру которая подсчитывает количество пар в любом списке. "Это просто. Количество пар, это количество в car плюс количество в cdr плюс один, что бы учесть текущую пару."
 &lt;/p&gt;
@@ -200,9 +200,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgeaf58ee" class="outline-2"&gt;
-&lt;h2 id="orgeaf58ee"&gt;Упражнение 3.17&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeaf58ee"&gt;
+&lt;div id="outline-container-orgb8ed19b" class="outline-2"&gt;
+&lt;h2 id="orgb8ed19b"&gt;Упражнение 3.17&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb8ed19b"&gt;
 &lt;p&gt;
 Напишите правильную версию процедуры count-pairs из упражнения 3.16, которая возвращает число различных пар в любой структуре. (Подсказка: просматривайте структуру, поддерживая при этом вспомогательную структуру, следящую за тем, какие пары уже были посчитаны.)
 &lt;/p&gt;
@@ -249,9 +249,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfa02144" class="outline-2"&gt;
-&lt;h2 id="orgfa02144"&gt;Упражнение 3.18, 3.19&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfa02144"&gt;
+&lt;div id="outline-container-orgb00b6ab" class="outline-2"&gt;
+&lt;h2 id="orgb00b6ab"&gt;Упражнение 3.18, 3.19&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb00b6ab"&gt;
 &lt;p&gt;
 Напишите процедуру, которая рассматривает список и определяет, содержится ли в нем цикл, то есть, не войдет ли программа, которая попытается добраться до конца списка, продвигаясь по полям cdr, в бесконечный цикл. Такие списки порождались в упражнении 3.13.
 &lt;/p&gt;
@@ -313,9 +313,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgae49f6f" class="outline-2"&gt;
-&lt;h2 id="orgae49f6f"&gt;Упражнение 3.20&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgae49f6f"&gt;
+&lt;div id="outline-container-orgcdb3055" class="outline-2"&gt;
+&lt;h2 id="orgcdb3055"&gt;Упражнение 3.20&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcdb3055"&gt;
 &lt;p&gt;
 Нарисуйте диаграммы окружений, изображающие выполнение  последовательности выражений с помощью вышеприведенной процедурной реализации пар.
 &lt;/p&gt;
@@ -355,9 +355,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3df06f8" class="outline-2"&gt;
-&lt;h2 id="org3df06f8"&gt;Упражнение 3.21&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3df06f8"&gt;
+&lt;div id="outline-container-org16121bf" class="outline-2"&gt;
+&lt;h2 id="org16121bf"&gt;Упражнение 3.21&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org16121bf"&gt;
 &lt;p&gt;
 при добавлении элемента, ссылка на новый элемент сохраняется в два места, поэтому при распечатке выводится не только список элементов, но и вторая ссылка.
 &lt;/p&gt;
@@ -369,9 +369,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org89823d3" class="outline-2"&gt;
-&lt;h2 id="org89823d3"&gt;Упражнение 3.22&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org89823d3"&gt;
+&lt;div id="outline-container-org95ca31c" class="outline-2"&gt;
+&lt;h2 id="org95ca31c"&gt;Упражнение 3.22&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org95ca31c"&gt;
 &lt;p&gt;
 Вместо того, чтобы представлять очередь как пару указателей, можно построить ее в виде процедуры с внутренним состоянием. Это состояние будет включать указатели на начало и конец обыкновенного списка. Таким образом, make-queue будет иметь вид
 &lt;/p&gt;
@@ -425,9 +425,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org87446e3" class="outline-2"&gt;
-&lt;h2 id="org87446e3"&gt;Упражнение 3.23&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org87446e3"&gt;
+&lt;div id="outline-container-orgada525d" class="outline-2"&gt;
+&lt;h2 id="orgada525d"&gt;Упражнение 3.23&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgada525d"&gt;
 &lt;p&gt;
 Дек (deque, double-ended queue, «двусторонняя очередь») представляет собой последовательность, элементы в которой могут добавляться и уничтожаться как с головы, так и с хвоста. На деках определены такие операции: конструктор make-deque, предикат empty-deque?, селекто-
 ры front-deque и rear-deque, и мутаторы front-insert-deque!, rear-insert-deque!, front-delete-deque! и rear-delete-deque!. Покажите, как представить дек при помощи пар, и напишите реализацию операций .Все операции должны выполняться за Θ(1) шагов.
@@ -516,9 +516,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc6e1fa9" class="outline-2"&gt;
-&lt;h2 id="orgc6e1fa9"&gt;Упражнение 3.24&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc6e1fa9"&gt;
+&lt;div id="outline-container-org7aa8111" class="outline-2"&gt;
+&lt;h2 id="org7aa8111"&gt;Упражнение 3.24&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7aa8111"&gt;
 &lt;p&gt;
 В реализациях таблиц в этом разделе ключи всегда проверяются на равенство с помощью equal? (который, в свою очередь, зовется из assoc). Это не всегда то, что нужно. Например, можно представить себе таблицу с числовыми ключами, где не требуется точного совпадения с числом,
 которое мы ищем, а нужно только совпадение с определенной допустимой ошибкой. Постройте конструктор таблиц make-table, который в качестве аргумента принимает процедуру same-key? для проверки равенства ключей. Make-table должна возвращать процедуру dispatch. через которую можно добраться до процедур lookup и insert! локальной таблицы. В реализациях таблиц в этом разделе ключи всегда проверяются на равенство с помощью equal? (который, в свою очередь, зовется из assoc). Это не всегда то, что нужно. Например, можно представить себе таблицу с числовыми ключами, где не требуется точного совпадения с числом, которое мы ищем, а нужно только совпадение с определенной допустимой ошибкой. Постройте
@@ -544,9 +544,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2484d94" class="outline-2"&gt;
-&lt;h2 id="org2484d94"&gt;Упражнение 3.25&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2484d94"&gt;
+&lt;div id="outline-container-org6e4171f" class="outline-2"&gt;
+&lt;h2 id="org6e4171f"&gt;Упражнение 3.25&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6e4171f"&gt;
 &lt;p&gt;
 Обобщая случаи одно- и двумерных таблиц, покажите, как можно реализовать таблицу, в которой элементы хранятся с произвольным количеством ключей и различные значения могут храниться с различным количеством ключей. Процедуры lookup и insert! должны принимать на входе
 список ключей, с которыми требуется обратиться к таблице.
@@ -620,9 +620,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge41ab83" class="outline-2"&gt;
-&lt;h2 id="orge41ab83"&gt;Упражнение 3.26&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge41ab83"&gt;
+&lt;div id="outline-container-orgbc83345" class="outline-2"&gt;
+&lt;h2 id="orgbc83345"&gt;Упражнение 3.26&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc83345"&gt;
 &lt;p&gt;
 При поиске в таблице, как она реализована выше, приходится просматривать список записей. В сущности, это представление с неупорядоченным списком из раздела 2.3.3. Для больших таблиц может оказаться эффективнее организовать таблицу иначе. Опишите реализацию таблицы, в которой записи (ключ, значение) организованы в виде бинарного дерева, в предположении, что ключи можно каким-то образом упорядочить (например, численно или по алфавиту).
 &lt;/p&gt;
@@ -736,9 +736,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb4a0f33" class="outline-2"&gt;
-&lt;h2 id="orgb4a0f33"&gt;Упражнение 3.27&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb4a0f33"&gt;
+&lt;div id="outline-container-org203e3d9" class="outline-2"&gt;
+&lt;h2 id="org203e3d9"&gt;Упражнение 3.27&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org203e3d9"&gt;
 &lt;p&gt;
 Мемоизация (memoization) (называемая также табуляризация (tabulation)) — прием, который позволяет процедуре записывать в локальной таблице единожды вычисленные значения.
 &lt;/p&gt;
@@ -812,9 +812,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7aecf10" class="outline-2"&gt;
-&lt;h2 id="org7aecf10"&gt;Упражнение 3.28&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7aecf10"&gt;
+&lt;div id="outline-container-orgdd872ec" class="outline-2"&gt;
+&lt;h2 id="orgdd872ec"&gt;Упражнение 3.28&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdd872ec"&gt;
 &lt;p&gt;
 Определите ИЛИ-элемент как элементарный функциональный блок. Ваш конструктор or-gate должен быть подобен and-gate.
 &lt;/p&gt;
@@ -833,9 +833,9 @@ v будет ссылаться на список с единственным з
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfc74320" class="outline-2"&gt;
-&lt;h2 id="orgfc74320"&gt;Упражнение 3.29&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfc74320"&gt;
+&lt;div id="outline-container-org6bdf6db" class="outline-2"&gt;
+&lt;h2 id="org6bdf6db"&gt;Упражнение 3.29&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6bdf6db"&gt;
 &lt;p&gt;
 Еще один способ создать ИЛИ-элемент — это собрать его как составной блок из И-элементов и инверторов. Определите процедуру or-gate, которая это осуществляет. Как время задержки ИЛИ-элемента выражается через and-gate-delay и inverter-delay?
 &lt;/p&gt;
@@ -857,9 +857,9 @@ inventer-delay + inventer-delay + and-gate-delay + and-gate-delay + inventer-del
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7bb8808" class="outline-2"&gt;
-&lt;h2 id="org7bb8808"&gt;Упражнение 3.30&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7bb8808"&gt;
+&lt;div id="outline-container-org4b438f0" class="outline-2"&gt;
+&lt;h2 id="org4b438f0"&gt;Упражнение 3.30&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4b438f0"&gt;
 &lt;p&gt;
 Напишите процедуру riple-carry-adder, которая бы моделировала схему каскадного сумматора.
 &lt;/p&gt;
@@ -881,9 +881,9 @@ inventer-delay + inventer-delay + and-gate-delay + and-gate-delay + inventer-del
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga125d4e" class="outline-2"&gt;
-&lt;h2 id="orga125d4e"&gt;Упражнение 3.31&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga125d4e"&gt;
+&lt;div id="outline-container-org73a317f" class="outline-2"&gt;
+&lt;h2 id="org73a317f"&gt;Упражнение 3.31&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org73a317f"&gt;
 &lt;p&gt;
 Внутренняя процедура accept-action-procedure!, определенная в make-wire, требует, чтобы в момент, когда процедура-действие добавляется к проводу, она немедленно исполнялась. Объясните, зачем требуется такая инициализация. В частности, проследите работу процедуры half-adder из этого текста и скажите, как отличалась бы реакция системы, если бы accept-action-procedure! была определена как
 &lt;/p&gt;
@@ -902,9 +902,9 @@ inventer-delay + inventer-delay + and-gate-delay + and-gate-delay + inventer-del
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2f909cc" class="outline-2"&gt;
-&lt;h2 id="org2f909cc"&gt;Упражнение 3.32&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2f909cc"&gt;
+&lt;div id="outline-container-org2dd2a33" class="outline-2"&gt;
+&lt;h2 id="org2dd2a33"&gt;Упражнение 3.32&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2dd2a33"&gt;
 &lt;p&gt;
 Процедуры, предназначенные к выполнению в каждом временном отрезке, хранятся в виде очереди. Таким образом, процедуры для каждого отрезка вызываются в том же порядке, в котором они были добавлены к плану (первый пришел, первый ушел). Объясните, почему требуется использовать именно такой порядок. В частности, проследите поведение И-элемента, входы которого меняются с 0 на 1 и с 1 на 0 одновременно и скажите, как отличалось бы поведение, если бы мы хранили процедуры отрезка в обыкновенном списке, добавляя и убирая их только с головы (последний пришел, первый ушел).
 &lt;/p&gt;
@@ -928,9 +928,9 @@ initial (a1 a2)
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgdea7e91" class="outline-2"&gt;
-&lt;h2 id="orgdea7e91"&gt;Упражнение 3.33&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdea7e91"&gt;
+&lt;div id="outline-container-org60d5d48" class="outline-2"&gt;
+&lt;h2 id="org60d5d48"&gt;Упражнение 3.33&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org60d5d48"&gt;
 &lt;p&gt;
 С помощью элементарных ограничений сумматор, умножитель и константа, определите процедуру averager (усреднитель), которая принимает три соединителя a, b и c, и обеспечивает условие, что значение c равно среднему арифметическому значений a и b.
 &lt;/p&gt;
@@ -956,9 +956,9 @@ initial (a1 a2)
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgdb0c0b7" class="outline-2"&gt;
-&lt;h2 id="orgdb0c0b7"&gt;Упражнение 3.34&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdb0c0b7"&gt;
+&lt;div id="outline-container-orgaedee5c" class="outline-2"&gt;
+&lt;h2 id="orgaedee5c"&gt;Упражнение 3.34&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgaedee5c"&gt;
 &lt;p&gt;
 Хьюго Дум хочет построить квадратор, блок-ограничение с двумя выводами, такое, что значение соединителя b на втором выводе всегда будет равно квадрату значения соединителя a на первом выводе. Он предлагает следующее простое устройство на основе умножителя:
 &lt;/p&gt;
@@ -985,9 +985,9 @@ initial (a1 a2)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org86c027a" class="outline-2"&gt;
-&lt;h2 id="org86c027a"&gt;Упражнение 3.35&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org86c027a"&gt;
+&lt;div id="outline-container-orgb5020d9" class="outline-2"&gt;
+&lt;h2 id="orgb5020d9"&gt;Упражнение 3.35&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb5020d9"&gt;
 &lt;p&gt;
 Бен Битобор объясняет Хьюго, что один из способов избежать неприятностей в упражнении 3.34  — определить квадратор как новое элементарное ограничение. Заполните недостающие части в Беновой схеме процедуры, реализующей такое ограничение:
 &lt;/p&gt;
@@ -1031,9 +1031,9 @@ initial (a1 a2)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8a5bd41" class="outline-2"&gt;
-&lt;h2 id="org8a5bd41"&gt;Упражнение 3.36&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8a5bd41"&gt;
+&lt;div id="outline-container-orgfb310ad" class="outline-2"&gt;
+&lt;h2 id="orgfb310ad"&gt;Упражнение 3.36&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfb310ad"&gt;
 &lt;p&gt;
 Допустим, что мы выполняем следующую последовательность действий в глобальном окружении:
 &lt;/p&gt;
@@ -1056,9 +1056,9 @@ initial (a1 a2)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfffde21" class="outline-2"&gt;
-&lt;h2 id="orgfffde21"&gt;Упражнение 3.37&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfffde21"&gt;
+&lt;div id="outline-container-orgdadd50b" class="outline-2"&gt;
+&lt;h2 id="orgdadd50b"&gt;Упражнение 3.37&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdadd50b"&gt;
 &lt;p&gt;
 Процедура celsius-fahrenheit-converter выглядит громоздко по сравнению со стилем определения в формате выражения:
 &lt;/p&gt;

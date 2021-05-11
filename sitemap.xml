@@ -7,274 +7,274 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://velikiinehochuha.github.io/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/2019/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/2020/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/2021/</loc>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/archive.html</loc>
-  <lastmod>2020-06-25T19:54:00Z</lastmod>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/</loc>
-  <lastmod>2020-06-22T11:44:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/a_picture_language/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/abstract_data/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/algorithms/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/android/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/assignment/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/coercion/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/concurrency/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/data-directed/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/data_abstraction/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/emacs/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/environment_model/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/eslint/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/gcd/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/generic_operations/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/generic_procedures/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/hierarchical_data/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/higher_order_procedures/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/lisp/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/local_state/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/mathematics/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/multiple_representations/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/mutable_data/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/prime_numbers/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/procedures_as_general_methods/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/procedures_as_returned_values/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/python/</loc>
-  <lastmod>2020-06-22T11:44:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/scheme/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/sequences_as_conventional_interfaces/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/sicp/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/svelte/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/symbolic_data/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/categories/the_closure_property/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
- </url>
- <url>
-  <loc>http://velikiinehochuha.github.io/galleries/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-1.html</loc>
-  <lastmod>2020-06-12T16:41:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/index-2.html</loc>
-  <lastmod>2020-06-25T19:54:00Z</lastmod>
- </url>
- <url>
-  <loc>http://velikiinehochuha.github.io/listings/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/binarnyi-poisk-realizatsiia-na-python/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/dinamicheskoe-programmirovanie/</loc>
-  <lastmod>2020-06-22T11:44:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/nastroika-emacs-dlia-svelte/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/poluchit-sms-s-telefona/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/potoki/</loc>
-  <lastmod>2020-06-12T16:41:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/rasstoianie-levenshteina-proverka-ravenstva-strok-naivnyi-poisk-podstroki-v-stroke-algoritm-knuta-morrisa-pratta/</loc>
-  <lastmod>2020-06-25T19:54:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-133-protsedury-kak-obobshchaiushchie-metody-uprazhneniia-135-139/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-134-protsedury-kak-vozvrashchaemye-znacheniia-uprazhneniia-140-146/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-22-ierarkhicheskie-dannye-i-svoistvo-zamykaniia-the-closure-property/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-224-primer-iazyk-izobrazhenii/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-23-simvolicheskie-dannye/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-24-mnozhestvennye-predstavleniia-dlia-abstraktnykh-dannykh/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-25-sistemy-s-obshchimi-operatsiiami/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-31-naznacheniia-i-lokalnoye-sostoianiia/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-32-model-vychislenii-s-okruzheniiami/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-33-modelirovanie-s-izmeniaemymi-dannymi/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-34-parallelizm-vremia-imeet-znachenie/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://velikiinehochuha.github.io/posts/sicp-potoki/</loc>
+  <lastmod>2021-05-07T14:52:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-protsedury-vysshego-poriadka-uprazhneniia-129-133/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhnenie-113/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhnenie-114/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-120-124/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-125-126-127-128/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-iz-glavy-11/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-uprazhneniia-iz-glavy-12/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/sicp-vvedenie-v-abstragirovanie-dannykh/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
  <url>
   <loc>http://velikiinehochuha.github.io/posts/zadachi-po-kursu-sicp/</loc>
-  <lastmod>2020-04-18T14:06:00Z</lastmod>
+  <lastmod>2021-05-07T14:21:00Z</lastmod>
  </url>
 </urlset>

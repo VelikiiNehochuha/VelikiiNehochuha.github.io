@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о sequences_as_conventional_interfaces)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/sequences_as_conventional_interfaces.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2020 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Mon, 27 Jan 2020 12:04:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 2.2.3 Последовательности как обобщающие интерфейсы.</title><link>http://velikiinehochuha.github.io/posts/sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VelikiiNehochuha Blog (Записи о sequences_as_conventional_interfaces)</title><link>http://velikiinehochuha.github.io/</link><description></description><atom:link href="http://velikiinehochuha.github.io/categories/sequences_as_conventional_interfaces.xml" rel="self" type="application/rss+xml"></atom:link><language>ru</language><copyright>Contents © 2021 &lt;a href="mailto:anton.s.pilipenko@gmail.com"&gt;Velikii Nehochuha&lt;/a&gt; </copyright><lastBuildDate>Fri, 07 May 2021 14:21:36 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SICP 2.2.3 Последовательности как обобщающие интерфейсы.</title><link>http://velikiinehochuha.github.io/posts/sicp-223-posledovatelnosti-kak-obobshchaiushchie-interfeisy/</link><dc:creator>Velikii Nehochuha</dc:creator><description>&lt;p&gt;
 &lt;img src="http://velikiinehochuha.github.io/images/ch2-Z-G-17.gif" alt="nil"&gt;
 &lt;/p&gt;
 
 
-&lt;div id="outline-container-orgf90b00d" class="outline-2"&gt;
-&lt;h2 id="orgf90b00d"&gt;Упражнение 2.33&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf90b00d"&gt;
+&lt;div id="outline-container-orgcfefae3" class="outline-2"&gt;
+&lt;h2 id="orgcfefae3"&gt;Упражнение 2.33&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcfefae3"&gt;
 &lt;p&gt;
 Заполните недостающие выражения, чтобы завершить определения некоторых основных операций над списками через накопление.
 &lt;/p&gt;
@@ -29,9 +29,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org697f221" class="outline-2"&gt;
-&lt;h2 id="org697f221"&gt;Упражнение 2.34&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org697f221"&gt;
+&lt;div id="outline-container-org385d612" class="outline-2"&gt;
+&lt;h2 id="org385d612"&gt;Упражнение 2.34&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org385d612"&gt;
 &lt;p&gt;
 Оценка полинома от одной переменной x в заданной точке, может быть сформулирована в терминах накопления. Мы оцениваем полином
 \(a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0x\) используя широко известный алгоритм - правило Хорнера, который структурирует вычисление как \((...(a_nx+a_{n-1})x+...+a_1)x + a_0\).
@@ -55,9 +55,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org19f5aff" class="outline-2"&gt;
-&lt;h2 id="org19f5aff"&gt;Упражнение 2.35&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org19f5aff"&gt;
+&lt;div id="outline-container-org780594a" class="outline-2"&gt;
+&lt;h2 id="org780594a"&gt;Упражнение 2.35&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org780594a"&gt;
 &lt;p&gt;
 Переопределите count-leaves из секции 2.2.2 через накопление.
 &lt;/p&gt;
@@ -76,9 +76,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdf87e87" class="outline-2"&gt;
-&lt;h2 id="orgdf87e87"&gt;Упражнение 2.36&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdf87e87"&gt;
+&lt;div id="outline-container-orge9f19c7" class="outline-2"&gt;
+&lt;h2 id="orge9f19c7"&gt;Упражнение 2.36&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge9f19c7"&gt;
 &lt;p&gt;
 Процедура accumulate-n похожа на accumulate, но принимает третий аргумент последовательность последовательностей. Предполагается что все они имеют одинаковое количество аргументов. Она применяет назначенную процедуру накопления для всех первых элементов последовательности, всех вторых и так далее. И возвращает последовательность результатов. К примеру результат (accumulate-n + 0 s), где s это ((1 2 3) (4 5 6) (7 8 9) (10 11 12)), будет равен (22 26 30). Заполните пропуски в определении процедуры.
 &lt;/p&gt;
@@ -99,9 +99,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org49f6012" class="outline-2"&gt;
-&lt;h2 id="org49f6012"&gt;Упражнение 2.37&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org49f6012"&gt;
+&lt;div id="outline-container-org17b749c" class="outline-2"&gt;
+&lt;h2 id="org17b749c"&gt;Упражнение 2.37&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org17b749c"&gt;
 &lt;p&gt;
 Предположим мы представляем векторы v = (v&lt;sub&gt;i&lt;/sub&gt;) как последовательность чисел и матрицы m =(m&lt;sub&gt;ij&lt;/sub&gt;) как последовательность векторов (строки матрицы). К примеру матрица:
 &lt;/p&gt;
@@ -165,9 +165,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3c65486" class="outline-2"&gt;
-&lt;h2 id="org3c65486"&gt;Упражнение 2.38&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3c65486"&gt;
+&lt;div id="outline-container-org443d7cd" class="outline-2"&gt;
+&lt;h2 id="org443d7cd"&gt;Упражнение 2.38&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org443d7cd"&gt;
 &lt;p&gt;
 Процедура accumulate так же известна как fold-right, потому что она объединяет первый элемент последовательности с результатами объединения всех элементов справа. Также есть fold-left, которая объединяет элементы в обратном направлении.
 &lt;/p&gt;
@@ -193,9 +193,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga36c62e" class="outline-2"&gt;
-&lt;h2 id="orga36c62e"&gt;Упражнение 2.39&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga36c62e"&gt;
+&lt;div id="outline-container-org947a9aa" class="outline-2"&gt;
+&lt;h2 id="org947a9aa"&gt;Упражнение 2.39&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org947a9aa"&gt;
 &lt;p&gt;
 Дайте определение reverse через fold-right и fold-left.
 &lt;/p&gt;
@@ -211,9 +211,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3060f9c" class="outline-2"&gt;
-&lt;h2 id="org3060f9c"&gt;Упражнение 2.40&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3060f9c"&gt;
+&lt;div id="outline-container-org03170d4" class="outline-2"&gt;
+&lt;h2 id="org03170d4"&gt;Упражнение 2.40&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org03170d4"&gt;
 &lt;p&gt;
 Определите процедуру unique-pairs, которая принимая целое n, генерирует последовательность пар (i,j) 1&amp;lt;=j&amp;lt;i&amp;lt;=n. Используя процедуру unique-pairs упростите определение prime-sum-pairs, приведенное в книге.
 &lt;/p&gt;
@@ -234,9 +234,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf767b71" class="outline-2"&gt;
-&lt;h2 id="orgf767b71"&gt;Упражнение 2.41&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf767b71"&gt;
+&lt;div id="outline-container-org788a709" class="outline-2"&gt;
+&lt;h2 id="org788a709"&gt;Упражнение 2.41&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org788a709"&gt;
 &lt;p&gt;
 Напишите процедуру, чтобы найти все упорядоченные тройки различных положительных целых чисел i, j, k, меньших или равных заданному числу n, сумма которых равна заданному числу S.
 &lt;/p&gt;
@@ -264,9 +264,9 @@ C этим представлением мы можем использовать
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org392b36a" class="outline-2"&gt;
-&lt;h2 id="org392b36a"&gt;Упражнение 2.42&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org392b36a"&gt;
+&lt;div id="outline-container-org6b2854d" class="outline-2"&gt;
+&lt;h2 id="org6b2854d"&gt;Упражнение 2.42&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6b2854d"&gt;
 &lt;p&gt;
 Задача о восьми ферзях. Как разместить 8 ферзей на шахматной доске, что бы не один ферзь не бил другого. Одно из возможных решений представлено на картинке.
 &lt;/p&gt;
@@ -351,9 +351,9 @@ rest-of-queens - способ разместить k -1 ферзей в перв
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3ed4730" class="outline-2"&gt;
-&lt;h2 id="org3ed4730"&gt;Упражнение 2.43&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3ed4730"&gt;
+&lt;div id="outline-container-org7f0a329" class="outline-2"&gt;
+&lt;h2 id="org7f0a329"&gt;Упражнение 2.43&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7f0a329"&gt;
 &lt;p&gt;
 Процедура Луиса для queens работала медленно. Выяснилось что он поменял местами отображения в flatmap.
 &lt;/p&gt;
